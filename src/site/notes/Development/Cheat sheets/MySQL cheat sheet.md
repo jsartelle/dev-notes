@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/MySQL cheat sheet.md","permalink":"/cheat-sheets/my-sql-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/MySQL cheat sheet.md","permalink":"/cheat-sheets/my-sql-cheat-sheet/"}
 ---
 
 
