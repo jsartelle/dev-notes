@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/TypeScript cheat sheet.md","permalink":"/cheat-sheets/type-script-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/TypeScript cheat sheet.md","permalink":"/cheat-sheets/type-script-cheat-sheet/"}
 ---
 
 
