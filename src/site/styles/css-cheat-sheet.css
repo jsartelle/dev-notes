@@ -1,0 +1,41 @@
+.css-cheat-sheet .grid-example {
+  position: relative;
+  display: grid;
+}
+
+.css-cheat-sheet .grid-example > div {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  border: var(--table-border-width) solid var(--table-border-color);
+  counter-increment: grid-example;
+}
+
+.css-cheat-sheet .grid-example .active {
+  background-color: var(--text-selection);
+}
+
+/* use a span to ignore the counter */
+.css-cheat-sheet .grid-example.number-lines > div::before {
+  content: counter(grid-example);
+}
+
+.css-cheat-sheet .grid-example.number-lines > div:not(:first-of-type)::before {
+  position: relative;
+  left: -0.33em;
+}
+
+.css-cheat-sheet .grid-example.number-lines > div:last-of-type::after {
+  content: counter(grid-example);
+  counter-increment: grid-example;
+}
+
+.css-cheat-sheet .grid-example > .abs-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

@@ -1,13 +1,61 @@
+@use 'rich-links' as *;
+@use 'rich-links-improved' as *;
+@use 'inline-title' as *;
+@use 'css-cheat-sheet' as *;
+
 body {
-    /***
-      ADD YOUR CUSTOM STYLIING HERE. (INSIDE THE body {...} section.)
-      IT WILL TAKE PRECEDENCE OVER THE STYLING IN THE STYLE.CSS FILE.
-   ***/
-    //  background-color: white;
-    //  .content {
-    //   font-size: 14px;
-    //  }
-    //  h1 {
-    //   color: black;
-    //  }
+  /* Navigation */
+
+  .notelink.active-note {
+    transform: none;
+  }
+
+  /* Sidebar */
+
+  .toc-container {
+    max-height: 500px;
+  }
+
+  .toc > ol {
+    margin-block: 0;
+    -webkit-padding-start: 1em;
+    padding-inline-start: 1em;
+  }
+
+  .toc li::before {
+    position: relative;
+    top: -0.25em;
+    margin-right: 1em;
+    content: '○' !important;
+    font-size: 0.5em;
+  }
+
+  .toc li:has(ol)::before {
+    content: '●' !important;
+  }
+
+  /* Search */
+
+  .header-tags {
+    display: none;
+  }
+
+  .searchresult:not(.active) {
+    border: 2px solid transparent;
+  }
+
+  .searchresult div {
+    color: var(--text-muted);
+  }
+
+  /* Note Body */
+
+  header:has(h1:empty) {
+    display: none;
+  }
+
+  code[class*='language-'],
+  pre[class*='language-'] {
+    text-shadow: none;
+  }
 }
