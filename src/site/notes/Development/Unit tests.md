@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/unit-tests/"}
+{"dg-publish":true,"dg-path":"Notes/Unit tests.md","permalink":"/notes/unit-tests/"}
 ---
 
 
