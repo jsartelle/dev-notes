@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/React cheat sheet.md","permalink":"/cheat-sheets/react-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/React cheat sheet.md","permalink":"/cheat-sheets/react-cheat-sheet/"}
 ---
 
 
