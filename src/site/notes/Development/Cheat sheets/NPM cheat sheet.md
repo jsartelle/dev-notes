@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/NPM cheat sheet.md","permalink":"/cheat-sheets/npm-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/NPM cheat sheet.md","permalink":"/cheat-sheets/npm-cheat-sheet/"}
 ---
 
 
