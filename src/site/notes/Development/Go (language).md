@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/go-language/","created":"","updated":""}
+{"dg-publish":true,"permalink":"/development/go-language/"}
 ---
 
 
