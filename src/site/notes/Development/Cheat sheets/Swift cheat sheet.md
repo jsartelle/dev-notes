@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Swift cheat sheet.md","permalink":"/cheat-sheets/swift-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/Swift cheat sheet.md","permalink":"/cheat-sheets/swift-cheat-sheet/"}
 ---
 
 
