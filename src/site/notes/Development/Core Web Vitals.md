@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/core-web-vitals/"}
+{"dg-publish":true,"dg-path":"Notes/Core Web Vitals.md","permalink":"/notes/core-web-vitals/"}
 ---
 
 
