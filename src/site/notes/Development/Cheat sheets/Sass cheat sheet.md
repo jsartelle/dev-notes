@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Sass cheat sheet.md","permalink":"/cheat-sheets/sass-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/Sass cheat sheet.md","permalink":"/cheat-sheets/sass-cheat-sheet/"}
 ---
 
 
