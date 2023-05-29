@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Next.js cheat sheet.md","permalink":"/cheat-sheets/next-js-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/Next.js cheat sheet.md","permalink":"/cheat-sheets/next-js-cheat-sheet/"}
 ---
 
 
