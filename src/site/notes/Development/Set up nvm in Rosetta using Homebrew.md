@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/set-up-nvm-in-rosetta-using-homebrew/","created":"","updated":""}
+{"dg-publish":true,"permalink":"/development/set-up-nvm-in-rosetta-using-homebrew/"}
 ---
 
 
