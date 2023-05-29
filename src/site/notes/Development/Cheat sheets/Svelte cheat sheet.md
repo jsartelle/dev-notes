@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Svelte cheat sheet.md","permalink":"/cheat-sheets/svelte-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/Svelte cheat sheet.md","permalink":"/cheat-sheets/svelte-cheat-sheet/"}
 ---
 
 
