@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/cheat-sheets/react-native-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/React Native cheat sheet.md","permalink":"/cheat-sheets/react-native-cheat-sheet/","created":"","updated":""}
 ---
 
 
