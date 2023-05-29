@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/git-ops/","created":"","updated":""}
+{"dg-publish":true,"permalink":"/development/git-ops/"}
 ---
 
 
