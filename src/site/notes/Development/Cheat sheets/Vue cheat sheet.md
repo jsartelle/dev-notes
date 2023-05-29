@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Vue cheat sheet.md","permalink":"/cheat-sheets/vue-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/Vue cheat sheet.md","permalink":"/cheat-sheets/vue-cheat-sheet/"}
 ---
 
 
