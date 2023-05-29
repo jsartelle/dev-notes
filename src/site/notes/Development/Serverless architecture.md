@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/serverless-architecture/"}
+{"dg-publish":true,"dg-path":"Notes/Serverless architecture.md","permalink":"/notes/serverless-architecture/"}
 ---
 
 
