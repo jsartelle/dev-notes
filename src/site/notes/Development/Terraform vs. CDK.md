@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/terraform-vs-cdk/","created":"","updated":""}
+{"dg-publish":true,"permalink":"/development/terraform-vs-cdk/"}
 ---
 
 
