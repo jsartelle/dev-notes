@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/secure-web-application-development/","created":"","updated":""}
+{"dg-publish":true,"permalink":"/development/secure-web-application-development/"}
 ---
 
 
