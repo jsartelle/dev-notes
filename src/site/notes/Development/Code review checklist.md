@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/code-review-checklist/","created":"","updated":""}
+{"dg-publish":true,"permalink":"/development/code-review-checklist/"}
 ---
 
 
