@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/common-web-app-security-vulnerabilities/","created":"","updated":""}
+{"dg-publish":true,"permalink":"/development/common-web-app-security-vulnerabilities/"}
 ---
 
 
