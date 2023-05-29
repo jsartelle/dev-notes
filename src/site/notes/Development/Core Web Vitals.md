@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/development/core-web-vitals/","created":"","updated":""}
+{"dg-publish":true,"permalink":"/development/core-web-vitals/"}
 ---
 
 
