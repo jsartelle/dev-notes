@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Terminal cheat sheet.md","permalink":"/cheat-sheets/terminal-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/Terminal cheat sheet.md","permalink":"/cheat-sheets/terminal-cheat-sheet/"}
 ---
 
 
