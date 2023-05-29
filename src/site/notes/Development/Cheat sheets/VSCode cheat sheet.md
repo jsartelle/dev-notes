@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/VSCode cheat sheet.md","permalink":"/cheat-sheets/vs-code-cheat-sheet/","created":"","updated":""}
+{"dg-publish":true,"dg-path":"Cheat sheets/VSCode cheat sheet.md","permalink":"/cheat-sheets/vs-code-cheat-sheet/"}
 ---
 
 
