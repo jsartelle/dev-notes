@@ -4,6 +4,11 @@
 @use 'css-cheat-sheet' as *;
 
 body {
+  --link-external-color: var(--link-color);
+  --accent-h: 87 !important;
+  --accent-s: 66% !important;
+  --accent-l: 58% !important;
+
   /* Navigation */
 
   .notelink.active-note {
