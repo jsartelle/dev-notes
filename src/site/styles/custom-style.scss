@@ -9,6 +9,10 @@ body {
   --accent-s: 66% !important;
   --accent-l: 58% !important;
 
+  a {
+    color: var(--text-muted);
+  }
+
   /* Navigation */
 
   .notelink.active-note {
@@ -31,12 +35,17 @@ body {
     position: relative;
     top: -0.25em;
     margin-right: 1em;
+    color: var(--text-muted);
     content: '○' !important;
     font-size: 0.5em;
   }
 
   .toc li:has(ol)::before {
     content: '●' !important;
+  }
+
+  .backlink-card {
+    color: var(--text-muted);
   }
 
   /* Search */
