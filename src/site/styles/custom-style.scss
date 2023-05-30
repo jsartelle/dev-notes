@@ -50,6 +50,10 @@ body {
 
   /* Search */
 
+  .search-box a {
+    color: var(--text-accent);
+  }
+
   .header-tags {
     display: none;
   }
