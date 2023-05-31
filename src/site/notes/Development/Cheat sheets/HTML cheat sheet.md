@@ -31,7 +31,7 @@ function closeModal() {
 }
 ```
 
-# \details\ and \<summary\>
+# \<details\> and \<summary\>
 
 - Use the `open` attribute to open and close
 
@@ -40,7 +40,7 @@ function closeModal() {
     <p>This text is inside the details element</p>
 </details>
 
-# \fieldset\ and \<legend\>
+# \<fieldset\> and \<legend\>
 
 - Group a set of form controls together with an optional title
 
