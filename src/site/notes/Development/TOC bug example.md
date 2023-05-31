@@ -3,6 +3,6 @@
 ---
 
 
-# Hello `<>`
+# Hello <\world\>
 
-This is an example to show that having < and > characters in a heading breaks the Table of Contents.
+This is an example to show that having < and > in a heading with text in between breaks the Table of Contents.
