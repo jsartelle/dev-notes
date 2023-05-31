@@ -5,6 +5,6 @@
 
 # Hello!
 
-## `<test>``
+## <\This breaks thing\>
 
 This is an example to show that having an HTML tag in a code block in a subheading breaks the Table of Contents.
