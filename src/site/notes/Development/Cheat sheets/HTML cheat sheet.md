@@ -3,7 +3,7 @@
 ---
 
 
-# \ dialog\ 
+# ` dialog `
 
 - makes it easy to create modals
 - call `.show()` to show non-modally, or `.showModal()` to show modally
@@ -31,7 +31,7 @@ function closeModal() {
 }
 ```
 
-# \ details\  and \ summary\ 
+# ` details ` and ` summary `
 
 - Use the `open` attribute to open and close
 
@@ -40,7 +40,7 @@ function closeModal() {
     <p>This text is inside the details element</p>
 </details>
 
-# \ fieldset\  and \ legend\ 
+# ` fieldset ` and ` legend `
 
 - Group a set of form controls together with an optional title
 
@@ -60,7 +60,7 @@ function closeModal() {
     </label>
 </fieldset>
 
-# \ hgroup\ 
+# ` hgroup `
 
 - Group a header (`<h1>` - `<h6>`) with any number of related `<p>` elements
 
