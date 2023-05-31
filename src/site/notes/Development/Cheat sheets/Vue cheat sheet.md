@@ -23,7 +23,7 @@
 
 # Conditional Rendering
 
-## Apply `v-if` or `v-for` to multiple elements using `<template>`
+## Apply `v-if` or `v-for` to multiple elements using `＜template＞`
 
 - does not work with `v-show`
 
