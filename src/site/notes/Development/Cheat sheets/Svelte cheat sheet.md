@@ -6,7 +6,9 @@
 # Markup
 
 - JS code in a `.svelte` file goes in the `<script>` tag
-- expressions in markup and attributes use single curly braces:
+    - use `<script lang="ts">` for TypeScript
+- expressions in markup and attributes use single curly braces
+    - you can use expressions inside quoted string attributes
 
 ```js
 <script>
@@ -20,14 +22,13 @@
 <img src={src} alt="Example">
 ```
 
-- if an attribute name and value are the same, you can leave out the name:
+- if an attribute name and value are the same, you can leave out the name
 
 ```js
 <img {src} alt="Example">
 ```
 
-- styles go in the `<style>` tag and are *always scoped*
-- to render HTML in markup:
+- render HTML in markup using `@html`
 
 ```js
 <script>
@@ -37,7 +38,7 @@
 <p>{@html string}</p>
 ```
 
-## Logic
+## Flow Control
 
 - conditionally render using `{#if}`, `{:else if}`, `{:else}`
 
@@ -89,10 +90,125 @@
 {/await}
 ```
 
+# Styling
+
+- styles go in the `<style>` tag and are scoped
+- conditionally add classes using `class:className`
+
+```js
+<button class:selected={current === 'foo'}>Click Me</button>
+```
+
+- if the class name is the same as the value, you can use shorthand
+
+```js
+<script>
+    const selected = (current === 'foo')
+</script>
+
+<button class:selected>Click Me</button>
+```
+
+- styles can be added using a similar shorthand, including custom properties
+
+```js
+<script>
+    const bgOpacity = 0.5
+    const color = blue
+</script>
+
+<p style:color style:--opacity={bgOpacity}></p>
+```
+
+- apply styles globally using `:global()`
+    - prepend keyframe names with `-global-`, but reference them in CSS properties without the prefix
+
+```css
+:global(body) {
+    background-color: #69F7BE;
+}
+
+@keyframes -global-spin { ... }
+
+.square {
+    animation: 1s spin;
+}
+```
+
+# Reactivity
+
+- all variables in the `<script>` block can be used in the template
+- declare reactive statements (which re-run when the values they depend on change) using a `$:` label
+
+```js
+<script>
+	let count = 0
+	$: doubled = count * 2
+
+	function incrementCount() {
+		count++
+	}
+</script>
+
+<button on:click={incrementCount}>
+	Clicked {count} {count === 1 ? 'time' : 'times'}
+</button>
+<p>{count} doubled is {doubled}</p>
+```
+
+- to type reactive variables, declare them with `let` separately
+
+```js
+let doubled: number
+$: doubled = count * 2
+```
+
+- `$:` will re-run the block whenever any referenced values change, so you can also use it for statements with side effects (like watchers)
+- you can group reactive statements into a block
+    - if you do this you need to declare any new variables outside the block
+
+```js
+let doubled
+$: {
+    doubled = count * 2
+    console.log(`The count is ${count}, which is ${doubled} doubled`)
+}
+```
+
+- you can mark things like `if` statements with `$:`
+
+```js
+$: if (count >= 10) {
+    alert('count is dangerously high')
+}
+```
+
+## Updating Arrays & Objects
+
+- mutating arrays or objects does not trigger an update - to fix this, assign the object to itself
+
+```js
+function addNumber() {
+    numbers.push(numbers.length + 1)
+    numbers = numbers
+    // or numbers = [...numbers, numbers.length + 1]
+}
+```
+
+- assigning to array or object properties (ex. `object.foo += 1` or `array[i] = x`) *does* trigger update
+- indirect assignments *do not* trigger update
+    - ==the updated variable must directly appear on the left hand side of the assignment==
+
+```js
+const foo = obj.foo
+foo.bar = 'baz' // does not trigger update on obj
+```
+
 # Components
 
 - component names are always capitalized
-- import components within the `<script>` tag:
+- components **don't** need to have a single root element
+- import components within the `<script>` tag
 
 ```js
 <script>
@@ -102,7 +218,7 @@
 <Component />
 ```
 
-- to use a component from outside of Svelte:
+- components are compiled to regular JavaScript classes, so you can use them outside of Svelte
 
 ```js
 import App from './App.svelte'
@@ -118,7 +234,7 @@ const app = new App({
 ## Props
 
 - props are declared using `export`
-    - assign a value to use it as the default value:
+    - assign a value to use it as the default value
 
 ```js
 // in Nested.svelte:
@@ -131,13 +247,45 @@ const app = new App({
 <Nested /> // answer === 42
 ```
 
-- you can spread properties onto a component:
+- you can spread properties onto a component
 
 ```js
 <Info {...pkg} />
 ```
 
 - you can access all of a component's props using `$$props`, but this is *not* recommended
+
+# Slots
+
+- declare a default location for a component's children using `<slot>`
+    - put fallback content inside `<slot></slot>`
+- you can declare multiple slots using `name` attributes, and provide content by adding `slot` attributes as children
+
+```js
+// in the PageHeader component
+<hgroup>
+    <slot name="heading">Heading</slot>
+    <slot name="subheading">Subheading</slot>
+</hgroup>
+
+// in the parent component
+<PageHeader>
+    <h1 name="heading">Weather Report</h1>
+    <p name="subheading">June 1, 2023</p>
+</PageHeader>
+```
+
+- you can check if a slot has content using `$$slots[name]`
+
+```js
+{#if $$slots.subheading}
+    <slot name="subheading"></slot>
+{/if}
+```
+
+## Slot Props
+
+#todo
 
 # Events
 
@@ -214,7 +362,7 @@ const app = new App({
 <Inner on:message />
 ```
 
-- this also works for DOM events, ex. for creating a custom Button component:
+- this also works for DOM events, ex. for creating a custom Button component
 
 ```js
 // in CustomButton.svelte
@@ -222,67 +370,6 @@ const app = new App({
 
 // in parent component
 <CustomButton on:click={handleClick} />
-```
-
-# Reactivity
-
-- declare reactive values (like computed properties) using a `$:` label:
-
-```js
-<script>
-	let count = 0
-	$: doubled = count * 2
-
-	function incrementCount() {
-		count++
-	}
-</script>
-
-<button on:click={incrementCount}>
-	Clicked {count} {count === 1 ? 'time' : 'times'}
-</button>
-<p>{count} doubled is {doubled}</p>
-```
-
-- `$:` will re-run the block whenever any referenced values change, so you can also use it for statements with side effects (like watchers)
-- you can group reactive statements into a block
-    - if you do this you need to declare any new variables outside the block
-
-```js
-let doubled
-$: {
-    doubled = count * 2
-    console.log(`The count is ${count}, which is ${doubled} doubled`)
-}
-```
-
-- you can mark things like `if` statements with `$:`
-
-```js
-$: if (count >= 10) {
-    alert('count is dangerously high')
-}
-```
-
-## Updating Arrays & Objects
-
-- mutating arrays or objects does not trigger an update - to fix this, assign the object to itself:
-
-```js
-function addNumber() {
-    numbers.push(numbers.length + 1)
-    numbers = numbers
-    // or numbers = [...numbers, numbers.length + 1]
-}
-```
-
-- assigning to array or object properties (ex. `object.foo += 1` or `array[i] = x`) *does* trigger update
-- indirect assignments *do not* trigger update
-    - ==the updated variable must directly appear on the left hand side of the assignment==
-
-```js
-const foo = obj.foo
-foo.bar = 'baz' // does not trigger update on obj
 ```
 
 # Bindings
@@ -372,7 +459,8 @@ collapse: closed
 
 ## this (refs)
 
-- the `this` binding lets you get a reference to an element or component, similar to Vue refs
+- the `this` binding lets you get a reference to an element or component, similar to refs in Vue or React
+    - The value will be undefined until mount, so place it in the [[Development/Cheat sheets/Svelte cheat sheet#^23473f\|onMount]] function
 
 ```js
 <script>
@@ -411,6 +499,8 @@ onMount(async () => {
 
 - available functions:
     - `onMount`
+{ #23473f}
+
         - if onMount returns a function, it will be called when the component is destroyed
     - `onDestroy`
     - `beforeUpdate` (before DOM updates)
@@ -505,7 +595,7 @@ export const elapsed = derived(time, $time => {
 // App.svelte
 ```
 
-- any object that implements `subscribe` is a store, so you can create custom stores that add their own logic and/or hide the default set and update methods:
+- any object that implements `subscribe` is a store, so you can create custom stores that add their own logic and/or hide the default set and update methods
 
 ```js
 function createCount() {
@@ -533,20 +623,60 @@ function createCount() {
 <h1>The count is {$count}</h1>
 ```
 
-# Resources
+# SvelteKit
 
-<div class="rich-link-card-container"><a class="rich-link-card" href="https://kit.svelte.dev" target="_blank">
-	<div class="rich-link-image-container">
-		<div class="rich-link-image" style="background-image: url('https://svelte.dev/images/twitter-thumbnail.jpg')">
-	</div>
-	</div>
-	<div class="rich-link-card-text">
-		<h1 class="rich-link-card-title">SvelteKit</h1>
-		<p class="rich-link-card-description">
-		The fastest way to build Svelte apps
-		</p>
-		<p class="rich-link-href">
-		https://kit.svelte.dev
-		</p>
-	</div>
-</a></div>
+## Basics
+
+- Create a project: `npm create svelte@latest project-name`
+- Store assets in `src/lib` and import them using `$lib`
+
+## Pages
+
+- Pages are stored in `src/routes/{page name}/+page.svelte`
+- `src/routes/+page.svelte` is the index page
+- To disable SSR for a page, add `export const ssr = false` to `+page.(js|ts)`
+- Use the `page` store to access data like the URL, route ID, and slug params
+
+```js
+<script>
+import { page } from '$app/stores'
+
+const searchQuery = $page.url.searchParams.get('query')
+</script>
+```
+
+## Data loading
+
+- Create a `+page.js` or `+page.ts` file next to `+page.svelte`
+    - This will run on both client and server - to make it server only, name it `+page.server.(js|ts)`
+- Export a `load` function that returns your data
+- Define a `data` prop inside `+page.svelte` to receive the data
+
+```js
+// +page.js
+
+import data from '$lib/assets/data.json'
+
+export function load() {
+    return {
+        posts: data.posts,
+        comments: data.comments,
+    }
+}
+
+// +page.svelte
+
+<script>
+export let data
+
+const posts = data.posts
+</script>
+```
+
+## Layouts
+
+- `+layout.svelte` will apply to every page, and should contain a `<slot>` for page content
+    - Create a `+layout.svelte` in a folder to apply it to every page in that folder and subfolders
+- Use layouts to add nav, import global stylesheets, etc
+- Layouts can have a `+layout.(js|ts)` file for [[Development/Cheat sheets/Svelte cheat sheet#Data loading\|loading data]], which is merged with page-specific data
+- Layouts can access data from their children using `$page.data`
