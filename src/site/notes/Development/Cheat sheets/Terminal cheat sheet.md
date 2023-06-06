@@ -358,7 +358,7 @@ python3 -m http.server 3000
 - `ffmpeg -i input.mp4 -ss 00:00:14.435 -vframes 1 out.png`: output one frame from 0h:0m:14sec:435msec to *out.png*
 - `ffmpeg -i input.m4a -c:v copy -c:a libmp3lame -q:a 4 output.mp3`: convert m4a to mp3 without significant quality loss
 
-## yt-dlp
+## youtube-dl/yt-dlp
 
 - `--simulate`: dry run
 - `--match-title keyword`: only download items matching *keyword*
@@ -487,3 +487,7 @@ defaults write com.apple.Dock showhidden -boolean yes; killall Dock
 $theSource = "E:\"       # <<<<< insert drive here
 Get-Childitem $theSource -Include @("._*", ".DS_Store", ".fseventsd", ".TemporaryItems", ".Trashes", ".Spotlight-V100") -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse
 ```
+
+# See also
+
+- [[Development/Cheat sheets/Nushell cheat sheet\|Nushell cheat sheet]]
