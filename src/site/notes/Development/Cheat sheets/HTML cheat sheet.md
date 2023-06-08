@@ -85,6 +85,10 @@ The `title` attribute is displayed in a tooltip on hover. It should contain text
 />
 ```
 
+## Alt text for image links
+
+If an image is also a hyperlink, the `alt` text should describe the function of the link.
+
 # DOMContentLoaded vs. load
 
 The `load` event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images. This is in contrast to `DOMContentLoaded`, which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
