@@ -3,6 +3,13 @@
 ---
 
 
+# Types vs. Interfaces
+
+> [!tip]
+> Interfaces are simpler to reason with. Prefer interfaces unless you need the added power of types.
+
+- Interfaces can be added to after creation through [[Development/Cheat sheets/TypeScript cheat sheet#Declaration merging\|declaration merging]], types can't
+
 # Tuples
 
 - An array with a fixed number of elements, and a fixed type for each element position
@@ -107,15 +114,7 @@ let skyDirection = Direction.Up
 let skyDirection = "UP"
 ```
 
-# Types vs. Interfaces
-
-> [!tip]
-> Prefer interfaces when possible
-
-- Interfaces can have fields [[Development/Cheat sheets/TypeScript cheat sheet#Declaration merging\|added to them after creation]], types can't
-- Interface names show up in error messages more consistently
-
-# satisfies
+# `satisfies`
 
 - Lets you check that an expression matches a type, without changing the expression's type
 
@@ -148,6 +147,52 @@ const palette = {
 // these both work because the properties keep their types
 const redComponent = palette.red.at(0);
 const greenNormalized = palette.green.toUpperCase();
+```
+
+## Removing modifiers
+
+- Remove `readonly` or `?` modifiers using `-`
+
+```ts
+// Removes 'readonly' attributes from a type's properties
+type Mutable<Type> = {
+  -readonly [Property in keyof Type]: Type[Property];
+};
+ 
+type LockedAccount = {
+  readonly id: string;
+  readonly name: string;
+};
+ 
+type UnlockedAccount = Mutable<LockedAccount>;
+
+// Removes 'optional' attributes from a type's properties
+type Concrete<Type> = {
+  [Property in keyof Type]-?: Type[Property];
+};
+ 
+type MaybeUser = {
+  id: string;
+  name?: string;
+  age?: number;
+};
+ 
+type User = Concrete<MaybeUser>;
+```
+
+# Typing `for...in` loops
+
+```ts
+const Colors = {
+    red: '#ff0000',
+    green: '#00ff00',
+    blue: '#0000ff',
+}
+
+let key: keyof typeof Colors
+for (key in Colors) {
+    console.log(`The hex code of ${key} is ${Colors[key]`)
+}
 ```
 
 # Type Manipulation
@@ -208,20 +253,6 @@ interface Book {
 interface Book {
   year: number
 }
-```
-
-### Add properties to `window`
-
-```ts
-// {filename}.d.ts
-export {}
-
-declare global {
-	interface Window {
-		foo: string
-	}
-}
-
 ```
 
 ## Combine types (intersection type)
@@ -291,7 +322,21 @@ const bob = {
 type PersonFields = keyof typeof bob
 ```
 
-## Type from array values
+## Type with keys from object keys
+
+```ts
+const StorageKeys = {
+    name: 'user_name',
+    email: 'user_email',
+    phone: 'user_phone',
+} as const
+
+type StorageKey = {
+    -readonly [key in keyof typeof StorageKeys]: string
+}
+```
+
+## Type from array items
 
 ```ts
 const people = [{ name: 'Bob', age: 23 }, { name: 'Susan', age: 16 }]
