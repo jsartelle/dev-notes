@@ -46,10 +46,14 @@
 
 # Class and Style Bindings
 
+```html
+<div :class="{ className: propertyName }"></div>
+```
+
 ## Combine object and array syntax in class bindings
 
 ```html
-<div :class="[{ active: isActive }, errorClass]"></div>
+<div :class="[{ className: propertyName }, anotherClassName]"></div>
 ```
 
 ## Apply deep scoped styles using `::v-deep`
