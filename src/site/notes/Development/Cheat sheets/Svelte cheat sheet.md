@@ -270,8 +270,8 @@ const app = new App({
 
 // in the parent component
 <PageHeader>
-    <h1 name="heading">Weather Report</h1>
-    <p name="subheading">June 1, 2023</p>
+    <h1 slot="heading">Weather Report</h1>
+    <p slot="subheading">June 1, 2023</p>
 </PageHeader>
 ```
 
@@ -482,6 +482,37 @@ collapse: closed
 - elements with `contenteditable="true"` support `bind:textContent` and `bind:innerHTML`
 - media elements support bindings like `currentTime`, `duration`, `paused`
     - [full list here](https://svelte.dev/tutorial/media-elements)
+
+# Special Elements
+
+- `<svelte:self>` lets a component contain itself (since it can't import itself)
+- `<svelte:component>` lets an element render different components based on the `this` prop
+    - if `this` is falsy, nothing will be rendered
+
+```js
+<svelte:component this={MyButton} />
+```
+
+- `<svelte:element>` is the same, but for elements - `this` should be a string with an element name
+
+- Add listeners to elements outside the component using
+    - `<svelte:window>`
+        - also has bindings for `inner(Width|Height)`, `outer(Width|Height)`, `scroll(X|Y)`, `online` (matches window.navigator.onLine)
+    - `<svelte:document>`
+        - do not use `mouseenter` and `mouseleave`, add them to `<svelte:body>` instead
+    - `<svelte:body>`
+
+- Insert elements into the `<head>` using `<svelte:head>`
+- Add elements to a slot without a wrapping element using `<svelte:fragment>`
+
+```js
+<PageHeader>
+    <svelte:fragment slot="header">
+        <span>This content won't be</span>
+        <span>wrapped in an element</span>
+    </svelte:fragment>
+</PageHeader>
+```
 
 # Lifecycle
 
