@@ -109,7 +109,7 @@
 <button class:selected>Click Me</button>
 ```
 
-- styles can be added using a similar shorthand, including custom properties
+- styles can be added using `style:propName` including custom properties
 
 ```js
 <script>
@@ -674,6 +674,18 @@ import { page } from '$app/stores'
 
 const searchQuery = $page.url.searchParams.get('query')
 </script>
+```
+
+- Use  `$app/environment` to run code only in certain situations (ex. only accessing `localStorage` in the browser)
+
+```js
+import { browser, dev, building } from '$app/environment'
+
+$: {
+    if (browser) localStorage.setItem('clickCount', clickCount)
+    if (dev) console.log({ clickCount })
+    if (building) console.log('is prerendering')
+}
 ```
 
 ## Data loading
