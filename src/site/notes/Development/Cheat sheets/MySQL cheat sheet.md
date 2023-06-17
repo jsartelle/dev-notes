@@ -322,9 +322,16 @@ WHERE length(first_name) <= 5
 ### JSON_EXTRACT
 
 - Select based on values within JSON fields
+    - make sure to use nothing or `` ` `` around the column name, not single or double quotes
 
 ```mysql
 SELECT JSON_EXTRACT(column_name, '$.version') ...
+```
+
+- You can also use the `->` operator
+
+```mysql
+SELECT column_name->"$.version"
 ```
 
 - To handle [[Development/Cheat sheets/MySQL cheat sheet#Dates\|dates]] or datetimes:
@@ -332,6 +339,14 @@ SELECT JSON_EXTRACT(column_name, '$.version') ...
 ```mysql
 DATE(JSON_UNQUOTE(JSON_EXTRACT(p.metadata, '$.created_date')))
 CAST(JSON_UNQUOTE(JSON_EXTRACT(p.metadata, '$.created_date')) as datetime)
+```
+
+### JSON_CONTAINS_PATH
+
+- Just find out if a path exists
+
+```mysql
+WHERE JSON_CONTAINS_PATH(p.metadata, '$.processed_date')
 ```
 
 ### See also
