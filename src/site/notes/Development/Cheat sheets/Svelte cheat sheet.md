@@ -22,7 +22,7 @@
 <img src={src} alt="Example">
 ```
 
-- if an attribute name and value are the same, you can leave out the name
+- if an attribute name and value are the same, you can leave out the name as a shorthand (**don't forget the curly braces**)
 
 ```js
 <img {src} alt="Example">
@@ -74,6 +74,14 @@
 	<li><a target="_blank" href="https://www.youtube.com/watch?v={id}">
 		{i + 1}: {name}
 	</a></li>
+{/each}
+```
+
+- repeat a block a certain number of times
+
+```js
+{#each { length: buttonCount } as _, i}
+    <Button on:click={() => alert(`Button ${i} clicked`)} />
 {/each}
 ```
 
@@ -676,7 +684,7 @@ const searchQuery = $page.url.searchParams.get('query')
 </script>
 ```
 
-- Use  `$app/environment` to run code only in certain situations (ex. only accessing `localStorage` in the browser)
+- Use `$app/environment` to run code only in certain situations (ex. only accessing `localStorage` in the browser)
 
 ```js
 import { browser, dev, building } from '$app/environment'
@@ -723,3 +731,34 @@ const posts = data.posts
 - Use layouts to add nav, import global stylesheets, etc
 - Layouts can have a `+layout.(js|ts)` file for [[Development/Cheat sheets/Svelte cheat sheet#Data loading\|loading data]], which is merged with page-specific data
 - Layouts can access data from their children using `$page.data`
+
+## SCSS and PicoCSS
+
+- Install dependencies
+
+```shell
+npx svelte-add@latest scss
+```
+
+```shell
+yarn add @picocss/pico
+```
+
+```
+yarn
+```
+
+- Add `id="root"` to the `<div>` container in `app.html`
+
+```html
+<body data-sveltekit-preload-data="hover">
+    <div id="root" style="display: contents">%sveltekit.body%</div>
+</body>
+```
+
+- Add this to `app.scss`
+
+```scss
+$semantic-root-element: '#root';
+@import '@picocss/pico/scss/pico';
+```
