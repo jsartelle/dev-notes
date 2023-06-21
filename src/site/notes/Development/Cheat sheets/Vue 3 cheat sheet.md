@@ -740,7 +740,7 @@ provide(key, foo)
 
 # Transition/TransitionGroup
 
-![transition-classes.f0f7b3c9.png](/img/user/%E2%80%A2%20Attachments/transition-classes.f0f7b3c9.png)
+![[transition-classes.f0f7b3c9.png\|transition-classes.f0f7b3c9.png]]
 
 - example for fade in/out
     - if the `<Transition>` component has a `name` prop, `v` will be replaced by the name
