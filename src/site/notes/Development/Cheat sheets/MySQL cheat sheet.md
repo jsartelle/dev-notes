@@ -7,6 +7,20 @@
 > - The order of keywords matters!
 > - Table/column names that are also keywords (ex. `trigger`) must be quoted using `
 
+# General
+
+- `TRUE` and `FALSE` are the same as `1` and `0` respectively
+
+# Variables
+
+```mysql
+SET @start_date = '2023-01-01'; -- semicolon is important
+
+SELECT *
+FROM users
+WHERE created_at > @start_date
+```
+
 # Keywords
 
 ## SELECT / AS / FROM
@@ -48,9 +62,18 @@ FROM
 	JOIN database.pets p ON p.owner_id = u.id
 ```
 
-- INNER JOIN is the default type
+- INNER JOIN: returns only rows where the value matches in both tables
+    - INNER JOIN is the default type
+- CROSS JOIN: returns all rows from both tables
+- LEFT JOIN: returns all rows from left table, and matching rows from right table
+- RIGHT JOIN: returns all rows from right table, and matching rows from left table
 
 ![[sqlJoins_7.webp]]
+
+### USING
+
+- `USING (user_id)` is a shortcut for `ON a.user_id = B.user_id`
+    - with `USING`, the join column only appears once in the result
 
 ## WHERE
 
@@ -63,7 +86,9 @@ WHERE
     AND age >= 1
 ```
 
-### `null` checking
+### Boolean and `null` checking
+
+- Use `IS` and `IS NOT` when comparing against `TRUE`, `FALSE`, or `NULL`
 
 ```mysql
 SELECT *
@@ -113,6 +138,7 @@ WHERE name IN ('Alice', 'Bob')
 ### BETWEEN (ranges)
 
 - Both sides are inclusive
+- Also `NOT BETWEEN`
 
 ```mysql
 WHERE id BETWEEN 100 AND 200
@@ -135,7 +161,8 @@ AND
 
 #### INTERVAL
 
-- Select dates in the last 24 hours:
+- Select dates in the last 24 hours
+    - interval names are singular, ex. `DAY`, `WEEK`, `MONTH`
 
 ```mysql
 WHERE created_date >= NOW() - INTERVAL 1 DAY
@@ -225,7 +252,7 @@ OFFSET 10
 
 ## WITH / AS
 
-- Lets you store temporary results that you can refer to later
+- Lets you store temporary results (*Common Table Expressions* or *CTE*s) that you can refer to later
 - MySQL does not let you combine [[Development/Cheat sheets/MySQL cheat sheet#UPDATE / SET\|UPDATE]] and [[Development/Cheat sheets/MySQL cheat sheet#LIMIT\|#LIMIT]], this can be used to get around that
 
 ```mysql
@@ -245,6 +272,26 @@ SET
     a.recommended = 1
 WHERE
     a.id IN (SELECT * FROM ids)
+```
+
+- To use multiple AS blocks:
+
+```mysql
+WITH foo AS (
+    ...
+), bar AS (
+    ...
+)
+```
+
+- To select from multiple CTEs:
+
+```mysql
+SELECT
+    foo.id AS foo, bar.id AS bar
+FROM
+    foo
+    JOIN bar USING (id)
 ```
 
 ## CASE
@@ -319,10 +366,30 @@ WHERE length(first_name) <= 5
 
 ## JSON
 
+### JSON_OBJECT
+
+- Create a JSON object from key-value pairs
+
+```mysql
+SET u.metadata = JSON_OBJECT('is_enrolled', TRUE, 'is_mobile', FALSE)
+```
+
+### JSON_CONTAINS_PATH
+
+- Find out if a value exists at a path
+    - can provide many paths - second argument is "one" or "all", to check whether any or all of the paths have a value
+
+```mysql
+WHERE JSON_CONTAINS_PATH(p.metadata, 'one', '$.processed_date')
+
+WHERE JSON_CONTAINS_PATH(p.metadata, 'all', '$.created_date', '$.processed_date')
+```
+
 ### JSON_EXTRACT
 
 - Select based on values within JSON fields
-    - make sure to use nothing or `` ` `` around the column name, not single or double quotes
+    - make sure to use backticks or nothing around the column name, not single or double quotes
+- Returns NULL if the path is NULL
 
 ```mysql
 SELECT JSON_EXTRACT(column_name, '$.version') ...
@@ -341,12 +408,37 @@ DATE(JSON_UNQUOTE(JSON_EXTRACT(p.metadata, '$.created_date')))
 CAST(JSON_UNQUOTE(JSON_EXTRACT(p.metadata, '$.created_date')) as datetime)
 ```
 
-### JSON_CONTAINS_PATH
+### JSON_SET, JSON_INSERT, JSON_REPLACE
 
-- Just find out if a path exists
+- `JSON_SET`: Insert or update JSON data
+- `JSON_REPLACE`: same but only replaces *existing* values
+- `JSON_INSERT`: same but only inserts *new* values
+- doesn't work if the object at the given path is NULL - use a CASE to check for this
 
 ```mysql
-WHERE JSON_CONTAINS_PATH(p.metadata, '$.processed_date')
+UPDATE
+	users u
+SET
+	u.metadata = CASE WHEN u.metadata IS NULL
+	THEN JSON_OBJECT('is_enrolled', TRUE)
+	ELSE JSON_SET(u.metadata, '$.is_enrolled', TRUE)
+	END
+WHERE
+	u.id = 12345
+```
+
+### JSON_REMOVE
+
+- Remove the specified JSON key
+
+```mysql
+UPDATE
+    users u
+SET
+    u.metadata = JSON_REMOVE(u.metadata, '$.is_enrolled')
+    END
+WHERE
+    u.id = 12345
 ```
 
 ### See also
