@@ -430,6 +430,7 @@ animation: 3s ease-in 1s infinite reverse both running slidein;
 
 ### Specification syntax
 
+- **Not supported in any browsers as of May 2023**
 - Supports any number of images, with later images on top
 - If any opacity percentages are left out, it will evenly distribute them to reach 100%
 
@@ -444,6 +445,7 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 > [!warning]
 > Safari 16 does not correctly handle `linear-gradient` inside `-webkit-cross-fade`!
 
+- **Not supported in Firefox**
 - Only supports two images, opacity applies to the first image
 
 ```css
@@ -455,7 +457,8 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 
 ## @property
 
-- Allows you to define CSS custom properties with control over data types, inheritance, and `initial` value
+- Allows you to define CSS custom properties with control over data type, inheritance, and initial value
+    - can be used to create animatable/transition-able custom properties
 
 ```css
 @property --property-name {
@@ -469,7 +472,7 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
     - `<length>`
     - `<number>`
     - `<percentage>`
-    - `<length-percentage>`
+    - `<length-percentage>` (same as `<length> | <percentage>`)
     - `<color>`
     - `<image>`
     - `<url>`
@@ -478,15 +481,15 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
     - `<time>`
     - `<resolution>`
     - `<transform-function>`
-    - `<custom-ident>`
     - `<transform-list>`
+    - `<custom-ident>` (see examples)
 
 - Examples:
 
 ```css
 syntax: "<color>";
 syntax: "<length> | <percentage>";
-syntax: "small | medium | large"; /* custom values */
+syntax: "small | medium | large"; /* custom ident example */
 syntax: "*"; /* any value */
 ```
 
