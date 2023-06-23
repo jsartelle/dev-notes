@@ -344,9 +344,26 @@ WHERE
 
 # Functions
 
-## Aggregate functions
+## Aggregate functions (COUNT, MAX, MIN, SUM, AVG)
 
 - `COUNT(), MAX(), MIN(), SUM(), AVG()`
+
+### Select based on an aggregate
+
+- Select the youngest dog
+    - the `GROUP BY` is important!
+
+```mysql
+SELECT
+    min(birth_date) as birth_date,
+    id
+FROM
+    pets
+WHERE
+    species = "dog"
+GROUP BY
+    species
+```
 
 ## COUNT
 
