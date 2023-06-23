@@ -256,6 +256,18 @@ observer.observe(document.querySelector('main'))
 */
 ```
 
+- import a type, and define a repeatable type
+
+```js
+/** @typedef {import('fruit/types').Apple} apple */
+
+/** @type {apple} */
+const redApple = new Apple('red')
+
+/** @type {apple} */
+const greenApple = new Apple('green')
+```
+
 # See also
 
 - [[Development/Cheat sheets/TypeScript cheat sheet\|TypeScript cheat sheet]]
