@@ -6,6 +6,7 @@
 # General
 
 - comments use `#`
+- variables are named using snake_case
 - variables are declared by assignment
 - declare multiple variables at once:
 
@@ -58,6 +59,7 @@ assert x is not None # errors
 ## Booleans
 
 - boolean `True` and `False` are capitalized
+- to invert a boolean, use `foo = not foo`
 
 ## Numeric Types
 
@@ -102,7 +104,7 @@ print(string[::-1]) # !dlrow olleH (reverses the string)
 - `%s`: String (or any object with a string representation, like numbers)
 - `%d`: Integers
 - `%f`: Floating point numbers
-- `%.<number of digits>f`: Floating point numbers with a fixed amount of digits to the right of the dot.
+- `%.<number of digits>f`: Floating point numbers with a fixed amount of digits to the right of the dot
 - `%x/%X`: Integers in hex representation (lowercase/uppercase)
 
 ```python
@@ -155,11 +157,9 @@ mylist.append(1)
 mylist.append(2)
 mylist.append(3)
 
-for x in mylist:
-    print(x)
-
 print(mylist[1])
 # print(mylist[10]) # error
+print(len(mylist))
 ```
 
 - join an iterable containing all strings
@@ -167,8 +167,7 @@ print(mylist[1])
 
 ```python
 mylist = ['a', 'b', 'c']
-print('-'.join(mylist))
-# 'a-b-c'
+print('-'.join(mylist)) # 'a-b-c'
 ```
 
 - join lists using `+`
@@ -177,38 +176,14 @@ print('-'.join(mylist))
 even_numbers = [2, 4]
 odd_numbers = [1, 3]
 
-print(odd_numbers + even_numbers)
-# [1, 3, 2, 4]
+print(odd_numbers + even_numbers) # [1, 3, 2, 4]
 ```
 
 - repeat lists using `*`
 
 ```python
 numbers = [1, 2]
-print(numbers * 3)
-# [1, 2, 1, 2, 1, 2]
-```
-
-### List Comprehensions
-
-```python
-sentence = "the quick brown fox jumps over the lazy dog"
-words = sentence.split()
-
-word_lengths = [len(word) for word in words if word != "the"]
-print(words)
-print(word_lengths)
-```
-
-- equivalent to
-
-```python
-word_lengths = []
-for word in words:
-    if word != "the":
-        word_lengths.append(len(word))
-print(words)
-print(word_lengths)
+print(numbers * 3) # [1, 2, 1, 2, 1, 2]
 ```
 
 ### Filter
@@ -396,6 +371,18 @@ def sum_two_numbers(a, b=2):
 print(sum_two_numbers(5)) # 7
 ```
 
+- to write to global variables inside a function, mark them with the `global` keyword
+
+```python
+number = 1
+
+def increment_number():
+    global number
+    number += 1
+
+increment_number()
+```
+
 - arguments can be provided by name in any order
 
 ```python
@@ -446,15 +433,16 @@ xyz = next_three_numbers(5)
 print(type(xyz))
 ```
 
-- lambda functions:
+### Lambdas
 
 ```python
 lambda x, y: x + y
 ```
 
+### Closures
+
 - functions can be returned from other functions (functions are first class objects)
 - nested functions have read-only access to variables in their enclosing scope - use the `nonlocal` keyword to make them writable
-    - the `nonlocal X` declaration must be on a separate line from the assignment
 
 ```python
 def print_msg(number):
@@ -552,7 +540,31 @@ print(x == y) # True
 print(x is y) # False
 ```
 
-## `for` and Ranges
+### Ternary conditionals
+
+- `a if condition else b`
+
+```python
+beverage = 'coffee' if is_morning() else 'water'
+```
+
+## `for`
+
+### Sequences
+
+```python
+for x in mylist:
+    print(x)
+```
+
+- if you need the index, use `enumerate()`
+
+```python
+for i, x in enumerate(mylist):
+    print('The value at %d is %s' % (i, x))
+```
+
+### Ranges
 
 - `range()` is exclusive, starts at 0 if only one number is provided, third number is the step
     - if you don't need the current range number, use `_` as the variable name
@@ -566,6 +578,26 @@ for x in range(3, 6):
 
 for x in range(3, 8, 2):
     print(x) # prints 3, 5, 7
+```
+
+## List Comprehensions
+
+```python
+sentence = "the quick brown fox jumps over the lazy dog"
+words = sentence.split()
+
+word_lengths = [len(word) for word in words if word != "the"]
+print(word_lengths) # [5, 5, 3, 5, 4, 4, 3]
+```
+
+- equivalent to
+
+```python
+word_lengths = []
+for word in words:
+    if word != "the":
+        word_lengths.append(len(word))
+print(word_lengths)
 ```
 
 ## `while`
