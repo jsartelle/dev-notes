@@ -302,6 +302,22 @@ pkill -9 "node"
     - `@reboot command` to run on reboot
 - using `sudo` edits a separate crontab for `root`
 
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://crontab.guru/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://crontab.guru/favicon.ico')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">Crontab.guru - The cron schedule expression editor</h1>
+		<p class="rich-link-card-description">
+		An easy to use editor for crontab schedules.
+		</p>
+		<p class="rich-link-href">
+		https://crontab.guru/
+		</p>
+	</div>
+</a></div>
+
 ## fzf
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://github.com/junegunn/fzf" target="_blank">
