@@ -65,6 +65,7 @@ assert x is not None # errors
 
 - `int` and `float` are separate types, declare a `float` by adding a decimal (ex. `7.0`) or the float constructor (`float(7)`)
 - `//` divides two numbers and returns an integer by flooring the result
+- you can negate variables, ex. `foo = -bar`
 
 ## Strings
 
@@ -279,7 +280,6 @@ print(resultWithInitial) # 25
 
 ## Tuples
 
-- declared using parentheses
 - **tuples are immutable**
 
 ```python
@@ -324,12 +324,13 @@ for name, number in phonebook.items():
 ## Sets
 
 - insertion order is not preserved
+- create a set from a list using the `set()` constructor
 
 ```python
 print(set("one two three two four one".split())) # {'two', 'one', 'four', 'three'}
 
-a = set(["Jake", "John", "Eric"])
-b = set(["John", "Jill"])
+a = {"Jake", "John", "Eric"}
+b = {"John", "Jill"}
 ```
 
 - intersection: finds all items that are in both sets
@@ -508,6 +509,7 @@ for random_number in lottery():
 ## `if` and Comparisons
 
 - `None`, `''`, 0, `()` (empty tuple), `[]` (empty list), `{}` (empty dictionary) are all falsy
+- use `and`, `or`, `not` to chain conditions
 
 ```python
 name = "John"
