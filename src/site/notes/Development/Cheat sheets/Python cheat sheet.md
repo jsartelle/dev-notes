@@ -280,6 +280,7 @@ print(resultWithInitial) # 25
 ## Tuples
 
 - declared using parentheses
+- **tuples are immutable**
 
 ```python
 x = (1, 2, 3)
