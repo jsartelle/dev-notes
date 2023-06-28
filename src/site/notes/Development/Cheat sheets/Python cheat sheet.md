@@ -6,7 +6,7 @@
 # General
 
 - comments use `#`
-- variables are named using snake_case
+- variables and functions are named using snake_case
 - variables are declared by assignment
 - declare multiple variables at once:
 
@@ -21,10 +21,20 @@ a, b = b, a
 print(type(a))
 ```
 
-## Type Checking
+- use `*` to spread arrays, and `**` to spread dictionaries
 
-- type checking needs to be enabled in VSCode
-- on Python 3.8 or earlier, collection type names are capitalized and imported from the `typing` module
+```python
+def divide(a, b):
+	return a / b
+
+nums_list = [6, 2]
+nums_dict = { "b": 2, "a": 6 }
+
+print(divide(*nums_list)) # 3.0
+print(divide(**nums_dict)) # 3.0
+```
+
+## Type Checking
 
 ```python
 a: int
@@ -35,12 +45,14 @@ def add(a: float, b: float):
 
 - use `str` for string, `bool` for Boolean
 - collection types are declared like this: `list[int]` (Python 3.9+)
+    - on Python 3.8 or earlier, collection type names are capitalized and imported from the `typing` module
 - mappings must have key and value types declared: `dict[str, float]` (Python 3.9+)
 - fixed size tuples should specify the type of each element: `tuple[int, str, str]` (Python 3.9+)
     - for variable size tuples use one type plus an ellipsis: `tuple[int, ...]`
 - union types are supported using `|` (Python 3.10+) or `Union[X, Y]`
 - declare optionals using `Optional[X]` (same as `X | None`)
     - `Optional` must be imported from `typing`
+- type checking needs to be enabled in VSCode (`python.analysis.typeCheckingMode`)
 
 ## Assertions
 
@@ -299,6 +311,8 @@ print(b) # 2
 
 ## Dictionaries
 
+- keys must be quoted, and members must be accessed using bracket syntax
+
 ```python
 phonebook = {
     "John": 123,
@@ -361,9 +375,10 @@ print(a.union(b))# {'Jake', 'John', 'Jill', 'Eric'}
 print(b.union(a))# {'Jake', 'John', 'Jill', 'Eric'}
 ```
 
-## Functions
+# Functions
 
 - declared using `def`, body is indented
+- must use `return` to return values
 
 ```python
 def sum_two_numbers(a, b=2):
@@ -435,13 +450,15 @@ xyz = next_three_numbers(5)
 print(type(xyz))
 ```
 
-### Lambdas
+## Lambdas
+
+- must contain a single expression
 
 ```python
 lambda x, y: x + y
 ```
 
-### Closures
+## Closures
 
 - functions can be returned from other functions (functions are first class objects)
 - nested functions have read-only access to variables in their enclosing scope - use the `nonlocal` keyword to make them writable
@@ -457,7 +474,7 @@ def print_msg(number):
 print_msg(9) # prints 3 - without nonlocal it would print 9
 ```
 
-### Decorators
+## Decorators
 
 - decorators take a function, and return a new function that calls the provided function plus additional behavior
 
@@ -627,6 +644,21 @@ count = 0
         print("count value reached %d" % count)
 ```
 
+# Exception Handling
+
+```python
+the_list = ["a", "b", "c", "d"]
+
+for i in range(5):
+    try:
+        print(the_list[i])
+    except IndexError:
+        print("Index %d does not exist" % i)
+    except:
+        # will catch anything not already caught
+        print("Unknown error")
+```
+
 # Classes
 
 ```python
@@ -680,17 +712,22 @@ help(re)
 help(re.compile)
 ```
 
-## Exception Handling
+# Builtins
+
+## math
+
+```import math
+
+```
+
+## random
 
 ```python
-the_list = ["a", "b", "c", "d"]
+import random
 
-for i in range(5):
-    try:
-        print(the_list[i])
-    except IndexError:
-        print("Index %d does not exist" % i)
-    except:
-        # will catch anything not already caught
-        print("Unknown error")
+random.random() # random float between 0 and 1
+random.uniform(a, b) # random float between a and b (inclusive)
+random.randint(a, b) # random int between a and b (inclusive)
+
+random.choice(seq) # random item from the sequence seq
 ```
