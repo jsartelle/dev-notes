@@ -24,7 +24,7 @@
 - prefix commands with ^ to use an external command rather than the Nu builtin (ex. `^echo`)
     - all data passed to/from external commands is treated as strings
         - Nushell renders lists and tables before passing them to external commands, so to get the raw output use `to text`
-- instead of using `>` to save files, use the `save` command (ex. `"hello" | save output.txt`)
+- instead of using `>` to save files, pipe to the `save` command (ex. `"hello" | save output.txt`)
 - variable assignment: `let x = $x + 1`
     - variables are immutable, so changes to existing variables are actually shadowing and are block-scoped
 - environment changes are block-scoped - for example, using `cd` inside a block will only change `PWD` inside the block, so you don't need to undo the `cd` before the next iteration
@@ -130,13 +130,14 @@ print $x
     - ex. `http get https://blog.rust-lang.org/feed.xml | table`
 - `inc {path?}`: increment a version number (`--major`, `--minor`, `--patch`)
     - ex. `open "Cargo.toml" | inc package.version --minor | save "Cargo_new.toml"`
-
-# Working with strings
-
-- `open`: can parse many different types of files as tables (ex. csv, json, xml, xls(x), sqlite), otherwise loads them as a single string
+- `open {filename}`: can parse many different types of files as tables (ex. csv, json, xml, xls(x), sqlite), otherwise loads them as a single string
     - pass `--raw` to always load as a string
     - to get a table from a SQLite database: `open foo.db | get some_table`
     - to run a SQL query: `open foo.db | query db "select * from some_table"`
+- `save {filename}`: write to a file
+
+# Working with strings
+
 - `from {format}`: tell Nu to parse a string in the specified format (ex. `from json`)
     - use `from csv|tsv|ssv` to split comma/tab/space separated data
 - `lines`: split string by lines
@@ -165,20 +166,62 @@ print $x
     - ex. `$'(ansi purple_bold)This text is a bold purple!(ansi reset)'`
     - always end with `ansi reset`
 
-# Working with lists
+# Working with tables
 
-- inserting items:
-    - `insert {index} {value}`: insert a value into a list
-    - `update {index} {value}`: replace a list value
-    - `append {value}` and `prepend {value}`
+> [!tip]
+> Remember that column indices are strings, and row indices are numbers.
+
+- `get {path}`: get a list with the values of a table column
+    - ex. `sys | get host`
+        - you can pass a nested path, ex. `sys | get host.sessions.name`
+    - you can use this to get an index that's in a variable - `let index = 1; $names | get $index`
+- `select {...index}`: create a new table with the specified column names or row numbers
+- `sort-by {column}`: sort a table
+- `length`: count rows
+- `reverse`: reverse table row order
+- `transpose {...colNames}`: swap rows and columns
+- `where {column} {operator} {param}`: filter a table
+    - ex. `ls | where size > 1kb` or `ps | where cpu > 5`
+    - use `==` for equality
+
 - retrieving items:
     - `first {num}` and `last {num}`: get the first or last *num* items
-    - `take {num}`: get *num* items from the beginning of the list
+    - `take {num}`: get *num* rows from the beginning
         - **not sure what the difference between `first` and `take` is**
-    - `skip {num}`: exclude *num* items from the beginning of the list
+    - `skip {num}`: exclude *num* rows from the beginning
         - ex. `[red yellow green] | skip 1` results in: `[yellow green]`
-        - since variables are immutable, the list won't be modified unless you explicitly re-assign to it
+        - since variables are immutable, the table won't be modified unless you explicitly re-assign to it
     - `drop {num}`: same, but from the end
+    - `range`: get a range of items
+        - `[a b c d e f] | range 1..3` results in: `[b c d]`
+
+- modifying tables:
+    - `insert {index} {value}`: insert a value
+    - `update {index} {value}`: replace a value
+    - `upsert {index} {value}`: insert or update, depending on whether the value already exists
+    - `move {...index} --after {index}`: move one or more rows or columns
+        - or `--before`
+    - `rename`: rename columns
+        - can pass N names to rename the first N columns:
+            - `[[a, b]; [1, 2]] | rename foo`: column names will be `foo, b`
+        - or rename a specific column with `--column`
+            - `[[a, b]; [1, 2]] | rename --column [b bar]`: column names will be `a, bar`
+    - `reject {...index}`: drop columns
+    - `append`: concatenate two tables with identical column names
+        - ex. `$table1 | append $table2`
+        - `prepend`: same but at the beginning
+    - `merge`: merge two tables (can be chained)
+        - ex. `$table1 | merge $table2 | merge $table3`
+        - you can merge lots of tables by putting them in a list and using [[#^5ad478|reduce]]: `[$first $second $third] | reduce { |it, acc| $acc | merge $it }`
+
+## Examples
+
+```shell
+open package.json | get scripts
+```
+
+# Working with lists
+
 - conditions:
     - `in` and `not-in`: operators to check if a value is or isn't in a list
     - `any`: checks if any item in a list matches a condition
@@ -219,6 +262,8 @@ $colors | where ($it | str ends-with 'e')
 ```
 
 - `reduce` takes a closure that gets 2 parameters, the item and an accumulator
+{ #5ad478}
+
     - to specify an initial value use `--fold`
 
 ```shell
@@ -231,25 +276,6 @@ $"product = ($scores | reduce --fold 1 { |it, acc| $acc * $it })" # total = 96
 
 $scores | enumerate | reduce --fold 0 { |it, acc| $acc + $it.index * $it.item } # 0*3 + 1*8 + 2*4 = 16
 ```
-
-# Working with tables
-
-#todo
-
-- `get {path}`: get a column of a table
-    - ex. `sys | get host`
-        - you can pass a nested path, ex. `sys | get host.sessions.name`
-    - you can use this to get an index that's in a variable - `let index = 1; $names | get $index`
-- `select {cols|rows}`: create a new table with the specified column names or row numbers
-- `range`: get a range of items
-    - `[a b c d e f] | range 1..3` results in: `[b c d]`
-- `sort-by {column}`: sort a table
-- `reverse`: reverse table row order
-- `transpose {...colNames}`: swap rows and columns
-- `length`: count rows
-- `where {column} {operator} {param}`: filter a table
-    - ex. `ls | where size > 1kb` or `ps | where cpu > 5`
-    - use `==` for equality
 
 # See also
 
