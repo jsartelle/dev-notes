@@ -510,6 +510,10 @@ syntax: "*"; /* any value */
 | 900   | Black (Heavy)             |
 | 950   | Extra Black (Ultra Black) |
 
+## opacity: 0 vs visibility: hidden
+
+- Elements with `opacity: 0` are still visible to screen readers and focusable, but elements with `visibility: hidden` aren't.
+
 ## Transition from 0 to auto
 
 - Place the element in a container with this styling
