@@ -308,11 +308,32 @@ function FriendStatus(props) {
     - can be any kind of value, including objects
 - state should be treated as read-only - to update state objects or arrays, copy it to a new object/array and pass it to the `set` function
     - the `set` function always replaces, never merges
+- state changes are batched and don't take effect until the next render
+    - if you need to update the same state multiple times in each render, pass a function to the setter
+
+```jsx
+const [number, setNumber] = useState(0);
+
+setNumber(number + 1) // 0 + 1
+setNumber(number + 1) // 0 + 1
+setNumber(number + 1) // 0 + 1
+
+// the final value of `number` will be 1
+```
+
+```jsx
+const [number, setNumber] = useState(0);
+
+setNumber(number => number + 1) // 0 + 1
+setNumber(number => number + 1) // 1 + 1
+setNumber(number => number + 1) // 2 + 1
+
+// the final value of `number` will be 3
+```
+
 - to update the state from a child component, pass down the `set` function as a prop
 
 ```jsx
-import React, { useState } from 'react';
-
 function Example() {
   // Declare a new state variable, which we'll call "count"
   const [count, setCount] = useState(0);
@@ -334,13 +355,13 @@ function Example() {
 ```js
 // Counter will keep its state when isFancy changes
 return (
-<div>
-  {isFancy ? (
-    <Counter isFancy={true} /> 
-  ) : (
-    <Counter isFancy={false} /> 
-  )}
-</div>
+    <div>
+      {isFancy ? (
+        <Counter isFancy={true} /> 
+      ) : (
+        <Counter isFancy={false} /> 
+      )}
+    </div>
 )
 ```
 
