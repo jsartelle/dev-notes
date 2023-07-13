@@ -371,9 +371,9 @@ return (
     - primarily used for **synchronizing with external systems** - data fetching, setting up a subscription, etc.
     - **You don’t need Effects to transform data for rendering** - transform the data at the top level instead (use [[Development/Cheat sheets/React cheat sheet#useMemo\|#useMemo]] if the transformation is expensive)
     - **You don’t need Effects to handle user events** - use [[Development/Cheat sheets/React cheat sheet#Events\|event handlers]]
-- by default the "effect" function runs on every render, including the first one, after React has updated the DOM
-    - if you don't want it to run on the first render use [[Development/Cheat sheets/React cheat sheet#useLayoutEffect\|#useLayoutEffect]]
 - can return a "cleanup" function that will run before each time the effect function runs, as well as on component unmount
+- by default the provided function runs on every render, including the first one, ==after React has updated the DOM==
+    - if you don't want it to run on the first render use [[Development/Cheat sheets/React cheat sheet#useLayoutEffect\|#useLayoutEffect]]
 - to react to prop changes, pass an array of reactive values as the second argument to `useEffect` - the effect (including cleanup) will only run if any of the array items have changed
     - if you pass an empty array, the effect will only run once on mount (and cleanup on unmount)
         - code should still be resilient to effects running multiple times, both for Fast Refresh and future-proofing
