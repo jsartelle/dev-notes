@@ -495,6 +495,13 @@ syntax: "*"; /* any value */
 
 # Other
 
+## Load CSS asynchronously
+
+```html
+<link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="styles.css"></noscript>
+```
+
 ## Font weights
 
 | Value | Common weight name        |
