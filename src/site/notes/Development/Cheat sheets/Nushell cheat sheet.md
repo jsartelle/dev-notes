@@ -277,6 +277,22 @@ $"product = ($scores | reduce --fold 1 { |it, acc| $acc * $it })" # total = 96
 $scores | enumerate | reduce --fold 0 { |it, acc| $acc + $it.index * $it.item } # 0*3 + 1*8 + 2*4 = 16
 ```
 
+# Examples
+
+## Kill single process by name
+
+- add `-f` to force
+
+```shell
+kill (ps | where name == "Dock" | first).pid
+```
+
+## Kill matching processes
+
+```shell
+ps | where name == "Dock" | each { kill $in.pid }
+```
+
 # See also
 
 - [[Development/Cheat sheets/Terminal cheat sheet\|Terminal cheat sheet]]
