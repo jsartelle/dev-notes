@@ -3,9 +3,9 @@
 ---
 
 
-## Selectors
+# Selectors
 
-### :has
+## :has
 
 - Matches elements where **any** of the given selectors match relative to the current element
     - Invalid selectors are ignored
@@ -29,7 +29,7 @@ div:has(+ span, > span) {
 }
 ```
 
-### :is
+## :is
 
 - Matches any element that can be matched by **any** of the given selectors
     - Invalid selectors are ignored
@@ -41,11 +41,11 @@ div:has(+ span, > span) {
 }
 ```
 
-### :where
+## :where
 
 - Same as [[Development/Cheat sheets/CSS cheat sheet#:is\|#:is]] but with specificity 0
 
-### Attribute selectors
+## Attribute selectors
 
 | Operator | Meaning                                                                           |
 | -------- | --------------------------------------------------------------------------------- |
@@ -56,20 +56,20 @@ div:has(+ span, > span) {
 | \*=      | contains *value*                                                                  |
 | [... i]  | case insensitive                                                                  |
 
-### :nth-child
+## :nth-child
 
 [[Development/Clipped/Useful nth-child Recipes\|Useful nth-child Recipes]]
 
-## Properties
+# Properties
 
-### grid
+## grid
 
 - Use `order` to rearrange grid items
 - Use [[Development/Cheat sheets/CSS cheat sheet#gap\|#gap]] to create gutters between grid tracks
 
-#### Grid container properties
+### Grid container properties
 
-##### grid-template-columns, grid-template-rows
+#### grid-template-columns, grid-template-rows
 
 - Defines the count and size of explicit grid tracks (rows or columns)
 - Use `repeat` to save typing
@@ -100,7 +100,7 @@ grid-template-columns: 1fr 4fr; /* same as 20% 80% */
 grid-template-rows: 50px repeat(3, 1fr) 50px;
 ```
 
-###### auto-fill
+##### auto-fill
 
 - Use the `auto-fill` keyword to create as many tracks as will fit in the container
 
@@ -117,7 +117,7 @@ grid-template-columns: repeat(auto-fill, 200px);
     <div></div>
 </div>
 
-###### auto-fit
+##### auto-fit
 
 - Use `auto-fit` with `minmax` to make the tracks expand to fit any leftover space
 
@@ -134,16 +134,16 @@ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     <div></div>
 </div>
 
-##### grid-template
+#### grid-template
 
 - Shorthand for the above: `rows / columns`
 
-##### grid-auto-flow
+#### grid-auto-flow
 
 - Controls the direction (`row` or `column`) that implicit grid tracks are created in (default: `row`)
 - Add `dense` to "fill in" holes earlier in the grid (this may cause items to display out of order)
 
-##### grid-auto-rows, grid-auto-columns
+#### grid-auto-rows, grid-auto-columns
 
 - By default implicit rows/columns are sized to fit their content, this property lets you give them an explicit size
 
@@ -152,19 +152,18 @@ grid-auto-rows: 100px;
 grid-auto-columns: minmax(100px, auto);
 ```
 
-##### align-items, justify-content
+#### align-items, justify-content
 
 - Works like in flexbox, except with `start` and `end` rather than `flex-start` and `flex-end`
 { #0c043d}
 
     - Aligns each item within its grid area (could span many cells)
 
-#### Grid item properties
+### Grid item properties
 
-##### grid-row-start, grid-column-start, grid-row-end, grid-column-end
+#### grid-row-start, grid-column-start, grid-row-end, grid-column-end
 
-- Set which grid **lines** (not tracks!) an element's starting or ending edges touch
-    - ==these are 1-indexed like nth-child numbers==
+- Set which grid **lines** (not tracks!) an element's stating or ending edges touch (1-indexed)
 - An element with `start: 1` and `end: 4` will span three cells
 
 <div class="grid-example number-lines" style="grid-template-columns: repeat(5, 1fr);">
@@ -190,15 +189,15 @@ grid-column-end: span 2;
 - If the specified lines are outside the bounds of the [[Development/Cheat sheets/CSS cheat sheet#grid-template\|#grid-template]], the browser will generate implicit grid tracks for the item
     - You can use this and [[Development/Cheat sheets/CSS cheat sheet#grid-auto-flow\|#grid-auto-flow]] to accomplish some layouts without defining a `grid-template` at all
 
-##### grid-row, grid-column
+#### grid-row, grid-column
 
 - Shorthand for the above: `start / end`
 
-##### grid-area
+#### grid-area
 
 - Shorthand for `grid-row-start / grid-column-start / grid-row-end / grid-column-end`
 
-##### align-self
+#### align-self
 
 
 <div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/cheat-sheets/css-cheat-sheet/#0c043d" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
@@ -210,7 +209,7 @@ grid-column-end: span 2;
 </div></div>
 
 
-##### position: absolute
+#### position: absolute
 
 - Grid items with `position: absolute` will take their grid area as their containing block if they have one, or the entire grid if they don't
     - Make sure the grid container has `position: relative`
@@ -222,7 +221,7 @@ grid-column-end: span 2;
     <div class="abs-fill" style="background-color: deepskyblue; grid-column: 2 / 3; left: 50px; top: 20px;"></div>
 </div>
 
-##### display: contents
+#### display: contents
 
 - Use `display: contents` to group grid children together, while still laying them out as part of the grid
 
@@ -241,11 +240,11 @@ grid-column-end: span 2;
     <div></div>
 </div>
 
-#### See also
+### See also
 
 [[Development/Clipped/Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers\|Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers]]
 
-### gap
+## gap
 
 - Sets spacing between tracks in flex or grid views
     - Unlike margins, `gap` doesn't apply to the outer edges
@@ -257,7 +256,7 @@ grid-column-end: span 2;
 gap: 10px 5px;
 ```
 
-### mask
+## mask
 
 - Requires `-webkit-` prefix on Chromium browsers
 - Useful for [changing the color of SVG background images](https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images)
@@ -274,7 +273,7 @@ mask-clip: border-box;
 mask-repeat: repeat;
 ```
 
-### clip-path
+## clip-path
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://bennettfeely.com/clippy/" target="_blank">
 	<div class="rich-link-image-container">
@@ -293,7 +292,7 @@ mask-repeat: repeat;
 
 </a></div>
 
-#### inset
+### inset
 
 - Simple insets from each side, clockwise from top
 
@@ -301,7 +300,7 @@ mask-repeat: repeat;
 clip-path: inset(5% 10% 15% 20%);
 ```
 
-#### polygon
+### polygon
 
 - Can have any number of points, values are `<x> <y>`
 
@@ -313,7 +312,7 @@ clip-path: polygon(50% 0, 0% 100%, 100% 100%);
 clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
 ```
 
-#### circle
+### circle
 
 - `radius at center`
 
@@ -321,7 +320,7 @@ clip-path: polygon(20% 0, 80% 0, 100% 100%, 0% 100%);
 clip-path: circle(50% at 50% 50%);
 ```
 
-#### ellipse
+### ellipse
 
 - `radiusX radiusY at center`
 
@@ -329,7 +328,7 @@ clip-path: circle(50% at 50% 50%);
 clip-path: ellipse(25% 40% at 50% 50%);
 ```
 
-### contain
+## contain
 
 - Lets you isolate an element and its contents from the rest of the document
 - Values (multiple can be used, separated with spaces):
@@ -344,13 +343,13 @@ clip-path: ellipse(25% 40% at 50% 50%);
     - `content`: same as `layout paint style`
 - use `contain: content` for elements such as articles that are independent from the rest of the page
 
-### content-visibility
+## content-visibility
 
 - Controls whether the browser renders the element's contents
 - `hidden`: the element is never rendered
 - `auto`: the element is only rendered if it is "relevant to the user" - in or near the viewport, focused, selected, or in the top layer
 
-### white-space
+## white-space
 
 - spaces include space characters, tabs, and segment breaks (such as newlines)
 - *hang* means that the character may be placed outside the box and does not affect sizing
@@ -364,9 +363,9 @@ clip-path: ellipse(25% 40% at 50% 50%);
 | `pre-line`     | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
 | `break-spaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
 
-### Shorthands
+## Shorthands
 
-#### background
+### background
 
 - separate position and size (in that order) with a slash: `center/80%` or `50% 50% / 0% 0%`
 - If only one `box` value is specified, it sets both `origin` and `clip`
@@ -387,7 +386,7 @@ clip-path: ellipse(25% 40% at 50% 50%);
 background: repeat scroll 0% 0%/auto padding-box border-box none transparent;
 ```
 
-#### box-shadow
+### box-shadow
 
 inset? | offset-x | offset-y | blur-radius | spread-radius | color
 
@@ -395,7 +394,7 @@ inset? | offset-x | offset-y | blur-radius | spread-radius | color
 box-shadow: 3px 3px red, inset -1em 0 0.4em blue;
 ```
 
-#### text-shadow
+### text-shadow
 
 offset-x | offset-y | blur-radius | color
 
@@ -403,7 +402,7 @@ offset-x | offset-y | blur-radius | color
 text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
 ```
 
-#### animation
+### animation
 
 | Property        | Default |
 | --------------- | ------- |
@@ -420,16 +419,16 @@ text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
 animation: 3s ease-in 1s infinite reverse both running slidein;
 ```
 
-## Functions
+# Functions
 
-### minmax
+## minmax
 
 - Used with grids
 - Item width will be >= min and <= max
 
-### cross-fade
+## cross-fade
 
-#### Specification syntax
+### Specification syntax
 
 - **Not supported in any browsers as of May 2023**
 - Supports any number of images, with later images on top
@@ -441,7 +440,7 @@ cross-fade(url(white.png), url(black.png) 75%) /* 25% white 75% black */
 cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 ```
 
-#### Implemented syntax
+### Implemented syntax
 
 > [!warning]
 > Safari 16 does not correctly handle `linear-gradient` inside `-webkit-cross-fade`!
@@ -454,9 +453,9 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 -webkit-cross-fade(url(white.png), url(black.png), 100%) /* fully white */
 ```
 
-## At-rules
+# At-rules
 
-### @property
+## @property
 
 - Allows you to define CSS custom properties with control over data type, inheritance, and initial value
     - can be used to create animatable/transition-able custom properties
@@ -494,16 +493,16 @@ syntax: "small | medium | large"; /* custom ident example */
 syntax: "*"; /* any value */
 ```
 
-## Other
+# Other
 
-### Load CSS asynchronously
+## Load CSS asynchronously
 
 ```html
 <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="styles.css"></noscript>
 ```
 
-### Font weights
+## Font weights
 
 | Value | Common weight name        |
 | ----- | ------------------------- |
@@ -518,11 +517,11 @@ syntax: "*"; /* any value */
 | 900   | Black (Heavy)             |
 | 950   | Extra Black (Ultra Black) |
 
-### opacity: 0 vs visibility: hidden
+## opacity: 0 vs visibility: hidden
 
 - Elements with `opacity: 0` are still visible to screen readers and focusable, but elements with `visibility: hidden` aren't.
 
-### Transition from 0 to auto
+## Transition from 0 to auto
 
 - Place the element in a container with this styling
 
@@ -536,7 +535,7 @@ transition: grid-template-rows;
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/B_n4YONte5A" title="YouTube video player" frameborder="0" allow="encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
 
-## See also
+# See also
 
 - [[Development/Cheat sheets/Sass cheat sheet\|Sass cheat sheet]]
 - [Modern CSS Upgrades To Improve Accessibility | Modern CSS Solutions](https://moderncss.dev/modern-css-upgrades-to-improve-accessibility/)
