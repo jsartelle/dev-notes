@@ -224,10 +224,19 @@ FROM pets
 GROUP BY owner_id
 ```
 
-- You can also select other fields (or even the whole table, ex. `pets.*`), and if combined with [[Development/Cheat sheets/MySQL cheat sheet#ORDER BY\|#ORDER BY]] use this to, for example, get the oldest pet for each owner
+- By default, which row is returned from `GROUP_BY` is undefined, so the following will not work as expected (returning the oldest pet for each owner)
 
 ```mysql
 SELECT owner_id, name, age
+FROM pets
+GROUP BY owner_id
+ORDER BY age DESC
+```
+
+- To fix this, use an [[Development/Cheat sheets/MySQL cheat sheet#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)\|aggregate function]]
+
+```mysql
+SELECT owner_id, name, MAX(age)
 FROM pets
 GROUP BY owner_id
 ORDER BY age DESC
