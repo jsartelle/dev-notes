@@ -3,13 +3,14 @@
 ---
 
 
-> [!tip] Tips
-> - The order of keywords matters!
-> - Table/column names that are also keywords (ex. `trigger`) must be quoted using `
+> [!important]
+> The order of keywords matters!
 
 # General
 
 - `TRUE` and `FALSE` are the same as `1` and `0` respectively
+- Single and double quotes are the same except for escaping (same as JavaScript, Python, etc)
+- Table/column names that are also keywords (ex. `trigger`) must be quoted using `
 
 # Variables
 
@@ -146,11 +147,14 @@ WHERE id BETWEEN 100 AND 200
 
 ### Dates
 
+> [!important]
+> Make sure to put dates in quotes! Otherwise `2022-12-25` will be interpreted as "the number 2,022 minus 12 minus 25"
+
 ```mysql
 WHERE DATE(created_at) = '2022-12-25'
 ```
 
-- If the date column has an index. you can avoid casting to improve performance:
+- If the date column has an index, you can avoid casting to improve performance:
 
 ```mysql
 WHERE
