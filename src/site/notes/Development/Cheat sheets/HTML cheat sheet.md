@@ -97,6 +97,13 @@ The `DOMContentLoaded` event fires when the HTML document has been completely p
 
 `DOMContentLoaded` does not wait for stylesheets to load, however deferred scripts *do* wait for stylesheets, and `DOMContentLoaded` queues behind deferred scripts. Also, scripts which aren't deferred or async (e.g. `<script>`) will wait for already-parsed stylesheets to load.
 
+# Load CSS asynchronously
+
+```html
+<link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="styles.css"></noscript>
+```
+
 # See also
 
 - [[Development/Clipped/Everything I Know About The Script Tag\|Everything I Know About The Script Tag]]
