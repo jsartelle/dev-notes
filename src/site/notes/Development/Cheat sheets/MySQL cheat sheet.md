@@ -22,6 +22,39 @@ FROM users
 WHERE created_at > @start_date
 ```
 
+# Dates & Times
+
+> [!important]
+> Make sure to put dates in quotes! Without quotes, `2022-12-25` will be interpreted as "the number 2,022 minus 12 minus 25"
+
+- Use `NOW()` to get the current timestamp
+- To convert a timestamp to a date (without time) use the `DATE()` function, and to get the time use `TIME()`
+
+```mysql
+# created_at looks like '2022-12-01 14:27:08'
+WHERE DATE(created_at) <= '2022-12-25'
+# or
+WHERE TIME(created_at) > '12:00:00'
+```
+
+- If the date column has an index, you can avoid casting to improve performance:
+
+```mysql
+WHERE
+    created_at >= '2022-12-25'
+AND
+    created_at < '2022-12-26'
+```
+
+## INTERVAL
+
+- Select dates in the last 24 hours
+    - interval names are singular, ex. `DAY`, `WEEK`, `MONTH`
+
+```mysql
+WHERE created_date >= NOW() - INTERVAL 1 DAY
+```
+
 # Keywords
 
 ## SELECT / AS / FROM
@@ -143,33 +176,6 @@ WHERE name IN ('Alice', 'Bob')
 
 ```mysql
 WHERE id BETWEEN 100 AND 200
-```
-
-### Dates
-
-> [!important]
-> Make sure to put dates in quotes! Otherwise `2022-12-25` will be interpreted as "the number 2,022 minus 12 minus 25"
-
-```mysql
-WHERE DATE(created_at) = '2022-12-25'
-```
-
-- If the date column has an index, you can avoid casting to improve performance:
-
-```mysql
-WHERE
-    created_at >= '2022-12-25'
-AND
-    created_at < '2022-12-26'
-```
-
-#### INTERVAL
-
-- Select dates in the last 24 hours
-    - interval names are singular, ex. `DAY`, `WEEK`, `MONTH`
-
-```mysql
-WHERE created_date >= NOW() - INTERVAL 1 DAY
 ```
 
 ### EXISTS and NOT EXISTS
