@@ -56,10 +56,6 @@ div:has(+ span, > span) {
 | \*=      | contains *value*                                                                  |
 | [... i]  | case insensitive                                                                  |
 
-## :nth-child
-
-[[Development/Clipped/Useful nth-child Recipes\|Useful nth-child Recipes]]
-
 # Properties
 
 ## grid
@@ -495,13 +491,6 @@ syntax: "*"; /* any value */
 
 # Other
 
-## Load CSS asynchronously
-
-```html
-<link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="styles.css"></noscript>
-```
-
 ## Font weights
 
 | Value | Common weight name        |
@@ -517,9 +506,17 @@ syntax: "*"; /* any value */
 | 900   | Black (Heavy)             |
 | 950   | Extra Black (Ultra Black) |
 
-## opacity: 0 vs visibility: hidden
+## opacity: 0 vs. visibility: hidden
 
-- Elements with `opacity: 0` are still visible to screen readers and focusable, but elements with `visibility: hidden` aren't.
+- Elements with `opacity: 0` are still:
+    - clickable (will fire click events)
+    - focusable
+    - visible to screen readers
+- Elements with `visibility: hidden` don't do any of the above.
+
+## Negative transition/animation-delays
+
+A negative `transition-delay` or `animation-delay` will start the transition/animation partway through. For example, `transition-delay: -50ms` will start the transition at the 50ms mark.
 
 ## Transition from 0 to auto
 
@@ -535,7 +532,51 @@ transition: grid-template-rows;
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/B_n4YONte5A" title="YouTube video player" frameborder="0" allow="encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
 
+## Nested backdrop filters
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://stackoverflow.com/a/76207141" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">backdrop-filter not working for nested elements in Chrome</h1>
+		<p class="rich-link-card-description">
+		I have a div.outer and inside a div.inner, both with position: absolute; and backdrop-filter: blur(8px);.
+
+https://jsbin.com/nihakiqocu/1/edit?html,css,output
+
+Safari (left) gives the desired resul...
+
+		</p>
+
+		<p class="rich-link-href">
+
+		https://stackoverflow.com/a/76207141
+
+		</p>
+
+	</div>
+
+</a></div>
+
+Setting a `backdrop-filter` on an element turns it into a *backdrop root*. Child elements can't "see through" a backdrop root, so `backdrop-filter` on children won't work as expected.
+
+To fix this, add the `backdrop-filter` to a pseudo-element on the parent:
+
+```css
+.blurred-bg::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(30px);
+    z-index: -1;
+}
+```
+
 # See also
 
 - [[Development/Cheat sheets/Sass cheat sheet\|Sass cheat sheet]]
+- [[Development/Clipped/Useful nth-child Recipes\|Useful nth-child Recipes]]
 - [Modern CSS Upgrades To Improve Accessibility | Modern CSS Solutions](https://moderncss.dev/modern-css-upgrades-to-improve-accessibility/)
