@@ -219,6 +219,9 @@ WHERE REGEXP_LIKE(name, '\\w+_\\d{4}_\\d{2}_\\d{2}')
 
 ### IN (list of values)
 
+> [!warning]
+> The order of the returned rows doesn't necessarily match the order of the given values!
+
 ```mysql
 WHERE name IN ('Alice', 'Bob')
 ```
