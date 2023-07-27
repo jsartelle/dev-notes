@@ -68,10 +68,11 @@ div:has(+ span, > span) {
 #### grid-template-columns, grid-template-rows
 
 - Defines the count and size of explicit grid tracks (rows or columns)
-- Use `repeat` to save typing
 
 ```css
 grid-template-columns: 50% 50%;
+/* these are the same */
+grid-template-rows: 20% 20% 20% 20% 20%;
 grid-template-rows: repeat(5, 20%);
 ```
 
@@ -88,7 +89,7 @@ grid-template-rows: repeat(5, 20%);
     <div></div>
 </div>
 
-- Use the `fr` unit to represent one "part" of the available space
+- The `fr` unit represents one "part" of the available space
 - If some columns are defined with lengths or percentages, `fr` divides the remaining space
 
 ```css
