@@ -207,6 +207,13 @@ function longRunningFunction() {
 
 # Other
 
+## Operator precedence
+
+- `&&` has a higher precedence than `||`
+    - `a || b && c` is the same as `a || (b && c)`
+- **however**, `&&` and `||` short circuit, so if `a` is truthy, `(b && c)` won't be evaluated even though it's in parentheses
+- math operators follow PEMDAS (`%` has the same precedence as `/`)
+
 ## Use expressions in switch statements
 
 ```js
