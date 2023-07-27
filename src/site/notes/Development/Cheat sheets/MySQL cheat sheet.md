@@ -4,7 +4,7 @@
 
 
 > [!important]
-> The order of keywords matters!
+> The order of keywords matters! The keywords below are listed in the order they should be used.
 
 # General
 
@@ -83,6 +83,54 @@ FROM pets
 
 - Also see [[Development/Cheat sheets/MySQL cheat sheet#Count number of distinct values\|#Count number of distinct values]] and [[Development/Cheat sheets/MySQL cheat sheet#GROUP BY\|#GROUP BY]]
 
+## CASE
+
+- Like switch statements (no fallthrough)
+
+```mysql
+SELECT
+    a.name,
+    CASE
+        WHEN a.rating <= 2 THEN 'Bad'
+        WHEN a.rating = 3 THEN 'Average'
+        WHEN a.rating >= 4 THEN 'Good'
+    END AS quality
+FROM
+    albums a
+```
+
+```mysql
+UPDATE
+    albums a
+SET
+    a.album_type = CASE
+        WHEN a.track_count = 1 THEN 'Single'
+        WHEN a.track_count <= 5 THEN 'EP'
+        ELSE 'LP'
+    END
+```
+
+## INSERT
+
+```mysql
+INSERT INTO pets (name, species, age, owner_id)
+VALUES ('Rover', 'dog', 3, 1)
+```
+
+## UPDATE / SET
+
+> [!warning]
+> Don't forget the WHERE clause - otherwise you'll update every row in the table!
+
+```mysql
+UPDATE
+    pets p
+SET
+    p.sound = 'meow'
+WHERE
+    p.species = 'cat'
+```
+
 ## JOIN
 
 ```mysql
@@ -106,8 +154,14 @@ FROM
 
 ### USING
 
-- `USING (user_id)` is a shortcut for `ON a.user_id = B.user_id`
-    - with `USING`, the join column only appears once in the result
+- `USING (user_id)` is a shortcut for `ON A.user_id = B.user_id`
+    - with `USING`, the join column only appears once in the result, so you don't need to qualify it with `TABLE_NAME.column_name`
+
+```mysql
+SELECT users.id, pets.id, address
+FROM users
+JOIN pets USING (address)
+```
 
 ## WHERE
 
@@ -234,7 +288,9 @@ FROM pets
 GROUP BY owner_id
 ```
 
-- By default, which row is returned from `GROUP_BY` is undefined, so the following will not work as expected (returning the oldest pet for each owner)
+### GROUP BY and ordering
+
+- By default, which row is returned from `GROUP_BY` is not deterministic, so the following will not work as expected (returning the oldest pet for each owner)
 
 ```mysql
 SELECT owner_id, name, age
@@ -269,9 +325,9 @@ LIMIT 5
 OFFSET 10
 ```
 
-## WITH / AS
+# WITH / AS (subqueries)
 
-- Lets you store temporary results (*Common Table Expressions* or *CTE*s) that you can refer to later
+- Let you store temporary results (*Common Table Expressions* or *CTE*s) that you can refer to later
 - MySQL does not let you combine [[Development/Cheat sheets/MySQL cheat sheet#UPDATE / SET\|UPDATE]] and [[Development/Cheat sheets/MySQL cheat sheet#LIMIT\|#LIMIT]], this can be used to get around that
 
 ```mysql
@@ -311,54 +367,6 @@ SELECT
 FROM
     foo
     JOIN bar USING (id)
-```
-
-## CASE
-
-- Like switch statements (no fallthrough)
-
-```mysql
-SELECT
-    a.name,
-    CASE
-        WHEN a.rating <= 2 THEN 'Bad'
-        WHEN a.rating = 3 THEN 'Average'
-        WHEN a.rating >= 4 THEN 'Good'
-    END AS quality
-FROM
-    albums a
-```
-
-```mysql
-UPDATE
-    albums a
-SET
-    a.album_type = CASE
-        WHEN a.track_count = 1 THEN 'Single'
-        WHEN a.track_count <= 5 THEN 'EP'
-        ELSE 'LP'
-    END
-```
-
-## INSERT
-
-```mysql
-INSERT INTO pets (name, species, age, owner_id)
-VALUES ('Rover', 'dog', 3, 1)
-```
-
-## UPDATE
-
-> [!attention]
-> Don't forget the WHERE clause - otherwise you'll update every row in the table!
-
-```mysql
-UPDATE
-    pets p
-SET
-    p.sound = 'meow'
-WHERE
-    p.species = 'cat'
 ```
 
 # Functions
