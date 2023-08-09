@@ -255,7 +255,7 @@ observer.observe(document.querySelector('main'))
 /** @type {string} */
 ```
 
-- optional parameters
+- optional parameter names go in brackets
 
 ```js
 /**
@@ -263,7 +263,7 @@ observer.observe(document.querySelector('main'))
 */
 ```
 
-- import a type, and define a repeatable type
+- import a type and give it an alias
 
 ```js
 /** @typedef {import('fruit/types').Apple} apple */
