@@ -259,7 +259,7 @@ observer.observe(document.querySelector('main'))
 
 ```js
 /**
-@param {string} [name]
+@param {string} [name] Description goes here
 */
 ```
 
