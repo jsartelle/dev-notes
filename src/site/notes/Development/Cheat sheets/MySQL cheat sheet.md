@@ -117,6 +117,46 @@ INSERT INTO pets (name, species, age, owner_id)
 VALUES ('Rover', 'dog', 3, 1)
 ```
 
+- to insert multiple rows, add multiple sets of values
+
+```mysql
+INSERT INTO pets (name, species, age, owner_id)
+VALUES ('Rover', 'dog', 3, 1), ('Spot', 'dog', 1, 1)
+```
+
+### INSERT IGNORE
+
+- ignores errors and moves on to the next `INSERT`
+
+```mysql
+INSERT INTO pets (id, name) VALUES (1, 'Rover')
+
+INSERT INTO pets (id, name) VALUES (1, 'Spot') # errors
+
+INSERT IGNORE INTO pets (id, name) VALUES (1, 'Spot') # doesn't error, does nothing
+```
+
+### REPLACE (upsert)
+
+- inserts the row if it doesn't exist, deletes it and inserts a replacement if it does
+
+```mysql
+REPLACE INTO pets (id, name) VALUES (1, 'Rover') # inserts (if the database is empty)
+
+REPLACE INTO pets (id, name) VALUES (1, 'Spot')
+```
+
+### Conditional inserts
+
+- only inserts the row if this owner does not already have a dog
+    - note the use of `SELECT` instead of `VALUES`
+
+```mysql
+INSERT INTO pets (name, species, age, owner_id)
+SELECT 'Rover', 'dog', 3, 1
+WHERE NOT EXISTS (SELECT * FROM pets WHERE species = 'dog' AND owner_id = 1)
+```
+
 ## UPDATE / SET
 
 > [!warning]
