@@ -255,7 +255,8 @@ observer.observe(document.querySelector('main'))
 /** @type {string} */
 ```
 
-- optional parameter names go in brackets
+- optional parameter names go in square brackets
+- when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for adding descriptions
 
 ```js
 /**
