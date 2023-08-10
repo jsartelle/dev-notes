@@ -397,8 +397,8 @@ useEffect(() => {
 
 # useRef
 
-- `ref`s will hold onto information between renders, but **aren't tracked** by React and don't trigger new renders
-- `ref`s should be used for information that is **not needed for rendering**, for example:
+- `useRef` will hold onto information between renders, but aren't tracked by React and **don't trigger re-render** when updated
+- `useRef` should be used for information that is **not needed for rendering**, for example:
     - timeout and interval IDs
     - [[Development/Cheat sheets/React cheat sheet#DOM element refs\|DOM elements]]
 - **don't read or write `ref.current` during render**, unless only doing it on the first render (by checking `ref.current`), otherwise your component will no longer be [[Development/Cheat sheets/React cheat sheet#Component purity\|pure]]
@@ -433,7 +433,7 @@ if (playerRef.current === null) {
 
 ## DOM element refs
 
-- to get a DOM element ref, set the `ref` value to `null`, then set it as the `ref` attribute on an element
+- to get a DOM element ref, set the initial value to `null`, then set the ref as the `ref` attribute on an element
 - example uses:
     - focusing text inputs
     - scrolling to elements
