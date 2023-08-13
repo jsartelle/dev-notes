@@ -423,11 +423,36 @@ animation: 3s ease-in 1s infinite reverse both running slidein;
 - Used with grids
 - Item width will be >= min and <= max
 
+## color-mix
+
+```css
+color-mix(in oklab, red 25%, blue)
+```
+
+- There are lots of different color spaces, `oklab` tends to give the most "natural-looking" result
+
+![Pasted image 20230812150956.png](/img/user/%E2%80%A2%20Attachments/Pasted%20image%2020230812150956.png)
+
 ## cross-fade
+
+### Implemented syntax
+
+> [!warning]
+> Firefox doesn't support this syntax!
+> Safari 16 doesn't correctly handle `linear-gradient` inside `-webkit-cross-fade`.
+
+- Only supports two images, opacity applies to the first image
+
+```css
+-webkit-cross-fade(url(white.png), url(black.png), 0%) /* fully black */
+-webkit-cross-fade(url(white.png), url(black.png), 100%) /* fully white */
+```
 
 ### Specification syntax
 
-- **Not supported in any browsers as of May 2023**
+> [!warning]
+> As of May 2023 no browsers support this syntax yet!
+
 - Supports any number of images, with later images on top
 - If any opacity percentages are left out, it will evenly distribute them to reach 100%
 
@@ -437,20 +462,11 @@ cross-fade(url(white.png), url(black.png) 75%) /* 25% white 75% black */
 cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 ```
 
-### Implemented syntax
-
-> [!warning]
-> Safari 16 does not correctly handle `linear-gradient` inside `-webkit-cross-fade`!
-
-- **Not supported in Firefox**
-- Only supports two images, opacity applies to the first image
-
-```css
--webkit-cross-fade(url(white.png), url(black.png), 0%) /* fully black */
--webkit-cross-fade(url(white.png), url(black.png), 100%) /* fully white */
-```
-
 # At-rules
+
+## @import
+
+- Avoid using `@import`, as it makes the browser download CSS sequentially and slows down rendering. Instead, link the stylesheets separately in your HTML, or use a bundler to combine them into one stylesheet.
 
 ## @property
 
@@ -488,6 +504,74 @@ syntax: "<color>";
 syntax: "<length> | <percentage>";
 syntax: "small | medium | large"; /* custom ident example */
 syntax: "*"; /* any value */
+```
+
+## @layer (Cascade Layers)
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://www.bram.us/2021/09/15/the-future-of-css-cascade-layers-css-at-layer/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://www.bram.us/wordpress/wp-content/uploads/2021/09/css-cascade-cascade-layers-champ-bramus.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">The Future of CSS: Cascade Layers (CSS @layer)</h1>
+		<p class="rich-link-card-description">
+		When authoring CSS we have to carefully think about how we write and structure our code. Cascade Layers (CSS @layer) aim to ease this task.
+		</p>
+		<p class="rich-link-href">
+		https://www.bram.us/2021/09/15/the-future-of-css-cascade-layers-css-at-layer/
+		</p>
+	</div>
+</a></div>
+
+- Layers that are declared later take higher priority
+- You can declare layers at the same time as adding rules, but it's clearer to declare the layer names first and then add rules
+- You can also specify a layer name when using `@import` (though you should [[Development/Cheat sheets/CSS cheat sheet#@import\|avoid using @import]])
+
+```css
+@layer reset, base, theme, utilities;
+
+@import url(reset.css) layer(reset);
+
+@layer base {
+    button.filled {
+        background-color: #0d52bf;
+    }
+}
+
+@layer theme {
+    button {
+        background-color: #7239b3;
+    }
+}
+```
+
+- This button will have a background color of `#7239b3`: even though the rule in the *base* layer is more specific, the *theme* layer wins because it has a higher priority
+
+```html
+<button class="filled">Click Me</button>
+```
+
+> [!important]
+> Unlayered rules take priority over layered rules!
+
+- When using `!important`, the layer order is **reversed**: a `!important` rule in *base* will override a `!important` rule in *theme*
+    - this means that `!important` rules in layers override unlayered `!important` rules
+- Layers can have sub-layers, which can be referred to using dot notation
+
+```css
+@layer framework {
+    @layer base {
+        ...
+    }
+    @layer theme {
+        ...
+    }
+}
+
+@layer framework.theme {
+    ...
+}
 ```
 
 # Other
@@ -580,4 +664,3 @@ To fix this, add the `backdrop-filter` to a pseudo-element on the parent:
 
 - [[Development/Cheat sheets/Sass cheat sheet\|Sass cheat sheet]]
 - [[Development/Clipped/Useful nth-child Recipes\|Useful nth-child Recipes]]
-- [Modern CSS Upgrades To Improve Accessibility | Modern CSS Solutions](https://moderncss.dev/modern-css-upgrades-to-improve-accessibility/)
