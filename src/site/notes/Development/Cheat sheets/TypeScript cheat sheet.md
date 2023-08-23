@@ -114,6 +114,43 @@ let skyDirection = Direction.Up
 let skyDirection = "UP"
 ```
 
+# Discriminating unions
+
+- unions of multiple object types with some common properties
+
+```ts
+type NetworkLoadingState = {
+  state: 'loading'
+}
+type NetworkFailedState = {
+  state: 'failed'
+  code: number
+}
+type NetworkSuccessState = {
+  state: 'success'
+  response: NetworkResponse
+}
+
+type NetworkState =
+  | NetworkLoadingState
+  | NetworkFailedState
+  | NetworkSuccessState
+
+function logState(requestState: networkState) {
+    // requestState.state is safe to access because it exists
+    // on every type in the union 
+    console.log(`Request status: $(requestState.state)`)
+
+    switch (requestState.state) {
+        case 'failed':
+            // this narrows the type of requestState to NetworkFailedState
+            console.log(`Error code: $(requestState.code)`)
+            break
+        /* ... other cases */
+    }
+}
+```
+
 # `satisfies`
 
 - Lets you check that an expression matches a type, without changing the expression's type
