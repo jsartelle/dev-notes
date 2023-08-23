@@ -49,6 +49,13 @@ function shuffleArray(array) {
 }
 ```
 
+## Language-aware sorting with Intl.Collator
+
+```js
+console.log(['Z', 'a', 'z', 'ä'].sort(new Intl.Collator('de').compare));
+// Expected output: Array ["a", "ä", "z", "Z"]
+```
+
 ## Language-aware list formatting with Intl.ListFormat
 
 ```js
@@ -165,11 +172,13 @@ return Math.floor(Math.random() * (max + 1))
 
 # Strings
 
-## Use a function for String.replace
+## Use a function with String.replace
 
 ```js
 string.replace(/%%(\w+)%%/, (match, p1, p2 /*...pN*/, offset, string, groups) => {
-    // groups is an object of named capturing groups
+    // groups is an object with the named capturing groups, or undefined if there are none
+    
+    // do whatever you want here
     return replacement
 })
 ```
@@ -182,6 +191,17 @@ await navigator.clipboard.writeText('text')
 
 # Debugging
 
+## Quickly log variables with labels
+
+- Use object property shorthand to quickly log variables along with their names
+
+```js
+const name = 'Sam'
+const age = 32
+
+console.log({ name, age }) // logs {name: 'Sam', age: 32}
+```
+
 ## Log objects with indentation
 
 ```js
@@ -191,7 +211,7 @@ console.log(JSON.stringify(object, null, '  '))
 ## Console timers
 
 - `timeLog` and `timeEnd` both log elapsed time to the console (`timeLog` is optional)
-- timer name must match between calls
+- the timer name must match between calls
     - prefix with something like `[timer]` to make it easier to search for
 
 ```js
@@ -211,7 +231,8 @@ function longRunningFunction() {
 
 - `&&` has a higher precedence than `||`
     - `a || b && c` is the same as `a || (b && c)`
-- **however**, `&&` and `||` short circuit, so if `a` is truthy, `(b && c)` won't be evaluated even though it's in parentheses
+- **however**, `&&` and `||` short circuit
+    - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
 - math operators follow PEMDAS (`%` has the same precedence as `/`)
 
 ## Use expressions in switch statements
