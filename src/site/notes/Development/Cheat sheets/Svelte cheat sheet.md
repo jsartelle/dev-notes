@@ -111,7 +111,7 @@
 
 ```js
 <script>
-    const selected = (current === 'foo')
+    $: const selected = (current === 'foo')
 </script>
 
 <button class:selected>Click Me</button>
@@ -147,6 +147,7 @@
 
 - all variables in the `<script>` block can be used in the template
 - declare reactive statements (which re-run when the values they depend on change) using a `$:` label
+    - somewhat like [[Development/Cheat sheets/React cheat sheet#useEffect\|useEffect]] in React
 
 ```js
 <script>
@@ -191,7 +192,7 @@ $: if (count >= 10) {
 }
 ```
 
-## Updating Arrays & Objects
+## Updating arrays & objects
 
 - mutating arrays or objects does not trigger an update - to fix this, assign the object to itself
 
@@ -239,7 +240,7 @@ const app = new App({
 });
 ```
 
-## Props
+# Props
 
 - props are declared using `export`
     - assign a value to use it as the default value
@@ -262,123 +263,6 @@ const app = new App({
 ```
 
 - you can access all of a component's props using `$$props`, but this is *not* recommended
-
-# Slots
-
-- declare a default location for a component's children using `<slot>`
-    - put fallback content inside `<slot></slot>`
-- you can declare multiple slots using `name` attributes, and provide content by adding `slot` attributes as children
-
-```js
-// in the PageHeader component
-<hgroup>
-    <slot name="heading">Heading</slot>
-    <slot name="subheading">Subheading</slot>
-</hgroup>
-
-// in the parent component
-<PageHeader>
-    <h1 slot="heading">Weather Report</h1>
-    <p slot="subheading">June 1, 2023</p>
-</PageHeader>
-```
-
-- you can check if a slot has content using `$$slots[name]`
-
-```js
-{#if $$slots.subheading}
-    <slot name="subheading"></slot>
-{/if}
-```
-
-## Slot Props
-
-#todo
-
-# Events
-
-- bind event listeners using `on:event`
-
-```js
-<script>
-	let count = 0
-
-	function incrementCount() {
-		count++
-	}
-</script>
-
-<button on:click={incrementCount}>
-	Clicked {count} {count === 1 ? 'time' : 'times'}
-</button>
-```
-
-- you can also declare event handlers inline using a function
-    - quotes are optional, but may help with syntax highlighting
-
-```js
-<button on:click="{e => count++}">
-    Clicked {count} {count === 1 ? 'time' : 'times'}
-</button>
-```
-
-- add & chain modifiers using `|`
-    - preventDefault
-    - stopPropagation
-    - passive
-    - nonpassive
-    - capture
-    - once
-    - self
-    - trusted
-
-```js
-<button on:click|once|trusted={...}>
-```
-
-## Component Events
-
-- Create an event dispatcher to fire events
-    - `event.detail` holds the payload
-
-```js
-<script>
-	import { createEventDispatcher } from 'svelte';
-
-	const dispatch = createEventDispatcher()
-
-	function sayHello() {
-		dispatch('message', {
-			text: 'Hello!'
-		})
-	}
-</script>
-
-// to listen:
-<script>
-    function handleMessage(event) {
-        alert(event.detail.text)
-    }
-</script>
-<Component on:message={handleMessage} />
-```
-
-- component events do not bubble - to forward events up from a child, use `on:event` without a handler
-
-```js
-// forwards all message events from Inner to this component's parent
-<Inner on:message />
-```
-
-- this also works for DOM events, ex. for creating a custom Button component
-
-```js
-// in CustomButton.svelte
-<button on:click>Click Me</button>
-
-// in parent component
-<CustomButton on:click={handleClick} />
-```
 
 # Bindings
 
@@ -463,7 +347,9 @@ collapse: closed
 
 ## Components
 
-- you can bind to any prop on a component to allow two-way updating (like v-bind.sync in Vue 2, or v-model in Vue 3), but use this sparingly to avoid overcomplicating the flow of data
+- you can bind a prop of a child component to a variable in the parent using `bind:childProp={parentVar}` to allow two-way updating
+    - or `bind:propName` if the names are the same
+    - use this sparingly to avoid overcomplicating the flow of data!
 
 ## this (refs)
 
@@ -490,6 +376,123 @@ collapse: closed
 - elements with `contenteditable="true"` support `bind:textContent` and `bind:innerHTML`
 - media elements support bindings like `currentTime`, `duration`, `paused`
     - [full list here](https://svelte.dev/tutorial/media-elements)
+
+# Slots
+
+- declare a default location for a component's children using `<slot>`
+    - put fallback content inside `<slot></slot>`
+- you can declare multiple slots using `name` attributes, and provide content by adding `slot` attributes as children
+
+```js
+// in the PageHeader component
+<hgroup>
+    <slot name="heading">Heading</slot>
+    <slot name="subheading">Subheading</slot>
+</hgroup>
+
+// in the parent component
+<PageHeader>
+    <h1 slot="heading">Weather Report</h1>
+    <p slot="subheading">June 1, 2023</p>
+</PageHeader>
+```
+
+- you can check if a slot has content using `$$slots[name]`
+
+```js
+{#if $$slots.subheading}
+    <slot name="subheading"></slot>
+{/if}
+```
+
+## Slot Props
+
+#todo
+
+# Events
+
+- bind event listeners using `on:event`
+
+```js
+<script>
+	let count = 0
+
+	function incrementCount() {
+		count++
+	}
+</script>
+
+<button on:click={incrementCount}>
+	Clicked {count} {count === 1 ? 'time' : 'times'}
+</button>
+```
+
+- you can also declare event handlers inline using a function
+    - quotes are optional, but may help with syntax highlighting
+
+```js
+<button on:click="{e => count++}">
+    Clicked {count} {count === 1 ? 'time' : 'times'}
+</button>
+```
+
+- add & chain modifiers using `|`
+    - preventDefault
+    - stopPropagation
+    - passive
+    - nonpassive
+    - capture
+    - once
+    - self
+    - trusted
+
+```js
+<button on:click|once|trusted={...}>
+```
+
+## Component events
+
+- Create an event dispatcher to fire events
+    - `event.detail` holds the payload
+
+```js
+<script>
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher()
+
+	function sayHello() {
+		dispatch('message', {
+			text: 'Hello!'
+		})
+	}
+</script>
+
+// to listen:
+<script>
+    function handleMessage(event) {
+        alert(event.detail.text)
+    }
+</script>
+<Component on:message={handleMessage} />
+```
+
+- component events do not bubble - to forward events up from a child, use `on:event` without a handler
+
+```js
+// forwards all message events from Inner to this component's parent
+<Inner on:message />
+```
+
+- this also works for DOM events, ex. for creating a custom Button component
+
+```js
+// in CustomButton.svelte
+<button on:click>Click Me</button>
+
+// in parent component
+<CustomButton on:click={handleClick} />
+```
 
 # Special Elements
 
@@ -553,10 +556,30 @@ onMount(async () => {
 # Stores
 
 - stores are just objects with a `subscribe` method that notifies whenever the value changes
-    - multiple components can subscribe to the same store
+    - stores should be placed in standard `.js` files, not `.svelte` files
+- multiple components can subscribe to the same store
 - calling `subscribe` returns an `unsubscribe` function that should be called before the component is destroyed
+
+## Auto-subscription
+
+- if a store is imported at the top level, you can access its value using `$` to subscribe and unsubscribe automatically
+    - you can also directly assign to store values using `$`
+
+```js
+<script>
+    import { count } from './stores.js'
+
+    $: console.log('The count is ' + $count)
+</script>
+
+<h1>The count is {$count}</h1>
+```
+
+## Writable
+
 - *writable* stores also have `set` and `update` methods
     - `set` directly takes a value, `update` takes a function that gets the current value and returns a new value
+    - you can use [[Development/Cheat sheets/Svelte cheat sheet#Components\|component binding]] on writable stores
 
 ```js
 // stores.js
@@ -587,8 +610,11 @@ export const count = writable(0)
 </script>
 ```
 
-- *readable* stores take an initial value, and have a `start` function which takes a `set` callback and returns a `stop` function
-    - `start` is called on first subscriber, `stop` is called for cleanup when the last subscriber unsubscribes
+## Readable
+
+- *readable* stores are used for values that shouldn't be set by components
+- readable stores take an initial value, and have a `start` function which takes a `set` callback and returns a `stop` function
+    - `start` is called on first subscriber, `stop` is called when the last subscriber unsubscribes in order to clean up
 
 ```js
 // stores.js
@@ -619,6 +645,8 @@ export const time = readable(new Date(), function start(set) {
 <h1>The time is {formatter.format($time)}</h1>
 ```
 
+## Derived
+
 - *derived* stores are based on other stores
 
 ```js
@@ -627,12 +655,14 @@ import { derived } from 'svelte/store'
 
 const start = new Date()
 
-export const elapsed = derived(time, $time => {
+export const elapsed = derived(time, $time =>
     Math.round(($time - start) / 1000)
-})
+)
 
 // App.svelte
 ```
+
+## Custom stores
 
 - any object that implements `subscribe` is a store, so you can create custom stores that add their own logic and/or hide the default set and update methods
 
@@ -646,20 +676,6 @@ function createCount() {
         reset: () => set(0),
     }
 }
-```
-
-## Auto-Subscription
-
-- stores that are imported at the top level can be accessed using the $ prefix, and are unsubscribed automatically
-
-```js
-<script>
-    import { count } from './stores.js'
-
-    $: console.log('The count is ' + $count)
-</script>
-
-<h1>The count is {$count}</h1>
 ```
 
 # SvelteKit
