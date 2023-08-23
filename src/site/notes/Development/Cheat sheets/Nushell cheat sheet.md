@@ -45,7 +45,7 @@
     - To find the location of this file, run `echo $nu.env-path`
 
 ```shell
-let-env PATH = ($env.PATH | split row (char esep) | append '/opt/homebrew/bin')
+$env.PATH = ($env.PATH | split row (char esep) | append '/opt/homebrew/bin')
 ```
 
 # Data types
