@@ -5,6 +5,17 @@
 
 # Selectors
 
+## Attribute selectors
+
+| Operator | Meaning                                                                           |
+| -------- | --------------------------------------------------------------------------------- |
+| ~=       | a whitespace-separated list of words, one of which is exactly *value*             |
+| \|=      | can be exactly *value* or can begin with *value* immediately followed by a hyphen |
+| ^=       | prefixed by *value*                                                               |
+| $=       | suffixed by *value*                                                               |
+| \*=      | contains *value*                                                                  |
+| [... i]  | case insensitive                                                                  |
+
 ## :has
 
 - Matches elements where **any** of the given selectors match relative to the current element
@@ -45,18 +56,39 @@ div:has(+ span, > span) {
 
 - Same as [[Development/Cheat sheets/CSS cheat sheet#:is\|#:is]] but with specificity 0
 
-## Attribute selectors
+## :focus-visible
 
-| Operator | Meaning                                                                           |
-| -------- | --------------------------------------------------------------------------------- |
-| ~=       | a whitespace-separated list of words, one of which is exactly *value*             |
-| \|=      | can be exactly *value* or can begin with *value* immediately followed by a hyphen |
-| ^=       | prefixed by *value*                                                               |
-| $=       | suffixed by *value*                                                               |
-| \*=      | contains *value*                                                                  |
-| [... i]  | case insensitive                                                                  |
+- Like `:focus`, but only applies if the browser decides that focus should be shown visually (typically when using keyboard navigation)
+    - Text fields apply `:focus-visible` even when clicked into (in Chrome at least)
 
 # Properties
+
+## outline-offset
+
+- Adjusts the amount of space between an element's edge and its outline, can be positive or negative
+
+<div class="outline-offset-example">
+    <div style="outline-offset: 10px">
+    outline:offset: 10px
+    </div>
+    <div style="outline-offset: -10px">
+    outline:offset: -10px
+    </div>
+</div>
+
+## white-space
+
+- spaces include space characters, tabs, and segment breaks (such as newlines)
+- *hang* means that the character may be placed outside the box and does not affect sizing
+
+|                | New lines | Spaces and tabs | Text wrapping | End-of-line spaces | End-of-line other space separators |
+|:-------------- |:--------- |:--------------- |:------------- |:------------------ |:---------------------------------- |
+| `normal`       | Collapse  | Collapse        | Wrap          | Remove             | Hang                               |
+| `nowrap`       | Collapse  | Collapse        | No wrap       | Remove             | Hang                               |
+| `pre`          | Preserve  | Preserve        | No wrap       | Preserve           | No wrap                            |
+| `pre-wrap`     | Preserve  | Preserve        | Wrap          | Hang               | Hang                               |
+| `pre-line`     | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
+| `break-spaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
 
 ## grid
 
@@ -116,7 +148,7 @@ grid-template-columns: repeat(auto-fill, 200px);
 
 ##### auto-fit
 
-- Use `auto-fit` with `minmax` to make the tracks expand to fit any leftover space
+- Use `auto-fit` with [[Development/Cheat sheets/CSS cheat sheet#minmax\|#minmax]] to make the tracks expand to fit any leftover space
 
 ```css
 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -253,10 +285,10 @@ grid-column-end: span 2;
 gap: 10px 5px;
 ```
 
-## mask
+## mask properties
 
 - Requires `-webkit-` prefix on Chromium browsers
-- Useful for [changing the color of SVG background images](https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images)
+- Useful for [changing the color of SVG icons](https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images) - set the `background-color` as the color you want and use the SVG as the `mask-image`
 
 ```css
 mask-image: url('image.svg');
@@ -338,27 +370,13 @@ clip-path: ellipse(25% 40% at 50% 50%);
         - like `overflow: hidden` but also applies to text
     - `strict`: same as `size layout paint style`
     - `content`: same as `layout paint style`
-- use `contain: content` for elements such as articles that are independent from the rest of the page
+- Use `contain: content` for elements such as articles that are independent from the rest of the page
 
 ## content-visibility
 
 - Controls whether the browser renders the element's contents
 - `hidden`: the element is never rendered
 - `auto`: the element is only rendered if it is "relevant to the user" - in or near the viewport, focused, selected, or in the top layer
-
-## white-space
-
-- spaces include space characters, tabs, and segment breaks (such as newlines)
-- *hang* means that the character may be placed outside the box and does not affect sizing
-
-|                | New lines | Spaces and tabs | Text wrapping | End-of-line spaces | End-of-line other space separators |
-|:-------------- |:--------- |:--------------- |:------------- |:------------------ |:---------------------------------- |
-| `normal`       | Collapse  | Collapse        | Wrap          | Remove             | Hang                               |
-| `nowrap`       | Collapse  | Collapse        | No wrap       | Remove             | Hang                               |
-| `pre`          | Preserve  | Preserve        | No wrap       | Preserve           | No wrap                            |
-| `pre-wrap`     | Preserve  | Preserve        | Wrap          | Hang               | Hang                               |
-| `pre-line`     | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
-| `break-spaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
 
 ## Shorthands
 
@@ -571,6 +589,24 @@ syntax: "*"; /* any value */
 
 @layer framework.theme {
     ...
+}
+```
+
+# Media queries
+
+## Dark mode
+
+```css
+@media (prefers-color-scheme: dark) (
+    /* dark mode styles */
+)
+```
+
+## Reduce motion
+
+```css
+@media (prefers-reduced-motion: reduce) {
+    /* disable transitions or replace them with a simple fade */
 }
 ```
 
