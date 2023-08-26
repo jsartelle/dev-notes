@@ -3,7 +3,9 @@
 ---
 
 
-# `＜dialog＞`
+# Elements
+
+## `＜dialog＞`
 
 - makes it easy to create modals
 - call `.show()` to show non-modally, or `.showModal()` to show modally
@@ -12,7 +14,7 @@
 - set the `autofocus` attribute on a child to focus it when the dialog opens
 - style a modal dialog's backdrop using the `::backdrop` pseudo-element
 
-## Animating dialogs
+### Animating dialogs
 
 - `transition` doesn't work on modals, instead use an animation targeting the `[open]` attribute
 - to animate closing (ex. for a fade out):
@@ -31,7 +33,7 @@ function closeModal() {
 }
 ```
 
-# `＜details＞` and `＜summary＞`
+## `＜details＞` and `＜summary＞`
 
 - Use the `open` attribute to open and close
 
@@ -40,7 +42,7 @@ function closeModal() {
     <p>This text is inside the details element</p>
 </details>
 
-# `＜fieldset＞` and `＜legend＞`
+## `＜fieldset＞` and `＜legend＞`
 
 - Group a set of form controls together with an optional title
 
@@ -60,18 +62,38 @@ function closeModal() {
     </label>
 </fieldset>
 
-# `＜hgroup＞`
+## Heading best practices
+
+- Each page should only have one `<h1>` which describes the entire page.
+- Do not skip heading levels (ex. don't nest `<h3>` inside `<h1>` without an `<h2>` in between)
+- Use `aria-labelledby` on sectioning elements ([`<article>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article), [`<aside>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside), [`<nav>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav), and [`<section>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section)) to label them with a header
+
+```html
+<article aria-labelledby="article-abc123">
+    <h2 id="article-abc123">Types of Fish</h2>
+</article>
+```
+
+## `＜hgroup＞`
 
 - Group a header (`<h1>` - `<h6>`) with any number of related `<p>` elements
 
-# input vs. change events
+# Other
 
-- `input` events fire every time the value of a `<input>`, `<select>`, or `<textarea>` element changes
-- `change` events only fire when the change is committed by the user, or the element loses focus
-    - radio buttons do not fire `change` when they are deselected
-- use `change` for checkboxes & radio buttons
+## Quick example images
 
-# img alt vs. title attributes
+- width / height, leave out height for a square image
+
+```
+https://picsum.photos/200/300
+```
+
+- when using the same link multiple times on a page you may get the same image, to work around this you can add a seed
+
+```
+https://picsum.photos/seed/seedGoesHere/200/300
+```
+## img alt vs. title attributes
 
 The `alt` attribute is used by screen readers, and is shown if the image fails to load. It should contain text that can **replace** the image. It should not repeat information that is already provided in the text accompanying the image.
 
@@ -85,23 +107,18 @@ The `title` attribute is displayed in a tooltip on hover. It should contain text
 />
 ```
 
-## Alt text for image links
+### Alt text for image links
 
 If an image is also a hyperlink, the `alt` text should describe the function of the link.
 
-# Heading best practices
+## input vs. change events
 
-- Each page should only have one `<h1>` which describes the entire page.
-- Do not skip heading levels (ex. don't nest `<h3>` inside `<h1>` without an `<h2>` in between)
-- Use `aria-labelledby` on sectioning elements ([`<article>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article), [`<aside>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside), [`<nav>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav), and [`<section>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section)) to label them with a header
+- `input` events fire every time the value of a `<input>`, `<select>`, or `<textarea>` element changes
+- `change` events only fire when the change is committed by the user, or the element loses focus
+    - radio buttons do not fire `change` when they are deselected
+- use `change` for checkboxes & radio buttons
 
-```html
-<article aria-labelledby="article-abc123">
-    <h2 id="article-abc123">Types of Fish</h2>
-</article>
-```
-
-# DOMContentLoaded vs. load
+## DOMContentLoaded vs. load
 
 The `load` event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images. This is in contrast to `DOMContentLoaded`, which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
 
@@ -109,7 +126,7 @@ The `DOMContentLoaded` event fires when the HTML document has been completely p
 
 `DOMContentLoaded` does not wait for stylesheets to load, however deferred scripts *do* wait for stylesheets, and `DOMContentLoaded` queues behind deferred scripts. Also, scripts which aren't deferred or async (e.g. `<script>`) will wait for already-parsed stylesheets to load.
 
-# Load CSS asynchronously
+## Load CSS asynchronously
 
 ```html
 <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
