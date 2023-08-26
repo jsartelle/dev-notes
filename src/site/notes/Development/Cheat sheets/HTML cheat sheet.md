@@ -89,6 +89,18 @@ The `title` attribute is displayed in a tooltip on hover. It should contain text
 
 If an image is also a hyperlink, the `alt` text should describe the function of the link.
 
+# Heading best practices
+
+- Each page should only have one `<h1>` which describes the entire page.
+- Do not skip heading levels (ex. don't nest `<h3>` inside `<h1>` without an `<h2>` in between)
+- Use `aria-labelledby` on sectioning elements ([`<article>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article), [`<aside>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside), [`<nav>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav), and [`<section>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section)) to label them with a header
+
+```html
+<article aria-labelledby="article-abc123">
+    <h2 id="article-abc123">Types of Fish</h2>
+</article>
+```
+
 # DOMContentLoaded vs. load
 
 The `load` event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images. This is in contrast to `DOMContentLoaded`, which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
