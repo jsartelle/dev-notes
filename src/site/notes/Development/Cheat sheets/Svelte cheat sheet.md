@@ -266,7 +266,7 @@ const app = new App({
 
 # Bindings
 
-## Inputs
+## Inputs (Form bindings)
 
 - declare two-way input bindings using `bind:value={var}` (similar to v-model)
     - if the variable name is also `value` you can just use `bind:value`
@@ -354,14 +354,20 @@ collapse: closed
 ## this (refs)
 
 - the `this` binding lets you get a reference to an element or component, similar to refs in Vue or React
-    - The value will be undefined until mount, so place it in the [[Development/Cheat sheets/Svelte cheat sheet#^23473f\|onMount]] function
+    - The value will be undefined until mount, so use [[Development/Cheat sheets/Svelte cheat sheet#^23473f\|onMount]] when working with the elements
 
 ```js
 <script>
+    import { onMount } from 'svelte'
     import InputField from './InputField.svelte';
 
     let canvas
     let field
+
+    onMount(() => {
+        const ctx = canvas.getContext('2d')
+        // do canvas-y stuff
+    });
 </script>
 
 <canvas bind:this={canvas}></canvas>
@@ -381,6 +387,7 @@ collapse: closed
 
 - declare a default location for a component's children using `<slot>`
     - put fallback content inside `<slot></slot>`
+- to use multiple slots, give each `<slot>` a `name` attribute, and in the parent component add `slot="name"` to the content
 - you can declare multiple slots using `name` attributes, and provide content by adding `slot` attributes as children
 
 ```js
@@ -775,6 +782,18 @@ yarn
 - Add this to `app.scss`
 
 ```scss
-$semantic-root-element: '#root';
-@import '@picocss/pico/scss/pico';
+@use '@picocss/pico/scss/pico' with (
+  $semantic-root-element: '#root',
+  $enable-semantic-container: true
+);
+```
+
+- Or to load Pico on a [[Development/Cheat sheets/CSS cheat sheet#@layer (Cascade Layers)\|cascade layer]], add the above to `pico.scss` (in `/src`), and add this to `app.scss`
+
+```scss
+@use 'sass:meta';
+
+@layer pico {
+	@include meta.load-css('pico');
+}
 ```
