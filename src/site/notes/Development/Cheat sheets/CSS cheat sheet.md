@@ -837,7 +837,7 @@ For example, the default value of the `display` property is `inline`, but browse
 
 Setting `display: unset` on a `<div>` will apply `display: inline`, which probably isn't what you want. Setting `display: revert` instead will apply `display: block`.
 
-## opacity: 0 vs. visibility: hidden
+## `opacity: 0` vs. `visibility: hidden`
 
 - Elements with `opacity: 0` are still:
     - clickable (will fire click events)
