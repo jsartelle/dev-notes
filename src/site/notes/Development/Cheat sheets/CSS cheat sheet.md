@@ -116,7 +116,7 @@ article > img:nth-child(even of .inline) {
 ```
 
 - Usage with `~` selector is a bit tricky
-    - Contrived example, select the 2nd `.important` item **after** `.anchor` (should be Item 8)
+    - Select the 2nd `.important` item **after** `.anchor` (should be Item 8)
 
 ```html
 <ul>
