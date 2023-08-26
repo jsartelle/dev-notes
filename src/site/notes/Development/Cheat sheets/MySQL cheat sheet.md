@@ -14,6 +14,8 @@
 
 # Variables
 
+- Variables can only hold simple values such as
+
 ```mysql
 SET @start_date = '2023-01-01'; -- semicolon is important
 
@@ -28,16 +30,19 @@ WHERE created_at > @start_date
 > Make sure to put dates in quotes! Without quotes, `2022-12-25` will be interpreted as "the number 2,022 minus 12 minus 25"
 
 - Use `NOW()` to get the current timestamp
-- To convert a timestamp to a date (without time) use the `DATE()` function, and to get the time use `TIME()`
+- To cast to a timestamp:
+    - `TIMESTAMP()`: date and time
+    - `DATE()`: date without time
+    - `TIME()`: time only
 
 ```mysql
-# created_at looks like '2022-12-01 14:27:08'
+# created_at is a timestamp, which looks like '2022-12-01 14:27:08'
 WHERE DATE(created_at) <= '2022-12-25'
 # or
 WHERE TIME(created_at) > '12:00:00'
 ```
 
-- If the date column has an index, you can avoid casting to improve performance:
+- If the column has an index, you can avoid casting to improve performance:
 
 ```mysql
 WHERE
@@ -106,7 +111,8 @@ SET
     a.album_type = CASE
         WHEN a.track_count = 1 THEN 'Single'
         WHEN a.track_count <= 5 THEN 'EP'
-        ELSE 'LP'
+        # fallback to existing value, otherwise it will be set to NULL
+        ELSE a.album_type
     END
 ```
 
@@ -166,7 +172,8 @@ WHERE NOT EXISTS (SELECT * FROM pets WHERE species = 'dog' AND owner_id = 1)
 UPDATE
     pets p
 SET
-    p.sound = 'meow'
+    p.sound = 'meow',
+    p.fluffy = 1
 WHERE
     p.species = 'cat'
 ```
