@@ -16,6 +16,11 @@
 | \*=      | contains *value*                                                                  |
 | [... i]  | case insensitive                                                                  |
 
+## :focus-visible
+
+- Like `:focus`, but only applies if the browser decides that focus should be shown visually (typically when using keyboard navigation)
+    - Text fields apply `:focus-visible` even when clicked into (in Chrome at least)
+
 ## :has
 
 - Matches elements where **any** of the given selectors match relative to the current element
@@ -56,39 +61,91 @@ div:has(+ span, > span) {
 
 - Same as [[Development/Cheat sheets/CSS cheat sheet#:is\|#:is]] but with specificity 0
 
-## :focus-visible
+## :nth-child selectors
 
-- Like `:focus`, but only applies if the browser decides that focus should be shown visually (typically when using keyboard navigation)
-    - Text fields apply `:focus-visible` even when clicked into (in Chrome at least)
+- Lets you limit `:nth-child` (and `:nth-last-child`) to only "look at" elements that match the given selector
+- Supported by major browsers as of May 2023
+
+```html
+<article>
+  <h2>Example</h2>
+  <img class="hero" src="https://picsum.photos/seed/apple/200/100" />
+  <img class="inline" src="https://picsum.photos/seed/orange/200/100" />
+  <p>
+    Culpa irure anim occaecat ut voluptate duis aliquip consequat esse id id ad
+    aute labore. Dolore ipsum ipsum cillum veniam. Nisi ex eiusmod sunt et
+    veniam.
+  </p>
+  <img class="inline" src="https://picsum.photos/seed/banana/200/100" />
+  <p>
+    Minim magna ullamco nostrud laboris quis reprehenderit minim ex et. Ipsum
+    velit Lorem sint ex in aliqua tempor non sunt enim consequat incididunt
+    adipisicing do.
+  </p>
+</article>
+```
+
+```css
+article {
+    max-width: 320px;
+}
+
+article > img.hero {
+  width: 100%;
+  -webkit-margin-after: 1rem;
+  margin-block-end: 1rem;
+}
+
+article > img.inline {
+  float: left;
+}
+```
+
+- Float inline images in alternating directions
+
+```css
+/* this won't work, because both img.inline have odd indexes! */
+article > img.inline:nth-child(even) {
+	float: right;
+}
+
+/* but this will */
+article > img:nth-child(even of .inline) {
+  float: right;
+}
+```
+
+- Usage with `~` selector is a bit tricky
+    - Contrived example, select the 2nd `.important` item **after** `.anchor` (should be Item 8)
+
+```html
+<ul>
+  <li class="important">Item #1</li>
+  <li>Item #2</li>
+  <li class="anchor">Item #3</li>
+  <li>Item #4</li>
+  <li class="important">Item #5</li>
+  <li>Item #6</li>
+  <li>Item #7</li>
+  <li class="important">Item #8</li>
+  <li class="important">Item #9</li>
+  <li>Item #10</li>
+</ul>
+```
+
+```css
+/* this will select Item #5, because it's the 2nd child with .important */
+li.anchor ~ :nth-child(2 of .important) {
+	color: lime;
+}
+
+/* But this will work */
+:nth-child(2 of li.anchor ~ .important) {
+	color: deepskyblue;
+}
+```
 
 # Properties
-
-## outline-offset
-
-- Adjusts the amount of space between an element's edge and its outline, can be positive or negative
-
-<div class="outline-offset-example">
-    <div style="outline-offset: 10px">
-    outline:offset: 10px
-    </div>
-    <div style="outline-offset: -10px">
-    outline:offset: -10px
-    </div>
-</div>
-
-## white-space
-
-- spaces include space characters, tabs, and segment breaks (such as newlines)
-- *hang* means that the character may be placed outside the box and does not affect sizing
-
-|                | New lines | Spaces and tabs | Text wrapping | End-of-line spaces | End-of-line other space separators |
-|:-------------- |:--------- |:--------------- |:------------- |:------------------ |:---------------------------------- |
-| `normal`       | Collapse  | Collapse        | Wrap          | Remove             | Hang                               |
-| `nowrap`       | Collapse  | Collapse        | No wrap       | Remove             | Hang                               |
-| `pre`          | Preserve  | Preserve        | No wrap       | Preserve           | No wrap                            |
-| `pre-wrap`     | Preserve  | Preserve        | Wrap          | Hang               | Hang                               |
-| `pre-line`     | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
-| `break-spaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
 
 ## grid
 
@@ -285,6 +342,55 @@ grid-column-end: span 2;
 gap: 10px 5px;
 ```
 
+## aspect-ratio
+
+- Keeps the element at the specified aspect ratio (`width / height`)
+
+```css
+aspect-ratio: 16 / 9;
+```
+
+## outline-offset
+
+- Adjusts the amount of space between an element's edge and its outline, can be positive or negative
+
+<div class="outline-offset-example">
+    <div style="outline-offset: 10px">
+    outline:offset: 10px
+    </div>
+    <div style="outline-offset: -10px">
+    outline:offset: -10px
+    </div>
+</div>
+
+## user-select
+
+- Lets you control how text selection in an element works, or disable it entirely
+    - `none`: disable text selection within the bounds of this element
+    - `all`: select all the text within this element on click
+    - `contain`: limit the text selection to the bounds of this element
+
+> [!important]
+> `user-select: none` should be used sparingly, and only for UI text that a user isn't likely to want to copy.
+
+```css
+user-select: none;
+```
+
+## white-space
+
+- spaces include space characters, tabs, and segment breaks (such as newlines)
+- *hang* means that the character may be placed outside the box and does not affect sizing
+
+|                | New lines | Spaces and tabs | Text wrapping | End-of-line spaces | End-of-line other space separators |
+|:-------------- |:--------- |:--------------- |:------------- |:------------------ |:---------------------------------- |
+| `normal`       | Collapse  | Collapse        | Wrap          | Remove             | Hang                               |
+| `nowrap`       | Collapse  | Collapse        | No wrap       | Remove             | Hang                               |
+| `pre`          | Preserve  | Preserve        | No wrap       | Preserve           | No wrap                            |
+| `pre-wrap`     | Preserve  | Preserve        | Wrap          | Hang               | Hang                               |
+| `pre-line`     | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
+| `break-spaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
+
 ## mask properties
 
 - Requires `-webkit-` prefix on Chromium browsers
@@ -440,6 +546,7 @@ animation: 3s ease-in 1s infinite reverse both running slidein;
 
 - Used with grids
 - Item width will be >= min and <= max
+- use `minmax(0, 1fr)` to keep all rows/columns the same size
 
 ## color-mix
 
@@ -449,7 +556,7 @@ color-mix(in oklab, red 25%, blue)
 
 - There are lots of different color spaces, `oklab` tends to give the most "natural-looking" result
 
-![[Pasted image 20230812150956.png\|Pasted image 20230812150956.png]]
+![Pasted image 20230812150956.png](/img/user/%E2%80%A2%20Attachments/Pasted%20image%2020230812150956.png)
 
 ## cross-fade
 
@@ -553,25 +660,37 @@ syntax: "*"; /* any value */
 
 @layer base {
     button.filled {
-        background-color: #0d52bf;
+        background-color: black;
+        color: white;
     }
 }
 
 @layer theme {
     button {
-        background-color: #7239b3;
+        background-color: blue;
+    }
+    button.unthemed {
+        background-color: revert-layer;
     }
 }
 ```
 
-- This button will have a background color of `#7239b3`: even though the rule in the *base* layer is more specific, the *theme* layer wins because it has a higher priority
+- This button will have a **blue** background, because even though the rule in the *base* layer is more specific, the *theme* layer wins because it has a higher priority
 
 ```html
-<button class="filled">Click Me</button>
+<button class="filled">Click me!</button>
 ```
 
 > [!important]
 > Unlayered rules take priority over layered rules!
+
+- Use the `revert-layer` keyword to "roll back" a value to the previous layer
+    - Behaves like `revert` if used outside a layer
+- This button will have a **black** background
+
+```html
+<button class="filled unthemed">Click me!</button>
+```
 
 - When using `!important`, the layer order is **reversed**: a `!important` rule in *base* will override a `!important` rule in *theme*
     - this means that `!important` rules in layers override unlayered `!important` rules
@@ -626,6 +745,16 @@ syntax: "*"; /* any value */
 | 800   | Extra Bold (Ultra Bold)   |
 | 900   | Black (Heavy)             |
 | 950   | Extra Black (Ultra Black) |
+
+## `unset` vs. `revert`
+
+- `unset` uses the *property's* inherited value if it inherits, or its initial value if not
+- `revert` uses the *element's* default style (as set by the browser), unless the user has applied a custom style, in which case it uses that value
+    - In practice, most methods of applying custom styles (such as [Stylus](https://add0n.com/stylus.html)) apply them to the `author` style origin, so `revert` will roll back to the browser's style anyway
+
+For example, the default value of the `display` property is `inline`, but browsers set `<div>` elements to `display: block`.
+
+Setting `display: unset` on a `<div>` will apply `display: inline`, which probably isn't what you want. Setting `display: revert` instead will apply `display: block`.
 
 ## opacity: 0 vs. visibility: hidden
 
