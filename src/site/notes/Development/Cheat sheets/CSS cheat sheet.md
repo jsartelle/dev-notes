@@ -350,6 +350,10 @@ gap: 10px 5px;
 aspect-ratio: 16 / 9;
 ```
 
+## resize
+
+- doesn't work on inline elements or if `overflow` is `visible`
+
 ## outline-offset
 
 - Adjusts the amount of space between an element's edge and its outline, can be positive or negative
@@ -708,6 +712,83 @@ syntax: "*"; /* any value */
 
 @layer framework.theme {
     ...
+}
+```
+
+## @container (container queries)
+
+- Style elements based on the size of a container's **content-box**
+- Supported in all major browsers as of February 2023
+- Containers are marked with the `container-type` property
+    - two values: `inline-size` allows you to query the inline size only, `size` allows you to query both directions
+        - use `size` sparingly for performance reasons
+- Supported query conditions: `width`, `height`, `block-size`, `inline-size`, `aspect-ratio`, `orientation`
+    - the first 4 require containment in that direction (obviously), `aspect-ratio` and `orientation` require `container-type: size`
+- By default, rules in container queries apply to the nearest ancestor container
+- Rules are scoped to the container - in the example below, the `.grid` rule will only apply to `.grid` elements inside `<section>`
+- Container queries have their own length units that correspond to viewport units - `cqw` for `vw`, `cqmin` for `vmin`, etc
+    - If not in a container, these units equal their corresponding viewport unit
+
+Create a grid that collapses when its container is below a certain size:
+
+```html
+<section>
+    <div class="grid"></div>
+</section>
+```
+
+```css
+section {
+    container-type: inline-size;
+}
+
+.grid {
+	grid-template-columns: repeat(auto-fit, minmax(0%, 1fr));
+}
+
+@container (max-width: 500px) {
+	.grid {
+		grid-template-columns: 1fr;
+	}
+}
+```
+
+- You can name containers using `container-name`, and reference them by writing their name after `@container`
+    - shorthand: `container: name / type`
+
+```html
+<article>
+    <h2>Baked Ziti</h2>
+
+    <section>
+        <h3>Ingredients</h3>
+        ...
+    </section>
+
+    <section>
+        <h3>Directions</h3>
+        ...
+    </section>
+</article>
+```
+
+```css
+article {
+    container-name: recipe;
+    container-type: inline-size;
+}
+
+article section {
+    /* shorthand */
+    container: recipe-section / inline-size;
+}
+
+/* header size is based on the <article> width, so the section headers will
+be the same size regardless of the section width */
+@container recipe (min-width: 500px) {
+    h3 {
+        font-size: 1.33em;
+    }
 }
 ```
 
