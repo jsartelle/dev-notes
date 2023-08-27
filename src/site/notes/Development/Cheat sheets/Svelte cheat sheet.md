@@ -10,7 +10,7 @@
 - expressions in markup and attributes use single curly braces
     - you can use expressions inside quoted string attributes
 
-```js
+```html
 <script>
 	let name = 'world'
 	let src = '/tutorial/image.gif'
@@ -24,13 +24,13 @@
 
 - if an attribute name and value are the same, you can leave out the name as a shorthand (**don't forget the curly braces**)
 
-```js
+```html
 <img {src} alt="Example">
 ```
 
 - render HTML in markup using `@html`
 
-```js
+```html
 <script>
     const string = 'Here is some <strong>HTML</strong>'
 </script>
@@ -42,7 +42,7 @@
 
 - conditionally render using `{#if}`, `{:else if}`, `{:else}`
 
-```js
+```html
 <script>
 	let x = 7
 </script>
@@ -61,7 +61,7 @@
     - can use destructuring in the value
     - you can use an object as the key, but a primitive is safer
 
-```js
+```html
 <script>
 	let cats = [
 		{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
@@ -79,7 +79,7 @@
 
 - repeat a block a certain number of times
 
-```js
+```html
 {#each { length: buttonCount } as _, i}
     <Button on:click={() => alert(`Button ${i} clicked`)} />
 {/each}
@@ -88,7 +88,7 @@
 - await promises directly in markup using `{#await promise}`
     - to show nothing until the promise resolves, use `{#await promise then value}`
 
-```js
+```html
 {#await getRandomNumber()}
 	<p>...waiting</p>
 {:then number}
@@ -103,13 +103,13 @@
 - styles go in the `<style>` tag and are scoped
 - conditionally add classes using `class:className`
 
-```js
+```html
 <button class:selected={current === 'foo'}>Click Me</button>
 ```
 
 - if the class name is the same as the value, you can use shorthand
 
-```js
+```html
 <script>
     $: const selected = (current === 'foo')
 </script>
@@ -119,7 +119,7 @@
 
 - styles can be added using `style:propName` including custom properties
 
-```js
+```html
 <script>
     const bgOpacity = 0.5
     const color = blue
@@ -149,7 +149,7 @@
 - declare reactive statements (which re-run when the values they depend on change) using a `$:` label
     - somewhat like [[Development/Cheat sheets/React cheat sheet#useEffect\|useEffect]] in React
 
-```js
+```html
 <script>
 	let count = 0
 	$: doubled = count * 2
@@ -219,7 +219,7 @@ foo.bar = 'baz' // does not trigger update on obj
 - components **don't** need to have a single root element
 - import components within the `<script>` tag
 
-```js
+```html
 <script>
     import Component from './Component.svelte'
 </script>
@@ -245,20 +245,20 @@ const app = new App({
 - props are declared using `export`
     - assign a value to use it as the default value
 
-```js
-// in Nested.svelte:
+```html
+<!-- in Nested.svelte -->
 <script>
     export let answer = 42
 </script>
 
-// in another component:
+<!-- in another component -->
 <Nested answer={10} />
 <Nested /> // answer === 42
 ```
 
 - you can spread properties onto a component
 
-```js
+```html
 <Info {...pkg} />
 ```
 
@@ -272,7 +272,7 @@ const app = new App({
     - if the variable name is also `value` you can just use `bind:value`
     - also works with `<select>`, and if the `multiple` attribute is used it will create an array
 
-```js
+```html
 <script>
 	let name = 'world'
 </script>
@@ -283,13 +283,13 @@ const app = new App({
 ```
 
 - for checkboxes use `bind:checked`
-- use `bind:group` to bind multiple inputs to the same value
+- for radio buttons and grouped checkboxes, use `bind:group` instead of a `name` attribute
     - radio inputs will replace the value, checkboxes will create an array
 
 ````ad-example
 collapse: closed
 
-```js
+```html
 <script>
 	let scoops = 1;
 	let flavours = ['Mint choc chip'];
@@ -309,17 +309,17 @@ collapse: closed
 <h2>Size</h2>
 
 <label>
-	<input type=radio bind:group={scoops} name="scoops" value={1}>
+	<input type=radio bind:group={scoops} value={1}>
 	One scoop
 </label>
 
 <label>
-	<input type=radio bind:group={scoops} name="scoops" value={2}>
+	<input type=radio bind:group={scoops} value={2}>
 	Two scoops
 </label>
 
 <label>
-	<input type=radio bind:group={scoops} name="scoops" value={3}>
+	<input type=radio bind:group={scoops} value={3}>
 	Three scoops
 </label>
 
@@ -327,7 +327,7 @@ collapse: closed
 
 {#each menu as flavour}
 	<label>
-		<input type=checkbox bind:group={flavours} name="flavours" value={flavour}>
+		<input type=checkbox bind:group={flavours} value={flavour}>
 		{flavour}
 	</label>
 {/each}
@@ -356,7 +356,7 @@ collapse: closed
 - the `this` binding lets you get a reference to an element or component, similar to refs in Vue or React
     - The value will be undefined until mount, so use [[Development/Cheat sheets/Svelte cheat sheet#^23473f\|onMount]] when working with the elements
 
-```js
+```html
 <script>
     import { onMount } from 'svelte'
     import InputField from './InputField.svelte';
@@ -372,8 +372,11 @@ collapse: closed
 
 <canvas bind:this={canvas}></canvas>
 
-<InputField bind:this={field} /> // assume InputField has a `focus` method
-<button on:click={() => field.focus()}>Focus field</button> // we can't put `field.focus` in the listener since `field` is undefined when first rendering
+<!-- assuming InputField has a `focus` method -->
+<InputField bind:this={field} />
+
+<!-- you can't simply pass `field.focus` as the listener since `field` is undefined when first rendering -->
+<button on:click={() => field.focus()}>Focus field</button> // 
 ```
 
 ## Other
@@ -390,14 +393,14 @@ collapse: closed
 - to use multiple slots, give each `<slot>` a `name` attribute, and in the parent component add `slot="name"` to the content
 - you can declare multiple slots using `name` attributes, and provide content by adding `slot` attributes as children
 
-```js
-// in the PageHeader component
+```html
+<!-- in the PageHeader component -->
 <hgroup>
     <slot name="heading">Heading</slot>
     <slot name="subheading">Subheading</slot>
 </hgroup>
 
-// in the parent component
+<!-- in the parent component -->
 <PageHeader>
     <h1 slot="heading">Weather Report</h1>
     <p slot="subheading">June 1, 2023</p>
@@ -406,7 +409,7 @@ collapse: closed
 
 - you can check if a slot has content using `$$slots[name]`
 
-```js
+```html
 {#if $$slots.subheading}
     <slot name="subheading"></slot>
 {/if}
@@ -420,7 +423,7 @@ collapse: closed
 
 - bind event listeners using `on:event`
 
-```js
+```html
 <script>
 	let count = 0
 
@@ -437,7 +440,7 @@ collapse: closed
 - you can also declare event handlers inline using a function
     - quotes are optional, but may help with syntax highlighting
 
-```js
+```html
 <button on:click="{e => count++}">
     Clicked {count} {count === 1 ? 'time' : 'times'}
 </button>
@@ -453,7 +456,7 @@ collapse: closed
     - self
     - trusted
 
-```js
+```html
 <button on:click|once|trusted={...}>
 ```
 
@@ -462,7 +465,7 @@ collapse: closed
 - Create an event dispatcher to fire events
     - `event.detail` holds the payload
 
-```js
+```html
 <script>
 	import { createEventDispatcher } from 'svelte';
 
@@ -475,7 +478,7 @@ collapse: closed
 	}
 </script>
 
-// to listen:
+<!-- to listen -->
 <script>
     function handleMessage(event) {
         alert(event.detail.text)
@@ -486,18 +489,18 @@ collapse: closed
 
 - component events do not bubble - to forward events up from a child, use `on:event` without a handler
 
-```js
-// forwards all message events from Inner to this component's parent
+```html
+<!-- forwards all message events from Inner to this component's parent -->
 <Inner on:message />
 ```
 
 - this also works for DOM events, ex. for creating a custom Button component
 
-```js
-// in CustomButton.svelte
+```html
+<!-- in CustomButton.svelte -->
 <button on:click>Click Me</button>
 
-// in parent component
+<!-- in parent component -->
 <CustomButton on:click={handleClick} />
 ```
 
@@ -507,7 +510,7 @@ collapse: closed
 - `<svelte:component>` lets an element render different components based on the `this` prop
     - if `this` is falsy, nothing will be rendered
 
-```js
+```html
 <svelte:component this={MyButton} />
 ```
 
@@ -523,7 +526,7 @@ collapse: closed
 - Insert elements into the `<head>` using `<svelte:head>`
 - Add elements to a slot without a wrapping element using `<svelte:fragment>`
 
-```js
+```html
 <PageHeader>
     <svelte:fragment slot="header">
         <span>This content won't be</span>
@@ -534,7 +537,7 @@ collapse: closed
 
 # Lifecycle
 
-```js
+```html
 <script>
 import { onMount } from 'svelte'
 let photos = []
@@ -572,7 +575,7 @@ onMount(async () => {
 - if a store is imported at the top level, you can access its value using `$` to subscribe and unsubscribe automatically
     - you can also directly assign to store values using `$`
 
-```js
+```html
 <script>
     import { count } from './stores.js'
 
@@ -593,8 +596,10 @@ onMount(async () => {
 import { writable } from 'svelte/store'
 
 export const count = writable(0)
+```
 
-// App.svelte
+```html
+<!-- App.svelte -->
 <script>
     import { onDestroy } from 'svelte'
     import { count } from './stores.js'
@@ -636,8 +641,10 @@ export const time = readable(new Date(), function start(set) {
 		clearInterval(interval);
 	}
 });
+```
 
-// App.svelte
+```html
+<!-- App.svelte -->
 <script>
 	import { time } from './stores.js'
 
@@ -662,11 +669,18 @@ import { derived } from 'svelte/store'
 
 const start = new Date()
 
-export const elapsed = derived(time, $time =>
+export const elapsed = derived(time, ($time) =>
     Math.round(($time - start) / 1000)
 )
+```
 
-// App.svelte
+```html
+<!-- App.svelte -->
+<p>
+	This page has been open for
+	{$elapsed}
+	{$elapsed === 1 ? 'second' : 'seconds'}
+</p>
 ```
 
 ## Custom stores
@@ -699,7 +713,7 @@ function createCount() {
 - To disable SSR for a page, add `export const ssr = false` to `+page.(js|ts)`
 - Use the `page` store to access data like the URL, route ID, and slug params
 
-```js
+```html
 <script>
 import { page } from '$app/stores'
 
@@ -728,7 +742,6 @@ $: {
 
 ```js
 // +page.js
-
 import data from '$lib/assets/data.json'
 
 export function load() {
@@ -737,9 +750,10 @@ export function load() {
         comments: data.comments,
     }
 }
+```
 
-// +page.svelte
-
+```html
+<!-- +page.svelte -->
 <script>
 export let data
 
@@ -767,7 +781,7 @@ npx svelte-add@latest scss
 yarn add @picocss/pico
 ```
 
-```
+```shell
 yarn
 ```
 
