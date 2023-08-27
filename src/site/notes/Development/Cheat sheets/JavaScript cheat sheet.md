@@ -281,7 +281,8 @@ observer.observe(document.querySelector('main'))
 
 ```js
 /**
-@param {string} [name] Description goes here
+@param {string} param1 Description goes here
+@param {boolean} [param2] This param is optional
 */
 ```
 
