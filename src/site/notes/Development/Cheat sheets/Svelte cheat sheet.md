@@ -504,6 +504,30 @@ collapse: closed
 <CustomButton on:click={handleClick} />
 ```
 
+- `createEventDispatcher` can accept a type argument with a list of event names and parameters
+
+```ts
+createEventDispatcher<{
+    click: null
+    submit: string | null
+}>()
+```
+
+- the component event handlers can be typed with `ComponentEvents`
+
+```html
+<script>
+    import type { ComponentEvents } from 'svelte'
+    type ExampleEvents = ComponentEvents<Example>
+
+    function handleSubmit(event: ExampleEvents['submit']) {
+        console.log(event.detail) // will be typed as string|null
+    }
+</script>
+
+<Example on:submit={handleSubmit} />
+```
+
 # Special Elements
 
 - `<svelte:self>` lets a component contain itself (since it can't import itself)
