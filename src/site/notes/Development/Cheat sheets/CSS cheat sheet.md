@@ -560,7 +560,7 @@ color-mix(in oklab, red 25%, blue)
 
 - There are lots of different color spaces, `oklab` tends to give the most "natural-looking" result
 
-![Pasted image 20230812150956.png](/img/user/%E2%80%A2%20Attachments/Pasted%20image%2020230812150956.png)
+![[Pasted image 20230812150956.png\|Pasted image 20230812150956.png]]
 
 ## cross-fade
 
