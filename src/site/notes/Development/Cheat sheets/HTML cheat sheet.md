@@ -14,6 +14,25 @@
 - set the `autofocus` attribute on a child to focus it when the dialog opens
 - style a modal dialog's backdrop using the `::backdrop` pseudo-element
 
+### Animating dialogs
+
+- `transition` doesn't work on modals, instead use an animation targeting the `[open]` attribute
+- to animate closing (ex. for a fade out):
+    - when the close button is clicked, apply a class to the dialog that triggers an animation
+        - just reversing the animation that plays on open won't work, since it's still the same animation name
+    - set a one-time `animationend` listener that calls `dialog.close()` when the animation ends
+
+```js
+function closeModal() {
+    dialogEl.addEventListener('animationend', () => {
+        dialog.close()
+        dialog.classList.remove('fade-out')
+    }, { once: true })
+    
+    dialog.classList.add('fade-out')
+}
+```
+
 ## `＜details＞` and `＜summary＞`
 
 - Use the `open` attribute to open and close
@@ -74,7 +93,6 @@ https://picsum.photos/200/300
 ```
 https://picsum.photos/seed/seedGoesHere/200/300
 ```
-
 ## img alt vs. title attributes
 
 The `alt` attribute is used by screen readers, and is shown if the image fails to load. It should contain text that can **replace** the image. It should not repeat information that is already provided in the text accompanying the image.
