@@ -354,6 +354,11 @@ aspect-ratio: 16 / 9;
 
 - doesn't work on inline elements or if `overflow` is `visible`
 
+## overscroll-behavior
+
+- `contain`: prevents scroll chaining (when scrolling past the edge of the container starts to scroll outside the container)
+- `none`: prevents scroll chaining, and also prevents the "bounce" effect and pull to refresh
+
 ## outline-offset
 
 - Adjusts the amount of space between an element's edge and its outline, can be positive or negative
@@ -560,7 +565,7 @@ color-mix(in oklab, red 25%, blue)
 
 - There are lots of different color spaces, `oklab` tends to give the most "natural-looking" result
 
-![[Pasted image 20230812150956.png\|Pasted image 20230812150956.png]]
+![Pasted image 20230812150956.png](/img/user/%E2%80%A2%20Attachments/Pasted%20image%2020230812150956.png)
 
 ## cross-fade
 
