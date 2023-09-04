@@ -539,7 +539,7 @@ syntax: "*"; /* any value */
 
 ## @container (container queries)
 
-- Style elements based on the size of a container's **content-box**
+- Style elements based on the size of a container's **content-box** (padding isn't included, even if the element has `box-sizing: border-box`)
 - Supported in all major browsers as of February 2023
 - Containers are marked with the `container-type` property
     - two values: `inline-size` allows you to query the inline size only, `size` allows you to query both directions
