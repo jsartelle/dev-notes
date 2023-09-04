@@ -28,17 +28,7 @@
 <img {src} alt="Example">
 ```
 
-- render HTML in markup using `@html`
-
-```html
-<script>
-    const string = 'Here is some <strong>HTML</strong>'
-</script>
-
-<p>{@html string}</p>
-```
-
-## Flow Control
+## Flow control
 
 - conditionally render using `{#if}`, `{:else if}`, `{:else}`
 
@@ -97,6 +87,58 @@
 	<p style="color: red">{error.message}</p>
 {/await}
 ```
+
+## Special tags
+
+- a `{#key expression}` block will destroy and re-create its contents (including components) each time `expression` changes
+    - useful for playing a transition whenever a value changes
+
+```html
+{#key value}
+    <div transition:fade>{value}</div>
+{/key}
+```
+
+- render HTML strings using `{@html string}`
+
+```html
+<script>
+    const string = 'Here is some <strong>HTML</strong>'
+</script>
+
+<p>{@html string}</p>
+```
+
+- `{@debug var1, var2, ...}` will log the values of each variable when they change, and launch the debugger if devtools are open
+    - use `{@debug}` without arguments to launch the debugger whenever any state changes
+
+- `{@const assignment}` creates a local constant
+
+```html
+{#each boxes as box}
+    {@const area = box.width * box.height}
+    {box.width} * {box.height} = {area}
+{/each}
+```
+
+## Special elements
+
+- `<svelte:self>` lets a component contain itself (since it can't import itself)
+- `<svelte:component>` lets an element render different components based on the `this` prop
+    - `this` should be a component constructor
+    - if `this` is falsy, nothing will be rendered
+
+```html
+<svelte:component this={MyButton} />
+```
+
+- `<svelte:element>` is the same, but for elements
+    - `this` should be a string with an element name
+    - if `this` is nullish nothing will be rendered
+    - `this` is the only binding supported on `<svelte:component>`
+
+- Insert elements into the `<head>` using `<svelte:head>`
+    - Must appear at the top level
 
 # Styling
 
@@ -354,7 +396,7 @@ collapse: closed
 ## this (refs)
 
 - the `this` binding lets you get a reference to an element or component, similar to refs in Vue or React
-    - The value will be undefined until mount, so use [[Development/Cheat sheets/Svelte cheat sheet#^23473f\|onMount]] when working with the elements
+    - The value will be undefined until mount, so you should only work with the elements inside [[Development/Cheat sheets/Svelte cheat sheet#^23473f\|onMount]] or event handlers
 
 ```html
 <script>
@@ -419,6 +461,19 @@ collapse: closed
 
 #todo
 
+## Fragments
+
+- Add elements to a slot without a wrapping element using `<svelte:fragment>`
+
+```html
+<PageHeader>
+    <svelte:fragment slot="header">
+        <span>This content won't be</span>
+        <span>wrapped in an element</span>
+    </svelte:fragment>
+</PageHeader>
+```
+
 # Events
 
 - bind event listeners using `on:event`
@@ -459,6 +514,18 @@ collapse: closed
 ```html
 <button on:click|once|trusted={...}>
 ```
+
+## Special elements
+
+- There are special elements for adding listeners to objects outside the component
+    - `<svelte:window>`
+        - also has bindings for `inner(Width|Height)`, `outer(Width|Height)`, `scroll(X|Y)`, `online` (matches window.navigator.onLine), `devicePixelRatio`
+            - all except `scroll(X|Y)` are readonly
+    - `<svelte:document>`
+        - has readonly bindings for `fullscreenElement` and `visibilityState`
+    - `<svelte:body>`
+- All of these must appear at the top level
+- Listeners on all of these will be cleaned up automatically when the component is destroyed, and are safe to use with SSR
 
 ## Component events
 
@@ -528,37 +595,6 @@ createEventDispatcher<{
 <Example on:submit={handleSubmit} />
 ```
 
-# Special Elements
-
-- `<svelte:self>` lets a component contain itself (since it can't import itself)
-- `<svelte:component>` lets an element render different components based on the `this` prop
-    - if `this` is falsy, nothing will be rendered
-
-```html
-<svelte:component this={MyButton} />
-```
-
-- `<svelte:element>` is the same, but for elements - `this` should be a string with an element name
-
-- Add listeners to elements outside the component using
-    - `<svelte:window>`
-        - also has bindings for `inner(Width|Height)`, `outer(Width|Height)`, `scroll(X|Y)`, `online` (matches window.navigator.onLine)
-    - `<svelte:document>`
-        - do not use `mouseenter` and `mouseleave`, add them to `<svelte:body>` instead
-    - `<svelte:body>`
-
-- Insert elements into the `<head>` using `<svelte:head>`
-- Add elements to a slot without a wrapping element using `<svelte:fragment>`
-
-```html
-<PageHeader>
-    <svelte:fragment slot="header">
-        <span>This content won't be</span>
-        <span>wrapped in an element</span>
-    </svelte:fragment>
-</PageHeader>
-```
-
 # Lifecycle
 
 ```html
@@ -582,7 +618,7 @@ onMount(async () => {
     - `beforeUpdate` (before DOM updates)
         - first runs before the component has mounted, so test for existence of any DOM elements
     - `afterUpdate` (after DOM updates)
-    - `tick` (resolves as soon as pending state changes have been applied, like Vue this.$tick)
+    - `tick` (returns a promise that resolves as soon as pending state changes have been applied)
         - can be called any time, not just during initialization
 - lifecycle functions can be called from helper functions, as long as they are called during first init
 - lifecycle functions don't run during SSR, except for `onDestroy`
