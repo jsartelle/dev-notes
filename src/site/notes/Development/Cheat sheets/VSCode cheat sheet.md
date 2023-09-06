@@ -66,4 +66,4 @@
 }
 ```
 
-- add globals to `globals.d.ts` somewhere in the project
+- add globals and types to a `.d.ts` file anywhere in the project
