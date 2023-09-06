@@ -228,7 +228,7 @@ const Colors = {
 
 let key: keyof typeof Colors
 for (key in Colors) {
-    console.log(`The hex code of ${key} is ${Colors[key]`)
+    console.log(`The hex code of ${key} is ${Colors[key]}`)
 }
 ```
 
@@ -440,4 +440,5 @@ type PickByType<T, Value> = {
 # See also
 
 - [[Development/Cheat sheets/JavaScript cheat sheet\|JavaScript cheat sheet]]
+- [[Development/Clipped/TypeScript Utility Types\|TypeScript Utility Types]]
 - [[Development/Clipped/Use TypeScript Mapped Types Like a Pro\|Use TypeScript Mapped Types Like a Pro]]
