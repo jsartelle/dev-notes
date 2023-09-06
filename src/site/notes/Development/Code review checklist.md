@@ -13,7 +13,7 @@
     - default to least access
     - handle missing env/config keys or request body parameters
 - when comparing two values, account for cases where both values may be null/undefined
-    - in the example below, if `process.env.API_KEY` is not set, the happy path will be followed even if `apiKey` is not provided in the body
+    - in the example below, if `process.env.API_KEY` is not set, the happy path will be followed if `apiKey` is not provided in the body, which is probably not desired!
     - this could be fixed by checking `if (!apiKey || apiKey !== process.env.API_KEY)`
 
 ```js
