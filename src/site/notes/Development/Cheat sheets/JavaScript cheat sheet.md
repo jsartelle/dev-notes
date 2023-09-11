@@ -250,12 +250,43 @@ switch(true) {
 }
 ```
 
+## `closest`
+
+- finds the closest element in an element's ancestor tree (including itself) that matches the selector
+
+```html
+<div class="apple">
+    <div class="orange outer">
+        <div class="orange inner"></div>
+        <div class="banana"></div>
+    </div>
+</div>
+```
+
+```js
+document.querySelector('.banana').closest('.orange')
+// matches .orange.outer (.orange.inner isn't in the element's tree)
+
+document.querySelector('.banana').closest('.banana')
+// matches the element it was called on
+```
+
 ## Media queries
 
 ```js
 const mediaQuery = window.matchMedia("(orientation: portrait)")
 const isPortrait = mediaQuery.matches
 mediaQuery.addEventListener('change', adjustLayout)
+```
+
+## Restart CSS animation
+
+- Checking `element.offsetHeight` triggers reflow, which is necessary for the animation change to be applied
+
+```js
+element.classList.remove('animation')
+element.offsetHeight
+element.classList.add('animation')
 ```
 
 ## Resize observer
