@@ -80,7 +80,7 @@ function closeModal() {
 
 # Other
 
-## Quick example images
+## Example image URLs
 
 - width / height, leave out height for a square image
 
