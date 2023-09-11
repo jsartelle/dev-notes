@@ -47,7 +47,7 @@
 
 ## Dicing onions
 
-![](https://www.youtube.com/embed/CwRttSfnfcc)
+<iframe src="https://www.youtube.com/embed/CwRttSfnfcc" title="YouTube video player" frameborder="0" allow="picture-in-picture" allowfullscreen></iframe>
 
 ## Peeling hard boiled eggs
 
