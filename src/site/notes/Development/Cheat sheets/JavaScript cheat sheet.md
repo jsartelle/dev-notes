@@ -231,7 +231,7 @@ function longRunningFunction() {
 
 - `&&` has a higher precedence than `||`
     - `a || b && c` is the same as `a || (b && c)`
-- **however**, `&&` and `||` short circuit
+- `&&` and `||` **short circuit**
     - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
 - math operators follow PEMDAS (`%` has the same precedence as `/`)
 
