@@ -759,6 +759,17 @@ function createCount() {
 }
 ```
 
+## get
+
+- Use `get` if you need to get the value of a store once, without subscribing to it
+    - This subscribes, reads the value, then unsubscribes, so it should be used sparingly
+
+```js
+import { get } from 'svelte/store'
+
+const value = get(store)
+```
+
 # SvelteKit
 
 ## Basics
@@ -862,12 +873,24 @@ yarn
 );
 ```
 
-- Or to load Pico on a [[Development/Cheat sheets/CSS cheat sheet#@layer (Cascade Layers)\|cascade layer]], add the above to `pico.scss` (in `/src`), and add this to `app.scss`
+### Cascade layer
+
+- To load Pico on a cascade layer, add this to `app.scss`
 
 ```scss
-@use 'sass:meta';
-
 @layer pico {
 	@include meta.load-css('pico');
 }
 ```
+
+- Create `pico.scss` in the same directory and add this
+
+```scss
+@use '@picocss/pico/scss/pico';
+```
+
+- Anything you add in `pico.scss` will be on the `pico` layer, and will be overridden by anything in `app.scss` or components
+
+### See also
+
+- [[Development/PicoCSS snippets\|PicoCSS snippets]]
