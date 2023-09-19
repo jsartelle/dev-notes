@@ -493,10 +493,9 @@ collapse: closed
 ```
 
 - you can also declare event handlers inline using a function
-    - quotes are optional, but may help with syntax highlighting
 
 ```html
-<button on:click="{e => count++}">
+<button on:click={e => count++}>
     Clicked {count} {count === 1 ? 'time' : 'times'}
 </button>
 ```
