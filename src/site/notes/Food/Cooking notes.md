@@ -22,7 +22,7 @@
 
 ## Yeast
 
-- 1 packet active dry yeast = 2 1/2 tbsp yeast
+- 1 packet active dry yeast = 2 1/4 tsp (3/4 tbsp) yeast
 - Active dry yeast can be substituted for instant 1.25:1
 
 ## Oat and sorghum flour
