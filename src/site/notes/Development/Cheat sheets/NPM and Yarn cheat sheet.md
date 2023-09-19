@@ -20,9 +20,10 @@
 # package.json version pinning syntax
 
 - No pinning (always install the latest version): `*` or `x`
-- Only same major version: `1` or `1.x` or `^1.0.4`
-- Only same minor version: `1.0` or `1.0.x` or `~1.0.4`
+- Only same major version: `^1.0.4` or  `1` or `1.x`
+- Only same minor version: `~1.0.4` or `1.0` or `1.0.x`
 - Only exact version: `1.0.4`
+- `>`, `>=`, `<`, `<=`, etc. ignore the major/minor/patch division
 
 # Disable Yarn PnP
 
@@ -30,4 +31,25 @@
 
 ```shell
 yarn config set nodeLinker node-modules
+```
+
+# List versions of dependencies
+
+- Shows every package that lists `vue` as a dependency, and which version is installed
+
+```shell
+npm why vue
+```
+
+```shell
+yarn why vue
+```
+
+# npm-check
+
+- Scans for out of date and unused packages
+- Pass `-u` to interactively update packages by patch/minor/major version
+
+```shell
+npx npm-check
 ```
