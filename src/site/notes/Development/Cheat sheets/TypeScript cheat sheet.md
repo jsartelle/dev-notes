@@ -359,6 +359,31 @@ const bob = {
 type PersonFields = keyof typeof bob
 ```
 
+## Union type from object values
+
+```ts
+const bob = {
+    first_name: 'Bob',
+    last_name: 'Jones',
+    age: 27
+}
+
+// string | number
+type PersonFields = (typeof bob)[keyof typeof bob]
+```
+
+- To make it more specific, mark the object with `as const`
+
+```ts
+const bob = {
+    first_name: 'Bob',
+    last_name: 'Jones',
+    age: 27
+} as const
+
+// 'Bob' | 'Jones' | 27
+type PersonFields = (typeof bob)[keyof typeof bob]
+```
 ## Type with keys from object keys
 
 ```ts
