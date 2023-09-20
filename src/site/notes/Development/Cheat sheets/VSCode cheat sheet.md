@@ -13,6 +13,7 @@
 | ⇧⌘\\     | Jump to matching bracket                  |
 | ⌘K ⌘Q    | Jump to last edit position                |
 | ⌘U       | Undo cursor move                          |
+| ⌥F5/⇧⌥F5 | Jump to next/previous change              |
 
 ## Selection
 
@@ -21,7 +22,7 @@
 | ⌘D       | Select next occurrence of selected text |
 | ⇧⌘L      | Select all occurrences of selected text |
 | ⌃⇧⌘(←/→) | Contract/expand current selection       |
-| ⇧⌥       | Add cursors to line ends                |
+| ⇧⌥I      | Add cursors to line ends                |
 | ⌘K ⌘F    | Format selection                        |
 
 ## Editing
