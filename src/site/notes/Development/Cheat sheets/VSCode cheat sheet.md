@@ -3,8 +3,6 @@
 ---
 
 
-- Use `#region` (or similar) comments to fold code regions in many languages
-
 # Keyboard Shortcuts
 
 ## Cursor movement
@@ -67,3 +65,7 @@
 ```
 
 - add globals and types to a `.d.ts` file anywhere in the project
+
+## See also
+
+[[Development/Cheat sheets/JavaScript cheat sheet#JSDoc\|JavaScript cheat sheet#JSDoc]]
