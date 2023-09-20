@@ -863,7 +863,7 @@ yarn
 </body>
 ```
 
-- Add this to `app.scss`
+- Add this to `src/app.scss`
 
 ```scss
 @use '@picocss/pico/scss/pico' with (
@@ -874,21 +874,17 @@ yarn
 
 ### Cascade layer
 
-- To load Pico on a cascade layer, add this to `app.scss`
+- To load Pico on a cascade layer, add the code above to `src/pico.scss`, and add this to `app.scss` instead
 
 ```scss
+@use 'sass:meta';
+
 @layer pico {
 	@include meta.load-css('pico');
 }
 ```
 
-- Create `pico.scss` in the same directory and add this
-
-```scss
-@use '@picocss/pico/scss/pico';
-```
-
-- Anything you add in `pico.scss` will be on the `pico` layer, and will be overridden by anything in `app.scss` or components
+- Anything you write in `pico.scss` will be on the `pico` layer, and will be overridden by anything in `app.scss` or components
 
 ### See also
 
