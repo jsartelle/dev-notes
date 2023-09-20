@@ -384,6 +384,7 @@ const bob = {
 // 'Bob' | 'Jones' | 27
 type PersonFields = (typeof bob)[keyof typeof bob]
 ```
+
 ## Type with keys from object keys
 
 ```ts
@@ -450,6 +451,16 @@ type ModelFields<T> = Omit<T, keyof BaseModel>
 ```ts
 type PickByType<T, Value> = {
   [P in keyof T as T[P] extends Value | undefined ? P : never]: T[P]
+}
+```
+
+# Augment `window`
+
+- `window.d.ts`
+
+```ts
+interface Window {
+    globalProperty: string
 }
 ```
 
