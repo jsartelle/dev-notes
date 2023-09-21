@@ -382,7 +382,7 @@ color-mix(in oklab, red 25%, blue)
 
 - There are lots of different color spaces, `oklab` tends to give the most "natural-looking" result
 
-![[Pasted image 20230812150956.png\|Pasted image 20230812150956.png]]
+![Pasted image 20230812150956.png](/img/user/%E2%80%A2%20Attachments/Pasted%20image%2020230812150956.png)
 
 ## cross-fade
 
@@ -631,6 +631,10 @@ be the same size regardless of the section width */
     /* disable transitions or replace them with a simple fade */
 }
 ```
+
+# Flexbox
+
+By default flex items have `min-width: auto`, meaning they can't be smaller than their content. If flex items are overflowing their container, set `min-width: 0` or `overflow:hidden` on them.
 
 # Grid
 
