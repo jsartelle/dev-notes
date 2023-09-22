@@ -382,7 +382,7 @@ color-mix(in oklab, red 25%, blue)
 
 - There are lots of different color spaces, `oklab` tends to give the most "natural-looking" result
 
-![Pasted image 20230812150956.png](/img/user/%E2%80%A2%20Attachments/Pasted%20image%2020230812150956.png)
+![[Pasted image 20230812150956.png\|Pasted image 20230812150956.png]]
 
 ## cross-fade
 
@@ -858,7 +858,7 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 
 A negative `transition-delay` or `animation-delay` will start the transition/animation partway through. For example, `transition-delay: -50ms` will start the transition at the 50ms mark.
 
-## Transition from 0 to auto
+## Transition from height 0 to auto
 
 - Place the element in a container with this styling
 
@@ -914,6 +914,53 @@ To fix this, add the `backdrop-filter` to a pseudo-element on the parent:
     z-index: -1;
 }
 ```
+
+## Custom property quirks
+
+- The browser first determines the cascaded value for an element, then "throws away" all other possible cascade values, before checking if the value is valid
+
+```css
+html { color: red; }
+
+/* gets thrown away because the value on `.card p` is more specific */
+p { color: blue; }
+
+.card { --color: #notacolor; }
+
+/* Gets selected as the final *cascaded* value. But since it's invalid, and the value on `p` was already thrown away, falls back to the *inherited* value from `html` */
+.card p { color: var(--color); }
+```
+
+- Custom properties are computed before inheritance happens
+
+```css
+:root {
+    --spacing: 0.5rem;
+    --spacing-small: calc(var(--spacing) / 2); /* 0.25rem */
+}
+
+.element {
+    --spacing: 1rem;
+    /* --spacing-small is still 0.25rem because the value is
+    "baked in" at the root level */
+}
+```
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://moderncss.dev/how-custom-property-values-are-computed/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://moderncss.dev/img/social/how-custom-property-values-are-computed.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">How Custom Property Values are Computed | Modern CSS Solutions</h1>
+		<p class="rich-link-card-description">
+		Review behaviors to be aware of regarding how the browser computes final custom property values. A misunderstanding of this process may lead to an unexpected or missing value and difficulty troubleshooting and resolving the issue.
+		</p>
+		<p class="rich-link-href">
+		https://moderncss.dev/how-custom-property-values-are-computed/
+		</p>
+	</div>
+</a></div>
 
 # See also
 
