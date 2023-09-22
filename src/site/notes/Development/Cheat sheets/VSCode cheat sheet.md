@@ -38,18 +38,18 @@
 
 | Shortcut | Action                           |
 | -------- | -------------------------------- |
-| ⌘⌥C      | Toggle case in Find widget       |
-| ⌘⌥W      | Toggle whole word in Find widget |
-| ⌘⌥R      | Toggle regex in Find widget      |
 | ⌘G/⇧⌘G   | Find next/previous               |
+| ⌘⌥C      | Toggle case in find widget       |
+| ⌘⌥W      | Toggle whole word in find widget |
+| ⌘⌥R      | Toggle regex in find widget      |
 
 ## Folding
 
-| Shortcut | Action                       |
-| -------- | ---------------------------- |
-| ⌘K ⌘L    | Toggle folding               |
-| ⌘K ⌘,    | Create manual folding range  |
-| ⌘K ⌘.    | Remove manual folding ranges |
+| Shortcut | Action                              |
+| -------- | ----------------------------------- |
+| ⌘K ⌘L    | Toggle folding                      |
+| ⌘K ⌘,    | Create folding range from selection |
+| ⌘K ⌘.    | Remove folding ranges in selection  |
 
 # JavaScript Type Checking
 
