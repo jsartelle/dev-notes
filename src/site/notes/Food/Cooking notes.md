@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cooking notes.md","permalink":"/cooking-notes/","hide":true,"dgHomeLink":"false","dgShowBacklinks":"false","dgShowFileTree":"false","dgEnableSearch":"false","dgShowToc":"false"}
+{"dg-publish":true,"dg-path":"Cooking notes.md","permalink":"/cooking-notes/","hide":true,"dgHomeLink":"false","dgShowBacklinks":"false","dgShowLocalGraph":"false","dgShowFileTree":"false","dgEnableSearch":"false"}
 ---
 
 
