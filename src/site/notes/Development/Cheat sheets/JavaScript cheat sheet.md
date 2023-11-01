@@ -231,6 +231,7 @@ function longRunningFunction() {
 
 - `&&` has a higher precedence than `||`
     - `a || b && c` is the same as `a || (b && c)`
+    - but don't rely on this, use parentheses to make your intention clearer
 - `&&` and `||` **short circuit**
     - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
 - math operators follow PEMDAS (`%` has the same precedence as `/`)
@@ -250,7 +251,7 @@ switch(true) {
 }
 ```
 
-## `closest`
+## `Element.closest`
 
 - finds the closest element in an element's ancestor tree (including itself) that matches the selector
 
@@ -284,9 +285,9 @@ mediaQuery.addEventListener('change', adjustLayout)
 - Checking `element.offsetHeight` triggers reflow, which is necessary for the animation change to be applied
 
 ```js
-element.classList.remove('animation')
+element.classList.remove('animated')
 element.offsetHeight
-element.classList.add('animation')
+element.classList.add('animated')
 ```
 
 ## Resize observer
@@ -307,7 +308,7 @@ observer.observe(document.querySelector('main'))
 /** @type {string} */
 ```
 
-- optional parameter names go in square brackets
+- to make a param optional put the *name* in square brackets
 - when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for adding descriptions
 
 ```js
@@ -315,6 +316,34 @@ observer.observe(document.querySelector('main'))
 @param {string} param1 Description goes here
 @param {boolean} [param2] This param is optional
 */
+```
+
+- define a reusable object type
+    - can also be done in a standalone comment (not attached to a function)
+
+```js
+/**
+ * @typedef {Object} leagueParam
+ * @property {string} league
+ * @property {string[]} team
+ * @property {string} rank
+ * @property {string} division
+ * @property {string} conference
+ * @returns {leagueParam}
+ */
+```
+
+- type a tuple
+
+```js
+/**
+ * @typedef {string} league
+ * @typedef {string[]} team - array of team names
+ * @typedef {string[]} rank - array of rank names
+ * @typedef {string[]} division - array of division names
+ * @typedef {string[]} conference - array of conference names
+ * @returns { [league, team?, rank?, division?, conference?] }
+ */
 ```
 
 - import a type and give it an alias
@@ -327,6 +356,27 @@ const redApple = new Apple('red')
 
 /** @type {apple} */
 const greenApple = new Apple('green')
+```
+
+- define function overloads
+
+```js
+/**
+ * @overload
+ * @param {string} param
+ * @param {false} allowsMultiple
+ * @returns {string}
+ */
+
+/**
+ * @overload
+ * @param {string} param
+ * @param {true} allowsMultiple
+ * @returns {string[]}
+ */
+
+/* returns a string if allowsMultiple is false, and an array of strings if allowsMultiple is true */
+function getParamValue(param, allowsMultiple) { ... }
 ```
 
 # See also
