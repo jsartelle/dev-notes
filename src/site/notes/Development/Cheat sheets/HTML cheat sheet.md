@@ -93,6 +93,7 @@ https://picsum.photos/200/300
 ```
 https://picsum.photos/seed/seedGoesHere/200/300
 ```
+
 ## img alt vs. title attributes
 
 The `alt` attribute is used by screen readers, and is shown if the image fails to load. It should contain text that can **replace** the image. It should not repeat information that is already provided in the text accompanying the image.
@@ -117,6 +118,25 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 - `change` events only fire when the change is committed by the user, or the element loses focus
     - radio buttons do not fire `change` when they are deselected
 - use `change` for checkboxes & radio buttons
+
+## async vs. defer
+
+- normal scripts:
+    - ==block parsing==
+    - executed ==as soon as available==
+- `async` scripts:
+    - downloaded ==in parallel== with parsing
+    - executed ==as soon as available==
+    - should be used for **completely independent scripts** (not dependent on the DOM or other scripts)
+        - if an async script depends on another, small script, make the other script inline and place it above the async script
+- `defer` scripts:
+    - downloaded ==in parallel== with parsing
+    - executed ==after the document is parsed==
+        - `DOMContentLoaded` will not fire until deferred scripts finish executing
+    - guaranteed to ==run in the order they appear== in the document
+    - scripts with `type="module"` are deferred by default
+    - use for **anything that can't be async**
+- `async` and `defer` are both ignored for inline scripts
 
 ## DOMContentLoaded vs. load
 
