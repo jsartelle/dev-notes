@@ -197,7 +197,7 @@ FROM
 - LEFT JOIN: returns all rows from left table, and matching rows from right table
 - RIGHT JOIN: returns all rows from right table, and matching rows from left table
 
-![[sqlJoins_7.webp]]
+![sqlJoins_7.webp](/img/user/Development/%E2%80%A2%20Attachments/sqlJoins_7.webp)
 
 ### USING
 
