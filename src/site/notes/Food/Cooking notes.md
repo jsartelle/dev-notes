@@ -43,6 +43,10 @@
 
 - 1 tbsp whole psyllium husk = 1 tsp psyllium husk powder
 
+## Corn
+
+- 1 ear of corn = 3/4 cup kernels
+
 # Prep
 
 ## Dicing onions
