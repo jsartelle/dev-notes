@@ -158,21 +158,20 @@ aspect-ratio: 16 / 9;
 ## clip-path
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://bennettfeely.com/clippy/" target="_blank">
-	<div class="rich-link-image-container">
-		<div class="rich-link-image" style="background-image: url('https://bennettfeely.com/clippy/homescreen-196x196.png')">
-	</div>
-	</div>
-	<div class="rich-link-card-text">
-		<h1 class="rich-link-card-title">Clippy — CSS clip-path maker</h1>
-		<p class="rich-link-card-description">
+		<div class="rich-link-image-container">
+			<div class="rich-link-image" style="background-image: url('https://bennettfeely.com/clippy/homescreen-196x196.png')">
+			</div>
+		</div>
+		<div class="rich-link-card-text">
+			<h1 class="rich-link-card-title">Clippy — CSS clip-path maker</h1>
+			<p class="rich-link-card-description">
 
-		</p>
-		<p class="rich-link-href">
-		https://bennettfeely.com/clippy/
-		</p>
-	</div>
-
-</a></div>
+			</p>
+			<p class="rich-link-href">
+				https://bennettfeely.com/clippy/
+			</p>
+		</div>
+	</a></div>
 
 ### inset
 
