@@ -4,22 +4,7 @@
 @use 'css-cheat-sheet' as *;
 
 body {
-  --link-external-color: var(--link-color);
-  --accent-h: 87 !important;
-  --accent-s: 66% !important;
-  --accent-l: 58% !important;
-
-  a {
-    color: var(--text-muted);
-  }
-
-  /* Navigation */
-
-  .notelink.active-note {
-    transform: none;
-  }
-
-  /* Sidebar */
+  /* TOC styling */
 
   .toc-container {
     max-height: 500px;
@@ -44,15 +29,7 @@ body {
     content: '●' !important;
   }
 
-  .backlink-card {
-    color: var(--text-muted);
-  }
-
   /* Search */
-
-  .search-box a {
-    color: var(--text-accent);
-  }
 
   .header-tags {
     display: none;
@@ -62,12 +39,9 @@ body {
     border: 2px solid transparent;
   }
 
-  .searchresult div {
-    color: var(--text-muted);
-  }
-
   /* Note Body */
 
+  // hide the empty header on the home page
   header:has(h1:empty) {
     display: none;
   }
