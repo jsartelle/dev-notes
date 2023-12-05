@@ -192,7 +192,7 @@ Both are shorthand for:
 <!-- Component.vue -->
 <template>
     <slot></slot>
-    <slot name=="namedSlot"></slot>
+    <slot name="namedSlot"></slot>
 </template>
 
 <!-- Page.vue -->
