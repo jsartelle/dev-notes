@@ -8,6 +8,7 @@
 ## Chaining commands
 
 - `a && b`: do `b` if `a` succeeded
+    - not to be confused with [[#^8f431a|`a & b`]]
 - `a || b`: do `b` if `a` failed
     - these can be chained: `command && echo "success" || echo "fail"`
 - `a; b`: do `b` either way
@@ -22,6 +23,8 @@
 ## Background commands
 
 - `command &`: run command in the background
+{ #8f431a}
+
     - to avoid spamming the terminal, redirect output to `/dev/null`: `command &>/dev/null &`
 - <kbd>Ctrl+z</kbd>: suspend (pause) the foreground command
     - `fg`: resume suspended command in foreground
@@ -104,6 +107,7 @@ fi
 ## Basics
 
 - `set -x VARIABLE SomeValue`: export a variable
+    - `set -U` sets a universal variable (persists across sessions)
 - `alias --save name="definition"`: save alias
 - `>?`: redirect output to file, but avoid overwriting existing file
 - `psub`: lets you save stdout to a temporary file
@@ -149,9 +153,11 @@ echo $result[2]
 
 # Commands
 
-## String manipulation
+## Text search and manipulation
 
 ### grep
+
+Returns lines that match a word or pattern
 
 - `grep 'word' filename`
     - filename can also be a directory or pattern, like `.` or `*.js`
@@ -171,6 +177,27 @@ echo $result[2]
 - print only what matches pattern: `-o`
 - count number of matches: `-c`
     - prepend line number: `-n`
+
+### awk
+
+Searches files for pattern matches and performs an action based on them
+
+- format: `awk pattern { action }`
+- the entire program (pattern and action) should be quoted
+- lines are split into chunks by whitespace, numbered `$1`, `$2`, etc.
+    - `$0` matches the whole line
+    - pass `-F regexp` to split by `regexp` instead
+- action examples
+    - `{ print $1 }`: print the first whitespace-separated chunk
+    - `length($0) > 72`: print lines longer than 72 characters
+    - `{ print $2, $1 }`: print first two fields in opposite order
+- if `pattern` is missing it will match every line, if `action` is missing it will print all matching lines
+
+Find size of file at URL: #todo finish this https://unix.stackexchange.com/questions/450402/how-to-retrieve-downloadable-file-size-with-curl-command
+
+```shell
+curl -sLI "url" | 
+```
 
 ### sed
 
@@ -204,9 +231,16 @@ echo $result[2]
 
 ## Files & folders
 
+- `folder` refers to a folder itself, `folder/` refers to the contents of the folder
+    - `cp folder destination` will copy `folder` itself to `destination`, but `cp folder/ destination` will copy the **contents** of `folder`
+
+### ls
+
 - `ls -a`: list hidden files
 - `ls -t`: sort by modified date
-- move/copy multiple files: `cp a.txt b.txt c/`
+
+### file
+
 - `file`: show information about file
 
 ### find
@@ -222,6 +256,23 @@ echo $result[2]
 - `lsof +D dir`: shows open files in dir and its subfolders
 - `lsof -c Finder`: list all files Finder has open
 - `lsof -i :80`: find out which processes are using port 80
+
+### cp
+
+- move/copy multiple files: `cp a.txt b.txt c/`
+
+### rsync
+
+- uses modification times to sync only changed files
+- `rsync -av dir1 dir2`: copy directory 1 to directory 2
+    - `-a` (archive): sync recursively and preserve symlinks and metadata
+    - `-v`: verbose
+- `rsync -azP dir1 username@host:/path/to/dir2`: copy over SSH
+    - `-z`: use compression
+    - `-P`: show progress bar, and allow resuming transfers
+- other options:
+    - `--exclude=pattern`: exclude files matching `pattern`
+    - `-n`: dry run
 
 ## Processes
 
@@ -255,6 +306,22 @@ top -stats "command,cpu" -l 2 | grep WindowServer | tail -1
 
 ```shell
 pkill -9 "node"
+```
+
+## curl
+
+- `-X`: set request method (`GET`, `POST`, etc)
+- `-d "body"`: set the request body
+- `-H "header"`: set a header
+- `-s`: silent mode, disables progress bar and error messages
+    - `-sS`: disable progress bar but keep error messages
+- `-L`: follow redirects
+- `-I`: fetch headers only
+
+Send a POST request with a JSON body:
+
+```shell
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Oscar", "species": "cat"}' https://example.com/api/pets
 ```
 
 ## nano
@@ -338,20 +405,6 @@ pkill -9 "node"
 
 - lets you interactively filter data from *stdin* and output the selected item to *stdout*
 
-## rsync
-
-- `rsync -av dir1 dir2`: copy directory 1 to directory 2
-    - add a trailing slash on dir1 to copy the contents of the directory, not the directory itself
-    - `-a` (archive): sync recursively and preserve symlinks and metadata
-    - `-v`: verbose
-- `rsync -azP dir1 username@host:/path/to/dir2`: copy over SSH
-    - `-z`: use compression
-    - `-P`: show progress bar, and allow resuming transfers
-- other options:
-    - `--exclude=pattern`: exclude files matching `pattern`
-    - `-n`: dry run
-- rsync uses modification times to sync only changed files
-
 ## npm
 
 - `npm list`: list installed packages (useful for [[Development/Cheat sheets/Terminal cheat sheet#grep\|#grep]]ping)
@@ -369,6 +422,17 @@ python3 -m http.server 3000
 ```
 
 ## ffmpeg
+
+> [!note]
+> The build on Homebrew doesn't support `webm`. Use one of the downloads [here](https://evermeet.cx/ffmpeg/) instead.
+
+- `-c`: specify codec
+    - use `-codecs` to get a list of available codecs
+    - use `-vcodec` and `-acodec` to specify video/audio codecs separately
+    - for webm use `-vcodec libvpx -acodec libvorbis`
+    - `-c copy` **avoids re-encoding** (useful for trimming, changing metadata, etc)
+
+### Examples:
 
 - `ffmpeg -i input.mp4 -ss 00:01:40 -to 00:02:16 -c copy output.mp4`: trim to between 1m:40s and 2m:16s
 - `ffmpeg -i input.mp4 -ss 00:00:14.435 -vframes 1 out.png`: output one frame from 0h:0m:14sec:435msec to *out.png*
