@@ -14,6 +14,18 @@
 array.filter(Boolean)
 ```
 
+## Array with range of numbers
+
+```js
+// [0, 1, 2, 3, 4]
+[...Array(5).keys()]
+```
+
+```js
+// [1, 2, 3, 4, 5]
+[...Array(5).keys()].map(v => v + 1)
+```
+
 ## Sort array of numbers
 
 ```js
