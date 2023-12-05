@@ -71,7 +71,7 @@ Peel a bit, then run a spoon around the inside of the shell
 
 [Can I refrigerate my bread dough and bake it later? | King Arthur Baking](https://www.kingarthurbaking.com/blog/2021/09/28/how-to-refrigerate-bread-dough-to-bake-later)
 
-# Cooking
+# Techniques
 
 ## Seasoning with MSG
 
@@ -89,21 +89,25 @@ Add hot (not boiling) liquid or fat, such as melted butter, to cocoa powder, and
 
 Leave the meat uncovered in the fridge for 30 minutes to let it dry a bit, add flour, put back in the fridge for 5-10 minutes before dipping in egg and breadcrumbs
 
-## Salad dressing vanilla extract
-
-[Add vanilla extract](https://www.thekitchn.com/vanilla-extract-salad-dressing-tip-23125044) (start with 1/4 tsp) to salad dressings to temper acidity and enhance sweetness
-
 ## Crispier ground beef
 
 Add 1/4 tsp baking soda per 1 lb. of ground beef, and let sit for 15 minutes before cooking (do not add oil to the pan)
 
 [I Can’t Believe How Well This One-Ingredient Trick Works for Cooking Ground Beef | Kitchn](https://www.thekitchn.com/best-ground-beef-baking-soda-tip-23143702)
 
+## Salad dressing vanilla extract
+
+[Add vanilla extract](https://www.thekitchn.com/vanilla-extract-salad-dressing-tip-23125044) (start with 1/4 tsp) to salad dressings to temper acidity and enhance sweetness
+
+## Replace vanilla with bourbon
+
+Replace vanilla in desserts with bourbon for added depth of flavor
+
 # Storage/Scraps
 
-## Greens and herbs
+## Fresh greens and herbs
 
-Wrap greens in paper towels and place in a grocery bag to make them last longer
+Wrap fresh greens (spinach, salad mix, etc) and herbs in paper towels and place in a grocery bag to make them last longer
 
 ## Potato peels
 
@@ -113,7 +117,7 @@ Wrap greens in paper towels and place in a grocery bag to make them last longer
 
 ## Citrus zest
 
-Freeze citrus zest if not using it immediately - keeps up to 3 months
+Always zest citrus, and freeze zest if not using it immediately - keeps up to 3 months
 
 ## Buttermilk
 
