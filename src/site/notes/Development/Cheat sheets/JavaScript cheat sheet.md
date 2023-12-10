@@ -220,6 +220,14 @@ console.log({ name, age }) // logs {name: 'Sam', age: 32}
 console.log(JSON.stringify(object, null, '  '))
 ```
 
+## Launch debugger with a countdown
+
+- Good for capturing things like toasts that are triggered by user interaction
+
+```js
+setTimeout(() => { debugger }, 3000)
+```
+
 ## Console timers
 
 - `timeLog` and `timeEnd` both log elapsed time to the console (`timeLog` is optional)
