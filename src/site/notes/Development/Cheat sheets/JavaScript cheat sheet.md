@@ -6,7 +6,7 @@
 # Arrays
 
 > [!warning]
-> Remember that `sort` and `reverse` mutate the original array!
+> Remember that `sort`, `reverse`, and `splice` mutate the original array! (see [[Development/Cheat sheets/JavaScript cheat sheet#Non-mutating methods\|#Non-mutating methods]])
 
 ## Filter out falsy values
 
@@ -35,7 +35,7 @@ array.sort((a, b) => a - b)
 ## Sort array of objects by a string property
 
 ```js
-people = people.sort((a, b) => a.name.localeCompare(b.name))
+people.sort((a, b) => a.name.localeCompare(b.name))
 ```
 
 ## Sort array of objects by date (oldest first)
@@ -43,7 +43,7 @@ people = people.sort((a, b) => a.name.localeCompare(b.name))
 - Also works for `moment` objects
 
 ```js
-people = people.sort((a, b) =>
+people.sort((a, b) =>
     new Date(a.birthday) - new Date(b.birthday)
 )
 ```
@@ -59,6 +59,33 @@ function shuffleArray(array) {
         array[j] = temp;
     }
 }
+```
+
+## Array.at
+
+- Returns the item at an index, but supports negative indices
+
+```js
+const arr = ['apple', 'banana', 'orange', 'mango']
+console.log(arr.at(1)) // banana
+console.log(arr.at(-1)) // mango
+```
+
+## Non-mutating methods
+
+- `toSorted`, `toReversed`, and `toSpliced` are the *copying* versions of `sort`, `reverse` and `splice` (they return a new array)
+- `with` is the copying version of using bracket notation
+    - `with` also supports negative indices
+
+```js
+const foo = [1, 2, 3]
+foo[1] = 4
+console.log(foo) // [1, 4, 3]
+
+const bar = [1, 2, 3]
+const xyz = bar.with(1, 4)
+console.log(bar) // [1, 2, 3]
+console.log(xyz) // [1, 4, 3]
 ```
 
 ## Language-aware sorting with Intl.Collator
