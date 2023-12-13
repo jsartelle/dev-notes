@@ -21,6 +21,53 @@
 - To add or delete properties on a `data` object, use `this.$set(object, property, value)` or `this.$delete(object, property)`
     - You can't add or delete properties directly on `data`
 
+# Watchers
+
+## Use a component method with a watcher
+
+- To use a method from `methods` as a watch handler, pass the name as a string
+
+```js
+watch: {
+    foo: 'fooChanged'
+},
+methods: {
+    fooChanged() {
+        this.$track('foo', this.foo)
+    }
+}
+```
+
+## Don't use arrow functions for watchers
+
+- If you use an arrow function as a watch handler, you won't have access to the component as `this`
+
+## Immediate and deep watchers
+
+- `immediate` calls the handler as soon as observation starts (usually when the component is mounted)
+- `deep` watches nested object properties
+    - you can also use a string like `bar.baz` to watch a property of an object
+
+```js
+watch: {
+    foo: {
+        handler(newVal, oldVal) {
+            ...
+        },
+        immediate: true
+    },
+    'bar.baz': function (newVal, oldVal) {
+        // triggers when property 'baz' of 'bar' changes
+    },
+    bar: {
+        handler(newVal, oldVal) {
+            // triggers when `bar` changes, or `bar.baz`, or `bar.baz.abc`
+        },
+        deep: true
+    },
+}
+```
+
 # Conditional Rendering
 
 ## Apply `v-if` or `v-for` to multiple elements using `＜template＞`
@@ -130,7 +177,7 @@
 
 ## Provide checkbox values using `true-value` and `false-value`
 
-- can be bound to non-string types or reactive values
+- can be bound to non-string types or reactive values using `v-bind` or `:true-value`
 
 ```html
 <!-- `toggle` will be the string 'yes' or 'no' -->
