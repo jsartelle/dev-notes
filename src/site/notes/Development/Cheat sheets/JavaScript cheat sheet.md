@@ -283,7 +283,28 @@ function longRunningFunction() {
     - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
 - math operators follow PEMDAS (`%` has the same precedence as `/`)
 
+## Assignment using switch statements
+
+- You can assign a variable from a switch statement by wrapping it in an arrow function and immediately calling it
+
+```js
+const screenName = (() => {
+	switch (index) {
+		case 0:
+			return 'Home'
+		case 1:
+			return 'Profile'
+		case 2:
+			return 'Settings'
+		default:
+			return 'Unknown'
+	}
+})()
+```
+
 ## Use expressions in switch statements
+
+- You can test expressions in `switch` statements by comparing against `true`
 
 ```js
 switch(true) {
