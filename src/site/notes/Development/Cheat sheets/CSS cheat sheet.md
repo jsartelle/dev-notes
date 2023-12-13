@@ -682,7 +682,7 @@ grid-template-rows: 50px repeat(3, 1fr) 50px;
 grid-template-columns: repeat(auto-fill, 200px);
 ```
 
-<div class="grid-example" style="grid-template-columns: repeat(auto-fill, 200px); background-color: var(--blockquote-background-color); ">
+<div class="grid-example" style="grid-template-columns: repeat(auto-fill, 200px); background-color: var(--background-secondary); ">
     <div></div>
     <div></div>
     <div></div>
@@ -699,7 +699,7 @@ grid-template-columns: repeat(auto-fill, 200px);
 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 ```
 
-<div class="grid-example" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); background-color: var(--blockquote-background-color);">
+<div class="grid-example" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); background-color: var(--background-secondary);">
     <div></div>
     <div></div>
     <div></div>
@@ -710,7 +710,7 @@ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
 ### grid-template
 
-- Shorthand for the above: `rows / columns`
+- Shorthand for the above: `grid-template-rows / grid-template-columns`
 
 ### grid-auto-flow
 
@@ -804,7 +804,7 @@ grid-column-end: span 2;
     <div></div>
     <div></div>
     <div></div>
-    <div aria-label="Active Items" style="display: contents">
+    <div style="display: contents">
         <div class="active"></div>
         <div class="active"></div>
         <div class="active"></div>
