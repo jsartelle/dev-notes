@@ -61,7 +61,7 @@ div:has(+ span, > span) {
 
 - Same as [[Development/Cheat sheets/CSS cheat sheet#:is\|#:is]] but with specificity 0
 
-## :nth-child selectors
+## :nth-child with selectors
 
 - Lets you limit `:nth-child` (and `:nth-last-child`) to only "look at" elements that match the given selector
 - Supported by major browsers as of May 2023
@@ -116,7 +116,7 @@ article > img:nth-child(even of .inline) {
 ```
 
 - Usage with `~` selector is a bit tricky
-    - Select the 2nd `.important` item **after** `.anchor` (should be Item 8)
+- Select the 2nd `.important` item **after** `.anchor` (should be Item 8)
 
 ```html
 <ul>
@@ -159,7 +159,7 @@ aspect-ratio: 16 / 9;
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://bennettfeely.com/clippy/" target="_blank">
 		<div class="rich-link-image-container">
-			<div class="rich-link-image" style="background-image: url('https://bennettfeely.com/clippy/homescreen-196x196.png')">
+			<div class="rich-link-image" style="background-image: url('https://bennettfeely.com/_img/screenshots/clippy.png')">
 			</div>
 		</div>
 		<div class="rich-link-card-text">
@@ -365,6 +365,203 @@ text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
 animation: 3s ease-in 1s infinite reverse both running slidein;
 ```
 
+# Flexbox
+
+## Make flex children the same size
+
+Use `flex: 1 1 100%` to make every flex child the same size, regardless of content.
+
+## Prevent flex items from overflowing container
+
+By default flex items have `min-width: auto`, meaning they can't be smaller than their content. If flex items are overflowing their container, set `min-width: 0` or `overflow:hidden` on them.
+
+# Grid
+
+- Use `order` to rearrange grid items
+- Use [[Development/Cheat sheets/CSS cheat sheet#gap\|#gap]] to create gutters between grid tracks
+
+## Grid container properties
+
+### grid-template-columns, grid-template-rows
+
+- Defines the count and size of explicit grid tracks (rows or columns)
+
+```css
+grid-template-columns: 50% 50%;
+/* these are the same */
+grid-template-rows: 20% 20% 20% 20% 20%;
+grid-template-rows: repeat(5, 20%);
+```
+
+<div class="grid-example" style="grid-template-columns: 50% 50%; grid-template-rows: repeat(5, 20%);">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
+- The `fr` unit represents one "part" of the available space
+- If some columns are defined with lengths or percentages, `fr` divides the remaining space
+
+```css
+grid-template-columns: 1fr 4fr; /* same as 20% 80% */
+grid-template-rows: 50px repeat(3, 1fr) 50px;
+```
+
+#### auto-fill
+
+- Use the `auto-fill` keyword to create as many tracks as will fit in the container
+
+```css
+grid-template-columns: repeat(auto-fill, 200px);
+```
+
+<div class="grid-example" style="grid-template-columns: repeat(auto-fill, 200px); background-color: var(--background-secondary); ">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
+#### auto-fit
+
+- Use `auto-fit` with [[Development/Cheat sheets/CSS cheat sheet#minmax\|#minmax]] to make the tracks expand to fit any leftover space
+
+```css
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+```
+
+<div class="grid-example" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); background-color: var(--background-secondary);">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
+### grid-template
+
+- Shorthand for the above: `grid-template-rows / grid-template-columns`
+
+```css
+grid-template: repeat(auto-fill, 200px) / repeat(2, 1fr);
+```
+
+### grid-auto-flow
+
+- Controls the direction (`row` or `column`) that implicit grid tracks are created in (default: `row`)
+- Add `dense` to "fill in" holes earlier in the grid - this may cause items to display out of order
+
+### grid-auto-rows, grid-auto-columns
+
+- By default, implicit rows/columns are sized to fit their content, this property lets you give them an explicit size
+
+```css
+grid-auto-rows: 100px;
+grid-auto-columns: minmax(100px, auto);
+```
+
+### align-items, justify-content
+
+- Works like in flexbox, except with `start` and `end` rather than `flex-start` and `flex-end`
+{ #0c043d}
+
+    - Aligns each item within its grid area (could span many cells)
+
+## Grid item properties
+
+### grid-row-start, grid-column-start, grid-row-end, grid-column-end
+
+- Set which grid **lines** (not tracks!) an element's stating or ending edges touch (1-indexed)
+- An element with `start: 1` and `end: 4` will span three cells
+
+<div class="grid-example number-lines" style="grid-template-columns: repeat(5, 1fr);">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <span class="active abs-fill" style="grid-column-start: 1; grid-column-end: 4;"></span>
+</div>
+
+- Order doesn't matter when using integers: `start: 4, end: 1` is the same as `start: 1, end: 4`
+- Negative values start counting from the end: `start: -2` will align the starting edge of the element to the next-to-last grid line
+    - You can mix positive and negative: `start: 1, end: -1` will span the whole track
+- Use the `span` keyword to declare how many cells an element takes up
+
+```css
+/* this element will be 2 cells wide */
+grid-column-start: 2;
+grid-column-end: span 2;
+```
+
+- If the specified lines are outside the bounds of the [[Development/Cheat sheets/CSS cheat sheet#grid-template\|#grid-template]], the browser will generate implicit grid tracks for the item
+    - You can use this and [[Development/Cheat sheets/CSS cheat sheet#grid-auto-flow\|#grid-auto-flow]] to accomplish some layouts without defining a `grid-template` at all
+
+### grid-row, grid-column
+
+- Shorthand for the above: `start / end`
+
+### grid-area
+
+- Shorthand for `grid-row-start / grid-column-start / grid-row-end / grid-column-end`
+
+### align-self
+
+
+<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/cheat-sheets/css-cheat-sheet/#0c043d" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
+
+
+
+- Works like in flexbox, except with `start` and `end` rather than `flex-start` and `flex-end` 
+
+</div></div>
+
+
+### position: absolute
+
+- Grid items with `position: absolute` will take their grid area as their containing block if they have one, or the entire grid if they don't
+    - Make sure the grid container has `position: relative`
+
+<div class="grid-example" style="position: relative; grid-template-columns: repeat(3, 1fr);">
+    <div></div>
+    <div class="active"></div>
+    <div></div>
+    <div class="abs-fill" style="background-color: deepskyblue; grid-column: 2 / 3; left: 50px; top: 20px;"></div>
+</div>
+
+### display: contents
+
+- Use `display: contents` to group grid children together, while still laying them out as part of the grid
+
+<div class="grid-example" style="grid-template: repeat(2, 1fr) / repeat(5, 1fr)">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div style="display: contents">
+        <div class="active"></div>
+        <div class="active"></div>
+        <div class="active"></div>
+        <div class="active"></div>
+        <div class="active"></div>
+    </div>
+    <div></div>
+</div>
+
+## See also
+
+[[Development/Clipped/Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers\|Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers]]
+
 # Functions
 
 ## minmax
@@ -416,7 +613,7 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 
 ## @import
 
-- Avoid using `@import`, as it makes the browser download CSS sequentially and slows down rendering. Instead, link the stylesheets separately in your HTML, or use a bundler to combine them into one stylesheet.
+Avoid using `@import`, as it makes the browser download CSS sequentially and slows down rendering. Instead, link the stylesheets separately in your HTML, or use a bundler to combine them into one stylesheet.
 
 ## @property
 
@@ -613,9 +810,9 @@ be the same size regardless of the section width */
 }
 ```
 
-# Media queries
+## @media (media queries)
 
-## Dark mode
+### Dark mode
 
 ```css
 @media (prefers-color-scheme: dark) (
@@ -623,7 +820,7 @@ be the same size regardless of the section width */
 )
 ```
 
-## Reduce motion
+### Reduce motion
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -631,198 +828,15 @@ be the same size regardless of the section width */
 }
 ```
 
-# Flexbox
+### Reduce transparency
 
-## Make flex children the same size
-
-Use `flex: 1 1 100%` to make every flex child the same size, regardless of content.
-
-## Prevent flex items from overflowing container
-
-By default flex items have `min-width: auto`, meaning they can't be smaller than their content. If flex items are overflowing their container, set `min-width: 0` or `overflow:hidden` on them.
-
-# Grid
-
-- Use `order` to rearrange grid items
-- Use [[Development/Cheat sheets/CSS cheat sheet#gap\|#gap]] to create gutters between grid tracks
-
-## Grid container properties
-
-### grid-template-columns, grid-template-rows
-
-- Defines the count and size of explicit grid tracks (rows or columns)
+- As of October 2023 supported by Chrome, not Firefox or Safari
 
 ```css
-grid-template-columns: 50% 50%;
-/* these are the same */
-grid-template-rows: 20% 20% 20% 20% 20%;
-grid-template-rows: repeat(5, 20%);
+@media (prefers-reduced-transparency: reduce) {
+    /* remove transparency and backdrop-filters */
+}
 ```
-
-<div class="grid-example" style="grid-template-columns: 50% 50%; grid-template-rows: repeat(5, 20%);">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
-
-- The `fr` unit represents one "part" of the available space
-- If some columns are defined with lengths or percentages, `fr` divides the remaining space
-
-```css
-grid-template-columns: 1fr 4fr; /* same as 20% 80% */
-grid-template-rows: 50px repeat(3, 1fr) 50px;
-```
-
-#### auto-fill
-
-- Use the `auto-fill` keyword to create as many tracks as will fit in the container
-
-```css
-grid-template-columns: repeat(auto-fill, 200px);
-```
-
-<div class="grid-example" style="grid-template-columns: repeat(auto-fill, 200px); background-color: var(--background-secondary); ">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
-
-#### auto-fit
-
-- Use `auto-fit` with [[Development/Cheat sheets/CSS cheat sheet#minmax\|#minmax]] to make the tracks expand to fit any leftover space
-
-```css
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-```
-
-<div class="grid-example" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); background-color: var(--background-secondary);">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
-
-### grid-template
-
-- Shorthand for the above: `grid-template-rows / grid-template-columns`
-
-### grid-auto-flow
-
-- Controls the direction (`row` or `column`) that implicit grid tracks are created in (default: `row`)
-- Add `dense` to "fill in" holes earlier in the grid (this may cause items to display out of order)
-
-### grid-auto-rows, grid-auto-columns
-
-- By default implicit rows/columns are sized to fit their content, this property lets you give them an explicit size
-
-```css
-grid-auto-rows: 100px;
-grid-auto-columns: minmax(100px, auto);
-```
-
-### align-items, justify-content
-
-- Works like in flexbox, except with `start` and `end` rather than `flex-start` and `flex-end`
-{ #0c043d}
-
-    - Aligns each item within its grid area (could span many cells)
-
-## Grid item properties
-
-### grid-row-start, grid-column-start, grid-row-end, grid-column-end
-
-- Set which grid **lines** (not tracks!) an element's stating or ending edges touch (1-indexed)
-- An element with `start: 1` and `end: 4` will span three cells
-
-<div class="grid-example number-lines" style="grid-template-columns: repeat(5, 1fr);">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <span class="active abs-fill" style="grid-column-start: 1; grid-column-end: 4;"></span>
-</div>
-
-- Order doesn't matter when using integers: `start: 4, end: 1` is the same as `start: 1, end: 4`
-- Negative values start counting from the end: `start: -2` will align the starting edge of the element to the next-to-last grid line
-    - You can mix positive and negative: `start: 1, end: -1` will span the whole track
-- Use the `span` keyword to declare how many cells an element takes up
-
-```css
-/* this element will be 2 cells wide */
-grid-column-start: 2;
-grid-column-end: span 2;
-```
-
-- If the specified lines are outside the bounds of the [[Development/Cheat sheets/CSS cheat sheet#grid-template\|#grid-template]], the browser will generate implicit grid tracks for the item
-    - You can use this and [[Development/Cheat sheets/CSS cheat sheet#grid-auto-flow\|#grid-auto-flow]] to accomplish some layouts without defining a `grid-template` at all
-
-### grid-row, grid-column
-
-- Shorthand for the above: `start / end`
-
-### grid-area
-
-- Shorthand for `grid-row-start / grid-column-start / grid-row-end / grid-column-end`
-
-### align-self
-
-
-<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/cheat-sheets/css-cheat-sheet/#0c043d" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
-
-
-
-- Works like in flexbox, except with `start` and `end` rather than `flex-start` and `flex-end` 
-
-</div></div>
-
-
-### position: absolute
-
-- Grid items with `position: absolute` will take their grid area as their containing block if they have one, or the entire grid if they don't
-    - Make sure the grid container has `position: relative`
-
-<div class="grid-example" style="position: relative; grid-template-columns: repeat(3, 1fr);">
-    <div></div>
-    <div class="active"></div>
-    <div></div>
-    <div class="abs-fill" style="background-color: deepskyblue; grid-column: 2 / 3; left: 50px; top: 20px;"></div>
-</div>
-
-### display: contents
-
-- Use `display: contents` to group grid children together, while still laying them out as part of the grid
-
-<div class="grid-example" style="grid-template: repeat(2, 1fr) / repeat(5, 1fr)">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div style="display: contents">
-        <div class="active"></div>
-        <div class="active"></div>
-        <div class="active"></div>
-        <div class="active"></div>
-        <div class="active"></div>
-    </div>
-    <div></div>
-</div>
-
-## See also
-
-[[Development/Clipped/Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers\|Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers]]
 
 # Other
 
