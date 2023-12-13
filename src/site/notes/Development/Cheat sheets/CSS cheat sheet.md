@@ -633,6 +633,12 @@ be the same size regardless of the section width */
 
 # Flexbox
 
+## Make flex children the same size
+
+Use `flex: 1 1 100%` to make every flex child the same size, regardless of content.
+
+## Prevent flex items from overflowing container
+
 By default flex items have `min-width: auto`, meaning they can't be smaller than their content. If flex items are overflowing their container, set `min-width: 0` or `overflow:hidden` on them.
 
 # Grid
