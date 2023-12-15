@@ -33,7 +33,7 @@ function closeModal() {
 }
 ```
 
-## `＜details＞` and `＜summary＞`
+## `＜details＞` and `＜summary＞` (accordions)
 
 - Use the `open` attribute to open and close
 
@@ -41,6 +41,10 @@ function closeModal() {
     <summary>Click to open</summary>
     <p>This text is inside the details element</p>
 </details>
+
+### Exclusive accordions
+
+- If multiple `<details> `elements have the same `name` attribute, only one can be open at a time - supported in Chrome and Safari as of December 2023
 
 ## `＜fieldset＞` and `＜legend＞`
 
