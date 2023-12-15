@@ -578,7 +578,104 @@ color-mix(in oklab, red 25%, blue)
 
 - There are lots of different color spaces, `oklab` tends to give the most "natural-looking" result
 
-![Pasted image 20230812150956.png](/img/user/%E2%80%A2%20Attachments/Pasted%20image%2020230812150956.png)
+![Pasted image 20230812150956.png](/img/user/Development/%E2%80%A2%20Attachments/Pasted%20image%2020230812150956.png)
+
+## Relative color syntax
+
+- lets you create a color from another color without needing [[Development/Cheat sheets/CSS cheat sheet#color-mix\|#color-mix]], and edit individual color components
+    - supported in Chrome and Safari as of December 2023
+
+```css
+/* the input color can be in any format */*
+color: rgb(from deepskyblue r g b);
+
+/* can mix and match the individual components and numbers */
+color: rgb(from deepskyblue g g 0);
+
+/* or do math on them */
+/* r g b channels are out of 255 */
+color: rgb(from deepskyblue r calc(g * 2) b);
+
+/* h is out of 255, s and l are out of 1 */
+color: hsl(from deepskyblue h calc(s + .5) l);
+```
+
+### Adjust transparency/alpha
+
+- alpha is separated by a slash
+
+```css
+/* reduce opacity by 50% */
+color: rgb(from deepskyblue r g b / calc(alpha * 0.5))
+/* reduce to 25% opacity */
+color: hsl(from deepskyblue h s l / 0.25);
+```
+
+### Lighten or darken a color
+
+- OKLAB provides the most reliable results (see [[Development/Cheat sheets/CSS cheat sheet#color-mix\|#color-mix]])
+
+```css
+/* lightens the color by 25% */
+color: oklab(from deepskyblue calc(l + 25) a b);
+
+/* adjusts to 75% lightness regardless of the original value */
+color: oklab(from deepskyblue 75% a b);
+```
+
+### Saturate a color
+
+```css
+color: hsl(from deeppink h calc(s + 0.5) l);
+```
+
+- use chroma instead of saturation to enter high dynamic range
+
+```css
+color: oklch(from deeppink l calc(c + 0.5) h);
+```
+
+### Create a color palette from a single color
+
+Varied lightness:
+
+```css
+:root {
+  --base-color: deeppink;
+
+  --color-0: oklch(from var(--base-color) calc(l + 20) c h); /* lightest */
+  --color-1: oklch(from var(--base-color) calc(l + 10) c h);
+  --color-2: var(--base-color);
+  --color-3: oklch(from var(--base-color) calc(l - 10) c h);
+  --color-4: oklch(from var(--base-color) calc(l - 20) c h); /* darkest */
+}
+```
+
+Hue rotation:
+
+```css
+:root {
+  --base-color: blue;
+
+  --primary:   var(--base-color);
+  --secondary: oklch(from var(--base-color) l c calc(h - 45));
+  --tertiary:  oklch(from var(--base-color) l c calc(h + 45));
+}
+```
+
+Combine the two:
+
+```css
+:root {
+  --base-color: deeppink;
+
+  --color-1: var(--base-color);
+  --color-2: oklch(from var(--base-color) calc(l - 10) c calc(h - 10));
+  --color-3: oklch(from var(--base-color) calc(l - 20) c calc(h - 20));
+  --color-4: oklch(from var(--base-color) calc(l - 30) c calc(h - 30));
+  --color-5: oklch(from var(--base-color) calc(l - 40) c calc(h - 40));
+}
+```
 
 ## cross-fade
 
@@ -598,7 +695,8 @@ color-mix(in oklab, red 25%, blue)
 ### Specification syntax
 
 > [!warning]
-> As of May 2023 no browsers support this syntax yet!
+> - not supported by Firefox
+> - supported with `-webkit-` prefix in Chrome, and unprefixed in Safari
 
 - Supports any number of images, with later images on top
 - If any opacity percentages are left out, it will evenly distribute them to reach 100%
@@ -613,7 +711,87 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 
 ## @import
 
-Avoid using `@import`, as it makes the browser download CSS sequentially and slows down rendering. Instead, link the stylesheets separately in your HTML, or use a bundler to combine them into one stylesheet.
+==Avoid using `@import`==, as it makes the browser download CSS sequentially and slows down rendering. Instead, link the stylesheets separately in your HTML, or use a bundler to combine them into one stylesheet.
+
+## @supports
+
+- lets you provide a property and value to test for browser support
+
+```css
+@supports (color: rgb(from white r g b)) {
+    /* this browser supports relative color syntax */
+}
+```
+
+## @media (media queries)
+
+### Dark mode
+
+```css
+@media (prefers-color-scheme: dark) (
+    /* dark mode styles */
+)
+```
+
+### Reduce motion
+
+```css
+@media (prefers-reduced-motion: reduce) {
+    /* disable transitions or replace them with a simple fade */
+}
+```
+
+### Reduce transparency
+
+- As of October 2023 supported by Chrome, not Firefox or Safari
+
+```css
+@media (prefers-reduced-transparency: reduce) {
+    /* remove transparency and backdrop-filters */
+}
+```
+
+### and
+
+```css
+@media (orientation: portrait) and (min-width: 300px) {
+    /* landscape *and* at least 300px wide */
+}
+```
+
+### Multiple queries (or)
+
+- use a comma to match one of several queries, just like with selectors
+
+```css
+@media (orientation: landscape), (min-width: 300px) {
+    /* landscape *or* at least 300px wide */
+}
+```
+
+### not
+
+```css
+@media not (hover) { }
+```
+
+- `not` applies to an entire query, but only to one query in a comma-separated list
+
+```css
+@media not screen and (color) { }
+/* equivalent to */
+@media not (screen and (color)) { }
+
+@media not screen and (color), print and (color) { }
+/* equivalent to */
+@media (not (screen and (color))), print and (color) { }
+```
+
+### Ranges
+
+```css
+@media (width >= 300px) { }
+```
 
 ## @property
 
@@ -651,6 +829,83 @@ syntax: "<color>";
 syntax: "<length> | <percentage>";
 syntax: "small | medium | large"; /* custom ident example */
 syntax: "*"; /* any value */
+```
+
+## @container (container queries)
+
+- Style elements based on the size of a container's **content-box** (padding isn't included, even if the element has `box-sizing: border-box`)
+- Supported in all major browsers as of February 2023
+- Containers are marked with the `container-type` property
+    - two values: `inline-size` allows you to query the inline size only, `size` allows you to query both directions
+        - use `size` sparingly for performance reasons
+- Supported query conditions: `width`, `height`, `block-size`, `inline-size`, `aspect-ratio`, `orientation`
+    - the first 4 require containment in that direction (obviously), `aspect-ratio` and `orientation` require `container-type: size`
+- By default, rules in container queries apply to the nearest ancestor container
+- Rules are scoped to the container - in the example below, the `.grid` rule will only apply to `.grid` elements inside `<section>`
+- Container queries have their own length units that correspond to viewport units - `cqw` for `vw`, `cqmin` for `vmin`, etc
+    - If not in a container, these units equal their corresponding viewport unit
+
+Create a grid that collapses when its container is below a certain size:
+
+```html
+<section>
+    <div class="grid"></div>
+</section>
+```
+
+```css
+section {
+    container-type: inline-size;
+}
+
+.grid {
+	grid-template-columns: repeat(auto-fit, minmax(0%, 1fr));
+}
+
+@container (max-width: 500px) {
+	.grid {
+		grid-template-columns: 1fr;
+	}
+}
+```
+
+- You can name containers using `container-name`, and reference them by writing their name after `@container`
+    - shorthand: `container: name / type`
+
+```html
+<article>
+    <h2>Baked Ziti</h2>
+
+    <section>
+        <h3>Ingredients</h3>
+        ...
+    </section>
+
+    <section>
+        <h3>Directions</h3>
+        ...
+    </section>
+</article>
+```
+
+```css
+article {
+    container-name: recipe;
+    container-type: inline-size;
+}
+
+article section {
+    /* shorthand */
+    container: recipe-section / inline-size;
+}
+
+/* header size is based on the <article> width, so the section headers will
+be the same size regardless of the section width */
+@container recipe (min-width: 500px) {
+    h3 {
+        font-size: 1.33em;
+    }
+}
 ```
 
 ## @layer (Cascade Layers)
@@ -733,108 +988,76 @@ syntax: "*"; /* any value */
 }
 ```
 
-## @container (container queries)
+# CSS Nesting
 
-- Style elements based on the size of a container's **content-box** (padding isn't included, even if the element has `box-sizing: border-box`)
-- Supported in all major browsers as of February 2023
-- Containers are marked with the `container-type` property
-    - two values: `inline-size` allows you to query the inline size only, `size` allows you to query both directions
-        - use `size` sparingly for performance reasons
-- Supported query conditions: `width`, `height`, `block-size`, `inline-size`, `aspect-ratio`, `orientation`
-    - the first 4 require containment in that direction (obviously), `aspect-ratio` and `orientation` require `container-type: size`
-- By default, rules in container queries apply to the nearest ancestor container
-- Rules are scoped to the container - in the example below, the `.grid` rule will only apply to `.grid` elements inside `<section>`
-- Container queries have their own length units that correspond to viewport units - `cqw` for `vw`, `cqmin` for `vmin`, etc
-    - If not in a container, these units equal their corresponding viewport unit
-
-Create a grid that collapses when its container is below a certain size:
-
-```html
-<section>
-    <div class="grid"></div>
-</section>
-```
+- Supported in all major browsers as of August 2023
+    - starting nested rules with a type (element) selector without using `&` is currently inconsistent
 
 ```css
-section {
-    container-type: inline-size;
-}
+.foo {
+    .bar {
+        /* equivalent to .foo .bar */
+    }
 
-.grid {
-	grid-template-columns: repeat(auto-fit, minmax(0%, 1fr));
-}
+    & .bar {
+        /* same as above */
+    }
 
-@container (max-width: 500px) {
-	.grid {
-		grid-template-columns: 1fr;
-	}
-}
-```
+    .bar & {
+        /* .bar .foo */
+    }
 
-- You can name containers using `container-name`, and reference them by writing their name after `@container`
-    - shorthand: `container: name / type`
+    &.bar {
+        /* .foo.bar (note the lack of space) */
+    }
 
-```html
-<article>
-    <h2>Baked Ziti</h2>
+    + .bar {
+        /* .foo + .bar */
+    }
 
-    <section>
-        <h3>Ingredients</h3>
-        ...
-    </section>
+    div {
+        /* this will be .foo div, but browser support is inconsistent - use "& div" instead */
+    }
 
-    <section>
-        <h3>Directions</h3>
-        ...
-    </section>
-</article>
-```
+    /* ⛔️ you can't concatenate strings */
+    &__bar {
+        /* this won't equal .foo__bar! */
+    }
 
-```css
-article {
-    container-name: recipe;
-    container-type: inline-size;
-}
-
-article section {
-    /* shorthand */
-    container: recipe-section / inline-size;
-}
-
-/* header size is based on the <article> width, so the section headers will
-be the same size regardless of the section width */
-@container recipe (min-width: 500px) {
-    h3 {
-        font-size: 1.33em;
+    /* but you can do this, as long as the type selector comes first (but note the caveat about type selectors above) */
+    div& {
+        /* div.foo */
     }
 }
 ```
 
-## @media (media queries)
+## Nested @rules
 
-### Dark mode
-
-```css
-@media (prefers-color-scheme: dark) (
-    /* dark mode styles */
-)
-```
-
-### Reduce motion
+- you can nest media queries and other @rules, and leave out the selector if it's the same
 
 ```css
-@media (prefers-reduced-motion: reduce) {
-    /* disable transitions or replace them with a simple fade */
+.foo {
+    color: black;
+
+    @media (orientation: landscape) {
+        /* by default matches the parent selector (.foo) */
+        color: white;
+
+        @media (min-width > 1024px) {
+            /* you can even nest multiple layers of @rules */
+            /* equivalent to @media (orientation: landscape) and (min-width > 1024px) */
+        }
+    }
 }
 ```
 
-### Reduce transparency
-
-- As of October 2023 supported by Chrome, not Firefox or Safari
+- [[Development/Clipped/The Future of CSS Cascade Layers (CSS @layer)\|cascade layers]] can be nested, which creates a new sub-layer joined with a dot
 
 ```css
-@media (prefers-reduced-transparency: reduce) {
-    /* remove transparency and backdrop-filters */
+@layer base {
+    @layer support {
+        /* creates a layer called base.support */
+    }
 }
 ```
 
