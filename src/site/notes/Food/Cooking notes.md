@@ -115,6 +115,10 @@ Wrap fresh greens (spinach, salad mix, etc) and herbs in paper towels and place 
 
 # Freezing
 
+## Ginger
+
+Store whole ginger root in the freezer, and grate it with a microplane as needed (no need to peel)
+
 ## Citrus zest
 
 Always zest citrus, and freeze zest if not using it immediately - keeps up to 3 months
