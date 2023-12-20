@@ -713,37 +713,33 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 
 ==Avoid using `@import`==, as it makes the browser download CSS sequentially and slows down rendering. Instead, link the stylesheets separately in your HTML, or use a bundler to combine them into one stylesheet.
 
-## @supports
-
-- lets you provide a property and value to test for browser support
-
-```css
-@supports (color: rgb(from white r g b)) {
-    /* this browser supports relative color syntax */
-}
-```
-
 ## @media (media queries)
 
 ### Dark mode
 
 ```css
-@media (prefers-color-scheme: dark) (
-    /* dark mode styles */
-)
+@media (prefers-color-scheme: dark) { }
+
+@media (prefers-color-scheme: light) { }
+```
+
+### Hover support
+
+```css
+@media (hover: hover) { }
 ```
 
 ### Reduce motion
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-    /* disable transitions or replace them with a simple fade */
+    /* disable transitions or replace with a simple fade */
 }
 ```
 
 ### Reduce transparency
 
-- As of October 2023 supported by Chrome, not Firefox or Safari
+As of October 2023 supported by Chrome, not Firefox or Safari
 
 ```css
 @media (prefers-reduced-transparency: reduce) {
@@ -751,7 +747,9 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 }
 ```
 
-### and
+### Boolean operators
+
+#### and
 
 ```css
 @media (orientation: portrait) and (min-width: 300px) {
@@ -759,7 +757,7 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 }
 ```
 
-### Multiple queries (or)
+#### Multiple queries (or)
 
 - use a comma to match one of several queries, just like with selectors
 
@@ -769,7 +767,7 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 }
 ```
 
-### not
+#### not
 
 ```css
 @media not (hover) { }
@@ -793,10 +791,20 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 @media (width >= 300px) { }
 ```
 
+## @supports
+
+Lets you provide a property and value to test for browser support
+
+```css
+@supports (color: rgb(from white r g b)) {
+    /* this browser supports relative color syntax */
+}
+```
+
 ## @property
 
 - Allows you to define CSS custom properties with control over data type, inheritance, and initial value
-    - can be used to create animatable/transition-able custom properties
+    - can be used to create animatable/transitionable custom properties
 
 ```css
 @property --property-name {
@@ -833,8 +841,8 @@ syntax: "*"; /* any value */
 
 ## @container (container queries)
 
-- Style elements based on the size of a container's **content-box** (padding isn't included, even if the element has `box-sizing: border-box`)
 - Supported in all major browsers as of February 2023
+- Style elements based on the size of a container's **content-box** (padding isn't included, even if the element has `box-sizing: border-box`)
 - Containers are marked with the `container-type` property
     - two values: `inline-size` allows you to query the inline size only, `size` allows you to query both directions
         - use `size` sparingly for performance reasons
@@ -1024,7 +1032,7 @@ be the same size regardless of the section width */
         /* this won't equal .foo__bar! */
     }
 
-    /* but you can do this, as long as the type selector comes first (but note the caveat about type selectors above) */
+    /* but you can do this, as long as the type selector comes first (but note the caveat about browser support) */
     div& {
         /* div.foo */
     }
@@ -1042,6 +1050,10 @@ be the same size regardless of the section width */
     @media (orientation: landscape) {
         /* by default matches the parent selector (.foo) */
         color: white;
+        
+        .bar {
+            /* matches .foo .bar, but only in landscape */
+        }
 
         @media (min-width > 1024px) {
             /* you can even nest multiple layers of @rules */
