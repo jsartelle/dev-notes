@@ -1124,7 +1124,64 @@ transition: grid-template-rows;
 
 - To transition to auto height, change `grid-template-rows` to `1fr`
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/B_n4YONte5A" title="YouTube video player" frameborder="0" allow="encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+![](https://www.youtube.com/embed/B_n4YONte5A)
+
+## Make textareas resize to fit their content
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://css-tricks.com/wp-json/social-image-generator/v1/image/324427')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">The Cleanest Trick for Autogrowing Textareas | CSS-Tricks</h1>
+		<p class="rich-link-card-description">
+		Earlier this year I wrote a bit about autogrowing textareas and inputs. The idea was to make a textarea more like a div so it expands in
+		</p>
+		<p class="rich-link-href">
+		https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/
+		</p>
+	</div>
+</a></div>
+
+Sync the textarea's contents to a data attribute on the wrapper:
+
+```html
+<!-- vanilla example -->
+<div class="grow-wrap">
+    <textarea onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+</div>
+
+<!-- Svelte example -->
+<div class="grow-wrap" data-replicated-value={input}>
+    <textarea bind:value={input}></textarea>
+</div>
+```
+
+Style the wrapper the same as the textarea, overlay them using `grid`, and hide the wrapper
+
+```css
+.grow-wrap {
+    display: grid;
+}
+
+.grow-wrap textarea,
+.grow-wrap::after {
+    /* IMPORTANT: make sure the textarea and ::after element
+       are styled exactly the same so they line up */
+    white-space: pre-wrap;
+    resize: none;
+    overflow: hidden;
+    /* make the  */
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.grow-wrap::after {
+    content: attr(data-replicated-value) ' ';
+    visibility: hidden;
+    pointer-events: none;
+}
+```
 
 ## Nested backdrop filters
 
