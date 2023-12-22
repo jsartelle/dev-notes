@@ -25,14 +25,6 @@
 - Only exact version: `1.0.4`
 - `>`, `>=`, `<`, `<=`, etc. ignore the major/minor/patch division
 
-# Disable Yarn PnP
-
-- Yarn PnP causes issues with some frameworks like SvelteKit
-
-```shell
-yarn config set nodeLinker node-modules
-```
-
 # List versions of dependencies
 
 - Shows every package that lists `vue` as a dependency, and which version is installed
@@ -52,4 +44,38 @@ yarn why vue
 
 ```shell
 npx npm-check
+```
+
+# Disable Yarn PnP
+
+- Yarn PnP causes issues with some frameworks like SvelteKit
+
+```shell
+yarn config set nodeLinker node-modules
+```
+
+# Yarn .gitignore
+
+If using Zero-Installs:
+
+```gitignore
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+```
+
+If not:
+
+```gitignore
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 ```
