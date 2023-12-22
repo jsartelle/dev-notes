@@ -328,9 +328,6 @@ const app = new App({
 - for radio buttons and grouped checkboxes, use `bind:group` instead of a `name` attribute
     - radio inputs will replace the value, checkboxes will create an array
 
-````ad-example
-collapse: closed
-
 ```html
 <script>
 	let scoops = 1;
@@ -385,7 +382,6 @@ collapse: closed
 	</p>
 {/if}
 ```
-````
 
 ## Components
 
@@ -773,7 +769,11 @@ const value = get(store)
 
 ## Basics
 
+> [!warning]
+> If using Yarn, [[Development/Cheat sheets/NPM and Yarn cheat sheet#Disable Yarn PnP\|disable Yarn PnP]] or you may run into SvelteKit errors!
+
 - Create a project: `npm create svelte@latest project-name`
+    - or `yarn create`
 - Store assets in `src/lib` and import them using `$lib`
 
 ## Pages
