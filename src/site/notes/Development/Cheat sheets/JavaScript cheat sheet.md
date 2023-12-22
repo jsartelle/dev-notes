@@ -214,12 +214,23 @@ return Math.floor(Math.random() * (max + 1))
 ## Use a function with String.replace
 
 ```js
-string.replace(/%%(\w+)%%/, (match, p1, p2 /*...pN*/, offset, string, groups) => {
+string.replace(
+    /(hello)\s+(world)/,
+    (match, p1, p2, /*...pN,*/ offset, string, groups) => {
+    // p1, p2, etc. are capture groups, as many as there are in the regex
     // groups is an object with the named capturing groups, or undefined if there are none
     
     // do whatever you want here
     return replacement
 })
+```
+
+## Splice function for strings
+
+```js
+function spliceString(input, start = 0, deleteCount = 0, additional = '') {
+  return input.slice(0, start) + additional + input.slice(start + deleteCount)
+}
 ```
 
 ## Copy text to clipboard
@@ -246,6 +257,17 @@ console.log({ name, age }) // logs {name: 'Sam', age: 32}
 ```js
 console.log(JSON.stringify(object, null, '  '))
 ```
+
+## Log objects or arrays as a table
+
+```js
+console.table({ foo: 'bar', obj: { a: 1, b: 2 }})
+```
+
+| (index) | Value | a   | b   |
+| ------- | ----- | --- | --- |
+| foo     | 'bar' |     |     |
+| obj     |       | 1   | 2   |
 
 ## Launch debugger with a countdown
 
