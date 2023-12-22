@@ -55,6 +55,7 @@
 
 - Add `// @ts-check` comment to top of JS file for type checking
 - Type annotations: `/** @type {number} */`
+    - More info: [[Development/Cheat sheets/JavaScript cheat sheet#JSDoc\|JavaScript cheat sheet#JSDoc]]
 - To type check an entire JS project, create a `jsconfig.json` file in the root with the following:
 
 ```json
@@ -67,6 +68,6 @@
 
 - add globals and types to a `.d.ts` file anywhere in the project
 
-## See also
+# Other
 
-[[Development/Cheat sheets/JavaScript cheat sheet#JSDoc\|JavaScript cheat sheet#JSDoc]]
+- Hold <kbd>Cmd</kbd>+<kbd>Opt</kbd> when clicking a result line in the search editor to jump to that line in a split pane
