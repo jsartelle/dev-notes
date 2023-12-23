@@ -1124,7 +1124,7 @@ transition: grid-template-rows;
 
 - To transition to auto height, change `grid-template-rows` to `1fr`
 
-![](https://www.youtube.com/embed/B_n4YONte5A)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/B_n4YONte5A?si=vJOmWFjPvHmD1mRT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## Make textareas resize to fit their content
 
