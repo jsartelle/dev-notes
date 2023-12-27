@@ -21,6 +21,11 @@
 - Like `:focus`, but only applies if the browser decides that focus should be shown visually (typically when using keyboard navigation)
     - Text fields apply `:focus-visible` even when clicked into (in Chrome at least)
 
+## :user-valid and :user-invalid
+
+- like `:valid` and `:invalid`, but only apply once the user has interacted with the form element
+    - useful for marking invalid fields without marking the entire page as invalid on load
+
 ## :has
 
 - Matches elements where **any** of the given selectors match relative to the current element
@@ -209,9 +214,26 @@ clip-path: circle(50% at 50% 50%);
 clip-path: ellipse(25% 40% at 50% 50%);
 ```
 
+## color-scheme
+
+- Automatically adapt to the user's system color scheme
+    - `light` or `dark` will force the element to the specified color scheme
+    - `light dark` means the element should support light and dark modes, and prefer light mode
+    - `dark light` is the same, but will prefer dark mode
+    - `only light` or `only dark` prevents the browser from overriding the color scheme
+- Use [[Development/Cheat sheets/CSS cheat sheet#prefers-color-scheme\|prefers-color-scheme]] as usual to style elements based on the color scheme
+    - consider using [[Development/Cheat sheets/CSS cheat sheet#System colors\|system color]] keywords to make the page match the system
+- Add a `color-scheme` meta tag to render the correct page background before the CSS loads
+
+```html
+<meta name="color-scheme" content="dark-light">
+```
+
+Demo: https://color-scheme-demo.glitch.me/
+
 ## contain
 
-- Lets you isolate an element and its contents from the rest of the document
+- Isolate an element and its contents from the rest of the document
 - Values (multiple can be used, separated with spaces):
     - `size`: the element's size is unaffected by its children
         - `inline-size`: same as `size` but for inline-size only (can't be combined with `size`)
@@ -229,6 +251,17 @@ clip-path: ellipse(25% 40% at 50% 50%);
 - Controls whether the browser renders the element's contents
 - `hidden`: the element is never rendered
 - `auto`: the element is only rendered if it is "relevant to the user" - in or near the viewport, focused, selected, or in the top layer
+
+## forced-color-adjust
+
+- use `none` to override an element's colors when in [[Development/Cheat sheets/CSS cheat sheet#forced-colors\|#forced-colors]] mode
+    - only use this if the colors the browser applies aren't readable
+
+```css
+.button {
+    forced-color-adjust: none;
+}
+```
 
 ## gap
 
@@ -715,7 +748,7 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 
 ## @media (media queries)
 
-### Dark mode
+### prefers-color-scheme
 
 ```css
 @media (prefers-color-scheme: dark) { }
@@ -729,7 +762,7 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 @media (hover: hover) { }
 ```
 
-### Reduce motion
+### prefers-reduced-motion
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -737,14 +770,25 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 }
 ```
 
-### Reduce transparency
+### prefers-reduced-transparency
 
-As of October 2023 supported by Chrome, not Firefox or Safari
+- as of October 2023 supported by Chrome, not Firefox or Safari
 
 ```css
 @media (prefers-reduced-transparency: reduce) {
     /* remove transparency and backdrop-filters */
 }
+```
+
+### forced-colors
+
+- detect high contrast mode and other situations where the browser is overriding the page colors
+    - should be used for small tweaks only - ==respect the user's choices and don't try to override them==
+- in forced colors mode, the browser forcibly applies appropriate [[Development/Cheat sheets/CSS cheat sheet#System colors\|system colors]] to elements, and removes shadows and non-URL background-images (like gradients)
+- also see [[Development/Cheat sheets/CSS cheat sheet#forced-color-adjust\|#forced-color-adjust]]
+
+```css
+@media (forced-colors: active) { }
 ```
 
 ### Boolean operators
@@ -1089,6 +1133,31 @@ be the same size regardless of the section width */
 | 800   | Extra Bold (Ultra Bold)   |
 | 900   | Black (Heavy)             |
 | 950   | Extra Black (Ultra Black) |
+
+## System colors
+
+- use colors provided by the operating system
+- browser support is inconsistent, so use [[Development/Cheat sheets/CSS cheat sheet#@supports\|#@supports]] to test and set fallback values appropriately
+
+| Keyword           | Description                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| `AccentColor`     | Background of accented user interface controls                                       |
+| `AccentColorText` | Text of accented user interface controls                                             |
+| `ActiveText`      | Text of active links                                                                 |
+| `ButtonBorder`    | Base border color of controls                                                        |
+| `ButtonFace`      | Background color of controls                                                         |
+| `ButtonText`      | Text color of controls                                                               |
+| `Canvas`          | Background of application content or documents                                       |
+| `CanvasText`      | Text color in application content or documents                                       |
+| `Field`           | Background of input fields                                                           |
+| `FieldText`       | Text in input fields                                                                 |
+| `GrayText`        | Text color for disabled items (e.g. a disabled control)                              |
+| `Highlight`       | Background of selected items                                                         |
+| `HighlightText`   | Text color of selected items                                                         |
+| `LinkText`        | Text of non-active, non-visited links                                                |
+| `Mark`            | Background of text that has been specially marked (such as by the HTML mark element) |
+| `MarkText`        | Text that has been specially marked (such as by the HTML mark element)               |
+| `VisitedText`     | Text of visited links                                                                |
 
 ## `unset` vs. `revert`
 
