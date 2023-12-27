@@ -71,6 +71,10 @@ Peel a bit, then run a spoon around the inside of the shell
 
 [Can I refrigerate my bread dough and bake it later? | King Arthur Baking](https://www.kingarthurbaking.com/blog/2021/09/28/how-to-refrigerate-bread-dough-to-bake-later)
 
+## Roast potato peels
+
+[Roast potato peels](https://www.thekitchn.com/heres-why-you-should-never-throw-out-potato-peelings-tips-from-the-kitchn-212565) instead of throwing them away (toss with oil and seasonings, 400ºF for 15-20 minutes)
+
 # Techniques
 
 ## Seasoning with MSG
@@ -103,17 +107,11 @@ Add 1/4 tsp baking soda per 1 lb. of ground beef, and let sit for 15 minutes bef
 
 Replace vanilla in desserts with bourbon for added depth of flavor
 
-# Storage/Scraps
+# Storage/Freezing
 
 ## Fresh greens and herbs
 
 Wrap fresh greens (spinach, salad mix, etc) and herbs in paper towels and place in a grocery bag to make them last longer
-
-## Potato peels
-
-[Roast potato peels](https://www.thekitchn.com/heres-why-you-should-never-throw-out-potato-peelings-tips-from-the-kitchn-212565) instead of throwing them away
-
-# Freezing
 
 ## Ginger
 
@@ -131,8 +129,25 @@ Pour into ice cube trays, then store in a freezer bag (measure the volume of the
 
 Spoon out 1 tbsp scoops onto a baking sheet covered in plastic wrap and freeze, then transfer to a freezer bag
 
-## Fresh herbs
+## Freezing fresh herbs
 
 Finely chop and store in a container in the freezer.
 
 Or finely chop, pack into ice cube trays 2/3 full and fill the rest with olive oil, then transfer to a freezer bag - use in a skillet in place of oil & herbs
+
+## Roasted garlic
+
+https://www.reddit.com/r/foodhacks/comments/18qz379/comment/key82b0/
+
+> If you like garlic, get a ton of cloves (pre peeled or peel bulbs yourself) then put them in an oven safe dish with enough olive oil to cover them. Bake at 375 for 40-60 mins, until garlic is browned and just starting to get dark on the edges. Strain and save your roasted garlic olive oil for cooking later, then put the cloves in a blender with a few pinches of salt and blend into a nice smooth paste. Keep in the fridge for sauces, stir fry, garlic bread, rice - anything a bit of garlic will help! Roasting makes the flavor richer and nuttier too, and since the garlic is already cooked it can be added to almost anything.
+
+## Caramelized onions
+
+https://www.reddit.com/r/foodhacks/comments/18qz379/comment/keyar0z/
+
+> Onions are cheap and fresh this time of year. Bonus for 25-lb bags!
+>
+> Put on your favorite show and dice up 10 or more pounds of onions. Then steam them in a big stockpot for 5-10 minutes with as little water as possible. Sautee with your favorite fat till GBD. You could even do varying degrees of caramelization, or add sautéed garlic. Cool and flat freeze.
+>
+> When you need sautéed onions, just snap off a corner. You are now 20 minutes ahead before you even grab a pan.
+
