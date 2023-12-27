@@ -68,8 +68,8 @@ function closeModal() {
 
 ## Heading best practices
 
-- Each page should only have one `<h1>` which describes the entire page.
-- Do not skip heading levels (ex. don't nest `<h3>` inside `<h1>` without an `<h2>` in between)
+- Each page should only have one `<h1>` which describes the entire page
+- Don't skip heading levels (ex. don't nest `<h3>` inside `<h1>` without an `<h2>` in between)
 - Use `aria-labelledby` on sectioning elements ([`<article>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article), [`<aside>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside), [`<nav>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav), and [`<section>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section)) to label them with a header
 
 ```html
