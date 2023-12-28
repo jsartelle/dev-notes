@@ -29,4 +29,7 @@ if (apiKey !== process.env.API_KEY) {
 - add `break` in switch statements
 - use optional chaining (`?.`) when accessing properties on an object that could be undefined
 - debounce buttons to prevent duplicate actions if the user clicks rapidly
-- Vue: use `this` when accessing component data in `<script>` (with options API), but not in `<template>`
+- Vue:
+    - use `this` when accessing component data in `<script>` (with options API), but not in `<template>`
+- Axios:
+    - `res.status()` doesn't send the response immediately, you need an explicit `.send()` after
