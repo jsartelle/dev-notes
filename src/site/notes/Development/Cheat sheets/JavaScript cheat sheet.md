@@ -398,6 +398,14 @@ observer.observe(document.querySelector('main'))
 /** @type {string} */
 ```
 
+- to cast within an assignment, put the right side in parentheses
+
+```js
+const photo = /** @type {HTMLImageElement} */ (
+    document.querySelector('#photo)
+)
+```
+
 - to make a param optional put the *name* in square brackets
 - when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for adding descriptions
 
@@ -409,7 +417,7 @@ observer.observe(document.querySelector('main'))
 ```
 
 - define a reusable object type
-    - can also be done in a standalone comment (not attached to a function)
+    - can be done in a function doc comment, or a standalone comment
 
 ```js
 /**
