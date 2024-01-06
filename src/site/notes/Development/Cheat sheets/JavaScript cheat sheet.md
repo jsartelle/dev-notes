@@ -153,6 +153,17 @@ const {
 console.log(address_street)
 ```
 
+## Assign default values during destructuring
+
+```js
+const foo = {
+	a: 'orange',
+}
+const { a = 'apple', b = 'banana' } = foo
+
+console.log(a, b) // 'orange banana'
+```
+
 ## Destructuring assignment to existing variables
 
 - When using destructuring without a declaration, wrap the whole statement in parentheses and add a semicolon beforehand
@@ -243,7 +254,7 @@ await navigator.clipboard.writeText('text')
 
 ## Quickly log variables with labels
 
-- Use object property shorthand to quickly log variables along with their names
+Use object property shorthand to quickly log variables along with their names
 
 ```js
 const name = 'Sam'
@@ -252,7 +263,24 @@ const age = 32
 console.log({ name, age }) // logs {name: 'Sam', age: 32}
 ```
 
+## Snapshot objects at the time of logging
+
+When objects logged to the console are expanded, they reflect their current values. To preserve the value at the time of logging, duplicate the object by stringifying and parsing it.
+
+```js
+const person = { name: 'Sam', age: 32 }
+
+// This will show Sam in the inline log, but when expanded it will show Bill
+console.log(person)
+// This will show Sam even after expanding
+console.log(JSON.parse(JSON.stringify(person)))
+
+person.name = 'Bill'
+```
+
 ## Log objects with indentation
+
+You can pass `'\t'` as the third argument to indent with tabs, or other values like dashes
 
 ```js
 console.log(JSON.stringify(object, null, '  '))
