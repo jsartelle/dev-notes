@@ -48,7 +48,7 @@ npx npm-check
 
 # Disable Yarn PnP
 
-- Yarn PnP causes issues with some frameworks like SvelteKit
+- Yarn PnP causes issues with some frameworks like SvelteKit, and can interfere with VSCode TypeScript support
 
 ```shell
 yarn config set nodeLinker node-modules
