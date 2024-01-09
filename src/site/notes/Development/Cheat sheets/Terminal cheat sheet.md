@@ -236,8 +236,9 @@ curl -sLI "url" |
 
 ### ls
 
-- `ls -a`: list hidden files
-- `ls -t`: sort by modified date
+- `-1`: show results in single column
+- `-a`: list hidden files
+- `-t`: sort by modified date
 
 ### file
 
@@ -509,19 +510,19 @@ echo '' | fzf --preview 'jq {q} < filename.json'
 - `--indent n`: change output indentation
 - `-r`: output strings without quotes
 
-> [!example]- JSON for examples
-> 
->  ```json
->  {
->    "foo": {
->      "bar": [
->        { "name": "Apple", "color": "Red" },
->        { "name": "Orange", "color": "Orange" },
->        { "name": "Banana", "color": "Yellow" }
->      ]
->    }
->  }
->  ```
+**JSON for examples:**
+
+```json
+{
+    "foo": {
+        "bar": [
+            { "name": "Apple", "color": "Red" },
+            { "name": "Orange", "color": "Orange" },
+            { "name": "Banana", "color": "Yellow" }
+        ]
+    }
+}
+```
 
 ### List all values for key in array of objects
 
