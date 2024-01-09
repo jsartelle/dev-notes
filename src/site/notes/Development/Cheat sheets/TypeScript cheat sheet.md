@@ -454,13 +454,36 @@ type PickByType<T, Value> = {
 }
 ```
 
-# Augment `window`
+# Declaration files (`.d.ts`)
 
-- `window.d.ts`
+## Import types
+
+- Using a standard `import` at the top will cause TypeScript to parse the `.d.ts` file as a normal module, rather than a global one. Instead, use dynamic `import()`.
+
+```ts
+declare class Holiday {
+  name: string
+  date: import('dayjs').Dayjs
+}
+```
+
+## Augment `window`
 
 ```ts
 interface Window {
     globalProperty: string
+}
+```
+
+## Type Node `process.env`
+
+```ts
+declare global {
+	namespace NodeJS {
+		interface ProcessEnv {
+			NODE_ENV: 'development' | 'sandbox' | 'production'
+		}
+	}
 }
 ```
 
