@@ -244,6 +244,10 @@ curl -sLI "url" |
 
 - `file`: show information about file
 
+### stat
+
+- `stat -f "%Xf" file.txt`: if file is hidden, result will be 8000
+
 ### find
 
 - `find dir -type f -name foo*`: find all *files* starting with "foo" in dir (recursive)
@@ -541,9 +545,22 @@ echo '' | fzf --preview 'jq {q} < filename.json'
 pandoc file.docx -o file.html
 ```
 
-## defaults (macOS)
+## macOS-specific
 
-- Dim hidden app Dock icons
+### chflags
+
+#### Hide/unhide files & folders
+
+See [[Development/Cheat sheets/Terminal cheat sheet#stat\|#stat]] to check if a file/folder is hidden
+
+```shell
+chflags hidden file.txt
+chflags nohidden file.txt
+```
+
+### defaults
+
+#### Dim Dock icons of hidden apps
 
 ```shell
 defaults write com.apple.Dock showhidden -boolean yes; killall Dock
