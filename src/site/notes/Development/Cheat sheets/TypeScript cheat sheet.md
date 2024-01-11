@@ -454,6 +454,27 @@ type PickByType<T, Value> = {
 }
 ```
 
+# Function overloads
+
+- the *implementation signature* (the final one) is what's used in the function body, but is invisible to function callers
+
+```typescript
+interface Fruit { /* ... */ }
+interface Apple extends Fruit { /* ... */ }
+
+function getFruits(options?: { applesOnly: false }): Fruit[]
+function getFruits(options: { applesOnly: true }): Apple[]
+function getFruits({ applesOnly = false } = {}): Fruit[]  { /* ... */ }
+
+// type Fruit[]
+const fruitSaladIngredients = getFruits()
+// type Fruit[]
+const tartIngredients = getFruits({ applesOnly: false })
+
+// type Apple[] - even though the implementation signature declares a return type of Fruit[], TypeScript knows to narrow it based on the overload
+const applesauceIngredients = getFruits({ applesOnly: true })
+```
+
 # Declaration files (`.d.ts`)
 
 ## Import types
