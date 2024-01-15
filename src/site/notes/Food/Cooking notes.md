@@ -43,9 +43,23 @@
 
 - 1 tbsp whole psyllium husk = 1 tsp psyllium husk powder
 
-## Corn
+## Corn kernels
 
 - 1 ear of corn = 3/4 cup kernels
+
+# Recipe tweaks
+
+## Salad dressing vanilla extract
+
+[Add vanilla extract](https://www.thekitchn.com/vanilla-extract-salad-dressing-tip-23125044) (start with 1/4 tsp) to salad dressings to temper acidity and enhance sweetness
+
+## Replace vanilla with bourbon
+
+Replace vanilla in desserts with bourbon for added depth of flavor
+
+## Use dried mustard in sauces
+
+Dried mustard acts as an emulsifier, and helps meld flavors together without adding a noticeable flavor of its own
 
 # Prep
 
@@ -56,6 +70,8 @@
 ## Peeling hard boiled eggs
 
 Peel a bit, then run a spoon around the inside of the shell
+
+## Use waffles in bread puddings or stuffing
 
 ## Bread tips
 
@@ -75,7 +91,7 @@ Peel a bit, then run a spoon around the inside of the shell
 
 [Roast potato peels](https://www.thekitchn.com/heres-why-you-should-never-throw-out-potato-peelings-tips-from-the-kitchn-212565) instead of throwing them away (toss with oil and seasonings, 400ºF for 15-20 minutes)
 
-# Techniques
+# Cooking techniques
 
 ## Seasoning with MSG
 
@@ -98,14 +114,6 @@ Leave the meat uncovered in the fridge for 30 minutes to let it dry a bit, add f
 Add 1/4 tsp baking soda per 1 lb. of ground beef, and let sit for 15 minutes before cooking (do not add oil to the pan)
 
 [I Can’t Believe How Well This One-Ingredient Trick Works for Cooking Ground Beef | Kitchn](https://www.thekitchn.com/best-ground-beef-baking-soda-tip-23143702)
-
-## Salad dressing vanilla extract
-
-[Add vanilla extract](https://www.thekitchn.com/vanilla-extract-salad-dressing-tip-23125044) (start with 1/4 tsp) to salad dressings to temper acidity and enhance sweetness
-
-## Replace vanilla with bourbon
-
-Replace vanilla in desserts with bourbon for added depth of flavor
 
 # Storage/Freezing
 
@@ -150,4 +158,3 @@ https://www.reddit.com/r/foodhacks/comments/18qz379/comment/keyar0z/
 > Put on your favorite show and dice up 10 or more pounds of onions. Then steam them in a big stockpot for 5-10 minutes with as little water as possible. Sautee with your favorite fat till GBD. You could even do varying degrees of caramelization, or add sautéed garlic. Cool and flat freeze.
 >
 > When you need sautéed onions, just snap off a corner. You are now 20 minutes ahead before you even grab a pan.
-
