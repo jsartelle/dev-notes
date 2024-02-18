@@ -496,7 +496,7 @@ interface Window {
 }
 ```
 
-## Type Node `process.env`
+## Extend globals (such as `process.env`)
 
 ```ts
 declare global {
