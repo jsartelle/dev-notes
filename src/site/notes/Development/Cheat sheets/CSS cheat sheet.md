@@ -292,6 +292,32 @@ mask-clip: border-box;
 mask-repeat: repeat;
 ```
 
+## mix-blend-mode
+
+- controls how an element blends with its background
+- use `mix-blend-mode: difference` to reverse text color of a progress bar
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://css-tricks.com/reverse-text-color-mix-blend-mode/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://css-tricks.com/wp-json/social-image-generator/v1/image/209684')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">Reverse Text Color Based on Background Color Automatically in CSS | CSS-Tricks</h1>
+		<p class="rich-link-card-description">
+		Over the weekend I noticed an interesting design for a progress meter in a videogame. The % complete was listed in text in the middle of the bar and didn't
+		</p>
+		<p class="rich-link-href">
+		https://css-tricks.com/reverse-text-color-mix-blend-mode/
+		</p>
+	</div>
+</a></div>
+
+## overscroll-behavior
+
+- `contain`: prevents scroll chaining (when scrolling past the edge of the container starts to scroll outside the container)
+- `none`: prevents scroll chaining, and also prevents the "bounce" effect and pull to refresh
+
 ## outline-offset
 
 - Adjusts the amount of space between an element's edge and its outline, can be positive or negative
@@ -304,11 +330,6 @@ mask-repeat: repeat;
     outline:offset: -10px
     </div>
 </div>
-
-## overscroll-behavior
-
-- `contain`: prevents scroll chaining (when scrolling past the edge of the container starts to scroll outside the container)
-- `none`: prevents scroll chaining, and also prevents the "bounce" effect and pull to refresh
 
 ## resize
 
@@ -341,6 +362,12 @@ user-select: none;
 | `pre-wrap`     | Preserve  | Preserve        | Wrap          | Hang               | Hang                               |
 | `pre-line`     | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
 | `break-spaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
+
+## width
+
+- `min-content`: wrap text content as much as possible
+- `fit-content`: fit to the content, wrapping if necessary
+- `max-content`: don't wrap text content at all
 
 ## Shorthands
 
@@ -597,6 +624,28 @@ grid-column-end: span 2;
 
 # Functions
 
+## min, max, clamp
+
+- you can perform calculations inside these functions without needing `calc()`
+
+```css
+width: min(100vw - 3rem, 80ch)
+```
+
+## clamp
+
+```css
+clamp(min, ideal, max)
+```
+
+- the middle value will be used as long as it's between min and max
+- `min` and `max` should use a different unit than `ideal`
+- in this example, the font size will adjust with the viewport width, but will never be smaller than `1rem` or larger than `3rem`
+
+```css
+font-size: clamp(1rem, 4vw, 3rem)
+```
+
 ## minmax
 
 - Used with grids
@@ -740,6 +789,15 @@ cross-fade(url(white.png), url(black.png) 75%) /* 25% white 75% black */
 cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 ```
 
+# Keywords
+
+## fit-content, min-content, max-content
+
+- when used with `width`:
+    - `min-content` will fit to the width of the longest word
+    - `fit-content` will contain the contents but not overflow
+    - `max-content` will grow as large as the contents require, including overflow
+
 # At-rules
 
 ## @import
@@ -835,9 +893,90 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 @media (width >= 300px) { }
 ```
 
+## @scope
+
+- lets you limit a rule's reach based on a parent selector
+
+```css
+@scope (.card) {
+    img {
+        /* only images inside .card elements get this border */
+        border: 2px solid black;
+    }
+}
+```
+
+- `:scope` matches the scope root
+- `&` matches *the selector* used for the scope root - the difference is that `&` can be used multiple times
+
+```css
+@scope (.card) {
+    :scope {
+        /* selects the .card element itself */
+    }
+
+    & & {
+        /* selects a .card inside the matched .card */
+    }
+}
+```
+
+- `@scope` can accept a second argument to limit the reach
+    - inheritance still passes through the scope bounds
+
+```css
+@scope (.card) to (.card-content) {
+    /* p elements inside .card-content won't be affected */
+    p {
+        font-weight: bold;
+    }
+
+    :scope {
+        /* but they'll still inherit this text color if it's not overridden */
+        color: gray;
+    }
+}
+
+@scope (.card) to (:scope > .content) {
+    /* elements inside .content won't be affected, but only if .content is a direct child of .card */
+}
+
+/* the limit can reference elements outside the scope */
+@scope (.card) to (.sidebar :scope .content) {]
+    /* .content only limits the scope if the card is inside .sidebar */
+}
+```
+
+- `@scope` doesn't affect specificity
+- `:scope` has specificity of `(0, 1, 0)` (same as any pseudo-class)
+- if two `@scope` selectors have the same specificity, the one with a closer scope root wins
+    - in the example below, the `p` element is white because `.light` is closer than `.dark`
+
+```html
+<div class="dark">
+    <div class="light">
+        <p>
+    </div>
+</div>
+```
+
+```css
+@scope (.light) {
+    p {
+        color: white;
+    }
+}
+
+@scope (.dark) {
+    p {
+        color: white;
+    }
+}
+```
+
 ## @supports
 
-Lets you provide a property and value to test for browser support
+- lets you provide a property and value to test for browser support
 
 ```css
 @supports (color: rgb(from white r g b)) {
@@ -847,7 +986,7 @@ Lets you provide a property and value to test for browser support
 
 ## @property
 
-- Allows you to define CSS custom properties with control over data type, inheritance, and initial value
+- lets you define CSS custom properties with control over data type, inheritance, and initial value
     - can be used to create animatable/transitionable custom properties
 
 ```css
@@ -858,7 +997,7 @@ Lets you provide a property and value to test for browser support
 }
 ```
 
-- Allowed `syntax` values:
+- Aallowed `syntax` values:
     - `<length>`
     - `<number>`
     - `<percentage>`
@@ -1217,7 +1356,7 @@ Sync the textarea's contents to a data attribute on the wrapper:
 
 ```html
 <!-- vanilla example -->
-<div class="grow-wrap">
+<div class="grow-wrap" data-replicated-value="">
     <textarea onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
 </div>
 
