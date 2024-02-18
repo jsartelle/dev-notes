@@ -260,6 +260,9 @@ curl -sLI "url" |
 - `lsof +d dir`: shows open files in dir
 - `lsof +D dir`: shows open files in dir and its subfolders
 - `lsof -c Finder`: list all files Finder has open
+
+#### Find process using port
+
 - `lsof -i :80`: find out which processes are using port 80
 
 ### cp
