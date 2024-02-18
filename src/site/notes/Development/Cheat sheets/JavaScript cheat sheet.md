@@ -435,12 +435,14 @@ const photo = /** @type {HTMLImageElement} */ (
 ```
 
 - to make a param optional put the *name* in square brackets
+    - use `[param=value]` for default values
 - when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for adding descriptions
 
 ```js
 /**
 @param {string} param1 Description goes here
 @param {boolean} [param2] This param is optional
+@param {boolean} [param3=true] This param has a default value
 */
 ```
 
@@ -470,6 +472,37 @@ const photo = /** @type {HTMLImageElement} */ (
  * @typedef {string[]} conference - array of conference names
  * @returns { [league, team?, rank?, division?, conference?] }
  */
+```
+
+- type a generic
+
+```js
+/**
+ * @template T
+ * @param {T} input
+ * @returns {T[]}
+ */
+function arrayify(input) {
+    return [input]
+}
+```
+
+- generic with constraints
+
+```js
+/**
+ * @template {Array} T
+ * @param {T} array
+ * @param {any} additional
+ * @returns {T}
+ */
+function append(array, additional) {
+	array.push(additional)
+	return array
+}
+
+append(['a', 1, 'b'], 2) // works even if the array isn't homogenous
+append('ab', 'c') // errors because 'ab' doesn't extend array
 ```
 
 - import a type and give it an alias
