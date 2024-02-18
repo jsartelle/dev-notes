@@ -308,7 +308,7 @@ function FriendStatus(props) {
     - can be any kind of value, including objects
 - state should be treated as read-only - to update state objects or arrays, copy it to a new object/array and pass it to the `set` function
     - the `set` function always replaces, never merges
-- state changes are batched and don't take effect until the next render
+- state changes are batched and ==don't take effect until the next render==
     - if you need to update the same state multiple times in each render, pass a function to the setter
 
 ```jsx
