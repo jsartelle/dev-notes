@@ -103,7 +103,7 @@ watch: {
 <div :class="[{ className: propertyName }, anotherClassName]"></div>
 ```
 
-## Apply deep scoped styles using `::v-deep`
+## Apply deep scoped (global) styles using `::v-deep`
 
 ```css
 /* Vue 2 */
