@@ -46,7 +46,7 @@ div:has(> span) {
 }
 
 div:has(+ span, > span) {
-    /* matches both of the above cases */
+    /* matches either of the above cases */
 }
 ```
 
@@ -90,25 +90,13 @@ div:has(+ span, > span) {
 </article>
 ```
 
-```css
-article {
-    max-width: 320px;
-}
-
-article > img.hero {
-  width: 100%;
-  -webkit-margin-after: 1rem;
-  margin-block-end: 1rem;
-}
-
-article > img.inline {
-  float: left;
-}
-```
-
 - Float inline images in alternating directions
 
 ```css
+article > img.inline {
+  float: left;
+}
+
 /* this won't work, because both img.inline have odd indexes! */
 article > img.inline:nth-child(even) {
 	float: right;
@@ -120,31 +108,31 @@ article > img:nth-child(even of .inline) {
 }
 ```
 
-- Usage with `~` selector is a bit tricky
+- The `nth-child` selector can't "see" selectors outside itself
 - Select the 2nd `.important` item **after** `.anchor` (should be Item 8)
 
 ```html
 <ul>
-  <li class="important">Item #1</li>
-  <li>Item #2</li>
-  <li class="anchor">Item #3</li>
-  <li>Item #4</li>
-  <li class="important">Item #5</li>
-  <li>Item #6</li>
-  <li>Item #7</li>
-  <li class="important">Item #8</li>
-  <li class="important">Item #9</li>
-  <li>Item #10</li>
+  <li class="important">Item 1</li>
+  <li>Item 2</li>
+  <li class="anchor">Item 3</li>
+  <li>Item 4</li>
+  <li class="important">Item 5</li>
+  <li>Item 6</li>
+  <li>Item 7</li>
+  <li class="important">Item 8</li>
+  <li class="important">Item 9</li>
+  <li>Item 10</li>
 </ul>
 ```
 
 ```css
-/* this will select Item #5, because it's the 2nd child with .important */
+/* this will select item 5 - it's after the anchor, and *separately* it's the second child with .important */
 li.anchor ~ :nth-child(2 of .important) {
 	color: lime;
 }
 
-/* But this will work */
+/* This will select item 8, because it's the second child *after the anchor with .important* */
 :nth-child(2 of li.anchor ~ .important) {
 	color: deepskyblue;
 }
@@ -1218,6 +1206,11 @@ be the same size regardless of the section width */
     /* but you can do this, as long as the type selector comes first (but note the caveat about browser support) */
     div& {
         /* div.foo */
+    }
+
+    /* you can use & multiple times */
+    &:nth-child(1 of &) {
+        /* matches the first .foo within its parent */
     }
 }
 ```
