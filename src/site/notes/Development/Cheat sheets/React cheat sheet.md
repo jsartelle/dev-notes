@@ -98,7 +98,7 @@ Components that are primarily driven through [[Development/Cheat sheets/React ch
 
 # Props
 
-- props are passed the same way as [[Development/Cheat sheets/React cheat sheet#Attributes\|attributes]]
+- props are passed the same way as [[Development/Cheat sheets/React cheat sheet#Attributes & Props\|attributes]]
 - props are **read-only**
 - passed to function components as the first argument
     - can use destructuring to access them easier
