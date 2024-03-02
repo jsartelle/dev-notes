@@ -114,6 +114,19 @@ let skyDirection = Direction.Up
 let skyDirection = "UP"
 ```
 
+# Template Literal Types
+
+```ts
+type PlanType = 'individual' | 'family'
+type PlanSchedule = 'monthly' | 'annual'
+
+type PlanString = `${PlanType}.${PlanSchedule}`
+// 'individual.monthly' | 'individual.annual' | 'family.monthly' | 'family.annual'
+
+type PlanStringCamelCase = `${PlanType}${Capitalize<PlanSchedule>}`
+// 'individualMonthly' | 'individualAnnual' | 'familyMonthly' | 'familyAnnual'
+```
+
 # Discriminating unions
 
 - unions of multiple object types with some common properties
