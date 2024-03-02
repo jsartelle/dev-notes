@@ -316,7 +316,7 @@ WHERE NOT EXISTS (
 
 ## HAVING
 
-- WHERE cannot be used with [[Development/Cheat sheets/MySQL cheat sheet#Aggregate functions\|aggregate functions]], use HAVING instead
+- WHERE cannot be used with [[Development/Cheat sheets/MySQL cheat sheet#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)\|aggregate functions]], use HAVING instead
 
 ### List all values that match more than one row
 
@@ -329,7 +329,7 @@ HAVING COUNT(*) > 1
 
 ## GROUP BY
 
-- Often used in queries with [[Development/Cheat sheets/MySQL cheat sheet#Aggregate functions\|aggregate functions]] to analyze each group of rows
+- Often used in queries with [[Development/Cheat sheets/MySQL cheat sheet#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)\|aggregate functions]] to analyze each group of rows
 - Count the number of rows matching each distinct value of a column (see [[Development/Cheat sheets/MySQL cheat sheet#COUNT\|#COUNT]])
 
 ```mysql
@@ -378,7 +378,7 @@ OFFSET 10
 # WITH / AS (subqueries)
 
 - Let you store temporary results (*Common Table Expressions* or *CTE*s) that you can refer to later
-- MySQL does not let you combine [[Development/Cheat sheets/MySQL cheat sheet#UPDATE / SET\|UPDATE]] and [[Development/Cheat sheets/MySQL cheat sheet#LIMIT\|#LIMIT]], this can be used to get around that
+- MySQL does not let you combine [[Development/Cheat sheets/MySQL cheat sheet#UPDATE / SET\|UPDATE]] and [[Development/Cheat sheets/MySQL cheat sheet#LIMIT / OFFSET\|#LIMIT / OFFSET]], this can be used to get around that
 
 ```mysql
 WITH ids AS (
@@ -495,7 +495,7 @@ SELECT JSON_EXTRACT(column_name, '$.version') ...
 SELECT column_name->"$.version"
 ```
 
-- To handle [[Development/Cheat sheets/MySQL cheat sheet#Dates\|dates]] or datetimes:
+- To handle [[Development/Cheat sheets/MySQL cheat sheet#Dates & Times\|dates]] or datetimes:
 
 ```mysql
 DATE(JSON_UNQUOTE(JSON_EXTRACT(p.metadata, '$.created_date')))
