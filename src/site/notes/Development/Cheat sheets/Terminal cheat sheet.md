@@ -318,6 +318,7 @@ pkill -9 "node"
 
 ## curl
 
+- `-v`: verbose mode, prints connection steps
 - `-X`: set request method (`GET`, `POST`, etc)
 - `-d "body"`: set the request body
 - `-H "header"`: set a header
