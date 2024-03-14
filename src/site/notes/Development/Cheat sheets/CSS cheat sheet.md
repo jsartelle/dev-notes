@@ -148,6 +148,10 @@ li.anchor ~ :nth-child(2 of .important) {
 aspect-ratio: 16 / 9;
 ```
 
+## background
+
+- if you have multiple backgrounds, earlier ones are drawn on top
+
 ## clip-path
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://bennettfeely.com/clippy/" target="_blank">
