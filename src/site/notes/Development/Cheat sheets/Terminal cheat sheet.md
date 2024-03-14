@@ -282,6 +282,10 @@ curl -sLI "url" |
     - `--exclude=pattern`: exclude files matching `pattern`
     - `-n`: dry run
 
+### ln
+
+- `ln -s source target`: create a symbolic link from `source` to `target`
+
 ## Processes
 
 ### ps
