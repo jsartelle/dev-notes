@@ -8,6 +8,7 @@
 
 # General
 
+- Comments start with `--`
 - `TRUE` and `FALSE` are the same as `1` and `0` respectively
 - Single and double quotes are the same except for escaping (same as JavaScript, Python, etc)
 - Table/column names that are also keywords (ex. `trigger`) must be quoted using \`
