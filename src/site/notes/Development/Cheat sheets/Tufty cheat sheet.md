@@ -7,6 +7,10 @@
 - Go to *View > Files* to browse the file system
 - *View > Plotter* to view `print`ed numbers on a graph
 
+# Using MicroPico for VSCode
+
+- `manualComDevice` setting should look something like `/dev/cu.usbmodem101`, can get it from Thonny
+
 # Change screen brightness
 
 ```python
