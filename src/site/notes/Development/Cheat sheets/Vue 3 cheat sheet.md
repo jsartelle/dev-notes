@@ -956,7 +956,7 @@ increment()
 
 > [!important]
 > The store is just a `reactive` object, so you **can** modify the store state directly!
-> 
+>
 > ```js
 > count++ // this is fine!
 > ```
@@ -980,7 +980,8 @@ export const useSettingsStore = defineStore('settings', () = {
 
 ## Template
 
-- can use `v-for` on `Map`s
+- TypeScript syntax can be used in templates
+- `v-for` can be used on `Map`s
 
 ```html
 <Item v-for="[key, value] in items">
