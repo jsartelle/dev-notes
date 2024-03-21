@@ -466,6 +466,7 @@ grid-template-columns: 1fr 4fr; /* same as 20% 80% */
 grid-template-rows: 50px repeat(3, 1fr) 50px;
 ```
 
+- use `auto` for automatic sizing
 #### auto-fill
 
 - Use the `auto-fill` keyword to create as many tracks as will fit in the container
@@ -1416,9 +1417,18 @@ Safari (left) gives the desired resul...
 
 </a></div>
 
-Setting a `backdrop-filter` on an element turns it into a *backdrop root*. Child elements can't "see through" a backdrop root, so `backdrop-filter` on children won't work as expected.
+Setting any of these values on an element turns it into a *backdrop root*:
 
-To fix this, add the `backdrop-filter` to a pseudo-element on the parent:
+- `filter`
+- `backdrop-filter`
+- `mix-blend-mode`
+- `opacity` < 1
+- `mask` or any mask sub-properties
+- `will-change` specifying any of the above values
+
+Child elements can't "see through" a backdrop root, so `backdrop-filter` on children won't work as expected.
+
+To fix this, move the `backdrop-filter` that's on the outer element to a pseudo-element:
 
 ```css
 .blurred-bg::before {
