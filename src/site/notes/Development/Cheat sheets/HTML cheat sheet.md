@@ -121,7 +121,20 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 - `input` events fire every time the value of a `<input>`, `<select>`, or `<textarea>` element changes
 - `change` events only fire when the change is committed by the user, or the element loses focus
     - radio buttons do not fire `change` when they are deselected
-- use `change` for checkboxes & radio buttons
+- ==use `change` for checkboxes & radio buttons==
+
+## event.target vs event.currentTarget
+
+- `event.currentTarget` is always the element that the ==event listener is attached to==
+- `event.target` is the element that ==received the event==
+    - this can be different if, ex. you click on a child of an element with a `click` handler
+    - in the example below, if you click on the child, `target` is the child and `currentTarget` is the parent
+
+```html
+<div id="parent" onClick="handler()">
+    <div id="child"></div>
+</div>
+```
 
 ## async vs. defer
 
