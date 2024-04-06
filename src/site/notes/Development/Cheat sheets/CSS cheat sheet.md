@@ -20,6 +20,19 @@
 
 - Like `:focus`, but only applies if the browser decides that focus should be shown visually (typically when using keyboard navigation)
     - Text fields apply `:focus-visible` even when clicked into (in Chrome at least)
+- Use `:focus` as a fallback for browsers that don't support `:focus-visible`
+
+```css
+button:focus-visible {
+    outline: 2px solid white;
+}
+
+@supports not selector(:focus-visible) {
+    button:focus {
+        outline: 2px solid white;
+    }
+}
+```
 
 ## :user-valid and :user-invalid
 
@@ -467,6 +480,7 @@ grid-template-rows: 50px repeat(3, 1fr) 50px;
 ```
 
 - use `auto` for automatic sizing
+
 #### auto-fill
 
 - Use the `auto-fill` keyword to create as many tracks as will fit in the container
@@ -534,7 +548,7 @@ grid-auto-columns: minmax(100px, auto);
 
 ### grid-row-start, grid-column-start, grid-row-end, grid-column-end
 
-- Set which grid **lines** (not tracks!) an element's stating or ending edges touch (1-indexed)
+- Set which grid **lines** (not tracks!) an element's starting or ending edges touch (1-indexed)
 - An element with `start: 1` and `end: 4` will span three cells
 
 <div class="grid-example number-lines" style="grid-template-columns: repeat(5, 1fr);">
