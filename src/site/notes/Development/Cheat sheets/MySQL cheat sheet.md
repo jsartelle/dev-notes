@@ -274,6 +274,19 @@ WHERE REGEXP_LIKE(name, '\\w+_\\d{4}_\\d{2}_\\d{2}')
 WHERE name IN ('Alice', 'Bob')
 ```
 
+### MEMBER_OF (in JSON array)
+
+```mysql
+WHERE id MEMBER OF ('[1, 2, 3]')
+```
+
+- since JSON object keys are always strings, if you used [[Development/Cheat sheets/MySQL cheat sheet#JSON_KEYS\|#JSON_KEYS]] to get the array, you may need to [[Development/Cheat sheets/MySQL cheat sheet#CAST\|cast]] the value being checked to a string
+
+```mysql
+-- if `user.relationships` was a JSON field with something like '{ 123: 'sibling' }'
+WHERE CONVERT(user.id, CHAR) MEMBER OF (JSON_KEYS(user.relationships))
+```
+
 ### BETWEEN (ranges)
 
 - Both sides are inclusive
@@ -422,6 +435,9 @@ FROM
 
 # Functions
 
+> [!WARNING]
+> Do not put a space between the function name and parentheses!
+
 ## Aggregate functions (COUNT, MAX, MIN, SUM, AVG)
 
 - `COUNT(), MAX(), MIN(), SUM(), AVG()`
@@ -433,7 +449,7 @@ FROM
 
 ```mysql
 SELECT
-    min(birth_date) as birth_date,
+    MIN(birth_date) as birth_date,
     id
 FROM
     pets
@@ -443,13 +459,25 @@ GROUP BY
     species
 ```
 
-## COUNT
-
 ### Count number of distinct values
 
 ```mysql
 SELECT COUNT(DISTINCT first_name) ...
 ```
+
+## CAST
+
+| Format       | Notes/Example<br>                                                                 |
+| ------------ | --------------------------------------------------------------------------------- |
+| DATE<br>     | YYYY-MM-DD<br>                                                                    |
+| DATETIME<br> | YYYY-MM-DD HH:MM:SS<br>                                                           |
+| DECIMAL<br>  | <br>takes two parameters (M, D) for max integer digits & number of decimal digits |
+| TIME<br>     | HH:MM:SS<br>                                                                      |
+| CHAR<br>     | fixed length string<br>                                                           |
+| NCHAR<br>    | string with the national character set<br>                                        |
+| SIGNED<br>   | signed 64-bit int<br>                                                             |
+| UNSIGNED<br> | unsigned 64-bit int<br>                                                           |
+| BINARY<br>   | binary string<br>                                                                 |
 
 ## LENGTH (string length)
 
@@ -467,6 +495,15 @@ WHERE length(first_name) <= 5
 
 ```mysql
 SET u.metadata = JSON_OBJECT('is_enrolled', TRUE, 'is_mobile', FALSE)
+```
+
+### JSON_KEYS
+
+- Get a JSON array from the keys of a JSON object
+    - see [[Development/Cheat sheets/MySQL cheat sheet#MEMBER_OF (in JSON array)\|MEMBER_OF]] to use it in a WHERE or JOIN
+
+```mysql
+SELECT JSON_KEYS(user.metadata)
 ```
 
 ### JSON_CONTAINS_PATH
