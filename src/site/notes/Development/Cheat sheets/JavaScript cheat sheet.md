@@ -52,12 +52,10 @@ people.sort((a, b) =>
 
 ```js
 function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1))
+		;[array[i], array[j]] = [array[j], array[i]]
+	}
 }
 ```
 
@@ -321,6 +319,10 @@ function longRunningFunction() {
     console.timeEnd(timerName)
 }
 ```
+
+## Copy from the console
+
+Use the `copy()` function in the console to copy long strings from the console.
 
 # Other
 
