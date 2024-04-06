@@ -14,6 +14,7 @@
 | ⌘K ⌘Q    | Jump to last edit position                |
 | ⌘U       | Undo cursor move                          |
 | ⌥F5/⇧⌥F5 | Jump to next/previous change              |
+| ⌥F8/⇧⌥F8 | Jump to next/previous problem             |
 
 ## Selection
 
