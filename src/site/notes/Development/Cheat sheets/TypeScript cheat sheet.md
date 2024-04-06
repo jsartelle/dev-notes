@@ -492,7 +492,7 @@ const applesauceIngredients = getFruits({ applesOnly: true })
 
 ## Import types
 
-- Using a standard `import` at the top will cause TypeScript to parse the `.d.ts` file as a normal module, rather than a global one. Instead, use dynamic `import()`.
+- Declaration files with no `import` or `export` apply globally. Using a standard `import` at the top of the file will cause TypeScript to parse it as a normal module, meaning it must be imported to be used. Instead, use dynamic `import()`.
 
 ```ts
 declare class Holiday {
