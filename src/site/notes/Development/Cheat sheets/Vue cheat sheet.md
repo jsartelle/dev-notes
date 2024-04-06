@@ -284,30 +284,63 @@ Both are shorthand for:
 
 # TypeScript
 
-## With `defineComponent`
+## Setup
+
+- `vue-shim.d.ts`
 
 ```ts
-import Axios from 'axios'
+import Vue from Vue
+import type Axios from 'axios'
+import type { NuxtCookies } from 'cookie-universal-nuxt'
 
-// on Vue 3 may only need "declare module 'vue'"
-declare module '@vue/runtime-core' {
-	interface ComponentCustomProperties {
+declare module '*.vue' {
+	export default Vue
+}
+
+// type plugins
+declare module 'vue/types/vue' {
+	interface Vue {
 		$axios: Axios
+	}
+}
+
+// type Nuxt context
+declare module '@nuxt/types' {
+	interface Context {
+		$cookies: NuxtCookies
 	}
 }
 ```
 
-## Without `defineComponent`
+- inside your components:
 
-```ts
-import Vue from 'vue'
-import Axios from 'axios'
+```html
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
+import type { MetaInfo } from 'vue-meta' // if using Nuxt
+import type { User } from '~/types/types'
 
-declare module 'vue/types/vue' {
-  interface Vue {
-    $axios: Axios
+export default defineComponent({
+  head(): MetaInfo {
+    /* ... */
+  },
+  props: {
+    user: {
+      type: Object as PropType<User>
+    }
   }
-}
+})
+</script>
+```
+
+## Ignore template errors
+
+- in Vue 2, use `<!-- @vue-ignore -->` to ignore TypeScript errors in the template
+- Vue 3 supports TS syntax in the template so this isn't needed
+
+```html
+<!-- @vue-ignore -->
+<input type="text" @change="handleChange($event.currentTarget.value)"></input>
 ```
 
 # Nuxt
