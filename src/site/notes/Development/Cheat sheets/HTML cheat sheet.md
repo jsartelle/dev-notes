@@ -5,7 +5,14 @@
 
 # Elements
 
-## `＜dialog＞`
+## `＜a＞`
+
+### Keyboard focus on links without href
+
+- Links without an `href` attribute do not receive focus from the <kbd>Tab</kbd> key by default. To make them focusable add `href=""`.
+    - You can also use `tabindex="0"` but this will not allow the link to be activated with <kbd>Enter</kbd>.
+
+## `＜dialog＞` (modals)
 
 - makes it easy to create modals
 - call `.show()` to show non-modally, or `.showModal()` to show modally
@@ -15,6 +22,8 @@
 - style a modal dialog's backdrop using the `::backdrop` pseudo-element
 
 ### Animating dialogs
+
+#todo this might need updating for `transition-behavior`
 
 - `transition` doesn't work on modals, instead use an animation targeting the `[open]` attribute
 - to animate closing (ex. for a fade out):
@@ -82,23 +91,9 @@ function closeModal() {
 
 - Group a header (`<h1>` - `<h6>`) with any number of related `<p>` elements
 
-# Other
+## `＜img＞`
 
-## Example image URLs
-
-- width / height, leave out height for a square image
-
-```
-https://picsum.photos/200/300
-```
-
-- when using the same link multiple times on a page you may get the same image, to work around this you can add a seed
-
-```
-https://picsum.photos/seed/seedGoesHere/200/300
-```
-
-## img alt vs. title attributes
+### alt vs. title attributes
 
 The `alt` attribute is used by screen readers, and is shown if the image fails to load. It should contain text that can **replace** the image. It should not repeat information that is already provided in the text accompanying the image.
 
@@ -116,27 +111,9 @@ The `title` attribute is displayed in a tooltip on hover. It should contain text
 
 If an image is also a hyperlink, the `alt` text should describe the function of the link.
 
-## input vs. change events
+## `＜script＞`
 
-- `input` events fire every time the value of a `<input>`, `<select>`, or `<textarea>` element changes
-- `change` events only fire when the change is committed by the user, or the element loses focus
-    - radio buttons do not fire `change` when they are deselected
-- ==use `change` for checkboxes & radio buttons==
-
-## event.target vs event.currentTarget
-
-- `event.currentTarget` is always the element that the ==event listener is attached to==
-- `event.target` is the element that ==received the event==
-    - this can be different if, ex. you click on a child of an element with a `click` handler
-    - in the example below, if you click on the child, `target` is the child and `currentTarget` is the parent
-
-```html
-<div id="parent" onClick="handler()">
-    <div id="child"></div>
-</div>
-```
-
-## async vs. defer
+### async vs. defer
 
 - normal scripts:
     - ==block parsing==
@@ -155,6 +132,15 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
     - use for **anything that can't be async**
 - `async` and `defer` are both ignored for inline scripts
 
+# Events
+
+## input vs. change
+
+- `input` events fire every time the value of a `<input>`, `<select>`, or `<textarea>` element changes
+- `change` events only fire when the change is committed by the user, or the element loses focus
+    - radio buttons do not fire `change` when they are deselected
+- ==use `change` for checkboxes & radio buttons==
+
 ## DOMContentLoaded vs. load
 
 The `load` event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images. This is in contrast to `DOMContentLoaded`, which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
@@ -162,6 +148,39 @@ The `load` event is fired when the whole page has loaded, including all depend
 The `DOMContentLoaded` event fires when the HTML document has been completely parsed, and all deferred scripts (`<script defer src="…">` and `<script type="module">`) have downloaded and executed. It doesn't wait for other things like images, subframes, and async scripts to finish loading.
 
 `DOMContentLoaded` does not wait for stylesheets to load, however deferred scripts *do* wait for stylesheets, and `DOMContentLoaded` queues behind deferred scripts. Also, scripts which aren't deferred or async (e.g. `<script>`) will wait for already-parsed stylesheets to load.
+
+# Other
+
+## Find focused element
+
+Use `document.activeElement` to find the currently focused element. You can add this as a live expression in the Chrome devtools to get a live updating view of the focused element.
+
+## Example image URLs
+
+- width / height, leave out height for a square image
+
+```
+https://picsum.photos/200/300
+```
+
+- when using the same link multiple times on a page you may get the same image, to work around this you can add a seed
+
+```
+https://picsum.photos/seed/seedGoesHere/200/300
+```
+
+## event.target vs event.currentTarget
+
+- `event.currentTarget` is always the element that the ==event listener is attached to==
+- `event.target` is the element that ==received the event==
+    - this can be different if, ex. you click on a child of an element with a `click` handler
+    - in the example below, if you click on the child, `target` is the child and `currentTarget` is the parent
+
+```html
+<div id="parent" onClick="handler()">
+    <div id="child"></div>
+</div>
+```
 
 ## Load CSS asynchronously
 
