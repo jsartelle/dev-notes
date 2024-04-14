@@ -5,6 +5,12 @@
 
 # Keyboard Shortcuts
 
+## File navigation
+
+| Shortcut   | Action                          |
+| ---------- | ------------------------------- |
+| F4/⇧F4 | Next/previous search result |
+
 ## Cursor movement
 
 | Shortcut | Action                                    |
