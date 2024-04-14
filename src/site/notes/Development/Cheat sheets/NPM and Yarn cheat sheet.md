@@ -25,6 +25,16 @@
 - Only exact version: `1.0.4`
 - `>`, `>=`, `<`, `<=`, etc. ignore the major/minor/patch division
 
+# Commands
+
+## npm
+
+- `npm list`: list installed packages (useful for [[Development/Cheat sheets/Terminal cheat sheet#grep\|grepping]])
+    - `-g`: global
+    - `-a`: include nested dependencies
+    - `-l`: include descriptions
+- `npm ls foo`: see which installed packages have a dependency on `foo`
+
 # List versions of dependencies
 
 - Shows every package that lists `vue` as a dependency, and which version is installed
