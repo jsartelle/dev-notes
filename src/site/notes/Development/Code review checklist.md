@@ -11,6 +11,7 @@
 - failure states:
     - error handling
     - default to least access
+        - instead of checking if a request should be blocked, assume it should be and then check if it should be allowed
     - handle missing env/config keys or request body parameters
 - throw Error objects instead of strings so that stack trace is available
 - when comparing two values, account for cases where both values may be null/undefined
