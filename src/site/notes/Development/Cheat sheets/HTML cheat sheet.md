@@ -10,7 +10,42 @@
 ### Keyboard focus on links without href
 
 - Links without an `href` attribute do not receive focus from the <kbd>Tab</kbd> key by default. To make them focusable add `href=""`.
-    - You can also use `tabindex="0"` but this will not allow the link to be activated with <kbd>Enter</kbd>.
+    - `tabindex="0"` will not allow the link to be activated with <kbd>Enter</kbd>
+
+## `＜datalist＞`
+
+- holds a set of `<option>` elements to be shown as suggestions in an `<input>` element, while still letting the user enter a custom value
+    - supports `<optgroup>`
+- supports these `<input>` types:
+    - `text`
+    - `month`, `week`, `date`, `time`, `datetime-local`
+    - `range`
+    - `color`
+
+<datalist id="apps">
+    <option value="Obsidian"></option>
+    <option value="Apple Notes"></option>
+    <option value="OneNote"></option>
+    <option value="Notion"></option>
+</datalist>
+<label>
+    <span>Choose your favorite notes app:</span>
+    <input type="text" list="apps" />
+</label>
+
+```html
+<datalist id="apps">
+    <option value="Obsidian"></option>
+    <option value="Apple Notes"></option>
+    <option value="OneNote"></option>
+    <option value="Notion"></option>
+</datalist>
+
+<label>
+    <span>Choose your favorite notes app:</span>
+    <input type="text" list="apps" />
+</label>
+```
 
 ## `＜dialog＞` (modals)
 
