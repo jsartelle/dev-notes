@@ -126,9 +126,9 @@ const getObject = () => { a: 1, b: 2 }
 const getObject2 = () => ({ a: 1, b: 2 })
 ```
 
-# Destructuring
+## Destructuring
 
-## Destructure nested objects
+### Destructure nested objects
 
 ```js
 const user = {
@@ -151,7 +151,7 @@ const {
 console.log(address_street)
 ```
 
-## Assign default values during destructuring
+### Assign default values during destructuring
 
 ```js
 const foo = {
@@ -162,7 +162,7 @@ const { a = 'apple', b = 'banana' } = foo
 console.log(a, b) // 'orange banana'
 ```
 
-## Destructuring assignment to existing variables
+### Destructuring assignment to existing variables
 
 - When using destructuring without a declaration, wrap the whole statement in parentheses and add a semicolon beforehand
 
@@ -171,7 +171,7 @@ let name, address
 ;({ name, address } = person)
 ```
 
-## Options objects with defaults
+### Options objects with defaults
 
 - Set default values separately for each property:
 
@@ -324,7 +324,7 @@ function longRunningFunction() {
 
 Use the `copy()` function in the console to copy long strings from the console.
 
-# Other
+# Notes
 
 ## Operator precedence
 
@@ -371,6 +371,10 @@ switch(true) {
 }
 ```
 
+## Deep clone objects with `structuredClone`
+
+- `window.structuredClone()` will create a deep copy of an object, and preserve `Date`, `Map`, and `Set` values (among others)
+
 ## `Element.closest`
 
 - finds the closest element in an element's ancestor tree (including itself) that matches the selector
@@ -386,7 +390,7 @@ switch(true) {
 
 ```js
 document.querySelector('.banana').closest('.orange')
-// matches .orange.outer (.orange.inner isn't in the element's tree)
+// matches .orange.outer (.orange.inner isn't in the element's ancestor tree)
 
 document.querySelector('.banana').closest('.banana')
 // matches the element it was called on
