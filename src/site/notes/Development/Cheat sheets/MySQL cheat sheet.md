@@ -298,6 +298,15 @@ WHERE id BETWEEN 100 AND 200
 
 ### EXISTS and NOT EXISTS
 
+- Lets you filter based on the results of another query
+- If using multiple in a row, only use the `WHERE` keyword once
+
+```mysql
+WHERE EXISTS ( ... )
+AND EXISTS ( ... )
+AND NOT EXISTS ( ... )
+```
+
 #### Select rows that share a value with other rows
 
 - This will select pets that share an owner with at least one other pet
@@ -467,17 +476,17 @@ SELECT COUNT(DISTINCT first_name) ...
 
 ## CAST
 
-| Format       | Notes/Example<br>                                                                 |
+| Format       | Notes/Example                                                                 |
 | ------------ | --------------------------------------------------------------------------------- |
-| DATE<br>     | YYYY-MM-DD<br>                                                                    |
-| DATETIME<br> | YYYY-MM-DD HH:MM:SS<br>                                                           |
-| DECIMAL<br>  | <br>takes two parameters (M, D) for max integer digits & number of decimal digits |
-| TIME<br>     | HH:MM:SS<br>                                                                      |
-| CHAR<br>     | fixed length string<br>                                                           |
-| NCHAR<br>    | string with the national character set<br>                                        |
-| SIGNED<br>   | signed 64-bit int<br>                                                             |
-| UNSIGNED<br> | unsigned 64-bit int<br>                                                           |
-| BINARY<br>   | binary string<br>                                                                 |
+| DATE     | YYYY-MM-DD                                                                    |
+| DATETIME | YYYY-MM-DD HH:MM:SS                                                           |
+| DECIMAL  | takes two parameters (M, D) for max integer digits & number of decimal digits |
+| TIME     | HH:MM:SS                                                                      |
+| CHAR     | fixed length string                                                           |
+| NCHAR    | string with the national character set                                        |
+| SIGNED   | signed 64-bit int                                                             |
+| UNSIGNED | unsigned 64-bit int                                                           |
+| BINARY   | binary string                                                                 |
 
 ## LENGTH (string length)
 
