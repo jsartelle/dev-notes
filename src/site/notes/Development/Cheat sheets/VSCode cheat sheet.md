@@ -13,14 +13,14 @@
 
 ## Cursor movement
 
-| Shortcut | Action                                    |
-| -------- | ----------------------------------------- |
-| ⌃⌥(←/→)  | Move between word parts (add ⇧ to select) |
-| ⇧⌘\\     | Jump to matching bracket                  |
-| ⌘K ⌘Q    | Jump to last edit position                |
-| ⌘U       | Undo cursor move                          |
-| ⌥F5/⇧⌥F5 | Jump to next/previous change              |
-| ⌥F8/⇧⌥F8 | Jump to next/previous problem             |
+| Shortcut   | Action                                    |
+| ---------- | ----------------------------------------- |
+| ⌃⌥(←/→)    | Move between word parts (add ⇧ to select) |
+| ⇧⌘\\       | Go to matching bracket                    |
+| ⌘K ⌘Q      | Go to last edit position                  |
+| ⌘U         | Undo cursor move                          |
+| ⌥F5/⇧⌥F5   | Go to next/previous change                |
+| ⌥F8/⇧⌥F8   | Go to next/previous problem               |
 
 ## Selection
 
@@ -41,14 +41,15 @@
 | ⇧⌘K      | Delete current line |
 | ⌃⌥(⌫/⌦)  | Delete word parts   |
 
-## Find
+## Find/Search
 
-| Shortcut | Action                           |
-| -------- | -------------------------------- |
-| ⌘G/⇧⌘G   | Find next/previous               |
-| ⌘⌥C      | Toggle case in find widget       |
-| ⌘⌥W      | Toggle whole word in find widget |
-| ⌘⌥R      | Toggle regex in find widget      |
+| Shortcut   | Action                                       |
+| ---------- | -------------------------------------------- |
+| ⌘G/⇧⌘G     | Find next/previous                           |
+| ⌘⌥C        | Toggle case in find widget                   |
+| ⌘⌥W        | Toggle whole word in find widget             |
+| ⌘⌥R        | Toggle regex in find widget                  |
+| F4/⇧F4 | Go to next/previous global search result |
 
 ## Folding
 
