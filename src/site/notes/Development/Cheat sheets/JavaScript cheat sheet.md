@@ -26,6 +26,26 @@ array.filter(Boolean)
 [...Array(5).keys()].map(v => v + 1)
 ```
 
+## Remembering sort comparator functions
+
+- Imagine a number line - a negative return value means `a` is to the left of `b`, and a positive value means `a` is to the right of `b`
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://www.jameskerr.blog/posts/javascript-sort-comparators/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://www.jameskerr.blog/img/site-thumbnail-image-2.jpg')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">Finally Understanding How Array.sort(comparator) Works</h1>
+		<p class="rich-link-card-description">
+		After 13 years of JavaScript, I finally have a way to remember how the comparator function in Array.sort() works. I think the trouble is that all the examples use this shorthand syntax.
+		</p>
+		<p class="rich-link-href">
+		https://www.jameskerr.blog/posts/javascript-sort-comparators/
+		</p>
+	</div>
+</a></div>
+
 ## Sort array of numbers
 
 ```js
