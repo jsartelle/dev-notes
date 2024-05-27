@@ -268,6 +268,76 @@ function spliceString(input, start = 0, deleteCount = 0, additional = '') {
 await navigator.clipboard.writeText('text')
 ```
 
+# DOM
+
+## Element.closest
+
+- finds the closest element in an element's ancestor tree (including itself) that matches the selector
+
+```html
+<div class="apple">
+    <div class="orange outer">
+        <div class="orange inner"></div>
+        <div class="banana"></div>
+    </div>
+</div>
+```
+
+```js
+document.querySelector('.banana').closest('.orange')
+// matches .orange.outer (.orange.inner isn't in the element's ancestor tree)
+
+document.querySelector('.banana').closest('.banana')
+// matches the element it was called on
+```
+
+## Element.after
+
+- inserts the new element after the element it's called on
+
+```js
+const button = document.createElement('button')
+button.textContent = 'Download Image'
+
+const img = document.querySelector('img')
+img.after(button)
+```
+
+```html
+<img src="cat.jpg" />
+<button>Download Image</button>
+```
+
+## Resize observer
+
+```js
+const observer = new ResizeObserver((entries) => {
+    entries.forEach(entry => {
+        console.log('width', entry.contentBoxSize[0].inlineSize)
+        console.log('height', entry.contentBoxSize[0].blockSize)
+    })
+})
+observer.observe(document.querySelector('main'))
+```
+
+## Media queries
+
+```js
+const mediaQuery = window.matchMedia("(orientation: portrait)")
+const isPortrait = mediaQuery.matches
+mediaQuery.addEventListener('change', adjustLayout)
+```
+
+## Restart CSS animation
+
+- Checking `element.offsetHeight` triggers reflow, which is necessary for the animation change to be applied
+
+```js
+element.classList.remove('animated')
+element.offsetHeight
+element.classList.add('animated')
+```
+
 # Debugging
 
 ## Quickly log variables with labels
@@ -344,16 +414,7 @@ function longRunningFunction() {
 
 Use the `copy()` function in the console to copy long strings from the console.
 
-# Notes
-
-## Operator precedence
-
-- `&&` has a higher precedence than `||`
-    - `a || b && c` is the same as `a || (b && c)`
-    - but don't rely on this, use parentheses to make your intention clearer
-- `&&` and `||` **short circuit**
-    - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
-- math operators follow PEMDAS (`%` has the same precedence as `/`)
+# Other
 
 ## Assignment using switch statements
 
@@ -391,60 +452,26 @@ switch(true) {
 }
 ```
 
+## Sleep function
+
+```js
+async function sleep(time) {
+    return await new Promise(resolve => window.setTimeout(resolve, time))
+}
+```
+
 ## Deep clone objects with `structuredClone`
 
 - `window.structuredClone()` will create a deep copy of an object, and preserve `Date`, `Map`, and `Set` values (among others)
 
-## `Element.closest`
+## Operator precedence
 
-- finds the closest element in an element's ancestor tree (including itself) that matches the selector
-
-```html
-<div class="apple">
-    <div class="orange outer">
-        <div class="orange inner"></div>
-        <div class="banana"></div>
-    </div>
-</div>
-```
-
-```js
-document.querySelector('.banana').closest('.orange')
-// matches .orange.outer (.orange.inner isn't in the element's ancestor tree)
-
-document.querySelector('.banana').closest('.banana')
-// matches the element it was called on
-```
-
-## Media queries
-
-```js
-const mediaQuery = window.matchMedia("(orientation: portrait)")
-const isPortrait = mediaQuery.matches
-mediaQuery.addEventListener('change', adjustLayout)
-```
-
-## Restart CSS animation
-
-- Checking `element.offsetHeight` triggers reflow, which is necessary for the animation change to be applied
-
-```js
-element.classList.remove('animated')
-element.offsetHeight
-element.classList.add('animated')
-```
-
-## Resize observer
-
-```js
-const observer = new ResizeObserver((entries) => {
-    entries.forEach(entry => {
-        console.log('width', entry.contentBoxSize[0].inlineSize)
-        console.log('height', entry.contentBoxSize[0].blockSize)
-    })
-})
-observer.observe(document.querySelector('main'))
-```
+- `&&` has a higher precedence than `||`
+    - `a || b && c` is the same as `a || (b && c)`
+    - but don't rely on this, use parentheses to make your intention clearer
+- `&&` and `||` **short circuit**
+    - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
+- math operators follow PEMDAS (`%` has the same precedence as `/`)
 
 # JSDoc
 
