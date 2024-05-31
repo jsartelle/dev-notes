@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Terraform vs. CDK.md","permalink":"/notes/terraform-vs-cdk/"}
+{"dg-publish":true,"dg-path":"Terraform vs. CDK.md","permalink":"/terraform-vs-cdk/"}
 ---
 
 
