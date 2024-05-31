@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Common web app security vulnerabilities.md","permalink":"/notes/common-web-app-security-vulnerabilities/"}
+{"dg-publish":true,"dg-path":"Common web app security vulnerabilities.md","permalink":"/common-web-app-security-vulnerabilities/"}
 ---
 
 
