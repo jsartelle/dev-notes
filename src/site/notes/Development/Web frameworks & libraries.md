@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Web frameworks & libraries.md","permalink":"/notes/web-frameworks-and-libraries/"}
+{"dg-publish":true,"dg-path":"Web frameworks & libraries.md","permalink":"/web-frameworks-and-libraries/"}
 ---
 
 
