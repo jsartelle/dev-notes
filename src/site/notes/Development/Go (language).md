@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Go (language).md","permalink":"/notes/go-language/"}
+{"dg-publish":true,"dg-path":"Go (language).md","permalink":"/go-language/"}
 ---
 
 
