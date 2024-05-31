@@ -5,7 +5,7 @@
 
 Welcome! These are [James Sartelle's](https://github.com/jsartelle) personal development notes, written in [Obsidian](https://obsidian.md/) and published with the [Digital Garden](https://github.com/oleeskild/obsidian-digital-garden) plugin.
 
-⬅️ Open one of the folders on the left and start browsing! I'm most proud of the [[Development/Cheat sheets/Svelte cheat sheet\|Svelte cheat sheet]] and [[Development/Cheat sheets/MySQL cheat sheet\|MySQL cheat sheet]].
+⬅️ Open one of the folders on the left and start browsing! I'm most proud of the [[Development/Cheat sheets/CSS cheat sheet\|CSS cheat sheet]], [[Development/Cheat sheets/Svelte cheat sheet\|Svelte cheat sheet]], and [[Development/Cheat sheets/MySQL cheat sheet\|MySQL cheat sheet]].
 
 Some notes on these notes:
 
