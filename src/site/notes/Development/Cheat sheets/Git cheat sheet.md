@@ -20,13 +20,19 @@ git rm -r --cached .
 git add .
 ```
 
+## Find out why file is ignored
+
+```shell
+git check-ignore -v <pathname>
+```
+
 ## Restore a single file from main
 
 ```shell
 git checkout origin/main -- path/to/file
 ```
 
-## Recreate local branch from remote
+## Reset local branch from remote
 
 `@{u}` represents the upstream branch that the current branch is tracking
 
@@ -34,10 +40,42 @@ git checkout origin/main -- path/to/file
 git reset --hard @{u}
 ```
 
-## Find out why file is ignored
+## Undo reset or dropped commit
 
 ```shell
-git check-ignore -v <pathname>
+git reflog
+```
+
+- will show a list of actions, like this
+
+```
+e192732d8 HEAD@{22}: reset: moving to HEAD
+e192732d8 HEAD@{23}: commit: Add some stuff
+555fe5cf7 HEAD@{24}: checkout: moving from main to cool-branch
+62d93e725 HEAD@{25}: checkout: moving from cool-branch to main
+555fe5cf7 HEAD@{26}: reset: moving to HEAD
+```
+
+- to reset to a particular point:
+
+```shell
+git reset --hard HEAD@{23}
+# or
+git reset --hard e192732d8
+```
+
+## Undo dropped stash
+
+- shows unreachable stashes in your repo
+
+```shell
+git fsck --unreachable | grep commit | cut -d ' ' -f3 | xargs git log --merges --no-walk --grep=WIP
+```
+
+- if you find the stash, apply it:
+
+```shell
+git stash apply <SHA>
 ```
 
 # GitHub
