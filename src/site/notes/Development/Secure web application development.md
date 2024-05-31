@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Secure web application development.md","permalink":"/notes/secure-web-application-development/"}
+{"dg-publish":true,"dg-path":"Secure web application development.md","permalink":"/secure-web-application-development/"}
 ---
 
 
