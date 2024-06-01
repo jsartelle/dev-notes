@@ -477,7 +477,9 @@ interface Apple extends Fruit { /* ... */ }
 
 function getFruits(options?: { applesOnly: false }): Fruit[]
 function getFruits(options: { applesOnly: true }): Apple[]
-function getFruits({ applesOnly = false } = {}): Fruit[]  { /* ... */ }
+function getFruits({ applesOnly = false } = {}): Fruit[]  {
+    /* function body here */
+}
 
 // type Fruit[]
 const fruitSaladIngredients = getFruits()
