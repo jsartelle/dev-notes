@@ -15,6 +15,7 @@
 | $=       | suffixed by *value*                                                               |
 | \*=      | contains *value*                                                                  |
 | [... i]  | case insensitive                                                                  |
+|          |                                                                                   |
 
 ## :focus-visible
 
@@ -233,8 +234,6 @@ clip-path: ellipse(25% 40% at 50% 50%);
 ```html
 <meta name="color-scheme" content="dark-light">
 ```
-
-Demo: https://color-scheme-demo.glitch.me/
 
 ## contain
 
