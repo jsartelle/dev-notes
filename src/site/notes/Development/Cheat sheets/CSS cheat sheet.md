@@ -15,7 +15,6 @@
 | $=       | suffixed by *value*                                                               |
 | \*=      | contains *value*                                                                  |
 | [... i]  | case insensitive                                                                  |
-|          |                                                                                   |
 
 ## :focus-visible
 
@@ -265,6 +264,9 @@ contain-intrinsic-size: auto 300px 100px;
 
 ## content-visibility
 
+> [!warning]
+> Not supported in Safari as of June 2024
+
 - Controls whether the browser renders the element's contents
 - `auto`: the element is only rendered if it is "relevant to the user" - in or near the viewport, focused, selected, or in the top layer
     - `auto` elements get layout, style, and paint [[Development/Cheat sheets/CSS cheat sheet#contain\|containment]], and size containment if off-screen
@@ -481,7 +483,7 @@ Use `flex: 1 1 100%` to make every flex child the same size, regardless of conte
 
 ## Prevent flex items from overflowing container
 
-By default flex items have `min-width: auto`, meaning they can't be smaller than their content. If flex items are overflowing their container, set `min-width: 0` or `overflow:hidden` on them.
+By default flex items have `min-width: auto` and `min-height: auto`, meaning they can't be smaller than their content. If flex items are overflowing their container, set `min-width: 0` or `min-height: 0`, or `overflow:hidden` on them.
 
 # Grid
 
@@ -538,7 +540,6 @@ grid-template-columns: repeat(auto-fill, 200px);
     <div></div>
     <div></div>
     <div></div>
-    <div></div>
 </div>
 
 #### auto-fit
@@ -550,7 +551,6 @@ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 ```
 
 <div class="grid-example" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); background-color: var(--background-secondary);">
-    <div></div>
     <div></div>
     <div></div>
     <div></div>
@@ -670,7 +670,8 @@ grid-column-end: span 2;
 
 ## See also
 
-[[Development/Clipped/Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers\|Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers]]
+- [[Development/Cheat sheets/CSS cheat sheet#minmax\|#minmax]]
+- [[Development/Clipped/Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers\|Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers]]
 
 # Functions
 
@@ -699,7 +700,7 @@ font-size: clamp(1rem, 4vw, 3rem)
 
 ## minmax
 
-- Used with grids
+- Used with [[Development/Cheat sheets/CSS cheat sheet#grid-template-columns, grid-template-rows\|#grid-template-columns, grid-template-rows]]
 - Item width will be >= min and <= max
 - use `minmax(0, 1fr)` to keep all rows/columns the same size
 
