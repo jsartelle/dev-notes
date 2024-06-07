@@ -138,6 +138,52 @@ function Card({ children }) {
 </Card>
 ```
 
+## Pass a component as a prop
+
+```tsx
+import type { ComponentType } from 'react'
+import type { LucideProps } from 'lucide-react'
+
+export interface CardProps {
+    // Icon must be a component that accepts LucideProps
+    // capitalized name tells React it's a component
+    Icon?: ComponentType<LucideProps>
+}
+
+export default function Card({ Icon }: CardProps) {
+    return (
+        <div>
+            {Icon && <Icon size={50} />}
+            <!-- other stuff -->
+        </div>
+    )
+}
+
+// usage
+import { Database } from 'lucide-react'
+
+<Card Icon={Database} />
+```
+
+## Render a tag name from a prop
+
+```tsx
+export interface ComponentProps {
+    // Tag must be a valid HTML tag name
+    // capitalized name tells React it's a component
+    Tag?: keyof JSX.IntrinsicElements
+}
+
+export default function Component({ Tag = 'div' }: ComponentProps) {
+    return <Tag>Hello!</Tag>
+}
+
+// usage
+
+<Component /> // renders <div>Hello!</div>
+<Component Tag="article" /> // renders <article>Hello!</article>
+```
+
 # Events
 
 - DOM event names are written in camelCase
