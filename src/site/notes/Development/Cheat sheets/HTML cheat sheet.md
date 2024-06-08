@@ -22,17 +22,6 @@
     - `range`
     - `color`
 
-<datalist id="apps">
-    <option value="Obsidian"></option>
-    <option value="Apple Notes"></option>
-    <option value="OneNote"></option>
-    <option value="Notion"></option>
-</datalist>
-<label>
-    <span>What is your favorite notes app?</span>
-    <input type="text" list="apps" />
-</label>
-
 ```html
 <datalist id="apps">
     <option value="Obsidian"></option>
@@ -47,9 +36,20 @@
 </label>
 ```
 
-## `＜dialog＞` (modals)
+<datalist id="apps">
+    <option value="Obsidian"></option>
+    <option value="Apple Notes"></option>
+    <option value="OneNote"></option>
+    <option value="Notion"></option>
+</datalist>
+<label>
+    <span>What is your favorite notes app?</span>
+    <input type="text" list="apps" />
+</label>
 
-- makes it easy to create modals
+## `＜dialog＞` (modals/popups)
+
+- makes it easy to create popups that can either be modal (block interaction with the rest of the page), or non-modal
 - call `.show()` to show non-modally, or `.showModal()` to show modally
 - to close, either call `.close()`, or submit a form inside the modal with `method="dialog"`
     - <kbd>Esc</kbd> will close modal dialogs by default
@@ -58,7 +58,7 @@
 
 ### Animating dialogs
 
-#todo this might need updating for `transition-behavior`
+#todo update for `transition-behavior`
 
 - `transition` doesn't work on modals, instead use an animation targeting the `[open]` attribute
 - to animate closing (ex. for a fade out):
@@ -81,18 +81,44 @@ function closeModal() {
 
 - Use the `open` attribute to open and close
 
-<details style="padding: 10px; border: 1px solid currentColor;">
+```html
+<details name="exclusive" style="padding: 10px; border: 1px solid currentColor;">
+    <summary>Click to open</summary>
+    <p>This text is inside the details element</p>
+</details>
+```
+
+<details name="exclusive" style="padding: 10px; border: 1px solid currentColor;">
     <summary>Click to open</summary>
     <p>This text is inside the details element</p>
 </details>
 
 ### Exclusive accordions
 
-- If multiple `<details> `elements have the same `name` attribute, only one can be open at a time - supported in Chrome and Safari as of December 2023
+- If multiple `<details> `elements have the same `name` attribute, only one can be open at a time
+    - supported in Chrome and Safari as of December 2023
 
 ## `＜fieldset＞` and `＜legend＞`
 
 - Group a set of form controls together with an optional title
+
+```html
+<fieldset>
+    <legend>Flavors</legend>
+    <label>
+        <input type="radio" name="flavor" value="chocolate">
+        Chocolate
+    </label>
+    <label>
+        <input type="radio" name="flavor" value="vanilla">
+        Vanilla
+    </label>
+    <label>
+        <input type="radio" name="flavor" value="strawberry">
+        Strawberry
+    </label>
+</fieldset>
+```
 
 <fieldset>
     <legend>Flavors</legend>
@@ -114,13 +140,6 @@ function closeModal() {
 
 - Each page should only have one `<h1>` which describes the entire page
 - Don't skip heading levels (ex. don't nest `<h3>` inside `<h1>` without an `<h2>` in between)
-- Use `aria-labelledby` on sectioning elements ([`<article>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article), [`<aside>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside), [`<nav>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav), and [`<section>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section)) to label them with a header inside
-
-```html
-<article aria-labelledby="article-abc123">
-    <h2 id="article-abc123">Types of Fish</h2>
-</article>
-```
 
 ## `＜hgroup＞`
 
@@ -167,9 +186,37 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
     - use for **anything that can't be async**
 - `async` and `defer` are both ignored for inline scripts
 
+# Popovers
+
+- show any element as a non-modal overlay on the top layer
+    - for modal overlays (which block interaction with the rest of the page), use [[#`<dialog>` (modals/popups)|<dialog>]]
+- popovers come in two types:
+    - `auto`: can be dismissed by clicking outside, only one can be shown at a time unless they're nested
+    - `manual`: must be explicitly closed
+
+## Toggling
+
+- two ways to show a popover:
+    - without JavaScript: create a button with `popovertarget="id"`
+        - `popovertargetaction` can be set to `show`, `hide`, or `toggle` - default `toggle`
+    - with JavaScript: call `showPopover()`, `hidePopover()`, or `togglePopover()` on the popover element
+- when toggled, fires a `toggle` event with `oldState === 'closed'` and `newState === 'open'` or vice versa
+    - `beforeToggle` is also fired with the same properties just before the popover is shown/hidden
+
+```html
+<div id="popoverExample" popover="auto">This is a popover!</div>
+
+<button popovertarget="popoverExample">Show Popover</button>
+```
+
+## Styling
+
+- the backdrop can be styled with `::backdrop` just like `<dialog>`
+- `:popover-open` targets open popovers
+
 # Events
 
-## event.target vs event.currentTarget
+## `event.target` vs `event.currentTarget`
 
 - `event.currentTarget` is always the element that the ==event listener is attached to==
 - `event.target` is the element that ==received the event==
@@ -182,14 +229,14 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 </div>
 ```
 
-## input vs. change
+## `input` vs. `change`
 
 - `input` events fire every time the value of a `<input>`, `<select>`, or `<textarea>` element changes
 - `change` events only fire when the change is committed by the user (ex. by hitting Enter), or the element loses focus
     - radio buttons do not fire `change` when they are deselected
 - ==use `change` for checkboxes & radio buttons==
 
-## DOMContentLoaded vs. load
+## `DOMContentLoaded` vs. `load`
 
 The `load` event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images. This is in contrast to `DOMContentLoaded`, which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
 
