@@ -1051,16 +1051,21 @@ be the same size regardless of the section width */
 @media (prefers-reduced-motion: reduce) {
     /* disable transitions or replace with a simple fade */
 }
+
+@media (prefers-reduced-motion: no-preference) { }
 ```
 
 ### prefers-reduced-transparency
 
-- as of October 2023 supported by Chrome, not Firefox or Safari
+> [!warning]
+> Supported in Chromium only as of June 2024
 
 ```css
 @media (prefers-reduced-transparency: reduce) {
     /* remove transparency and backdrop-filters */
 }
+
+@media (prefers-reduced-transparency: no-preference) { }
 ```
 
 ### forced-colors
@@ -1072,6 +1077,24 @@ be the same size regardless of the section width */
 
 ```css
 @media (forced-colors: active) { }
+
+@media (forced-colors: none) { }
+```
+
+### scripting
+
+```css
+@media (scripting: none) {
+  /* no JavaScript available */
+}
+
+@media (scripting: initial-only) {
+  /* JavaScript only available during initial page load */
+}
+
+@media (scripting: enabled) {
+  /* JavaScript fully available */
+}
 ```
 
 ### Boolean operators
