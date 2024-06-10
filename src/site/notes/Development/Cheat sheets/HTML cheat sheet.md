@@ -55,27 +55,45 @@
     - <kbd>Esc</kbd> will close modal dialogs by default
 - set the `autofocus` attribute on a child to focus it when the dialog opens
 - style a modal dialog's backdrop using the `::backdrop` pseudo-element
+- the `:modal` pseudo-class will target only modal dialogs (as well as fullscreen elements)
+- to animate show/hide:
+    - 
+<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/cheat-sheets/css-cheat-sheet/#with-transition-behavior" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
 
-### Animating dialogs
 
-#todo update for `transition-behavior`
 
-- `transition` doesn't work on modals, instead use an animation targeting the `[open]` attribute
-- to animate closing (ex. for a fade out):
-    - when the close button is clicked, apply a class to the dialog that triggers an animation
-        - just reversing the animation that plays on open won't work, since it's still the same animation name
-    - set a one-time `animationend` listener that calls `dialog.close()` when the animation ends
+## With `transition-behavior`
 
-```js
-function closeModal() {
-    dialogEl.addEventListener('animationend', () => {
-        dialog.close()
-        dialog.classList.remove('fade-out')
-    }, { once: true })
-    
-    dialog.classList.add('fade-out')
+```css
+dialog, [popover] {
+    transition-property: opacity, display;
+    transition-duration: 0.25s;
+
+    /* when setting `display: none`, keeps the element visible until the end of the transition */
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+        /* triggers fade in when showing */
+        opacity: 0;
+    }
+}
+
+dialog:not([open]) {
+        /* triggers fade out when hiding */
+        opacity: 0;
+    }
+}
+
+[popover]:not(:popover-open) {
+        /* triggers fade out when hiding */
+        opacity: 0;
+    }
 }
 ```
+
+
+</div></div>
+
 
 ## `＜details＞` and `＜summary＞` (accordions)
 
@@ -211,8 +229,46 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 
 ## Styling
 
-- the backdrop can be styled with `::backdrop` just like `<dialog>`
+- the backdrop can be styled with `::backdrop`
 - `:popover-open` targets open popovers
+- to animate show/hide:
+    - 
+<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/cheat-sheets/css-cheat-sheet/#with-transition-behavior" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
+
+
+
+## With `transition-behavior`
+
+```css
+dialog, [popover] {
+    transition-property: opacity, display;
+    transition-duration: 0.25s;
+
+    /* when setting `display: none`, keeps the element visible until the end of the transition */
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+        /* triggers fade in when showing */
+        opacity: 0;
+    }
+}
+
+dialog:not([open]) {
+        /* triggers fade out when hiding */
+        opacity: 0;
+    }
+}
+
+[popover]:not(:popover-open) {
+        /* triggers fade out when hiding */
+        opacity: 0;
+    }
+}
+```
+
+
+</div></div>
+
 
 # Events
 
