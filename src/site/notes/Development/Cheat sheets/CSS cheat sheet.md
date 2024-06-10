@@ -524,7 +524,7 @@ grid-template-columns: 1fr 4fr; /* same as 20% 80% */
 grid-template-rows: 50px repeat(3, 1fr) 50px;
 ```
 
-- use `auto` for automatic sizing
+- use `auto` for automatic sizing, or `none` to remove the explicit grid
 
 #### auto-fill
 
@@ -623,7 +623,7 @@ grid-column-end: span 2;
 
 ### grid-area
 
-- Shorthand for `grid-row-start / grid-column-start / grid-row-end / grid-column-end`
+- Shorthand for `grid-row / grid-column`, or `grid-row-start / grid-column-start / grid-row-end / grid-column-end`
 
 ### align-self
 
@@ -1022,6 +1022,16 @@ be the same size regardless of the section width */
 
 ## @media (media queries)
 
+### print and screen
+
+- no parentheses needed
+
+```css
+@media screen { }
+
+@media print { }
+```
+
 ### prefers-color-scheme
 
 ```css
@@ -1372,7 +1382,10 @@ syntax: "*"; /* any value */
 
 ## Font-based length units
 
-- `ch`: the width/height of the character `0` in the current font
+- `ex`: height of a lowercase letter in the current font
+- `cap`: height of a capital letter in the current font
+    - useful for sizing icons inline with text
+- `ch`: width/height of the character `0` in the current font
 - `lh`: the computed line height
 
 ## Font weights
