@@ -366,7 +366,7 @@ mask-repeat: repeat;
 
 ## transition-behavior
 
-- lets you transition properties that are *discrete*
+- lets you transition properties that are *discrete* (things like `display: none` that can't be interpolated)
     - discrete properties will swap from one state to another at 50%, with no smooth transition
         - exceptions for `display: none` or `content-visibility: hidden`: the browser will make sure the content is displayed during the entire animation
             - in the below example, the card will remain visible until the fade out is finished
@@ -1272,8 +1272,9 @@ syntax: "*"; /* any value */
 
 ## @starting-style
 
-- lets you define starting values for an element, which will take effect when the element's box is (re)created
-- in this example, `background-color` will transition from transparent to green when the element is inserted
+- lets you define starting values for an element, which can be used for transitions when the element is first drawn (either from being inserted into the DOM, or moved from `display: none` to visible)
+    - `@starting-style` rules aren't applied when removing the element
+- in this example, `background-color` will transition from transparent to green when the element is inserted into the page
 
 ```css
 .alert {
@@ -1293,6 +1294,14 @@ syntax: "*"; /* any value */
 ```css
 @supports (color: rgb(from white r g b)) {
     /* this browser supports relative color syntax */
+}
+```
+
+- can also test for selector support
+
+```css
+@supports not (selector(:has(a, b))) {
+    /* these rules will only apply to browsers that don't support :has() */
 }
 ```
 
@@ -1375,6 +1384,56 @@ syntax: "*"; /* any value */
     @layer support {
         /* creates a layer called base.support */
     }
+}
+```
+
+# Animating dialogs and popovers
+
+## With `transition-behavior`
+
+```css
+dialog, [popover] {
+    transition-property: opacity, display;
+    transition-duration: 0.25s;
+
+    /* when setting `display: none`, keeps the element visible until the end of the transition */
+    transition-behavior: allow-discrete;
+
+    @starting-style {
+        /* triggers fade in when showing */
+        opacity: 0;
+    }
+}
+
+dialog:not([open]) {
+        /* triggers fade out when hiding */
+        opacity: 0;
+    }
+}
+
+[popover]:not(:popover-open) {
+        /* triggers fade out when hiding */
+        opacity: 0;
+    }
+}
+```
+
+## Without `transition-behavior`
+
+- `transition` doesn't work on modals, instead use an animation targeting the `[open]` attribute
+- to animate closing (ex. for a fade out):
+    - when the close button is clicked, apply a class to the dialog that triggers an animation
+        - just reversing the animation that plays on open won't work, since it's still the same animation name
+    - set a one-time `animationend` listener that calls `dialog.close()` when the animation ends
+
+```js
+function closeModal() {
+    dialogEl.addEventListener('animationend', () => {
+        dialog.close()
+        dialog.classList.remove('fade-out')
+    }, { once: true })
+    
+    dialog.classList.add('fade-out')
 }
 ```
 
