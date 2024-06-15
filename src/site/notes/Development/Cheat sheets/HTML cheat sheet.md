@@ -204,6 +204,10 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
     - use for **anything that can't be async**
 - `async` and `defer` are both ignored for inline scripts
 
+## `＜section＞`
+
+- on content-based pages, should always have a heading (may not apply to web applications)
+
 # Popovers
 
 - show any element as a non-modal overlay on the top layer

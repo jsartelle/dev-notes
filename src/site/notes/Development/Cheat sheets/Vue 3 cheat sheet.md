@@ -137,7 +137,7 @@ const {
 
 ```js
 let count = $ref(0)
-trackChange($$(count))
+trackChange($(count))
 ```
 
 - same with returning `ref`s from functions - you can use `$$()` on an object of refs
@@ -147,7 +147,7 @@ function useMouse() {
     let x = $ref(0)
     let y = $ref(0)
 
-    return $$({
+    return $({
         x,
         y,
     })

@@ -448,7 +448,7 @@ const app = new App({
 - you can check if a slot has content using `$$slots[name]`
 
 ```html
-{#if $$slots.subheading}
+{#if $slots.subheading}
     <slot name="subheading"></slot>
 {/if}
 ```

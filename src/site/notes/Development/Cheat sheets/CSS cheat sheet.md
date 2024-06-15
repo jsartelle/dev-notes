@@ -1439,7 +1439,7 @@ function closeModal() {
 
 # Other
 
-## Font-based length units
+## Font-based length units (ex, cap, ch, lh)
 
 - `ex`: height of a lowercase letter in the current font
 - `cap`: height of a capital letter in the current font

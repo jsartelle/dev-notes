@@ -146,7 +146,7 @@ import type { LucideProps } from 'lucide-react'
 
 export interface CardProps {
     // Icon must be a component that accepts LucideProps
-    // capitalized name tells React it's a component
+    // capitalized name tells React to treat it as a component
     Icon?: ComponentType<LucideProps>
 }
 
@@ -170,7 +170,7 @@ import { Database } from 'lucide-react'
 ```tsx
 export interface ComponentProps {
     // Tag must be a valid HTML tag name
-    // capitalized name tells React it's a component
+    // capitalized name tells React to treat it as a component
     Tag?: keyof JSX.IntrinsicElements
 }
 
@@ -347,7 +347,7 @@ function FriendStatus(props) {
 }
 ```
 
-# useState
+## useState
 
 - use `useState` to preserve variables between renders
 - the argument to `useState` is the initial state
@@ -411,7 +411,7 @@ return (
 )
 ```
 
-# useEffect
+## useEffect
 
 - lets you perform side effects from a function component
     - primarily used for **synchronizing with external systems** - data fetching, setting up a subscription, etc.
@@ -435,13 +435,13 @@ useEffect(() => {
 }, [port])
 ```
 
-# useLayoutEffect
+## useLayoutEffect
 
 - like [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]] but fires before the DOM changes, blocking the browser from painting
     - won't run on the first render, but the result of the first render won't be displayed
     - use `useEffect` instead whenever possible
 
-# useRef
+## useRef
 
 - `useRef` will hold onto information between renders, but aren't tracked by React and **don't trigger re-render** when updated
 - `useRef` should be used for information that is **not needed for rendering**, for example:
@@ -477,7 +477,7 @@ if (playerRef.current === null) {
 }
 ```
 
-## DOM element refs
+### DOM element refs
 
 - to get a DOM element ref, set the initial value to `null`, then set the ref as the `ref` attribute on an element
 - example uses:
@@ -491,7 +491,7 @@ const myRef = useRef(null)
 <div ref={myRef}>
 ```
 
-## forwardRef
+### forwardRef
 
 - allows functional components to receive a ref and forward it to a child component or element
     - this makes it harder to refactor your component in the future (since users of your component may rely on behavior of the element the ref is forwarded to), so typically used for low-level components like custom buttons or inputs
@@ -506,7 +506,7 @@ const MyInput = forwardRef((props, ref) => {
 <button onClick={() => inputRef.current?.focus()}>Focus Input</button>
 ```
 
-# useMemo
+## useMemo
 
 - cache a calculation between renders (similar to [[Development/Cheat sheets/Vue 3 cheat sheet#Computed Properties\|computed properties]] in Vue)
     - referred to as *memoization*
@@ -521,7 +521,7 @@ const sortTodos = useMemo(
 )
 ```
 
-## memo
+### memo
 
 - wrap a component function in `memo` to avoid re-rendering the component when its parent re-renders, as long as its props are the same
     - referred to as a *memoized component*
@@ -544,7 +544,7 @@ function GroupsLanding({ person }) {
 }
 ```
 
-# useCallback
+## useCallback
 
 - cache a function definition so it only changes when one of its dependencies changes
     - like [[Development/Cheat sheets/React cheat sheet#useMemo\|#useMemo]] but for functions
@@ -557,7 +557,7 @@ const handleSubmit = useCallback((orderDetails) => {
 }, [productId, referrer])
 ```
 
-# useReducer
+## useReducer
 
 - reducers let you consolidate state update logic from multiple event handlers into one function
     - because reducers take the state as an argument, you can declare them outside of the component
