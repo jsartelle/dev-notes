@@ -866,10 +866,11 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 - Containers are marked with the `container-type` property
     - two values: `inline-size` allows you to query the inline size only, `size` allows you to query both directions
         - use `size` sparingly for performance reasons
+- Containers have layout, style, and size or inline-size (depending on container type) [[Development/Cheat sheets/CSS cheat sheet#contain\|containment]]  applied
+    - this means a container's size won't be affected by its children, so containers really need to have a set size of their own
 - Supported query conditions: `width`, `height`, `block-size`, `inline-size`, `aspect-ratio`, `orientation`
     - the first 4 require containment in that direction, `aspect-ratio` and `orientation` require `container-type: size`
 - By default, rules in container queries apply to the nearest ancestor container
-- Rules are scoped to the container - in the example below, the `.grid` rule will only apply to `.grid` elements inside `<section>`
 - Container queries have their own length units that correspond to viewport units - `cqw` for `vw`, `cqmin` for `vmin`, etc
     - If not in a container, these units equal their corresponding viewport unit
 

@@ -193,12 +193,6 @@ Searches files for pattern matches and performs an action based on them
     - `{ print $2, $1 }`: print first two fields in opposite order
 - if `pattern` is missing it will match every line, if `action` is missing it will print all matching lines
 
-Find size of file at URL: #todo finish this https://unix.stackexchange.com/questions/450402/how-to-retrieve-downloadable-file-size-with-curl-command
-
-```shell
-curl -sLI "url" | 
-```
-
 ### sed
 
 - `sed`: modify stdin based on regex
@@ -320,7 +314,33 @@ top -stats "command,cpu" -l 2 | grep WindowServer | tail -1
 pkill -9 "node"
 ```
 
-## curl
+## Network
+
+### ipconfig
+
+#### Get list of network adapters
+
+```shell
+ipconfig getiflist
+```
+
+#### Get network adapter details
+
+- replace `en0` with the network adapter name
+
+```shell
+ipconfig getsummary en0
+```
+
+#### Get IP address
+
+- replace `en0` with the network adapter name
+
+```shell
+ipconfig getifaddr en0
+```
+
+### curl
 
 - `-v`: verbose mode, prints connection steps
 - `-X`: set request method (`GET`, `POST`, etc)
