@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Next.js cheat sheet.md","permalink":"/cheat-sheets/next-js-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Next.js cheat sheet.md","permalink":"/cheat-sheets/next-js-cheat-sheet/","tags":["language/react"]}
 ---
 
 
@@ -55,8 +55,3 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 # useEffect runs in the browser only
 
 - If using browser-only APIs such as `window`, wrap them in `useEffect` to avoid a mismatch between server and client on hydration
-
-# See also
-
-- [[Development/Cheat sheets/React cheat sheet\|React cheat sheet]]
-- [[Development/Cheat sheets/React Native cheat sheet\|React Native cheat sheet]]

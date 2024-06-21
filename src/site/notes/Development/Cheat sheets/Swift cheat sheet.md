@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Swift cheat sheet.md","permalink":"/cheat-sheets/swift-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Swift cheat sheet.md","permalink":"/cheat-sheets/swift-cheat-sheet/","tags":["language/swift"]}
 ---
 
 

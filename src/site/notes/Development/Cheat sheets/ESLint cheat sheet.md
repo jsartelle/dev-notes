@@ -1,6 +1,7 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/ESLint cheat sheet.md","permalink":"/cheat-sheets/es-lint-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/ESLint cheat sheet.md","permalink":"/cheat-sheets/es-lint-cheat-sheet/","tags":["language/javascript"]}
 ---
+
 
 # Comments
 

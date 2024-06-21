@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Svelte cheat sheet.md","permalink":"/cheat-sheets/svelte-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Svelte cheat sheet.md","permalink":"/cheat-sheets/svelte-cheat-sheet/","tags":["language/svelte"]}
 ---
 
 
@@ -838,7 +838,3 @@ const posts = data.posts
 - Use layouts to add nav, import global stylesheets, etc
 - Layouts can have a `+layout.(js|ts)` file for [[Development/Cheat sheets/Svelte cheat sheet#Data loading\|loading data]], which is merged with page-specific data
 - Layouts can access data from their children using `$page.data`
-
-### See also
-
-- [[Development/Cheat sheets/PicoCSS cheat sheet\|PicoCSS cheat sheet]]

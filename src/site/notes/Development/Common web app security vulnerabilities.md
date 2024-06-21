@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Common web app security vulnerabilities.md","permalink":"/notes/common-web-app-security-vulnerabilities/"}
+{"dg-publish":true,"dg-path":"Notes/Common web app security vulnerabilities.md","permalink":"/notes/common-web-app-security-vulnerabilities/","tags":["tech/security","tech/web"]}
 ---
 
 
@@ -111,8 +111,6 @@
     - develop a patching strategy to periodically review & update dependencies
 
 # See also
-
-[[Development/Secure web application development\|Secure web application development]]
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://portswigger.net/web-security" target="_blank">
 	<div class="rich-link-image-container">

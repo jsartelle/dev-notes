@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Git cheat sheet.md","permalink":"/cheat-sheets/git-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Git cheat sheet.md","permalink":"/cheat-sheets/git-cheat-sheet/","tags":["language/terminal"]}
 ---
 
 

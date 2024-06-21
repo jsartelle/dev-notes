@@ -292,7 +292,3 @@ kill (ps | where name == "Dock" | first).pid
 ```shell
 ps | where name == "Dock" | each { kill $in.pid }
 ```
-
-# See also
-
-- [[Development/Cheat sheets/Terminal cheat sheet\|Terminal cheat sheet]]

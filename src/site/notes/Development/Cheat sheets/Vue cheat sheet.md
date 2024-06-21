@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Vue cheat sheet.md","permalink":"/cheat-sheets/vue-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Vue cheat sheet.md","permalink":"/cheat-sheets/vue-cheat-sheet/","tags":["language/vue"]}
 ---
 
 
@@ -417,7 +417,3 @@ export default {
     }
 }
 ```
-
-# See also
-
-- [[Development/Cheat sheets/Vue 3 cheat sheet\|Vue 3 cheat sheet]]

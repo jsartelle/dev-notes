@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Web libraries and tools.md","permalink":"/notes/web-libraries-and-tools/"}
+{"dg-publish":true,"dg-path":"Notes/Web libraries and tools.md","permalink":"/notes/web-libraries-and-tools/","tags":["tech/web"]}
 ---
 
 

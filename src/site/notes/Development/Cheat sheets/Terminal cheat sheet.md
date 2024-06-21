@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Terminal cheat sheet.md","permalink":"/cheat-sheets/terminal-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Terminal cheat sheet.md","permalink":"/cheat-sheets/terminal-cheat-sheet/","tags":["language/terminal"]}
 ---
 
 
@@ -613,7 +613,3 @@ defaults write com.apple.Dock showhidden -boolean yes; killall Dock
 $theSource = "E:\"       # <<<<< insert drive here
 Get-Childitem $theSource -Include @("._*", ".DS_Store", ".fseventsd", ".TemporaryItems", ".Trashes", ".Spotlight-V100") -Recurse -Force -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse
 ```
-
-# See also
-
-- [[Development/Cheat sheets/Nushell cheat sheet\|Nushell cheat sheet]]

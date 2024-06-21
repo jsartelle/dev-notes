@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/HTML cheat sheet.md","permalink":"/cheat-sheets/html-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/HTML cheat sheet.md","permalink":"/cheat-sheets/html-cheat-sheet/","tags":["language/html"]}
 ---
 
 
@@ -330,7 +330,3 @@ https://picsum.photos/seed/seedGoesHere/200/300
 <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="styles.css"></noscript>
 ```
-
-# See also
-
-- [[Development/Clipped/Everything I Know About The Script Tag\|Everything I Know About The Script Tag]]

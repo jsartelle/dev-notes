@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/60-30-10 color rule.md","permalink":"/notes/60-30-10-color-rule/"}
+{"dg-publish":true,"dg-path":"Notes/60-30-10 color rule.md","permalink":"/notes/60-30-10-color-rule/","tags":["articles/design"]}
 ---
 
 - 60% neutral color

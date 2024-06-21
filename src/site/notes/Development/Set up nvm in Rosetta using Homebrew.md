@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Set up nvm in Rosetta using Homebrew.md","permalink":"/notes/set-up-nvm-in-rosetta-using-homebrew/"}
+{"dg-publish":true,"dg-path":"Notes/Set up nvm in Rosetta using Homebrew.md","permalink":"/notes/set-up-nvm-in-rosetta-using-homebrew/","tags":["language/terminal","tech/macos"]}
 ---
 
 

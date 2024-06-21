@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Code review checklist.md","permalink":"/notes/code-review-checklist/"}
+{"dg-publish":true,"dg-path":"Notes/Code review checklist.md","permalink":"/notes/code-review-checklist/","tags":["articles/dev-process"]}
 ---
 
 
@@ -19,6 +19,7 @@
     - this could be fixed by checking `if (!apiKey || apiKey !== process.env.API_KEY)`
 
 ```js
+/* this is bad code! */
 const apiKey = req.body.apiKey
 
 if (apiKey !== process.env.API_KEY) {

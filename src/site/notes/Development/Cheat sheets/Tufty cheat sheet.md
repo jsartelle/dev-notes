@@ -1,6 +1,7 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Tufty cheat sheet.md","permalink":"/cheat-sheets/tufty-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Tufty cheat sheet.md","permalink":"/cheat-sheets/tufty-cheat-sheet/","tags":["tech/tufty","language/python"]}
 ---
+
 
 # Using Thonny
 
@@ -199,9 +200,3 @@ while True:
     if button_a.is_pressed:
         # do stuff
 ```
-
-# See also
-
-- [[Development/Cheat sheets/Python cheat sheet\|Python cheat sheet]]
-- [[Tech/Clipped/Getting Started with Tufty 2040\|Getting Started with Tufty 2040]]
-- [[Tech/Clipped/Pico Graphics README\|Pico Graphics README]]

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/React cheat sheet.md","permalink":"/cheat-sheets/react-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/React cheat sheet.md","permalink":"/cheat-sheets/react-cheat-sheet/","tags":["language/react"]}
 ---
 
 
@@ -493,6 +493,8 @@ const myRef = useRef(null)
 
 ### forwardRef
 
+#todo update for React 19 and `ref` as a prop
+
 - allows functional components to receive a ref and forward it to a child component or element
     - this makes it harder to refactor your component in the future (since users of your component may rely on behavior of the element the ref is forwarded to), so typically used for low-level components like custom buttons or inputs
 
@@ -796,8 +798,3 @@ const Item = forwardRef((props, ref) => (
     })}
 </FlipMove>
 ```
-
-# See also
-
-- [[Development/Cheat sheets/React Native cheat sheet\|React Native cheat sheet]]
-- [[Development/Cheat sheets/Next.js cheat sheet\|Next.js cheat sheet]]

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/CSS cheat sheet.md","permalink":"/cheat-sheets/css-cheat-sheet/","contentClasses":"css-cheat-sheet"}
+{"dg-publish":true,"dg-path":"Cheat sheets/CSS cheat sheet.md","permalink":"/cheat-sheets/css-cheat-sheet/","tags":["language/css"]}
 ---
 
 
@@ -866,7 +866,7 @@ cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
 - Containers are marked with the `container-type` property
     - two values: `inline-size` allows you to query the inline size only, `size` allows you to query both directions
         - use `size` sparingly for performance reasons
-- Containers have layout, style, and size or inline-size (depending on container type) [[Development/Cheat sheets/CSS cheat sheet#contain\|containment]]  applied
+- Containers have layout, style, and size or inline-size (depending on container type) [[Development/Cheat sheets/CSS cheat sheet#contain\|containment]] applied
     - this means a container's size won't be affected by its children, so containers really need to have a set size of their own
 - Supported query conditions: `width`, `height`, `block-size`, `inline-size`, `aspect-ratio`, `orientation`
     - the first 4 require containment in that direction, `aspect-ratio` and `orientation` require `container-type: size`
@@ -1679,8 +1679,3 @@ p { color: blue; }
 		</p>
 	</div>
 </a></div>
-
-# See also
-
-- [[Development/Cheat sheets/Sass cheat sheet\|Sass cheat sheet]]
-- [[Development/Clipped/Useful nth-child Recipes\|Useful nth-child Recipes]]

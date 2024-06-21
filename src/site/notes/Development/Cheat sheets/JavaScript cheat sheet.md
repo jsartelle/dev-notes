@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/JavaScript cheat sheet.md","permalink":"/cheat-sheets/java-script-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/JavaScript cheat sheet.md","permalink":"/cheat-sheets/java-script-cheat-sheet/","tags":["language/javascript"]}
 ---
 
 
@@ -81,7 +81,7 @@ function shuffleArray(array) {
 
 ## Array.at
 
-- Returns the item at an index, but supports negative indices
+- Like bracket notation, but supports negative indices
 
 ```js
 const arr = ['apple', 'banana', 'orange', 'mango']
@@ -92,7 +92,7 @@ console.log(arr.at(-1)) // mango
 ## Non-mutating methods
 
 - `toSorted`, `toReversed`, and `toSpliced` are the *copying* versions of `sort`, `reverse` and `splice` (they return a new array)
-- `with` is the copying version of using bracket notation
+- `with` is the copying version of using assignment with bracket notation
     - `with` also supports negative indices
 
 ```js
@@ -609,7 +609,3 @@ const greenApple = new Apple('green')
 /* returns a string if allowsMultiple is false, and an array of strings if allowsMultiple is true */
 function getParamValue(param, allowsMultiple) { ... }
 ```
-
-# See also
-
-- [[Development/Cheat sheets/TypeScript cheat sheet\|TypeScript cheat sheet]]

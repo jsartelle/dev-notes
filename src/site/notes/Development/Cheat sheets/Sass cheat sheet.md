@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Sass cheat sheet.md","permalink":"/cheat-sheets/sass-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Sass cheat sheet.md","permalink":"/cheat-sheets/sass-cheat-sheet/","tags":["language/css"]}
 ---
 
 
@@ -105,7 +105,3 @@ animation: {
     background-color: red;
 }
 ```
-
-# See also
-
-- [[Development/Cheat sheets/CSS cheat sheet\|CSS cheat sheet]]

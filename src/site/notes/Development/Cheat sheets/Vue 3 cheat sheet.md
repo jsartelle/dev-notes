@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Vue 3 cheat sheet.md","permalink":"/cheat-sheets/vue-3-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Vue 3 cheat sheet.md","permalink":"/cheat-sheets/vue-3-cheat-sheet/","tags":["language/vue"]}
 ---
 
 
@@ -1016,7 +1016,3 @@ p {
 
 - target slotted content (in the child component) using `::v-slotted()`
 - apply global rules in scoped style blocks using `::v-global()`
-
-# See also
-
-- [[Development/Cheat sheets/Vue cheat sheet\|Vue cheat sheet]]
