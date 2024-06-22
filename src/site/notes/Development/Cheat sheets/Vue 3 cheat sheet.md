@@ -432,10 +432,10 @@ export default {
 
 ## Provide and Inject
 
-- provide key can be a string or Symbol
+- `provide` key can be a string or Symbol
     - if you are working in a large application, use Symbol keys to avoid collisions, and export/import the keys from a dedicated file
     - Symbol keys also [[Development/Cheat sheets/Vue 3 cheat sheet#^2e8115\|work better in TypeScript]]
-- provide value can be anything, including reactive state
+- `provide` value can be anything, including reactive state
 - injected `ref`s are **not** automatically unwrapped
 
 ```js

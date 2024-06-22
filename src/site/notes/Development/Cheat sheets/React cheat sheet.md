@@ -615,20 +615,61 @@ function handleDeleteTask(taskId) {
 
 # Context
 
-#todo https://react.dev/learn/passing-data-deeply-with-context
+- lets a component pass data down an arbitrary distance in the tree, without having to pass props through multiple levels of components that might not need them (prop drilling)
+    - similar to [[Development/Cheat sheets/Vue 3 cheat sheet#Provide and Inject\|provide and inject in Vue]]
+- create a file for the context, and call `createContext` with a default value
+    - the default value is used if you don't have a ContextProvider
+
+```jsx
+import { createContext } from 'react'
+
+export const LevelContext = createContext(1)
+```
+
+- in the higher level component, import the context and wrap the children in a context provider
+
+```jsx
+import { LevelContext } from './LevelContext'
+
+/* here the context value (`level`) is passed as a prop to the higher level component, but it could come from state or wherever */
+export default function Section({ level, children }) {
+    return (
+        <section>
+            {/* if anything inside the context provider asks for `LevelContext`, it will get the value of `level` */}
+            <LevelContext.Provider value={level}>
+                {children}
+            </LevelContext.Provider>
+        </section>
+    )
+}
+```
+
+- use the context in the child component
+
+```jsx
+import { useContext } from 'react'
+import { LevelContext } from './LevelContext'
+
+export default function Heading({ children }) {
+    const level = useContext(LeveLContext)
+
+    return (/* ... */)
+}
+```
+
+- like CSS inheritance, you can override a context value by adding another context provider (using the same context) lower in the tree
 
 # TypeScript
 
 ```tsx
-import { FC, ReactElement } from 'react'
+import type { PropsWithChildren } from 'react'
 
-interface PersonProps {
+export interface PersonProps extends PropsWithChildren {
   name: string
   age?: number
 }
 
-// the FC type automatically wraps the props in PropsWithChildren
-const Person: FC<PersonProps> = ({ name, age, children }): ReactElement => {
+export default function Person({ name, age, children }: PersonProps) {
   return (
     <div>
       <span>Hello {name}!</span>
@@ -638,15 +679,6 @@ const Person: FC<PersonProps> = ({ name, age, children }): ReactElement => {
   )
 }
 
-```
-
-- In practice, you usually just need to type the props
-    - you can use `PropsWithChildren` to add the `children` prop
-
-```tsx
-export default function Person({ name, age, children }: PropsWithChildren<PersonProps>) {
-    // ...
-}
 ```
 
 - use `ComponentProps` with `typeof` to get a component's prop type
