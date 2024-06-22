@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Regex cheat sheet.md","permalink":"/cheat-sheets/regex-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Regex cheat sheet.md","permalink":"/cheat-sheets/regex-cheat-sheet/","tags":["language/javascript"]}
 ---
 
 
