@@ -208,6 +208,13 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 
 - on content-based pages, should always have a heading (may not apply to web applications)
 
+## `＜video＞`
+
+- `preload` attribute lets you control how much data is preloaded
+    - `none`
+    - `metadata`: only size, length, etc
+    - `auto` (or empty string): can preload the whole video (but not guaranteed)
+
 # Popovers
 
 - show any element as a non-modal overlay on the top layer

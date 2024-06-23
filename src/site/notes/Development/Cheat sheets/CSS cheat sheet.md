@@ -161,7 +161,63 @@ li.anchor ~ :nth-child(2 of .important) {
 aspect-ratio: 16 / 9;
 ```
 
+## backdrop-filter
+
+### Nested backdrop filters
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://stackoverflow.com/a/76207141" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">backdrop-filter not working for nested elements in Chrome</h1>
+		<p class="rich-link-card-description">
+		I have a div.outer and inside a div.inner, both with position: absolute; and backdrop-filter: blur(8px);.
+
+https://jsbin.com/nihakiqocu/1/edit?html,css,output
+
+Safari (left) gives the desired resul...
+
+		</p>
+
+		<p class="rich-link-href">
+
+		https://stackoverflow.com/a/76207141
+
+		</p>
+
+	</div>
+
+</a></div>
+
+Setting any of these values on an element turns it into a *backdrop root*:
+
+- `filter`
+- `backdrop-filter`
+- `mix-blend-mode`
+- `opacity` < 1
+- `mask` or any mask sub-properties
+- `will-change` specifying any of the above values
+
+Child elements can't "see through" a backdrop root, so `backdrop-filter` on children won't work as expected.
+
+To fix this, move the `backdrop-filter` that's on the outer element to a pseudo-element:
+
+```css
+.blurred-bg::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(30px);
+    z-index: -1;
+}
+```
+
 ## background
+
+### Background order
 
 - if you have multiple backgrounds, earlier ones are drawn on top
 
@@ -221,10 +277,11 @@ clip-path: ellipse(25% 40% at 50% 50%);
 
 ## color-scheme
 
-- Automatically adapt to the user's system color scheme
+- Choose whether the element adapts to the system color scheme
+    - `normal` (default): use the browser's default color scheme
     - `light` or `dark` will force the element to the specified color scheme
     - `light dark` means the element should support light and dark modes, and prefer light mode
-    - `dark light` is the same, but will prefer dark mode
+        - `dark light` is the same, but will prefer dark mode
     - `only light` or `only dark` prevents the browser from overriding the color scheme
 - Use [[Development/Cheat sheets/CSS cheat sheet#prefers-color-scheme\|prefers-color-scheme]] as usual to style elements based on the color scheme, or use [[Development/Cheat sheets/CSS cheat sheet#light-dark\|#light-dark]]
     - consider using [[Development/Cheat sheets/CSS cheat sheet#System colors\|system color]] keywords to make the page match the system
@@ -262,10 +319,14 @@ contain-intrinsic-size: 300px 100px;
 contain-intrinsic-size: auto 300px 100px;
 ```
 
+## container
+
+See [[Development/Cheat sheets/CSS cheat sheet#@container (container queries)\|#@container (container queries)]]
+
 ## content-visibility
 
 > [!warning]
-> Not supported in Safari as of June 2024
+> Only supported in Safari in preview as of June 2024
 
 - Controls whether the browser renders the element's contents
 - `auto`: the element is only rendered if it is "relevant to the user" - in or near the viewport, focused, selected, or in the top layer
@@ -273,6 +334,21 @@ contain-intrinsic-size: auto 300px 100px;
 - `hidden`: the element is never rendered
     - like a hybrid of `display: none` and `visibility: hidden` - doesn't render, but stays cached so unhiding is fast
 - example usage: on a blog page, wrap each article in `content-visibility: auto` so only visible articles are rendered
+
+## font-weight
+
+| Value | Common weight name        |
+| ----- | ------------------------- |
+| 100   | Thin (Hairline)           |
+| 200   | Extra Light (Ultra Light) |
+| 300   | Light                     |
+| 400   | Normal (Regular)          |
+| 500   | Medium                    |
+| 600   | Semi Bold (Demi Bold)     |
+| 700   | Bold                      |
+| 800   | Extra Bold (Ultra Bold)   |
+| 900   | Black (Heavy)             |
+| 950   | Extra Black (Ultra Black) |
 
 ## forced-color-adjust
 
@@ -296,6 +372,12 @@ contain-intrinsic-size: auto 300px 100px;
 ```css
 gap: 10px 5px;
 ```
+
+## hyphens
+
+- `none`: words are never broken
+- `manual` (default): words are only broken at line break opportunities (`-` characters or `&shy;`)
+- `auto`: the browser uses its dictionary to break words automatically
 
 ## mask properties
 
@@ -342,7 +424,8 @@ mask-repeat: repeat;
 
 ## outline-offset
 
-- Adjusts the amount of space between an element's edge and its outline, can be positive or negative
+- Adjusts the amount of space between an element's edge and its outline
+    - can be positive or negative
 
 <div class="outline-offset-example">
     <div style="outline-offset: 10px">
@@ -355,16 +438,42 @@ mask-repeat: repeat;
 
 ## resize
 
-- doesn't work on inline elements or if `overflow` is `visible`
+- lets you add a resize handle to elements
+- values: `horizontal`, `vertical`, `both`, `none` (default)
+- doesn't work on inline elements, or if `overflow` is `visible`
 
 ## text-wrap
 
+> [!warning]
+> As of June 2024 `pretty` is only supported in Chromium, `stable` only in Firefox and Safari
+
+- controls *how* text is wrapped
 - `wrap` and `nowrap`: same as [[Development/Cheat sheets/CSS cheat sheet#white-space\|#white-space]]
 - `balance`: tries to keep the line length equal
     - only works for blocks of text with 6 or less lines
-- `pretty`: same as wrap, but favors better layout over speed
+- `pretty`: text wraps, but favors better layout over speed
+- `stable`: text wraps, but when the user is editing content, lines before the line being edited will remain static and not re-wrap
+
+## transition
+
+### Transition from height 0 to auto
+
+- Place the element in a container with this styling
+
+```css
+display: grid;
+grid-template-rows: 0fr;
+transition: grid-template-rows;
+```
+
+- To transition to auto height, change `grid-template-rows` to `1fr`
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/B_n4YONte5A?si=vJOmWFjPvHmD1mRT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## transition-behavior
+
+> [!warn]
+> As of June 2024 Firefox only supports it in nightlies
 
 - lets you transition properties that are *discrete* (things like `display: none` that can't be interpolated)
     - discrete properties will swap from one state to another at 50%, with no smooth transition
@@ -412,12 +521,6 @@ user-select: none;
 | `pre-wrap`     | Preserve  | Preserve        | Wrap          | Hang               | Hang                               |
 | `pre-line`     | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
 | `break-spaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
-
-## width
-
-- `min-content`: wrap text content as much as possible (fit to the width of the longest word)
-- `fit-content`: fit to the content, wrapping if necessary
-- `max-content`: don't wrap text content at all
 
 ## Shorthands
 
@@ -670,7 +773,6 @@ grid-column-end: span 2;
 
 ## See also
 
-- [[Development/Cheat sheets/CSS cheat sheet#minmax\|#minmax]]
 - [[Development/Clipped/Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers\|Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers]]
 
 # Functions
@@ -827,51 +929,23 @@ p {
 }
 ```
 
-## cross-fade
-
-### Implemented syntax
-
-> [!warning]
-> Firefox doesn't support this syntax!
-> Safari 16 doesn't correctly handle `linear-gradient` inside `-webkit-cross-fade`.
-
-- Only supports two images, opacity applies to the first image
-
-```css
--webkit-cross-fade(url(white.png), url(black.png), 0%) /* fully black */
--webkit-cross-fade(url(white.png), url(black.png), 100%) /* fully white */
-```
-
-### Specification syntax
-
-> [!warning]
-> - not supported by Firefox
-> - supported with `-webkit-` prefix in Chrome, and unprefixed in Safari
-
-- Supports any number of images, with later images on top
-- If any opacity percentages are left out, it will evenly distribute them to reach 100%
-
-```css
-cross-fade(url(white.png), url(black.png)) /* 50% white 50% black */
-cross-fade(url(white.png), url(black.png) 75%) /* 25% white 75% black */
-cross-fade(url(white.png), url(black.png) 100%) /* 100% black */
-```
-
 # At-rules
 
 ## @container (container queries)
 
-- Supported in all major browsers as of February 2023
-- Style elements based on the size of a container's **content-box** (padding isn't included, even if the element has `box-sizing: border-box`)
-- Containers are marked with the `container-type` property
+### Size queries
+
+- supported in all major browsers as of February 2023
+- style elements based on the size of a container's **content-box**
+    - padding isn't included, even if the element has `box-sizing: border-box`
+- containers are marked with the `container-type` property
     - two values: `inline-size` allows you to query the inline size only, `size` allows you to query both directions
         - use `size` sparingly for performance reasons
-- Containers have layout, style, and size or inline-size (depending on container type) [[Development/Cheat sheets/CSS cheat sheet#contain\|containment]] applied
-    - this means a container's size won't be affected by its children, so containers really need to have a set size of their own
-- Supported query conditions: `width`, `height`, `block-size`, `inline-size`, `aspect-ratio`, `orientation`
+- containers have layout, style, and size or inline-size (depending on container type) [[Development/Cheat sheets/CSS cheat sheet#contain\|containment]] applied
+    - this means a container's size won't be affected by its children, so containers need to have a set size of their own
+- supported query conditions: `width`, `height`, `block-size`, `inline-size`, `aspect-ratio`, `orientation`
     - the first 4 require containment in that direction, `aspect-ratio` and `orientation` require `container-type: size`
-- By default, rules in container queries apply to the nearest ancestor container
-- Container queries have their own length units that correspond to viewport units - `cqw` for `vw`, `cqmin` for `vmin`, etc
+- container queries have their own length units that correspond to viewport units - `cqw` for `vw`, `cqmin` for `vmin`, etc
     - If not in a container, these units equal their corresponding viewport unit
 
 Create a grid that collapses when its container is below a certain size:
@@ -898,8 +972,13 @@ section {
 }
 ```
 
-- You can name containers using `container-name`, and reference them by writing their name after `@container`
+- by default, rules in container queries apply to the nearest ancestor container of the element receiving the rules
+    - this means that if there are multiple sets of rules in a container query, each set could have a different container
+- you can name containers using `container-name`, and reference them by name after `@container`
     - shorthand: `container: name / type`
+    - containers can have multiple (space-separated) names, and names can be shared between multiple elements/selectors
+- can use `and`, `or`, and `not` operators to combine conditions
+    - `not` can only be used once, and can't be combined with `and`/`or`
 
 ```html
 <article>
@@ -919,7 +998,8 @@ section {
 
 ```css
 article {
-    container-name: recipe;
+    /* can be targeted with the name `article` or `recipe` */
+    container-name: article recipe;
     container-type: inline-size;
 }
 
@@ -935,9 +1015,60 @@ be the same size regardless of the section width */
         font-size: 1.33em;
     }
 }
+
+/* same as above */
+@container recipe (width >= 500px) {
+    h3 {
+        font-size: 1.33em;
+    }
+}
+
+/* operator example */
+@container recipe (width >= 500px) and (width < 1000px) {
+    h3 {
+        font-size: 1.33em;
+    }
+}
 ```
 
-## @import
+### Style queries
+
+> [!danger]
+> As of June 2024 supported for custom properties in Chrome, Safari preview, not yet in Firefox
+
+- lets you query based on the computed values of properties on a container
+    - currently only works with custom properties, will eventually work with any property
+- **all elements are style containers** - if a container name is not given, the container will be the parent of the element receiving the styles
+    - for pseudo-elements (::before and ::after), the default container is the element the pseudo-element is attached to
+    - when querying a non-inherited property, it's important to explicitly specify a container name, since the parent's value may not be relevant
+
+```css
+@container style(--alignment) {
+    /* rules will apply if the value of --alignment differs from the initial value */
+}
+
+@container card style(--alignment: start) {
+    /* rules will apply if the value of --alignment on the `card` container is `start` */
+}
+
+@container card style(--alignment: start) or style(--alignment: end) {
+    /* operators work here too */
+}
+```
+
+- example (not yet supported by any browsers): make normally italic elements normal if they're inside an italicized container
+    - since browsers style `em` and `i` with italics, and style queries are based on computed properties, this will work even if we don't style `em` and `i` as italic ourselves
+
+```css
+/* not yet supported by any browsers */
+@container style(font-style: italic) {
+    em, i {
+        font-style: normal;
+    }
+}
+```
+
+## @import (don't use it!)
 
 ==Avoid using `@import`==, as it makes the browser download CSS sequentially and slows down rendering. Instead, link the stylesheets separately in your HTML, or use a bundler to combine them into one stylesheet.
 
@@ -992,7 +1123,7 @@ be the same size regardless of the section width */
 ```
 
 > [!important]
-> Unlayered rules take priority over layered rules!
+> Rules outside of layeres take priority over layered rules!
 
 - Use the `revert-layer` keyword to "roll back" a value to the previous layer
     - Behaves like `revert` if used outside a layer
@@ -1154,6 +1285,9 @@ be the same size regardless of the section width */
 
 ## @property
 
+> [!warning]
+> Only supported in Firefox in preview as of June 2024
+
 - lets you define CSS custom properties with control over data type, inheritance, and initial value
     - can be used to create animatable/transitionable custom properties
 
@@ -1191,6 +1325,9 @@ syntax: "*"; /* any value */
 ```
 
 ## @scope
+
+> [!danger]
+> Not supported in Firefox as of June 2024
 
 - lets you limit a rule's reach based on a parent selector
 
@@ -1272,6 +1409,9 @@ syntax: "*"; /* any value */
 ```
 
 ## @starting-style
+
+> [!danger]
+> Not supported in Firefox as of June 2024
 
 - lets you define starting values for an element, which can be used for transitions when the element is first drawn (either from being inserted into the DOM, or moved from `display: none` to visible)
     - `@starting-style` rules aren't applied when removing the element
@@ -1421,7 +1561,7 @@ dialog:not([open]) {
 
 ## Without `transition-behavior`
 
-- `transition` doesn't work on modals, instead use an animation targeting the `[open]` attribute
+- use an animation targeting the `[open]` attribute
 - to animate closing (ex. for a fade out):
     - when the close button is clicked, apply a class to the dialog that triggers an animation
         - just reversing the animation that plays on open won't work, since it's still the same animation name
@@ -1440,7 +1580,71 @@ function closeModal() {
 
 # Other
 
-## Font-based length units (ex, cap, ch, lh)
+## Custom property quirks
+
+- The browser first determines the cascaded value for an element, then "throws away" all other possible values, **before** checking if the cascaded value is valid
+    - this means if a custom property value is invalid, it won't fall back to a less specific value
+
+```css
+html { color: red; }
+
+/* gets thrown away because the value on `.card p` is more specific */
+p { color: blue; }
+
+.card { --color: #notacolor; }
+
+/* Gets selected as the final *cascaded* value. But since it's invalid, and the value on `p` was already thrown away, falls back to the *inherited* value from `html` */
+.card p { color: var(--color); }
+```
+
+- Custom properties are computed **before inheritance happens**
+
+```css
+:root {
+    --spacing: 0.5rem;
+    --spacing-small: calc(var(--spacing) / 2); /* 0.25rem */
+}
+
+.element {
+    --spacing: 1rem;
+    /* --spacing-small is still 0.25rem because the value is
+    calculated at the root level */
+}
+```
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://moderncss.dev/how-custom-property-values-are-computed/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://moderncss.dev/img/social/how-custom-property-values-are-computed.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">How Custom Property Values are Computed | Modern CSS Solutions</h1>
+		<p class="rich-link-card-description">
+		Review behaviors to be aware of regarding how the browser computes final custom property values. A misunderstanding of this process may lead to an unexpected or missing value and difficulty troubleshooting and resolving the issue.
+		</p>
+		<p class="rich-link-href">
+		https://moderncss.dev/how-custom-property-values-are-computed/
+		</p>
+	</div>
+</a></div>
+
+## `unset` vs. `revert`
+
+- `unset` uses the *property's* inherited value if it inherits, or its initial value if not
+- `revert` uses the *element's* default style (as set by the browser), unless the user has applied a custom style, in which case it uses that value
+    - In practice, most methods of applying custom styles (such as [Stylus](https://add0n.com/stylus.html)) apply them to the `author` style origin, so `revert` will roll back to the browser's style anyway
+
+For example, the default value of the `display` property is `inline`, but browsers set `<div>` elements to `display: block`.
+
+Setting `display: unset` on a `<div>` will apply `display: inline`, which probably isn't what you want. Setting `display: revert` instead will apply `display: block`.
+
+## `min-content`, `fit-content`, and `max-content` sizes
+
+- `min-content`: wrap text content as much as possible (fit to the width of the longest word)
+- `fit-content`: fit to the content, wrapping if necessary
+- `max-content`: don't wrap text content at all
+
+## Font-based length units (`ex`, `cap`, `ch`, `lh`)
 
 - `ex`: height of a lowercase letter in the current font
 - `cap`: height of a capital letter in the current font
@@ -1448,22 +1652,7 @@ function closeModal() {
 - `ch`: width/height of the character `0` in the current font
 - `lh`: the computed line height
 
-## Font weights
-
-| Value | Common weight name        |
-| ----- | ------------------------- |
-| 100   | Thin (Hairline)           |
-| 200   | Extra Light (Ultra Light) |
-| 300   | Light                     |
-| 400   | Normal (Regular)          |
-| 500   | Medium                    |
-| 600   | Semi Bold (Demi Bold)     |
-| 700   | Bold                      |
-| 800   | Extra Bold (Ultra Bold)   |
-| 900   | Black (Heavy)             |
-| 950   | Extra Black (Ultra Black) |
-
-## System colors
+## System color keywords
 
 - use colors provided by the operating system
 - browser support is inconsistent, so use [[Development/Cheat sheets/CSS cheat sheet#@supports\|#@supports]] to test and set fallback values appropriately
@@ -1488,41 +1677,17 @@ function closeModal() {
 | `MarkText`        | Text that has been specially marked (such as by the HTML mark element)               |
 | `VisitedText`     | Text of visited links                                                                |
 
-## `unset` vs. `revert`
-
-- `unset` uses the *property's* inherited value if it inherits, or its initial value if not
-- `revert` uses the *element's* default style (as set by the browser), unless the user has applied a custom style, in which case it uses that value
-    - In practice, most methods of applying custom styles (such as [Stylus](https://add0n.com/stylus.html)) apply them to the `author` style origin, so `revert` will roll back to the browser's style anyway
-
-For example, the default value of the `display` property is `inline`, but browsers set `<div>` elements to `display: block`.
-
-Setting `display: unset` on a `<div>` will apply `display: inline`, which probably isn't what you want. Setting `display: revert` instead will apply `display: block`.
-
 ## `opacity: 0` vs. `visibility: hidden`
 
 - Elements with `opacity: 0` are still:
     - clickable (will fire click events)
     - focusable
     - visible to screen readers
-- Elements with `visibility: hidden` don't do any of the above.
+- Elements with `visibility: hidden` (or [[Development/Cheat sheets/CSS cheat sheet#content-visibility\|content-visibility: hidden]]) don't do any of the above.
 
 ## Negative transition/animation-delays
 
 A negative `transition-delay` or `animation-delay` will start the transition/animation partway through. For example, `transition-delay: -50ms` will start the transition at the 50ms mark.
-
-## Transition from height 0 to auto
-
-- Place the element in a container with this styling
-
-```css
-display: grid;
-grid-template-rows: 0fr;
-transition: grid-template-rows;
-```
-
-- To transition to auto height, change `grid-template-rows` to `1fr`
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/B_n4YONte5A?si=vJOmWFjPvHmD1mRT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## Make textareas resize to fit their content
 
@@ -1580,102 +1745,3 @@ Style the wrapper the same as the textarea, overlay them using `grid`, and hide 
     pointer-events: none;
 }
 ```
-
-## Nested backdrop filters
-
-<div class="rich-link-card-container"><a class="rich-link-card" href="https://stackoverflow.com/a/76207141" target="_blank">
-	<div class="rich-link-image-container">
-		<div class="rich-link-image" style="background-image: url('https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded')">
-	</div>
-	</div>
-	<div class="rich-link-card-text">
-		<h1 class="rich-link-card-title">backdrop-filter not working for nested elements in Chrome</h1>
-		<p class="rich-link-card-description">
-		I have a div.outer and inside a div.inner, both with position: absolute; and backdrop-filter: blur(8px);.
-
-https://jsbin.com/nihakiqocu/1/edit?html,css,output
-
-Safari (left) gives the desired resul...
-
-		</p>
-
-		<p class="rich-link-href">
-
-		https://stackoverflow.com/a/76207141
-
-		</p>
-
-	</div>
-
-</a></div>
-
-Setting any of these values on an element turns it into a *backdrop root*:
-
-- `filter`
-- `backdrop-filter`
-- `mix-blend-mode`
-- `opacity` < 1
-- `mask` or any mask sub-properties
-- `will-change` specifying any of the above values
-
-Child elements can't "see through" a backdrop root, so `backdrop-filter` on children won't work as expected.
-
-To fix this, move the `backdrop-filter` that's on the outer element to a pseudo-element:
-
-```css
-.blurred-bg::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(30px);
-    z-index: -1;
-}
-```
-
-## Custom property quirks
-
-- The browser first determines the cascaded value for an element, then "throws away" all other possible cascade values, before checking if the value is valid
-
-```css
-html { color: red; }
-
-/* gets thrown away because the value on `.card p` is more specific */
-p { color: blue; }
-
-.card { --color: #notacolor; }
-
-/* Gets selected as the final *cascaded* value. But since it's invalid, and the value on `p` was already thrown away, falls back to the *inherited* value from `html` */
-.card p { color: var(--color); }
-```
-
-- Custom properties are computed before inheritance happens
-
-```css
-:root {
-    --spacing: 0.5rem;
-    --spacing-small: calc(var(--spacing) / 2); /* 0.25rem */
-}
-
-.element {
-    --spacing: 1rem;
-    /* --spacing-small is still 0.25rem because the value is
-    "baked in" at the root level */
-}
-```
-
-<div class="rich-link-card-container"><a class="rich-link-card" href="https://moderncss.dev/how-custom-property-values-are-computed/" target="_blank">
-	<div class="rich-link-image-container">
-		<div class="rich-link-image" style="background-image: url('https://moderncss.dev/img/social/how-custom-property-values-are-computed.png')">
-	</div>
-	</div>
-	<div class="rich-link-card-text">
-		<h1 class="rich-link-card-title">How Custom Property Values are Computed | Modern CSS Solutions</h1>
-		<p class="rich-link-card-description">
-		Review behaviors to be aware of regarding how the browser computes final custom property values. A misunderstanding of this process may lead to an unexpected or missing value and difficulty troubleshooting and resolving the issue.
-		</p>
-		<p class="rich-link-href">
-		https://moderncss.dev/how-custom-property-values-are-computed/
-		</p>
-	</div>
-</a></div>
