@@ -221,6 +221,18 @@ To fix this, move the `backdrop-filter` that's on the outer element to a pseudo-
 
 - if you have multiple backgrounds, earlier ones are drawn on top
 
+## break-before, break-inside, break-after
+
+> [!info]
+> There are many values, but these are the most common ones that are widely supported as of June 2024
+
+- decide whether [[Development/Cheat sheets/CSS cheat sheet#Print-specific styling\|page]] or column breaks are allowed before, after, or inside an element
+- `avoid`: don't allow page or column breaks
+- before and after only:
+    - `page`: force a page break before/after
+- inside only:
+    - `avoid-column` and `avoid-page`: don't allow breaks of that type inside
+
 ## clip-path
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://bennettfeely.com/clippy/" target="_blank">
@@ -379,7 +391,7 @@ gap: 10px 5px;
 - `manual` (default): words are only broken at line break opportunities (`-` characters or `&shy;`)
 - `auto`: the browser uses its dictionary to break words automatically
 
-## mask properties
+## mask
 
 - Requires `-webkit-` prefix on Chromium browsers
 - Useful for [changing the color of SVG icons](https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images) - set the `background-color` as the color you want and use the SVG as the `mask-image`
@@ -399,6 +411,7 @@ mask-repeat: repeat;
 ## mix-blend-mode
 
 - controls how an element blends with its background
+    - [[Tech/Clipped/Blending Modes\|Blending Modes]]
 - use `mix-blend-mode: difference` to reverse text color of a progress bar
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://css-tricks.com/reverse-text-color-mix-blend-mode/" target="_blank">
@@ -436,6 +449,12 @@ mask-repeat: repeat;
     </div>
 </div>
 
+## print-color-adjust
+
+- control whether the browser is allowed to adjust elements for printing (ex. by removing backgrounds or changing colors)
+- `economy` (default): the browser can optimize the element's appearance for print
+- `exact`: don't change the element's appearance
+
 ## resize
 
 - lets you add a resize handle to elements
@@ -468,7 +487,7 @@ transition: grid-template-rows;
 
 - To transition to auto height, change `grid-template-rows` to `1fr`
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/B_n4YONte5A?si=vJOmWFjPvHmD1mRT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+![](https://www.youtube.com/watch?v=B_n4YONte5A)
 
 ## transition-behavior
 
@@ -1283,6 +1302,22 @@ be the same size regardless of the section width */
 @media (width >= 300px) { }
 ```
 
+## @page
+
+- lets you adjust the margins of printed pages
+    - use absolute units only!
+- pseudo-classes: `:first`, `:left`, `:right`, `:blank` (matches empty pages as a result of [[Development/Cheat sheets/CSS cheat sheet#break-before, break-inside, break-after\|forced page breaks]])
+
+```css
+@page {
+    margin: 1rem 0;
+}
+
+@page :first {
+    margin-block-start: 0;
+}
+```
+
 ## @property
 
 > [!warning]
@@ -1745,3 +1780,12 @@ Style the wrapper the same as the textarea, overlay them using `grid`, and hide 
     pointer-events: none;
 }
 ```
+
+## Print-specific styling
+
+- use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|@media print]] to restyle or hide elements when printing
+    - preview print rules in Chrome devtools -> *Rendering* -> *Emulate CSS media type*
+- use [[Development/Cheat sheets/CSS cheat sheet#@page\|#@page]] rules to adjust the page margins
+- use [[Development/Cheat sheets/CSS cheat sheet#print-color-adjust\|#print-color-adjust]] to prevent the browser from adjusting the appearance of elements for print automatically
+- use [[Development/Cheat sheets/CSS cheat sheet#break-before, break-inside, break-after\|#break-before, break-inside, break-after]] to control where pages can break
+- use `orphans` and `widows` to change the minimum number of lines that can be alone at the bottom/top of a page (both default to 2)

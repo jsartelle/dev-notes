@@ -435,6 +435,15 @@ Use the `copy()` function in the console to copy long strings from the console.
 
 # Other
 
+## Operator precedence
+
+- `&&` has a higher precedence than `||`
+    - `a || b && c` is the same as `a || (b && c)`
+    - but don't rely on this, use parentheses to make your intention clearer
+- `&&` and `||` **short circuit**
+    - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
+- math operators follow PEMDAS (`%` has the same precedence as `/`)
+
 ## Assignment using switch statements
 
 - You can assign a variable from a switch statement by wrapping it in an arrow function and immediately calling it
@@ -483,14 +492,24 @@ async function sleep(time) {
 
 - `window.structuredClone()` will create a deep copy of an object, and preserve `Date`, `Map`, and `Set` values (among others)
 
-## Operator precedence
+## Sharing with the system share sheet
 
-- `&&` has a higher precedence than `||`
-    - `a || b && c` is the same as `a || (b && c)`
-    - but don't rely on this, use parentheses to make your intention clearer
-- `&&` and `||` **short circuit**
-    - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
-- math operators follow PEMDAS (`%` has the same precedence as `/`)
+> [!warning]
+> As of June 2024 not supported in Firefox, or Chrome on macOS and Linux
+
+```ts
+/* at least one property should be specified */
+const data: ShareData = {
+  url: location.href,
+  text: 'Some arbitrary text to share',
+  title: 'Cool Web Site',
+  // files: [/* some File objects */],
+}
+
+if (navigator.canShare?.(data)) {
+  navigator.share(data)
+}
+```
 
 # JSDoc
 
