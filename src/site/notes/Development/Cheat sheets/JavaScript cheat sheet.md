@@ -492,6 +492,14 @@ async function sleep(time) {
 
 - `window.structuredClone()` will create a deep copy of an object, and preserve `Date`, `Map`, and `Set` values (among others)
 
+## Print
+
+- see [[Development/Cheat sheets/CSS cheat sheet#Print-specific styling\|CSS cheat sheet#Print-specific styling]] to optimize the page for printing
+
+```js
+window.print()
+```
+
 ## Sharing with the system share sheet
 
 > [!warning]

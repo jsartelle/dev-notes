@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/CSS cheat sheet.md","permalink":"/cheat-sheets/css-cheat-sheet/","tags":["language/css"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/CSS cheat sheet.md","permalink":"/cheat-sheets/css-cheat-sheet/","contentClasses":"css-cheat-sheet","tags":["language/css"]}
 ---
 
 
@@ -165,31 +165,35 @@ aspect-ratio: 16 / 9;
 
 ### Nested backdrop filters
 
-<div class="rich-link-card-container"><a class="rich-link-card" href="https://stackoverflow.com/a/76207141" target="_blank">
-	<div class="rich-link-image-container">
-		<div class="rich-link-image" style="background-image: url('https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded')">
-	</div>
-	</div>
-	<div class="rich-link-card-text">
-		<h1 class="rich-link-card-title">backdrop-filter not working for nested elements in Chrome</h1>
-		<p class="rich-link-card-description">
-		I have a div.outer and inside a div.inner, both with position: absolute; and backdrop-filter: blur(8px);.
+<div class="rich-link-card-container">
+  <a
+    class="rich-link-card"
+    href="https://stackoverflow.com/a/76207141"
+    target="_blank"
+  >
+    <div class="rich-link-image-container">
+      <div
+        class="rich-link-image"
+        style="
+          background-image: url('https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded');
+        "
+      ></div>
+    </div>
+    <div class="rich-link-card-text">
+      <h1 class="rich-link-card-title">
+        backdrop-filter not working for nested elements in Chrome
+      </h1>
+      <p class="rich-link-card-description">
+        I have a div.outer and inside a div.inner, both with position: absolute;
+        and backdrop-filter: blur(8px);.
+        https://jsbin.com/nihakiqocu/1/edit?html,css,output Safari (left) gives
+        the desired resul...
+      </p>
 
-https://jsbin.com/nihakiqocu/1/edit?html,css,output
-
-Safari (left) gives the desired resul...
-
-		</p>
-
-		<p class="rich-link-href">
-
-		https://stackoverflow.com/a/76207141
-
-		</p>
-
-	</div>
-
-</a></div>
+      <p class="rich-link-href">https://stackoverflow.com/a/76207141</p>
+    </div>
+  </a>
+</div>
 
 Setting any of these values on an element turns it into a *backdrop root*:
 
