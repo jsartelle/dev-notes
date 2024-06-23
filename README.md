@@ -1,9 +1,3 @@
-# Digital Obsidian Garden
-This is the template to be used together with the [Digital Garden Obsidian Plugin](https://github.com/oleeskild/Obsidian-Digital-Garden). 
-See the README in the plugin repo for information on how to set it up.
+My personal development notes. Browse them here: https://jsartelle-dev-notes.vercel.app/
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/oleeskild/digitalgarden)
-
----
-## Docs
-Docs are available at [dg-docs.ole.dev](https://dg-docs.ole.dev/)
+![CSS cheat sheet](https://github.com/jsartelle/dev-notes/assets/20188035/8366f40d-0c82-4cfb-b875-14858b2a84e1)
