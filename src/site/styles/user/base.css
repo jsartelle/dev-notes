@@ -1,0 +1,45 @@
+body.is-translucent {
+  background-color: var(--background-primary);
+}
+
+/* allow the TOC to grow */
+.sidebar {
+  top: 0;
+  overflow-y: hidden;
+}
+
+.sidebar-container {
+  height: calc(100% - 10px);
+  gap: 10px;
+}
+
+.graph {
+  flex-shrink: 0;
+}
+
+#link-graph {
+  margin-bottom: 0;
+}
+
+.toc {
+  display: flex;
+  flex-flow: column;
+  min-height: 0;
+  background: var(--background-secondary);
+}
+
+.toc-container {
+  overflow-y: scroll;
+  max-height: none;
+}
+
+.backlinks {
+  flex-grow: 0;
+  margin-top: 0;
+  background: var(--background-secondary);
+}
+
+/* Remove # symbols in the TOC */
+.toc-container li::before {
+  content: none !important;
+}

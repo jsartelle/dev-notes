@@ -1,7 +1,0 @@
-/* Centers inline titles and adds a divider */
-
-header {
-  margin-bottom: var(--size-4-8);
-  border-bottom: 2px solid var(--hr-color);
-  text-align: center;
-}

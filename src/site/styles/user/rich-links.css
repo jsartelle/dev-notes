@@ -1,0 +1,116 @@
+/* Base styles pulled from the plugin */
+
+.rich-link-card {
+  display: flex;
+  margin: 20px 0;
+  width: 100%;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 3px;
+  background-color: var(--background-primary);
+  text-decoration: none !important;
+}
+
+.rich-link-card-container {
+  position: relative;
+}
+
+.rich-link-card-container::after {
+  position: absolute;
+  bottom: -10px;
+  width: 100%;
+  height: 1px;
+  background-color: var(--background-modifier-border);
+  content: ' ';
+}
+
+.rich-link-card .rich-link-image-container {
+  overflow: hidden;
+  min-width: 120px;
+  width: 35%;
+  height: 100px;
+  border-right: 1px solid var(--background-modifier-border);
+}
+
+.rich-link-card .rich-link-image {
+  padding-bottom: 100px;
+  background-color: var(--background-secondary);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.rich-link-card .rich-link-card-text {
+  overflow: hidden;
+  padding: 4px;
+  width: 75%;
+}
+
+.rich-link-card .rich-link-card-title {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0 0 4px 0;
+  color: var(--text-normal);
+  font-size: 16px;
+  font-family: sans-serif;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.rich-link-card .rich-link-card-description {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-family: sans-serif;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.rich-link-card .rich-link-href {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--text-faint);
+  font-size: 14px;
+  font-family: sans-serif;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+/* Improves rendering of cards made with the Rich Links plugin */
+
+.rich-link-card-container {
+  max-width: 1000px;
+  white-space: normal;
+}
+
+.rich-link-card-container::after {
+  /* remove underline */
+  display: none;
+}
+
+.rich-link-card {
+  overflow: hidden;
+  border-radius: 10px !important;
+}
+
+.rich-link-card .rich-link-image-container {
+  position: relative;
+  max-width: 150px;
+  height: auto !important;
+}
+
+.rich-link-card .rich-link-image {
+  height: 100%;
+}
+
+.rich-link-card .rich-link-card-text {
+  padding: 4px 8px !important;
+}
+
+/* Live Preview */
+.cm-html-embed .rich-link-card,
+.table-cell-wrapper .rich-link-card-container:only-child .rich-link-card {
+  margin: 0;
+}
