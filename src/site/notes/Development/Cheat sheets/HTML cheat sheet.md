@@ -185,6 +185,8 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 
 ## `＜script＞`
 
+- [[Development/Clipped/Everything I Know About The Script Tag\|Everything I Know About The Script Tag]]
+
 ### async vs. defer
 
 - normal scripts:

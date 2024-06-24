@@ -531,3 +531,9 @@ declare global {
 
 - `no-floating-promises`: warns if you forget to await an async function
 - `no-misused-promises`: warns if you use Promises in locations that don't make sense
+
+# See also
+
+- [[Development/Clipped/TypeScript Utility Types\|TypeScript Utility Types]]
+- [[Development/Clipped/Use TypeScript Mapped Types Like a Pro\|Use TypeScript Mapped Types Like a Pro]]
+- [[Development/Cheat sheets/JavaScript cheat sheet\|JavaScript cheat sheet]]

@@ -121,3 +121,7 @@
 - assess worst-case impact, likelihood that someone will find it
 - if possible review logs
 - search codebase for similar patterns
+
+# See also
+
+- [[Development/Common web app security vulnerabilities\|Common web app security vulnerabilities]]

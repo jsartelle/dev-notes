@@ -396,4 +396,5 @@ import BigButton from './BigButton';
 
 # See also
 
+- [[Development/Cheat sheets/React cheat sheet\|React cheat sheet]]
 - [Next.js with React Native Web](https://github.com/vercel/next.js/tree/canary/examples/with-react-native-web)

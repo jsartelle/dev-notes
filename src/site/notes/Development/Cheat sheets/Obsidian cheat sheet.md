@@ -39,3 +39,7 @@ task-done:/.+/
 ```
 
 <iframe src="https://numbr.dev/#IYBxBsFMGcAIF5YFYBQB7ATsAdgcxgrAIwAMKoEBA1LJjvtCikA=" width="100%" height="300px"></iframe>
+
+# See also
+
+- [[Tech/Clipped/Obsidian CSS Image Alt Codes\|Obsidian CSS Image Alt Codes]]

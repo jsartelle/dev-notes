@@ -185,6 +185,8 @@
 }
 ```
 
+- [[Development/Cheat sheets/PicoCSS cheat sheet#Installation with frameworks\|PicoCSS cheat sheet#Installation with frameworks]]
+
 # Reactivity
 
 - all variables in the `<script>` block can be used in the template

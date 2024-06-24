@@ -55,3 +55,9 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 # useEffect runs in the browser only
 
 - If using browser-only APIs such as `window`, wrap them in `useEffect` to avoid a mismatch between server and client on hydration
+
+# See also
+
+- [[Development/Cheat sheets/React cheat sheet\|React cheat sheet]]
+- [[Development/Cheat sheets/PicoCSS cheat sheet#Installation with frameworks\|PicoCSS cheat sheet#Installation with frameworks]]
+- [Next.js with React Native Web](https://github.com/vercel/next.js/tree/canary/examples/with-react-native-web)

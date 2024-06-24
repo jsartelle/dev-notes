@@ -636,3 +636,7 @@ const greenApple = new Apple('green')
 /* returns a string if allowsMultiple is false, and an array of strings if allowsMultiple is true */
 function getParamValue(param, allowsMultiple) { ... }
 ```
+
+# See also
+
+- [[Development/Cheat sheets/TypeScript cheat sheet\|TypeScript cheat sheet]]

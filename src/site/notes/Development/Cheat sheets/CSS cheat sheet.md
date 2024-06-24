@@ -79,7 +79,11 @@ div:has(+ span, > span) {
 
 - Same as [[Development/Cheat sheets/CSS cheat sheet#:is\|#:is]] but with specificity 0
 
-## :nth-child with selectors
+## :nth-child
+
+- [[Development/Clipped/Useful nth-child Recipes\|Useful nth-child Recipes]]
+
+### Limiting with selectors
 
 - Lets you limit `:nth-child` (and `:nth-last-child`) to only "look at" elements that match the given selector
 - Supported by major browsers as of May 2023
@@ -153,6 +157,25 @@ li.anchor ~ :nth-child(2 of .important) {
 
 # Properties
 
+## animation
+
+### Shorthand
+
+| Property        | Default |
+| --------------- | ------- |
+| duration        | 0s      |
+| timing-function | ease    |
+| delay           | 0s      |
+| iteration-count | 1       |
+| direction       | normal  |
+| fill-mode       | none    |
+| play-state      | running |
+| name            | none    |
+
+```css
+animation: 3s ease-in 1s infinite reverse both running slidein;
+```
+
 ## aspect-ratio
 
 - Keeps the element at the specified aspect ratio (`width / height`)
@@ -224,6 +247,37 @@ To fix this, move the `backdrop-filter` that's on the outer element to a pseudo-
 ### Background order
 
 - if you have multiple backgrounds, earlier ones are drawn on top
+
+### Shorthand
+
+- separate position and size (in that order) with a slash: `center/80%` or `50% 50% / 0% 0%`
+- If only one `box` value is specified, it sets both `origin` and `clip`
+- `color` can only be specified on the last layer
+
+| Property   | Default     |
+| ---------- | ----------- |
+| image      | none        |
+| position   | 0% 0%       |
+| size       | auto auto   |
+| origin     | padding-box |
+| clip       | border-box  |
+| attachment | scroll      |
+| repeat     | repeat      |
+| color      | transparent |
+
+```css
+background: repeat scroll 0% 0%/auto padding-box border-box none transparent;
+```
+
+## box-shadow
+
+### Shorthand
+
+inset? | offset-x | offset-y | blur-radius | spread-radius | color
+
+```css
+box-shadow: 3px 3px red, inset -1em 0 0.4em blue;
+```
 
 ## break-before, break-inside, break-after
 
@@ -465,6 +519,16 @@ mask-repeat: repeat;
 - values: `horizontal`, `vertical`, `both`, `none` (default)
 - doesn't work on inline elements, or if `overflow` is `visible`
 
+## text-shadow
+
+### Shorthand
+
+offset-x | offset-y | blur-radius | color
+
+```css
+text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
+```
+
 ## text-wrap
 
 > [!warning]
@@ -536,70 +600,14 @@ user-select: none;
 - spaces include space characters, tabs, and segment breaks (such as newlines)
 - *hang* means that the character may be placed outside the box and does not affect sizing
 
-|                | New lines | Spaces and tabs | Text wrapping | End-of-line spaces | End-of-line other space separators |
-|:-------------- |:--------- |:--------------- |:------------- |:------------------ |:---------------------------------- |
-| `normal`       | Collapse  | Collapse        | Wrap          | Remove             | Hang                               |
-| `nowrap`       | Collapse  | Collapse        | No wrap       | Remove             | Hang                               |
-| `pre`          | Preserve  | Preserve        | No wrap       | Preserve           | No wrap                            |
-| `pre-wrap`     | Preserve  | Preserve        | Wrap          | Hang               | Hang                               |
-| `pre-line`     | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
-| `break-spaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
-
-## Shorthands
-
-### background
-
-- separate position and size (in that order) with a slash: `center/80%` or `50% 50% / 0% 0%`
-- If only one `box` value is specified, it sets both `origin` and `clip`
-- `color` can only be specified on the last layer
-
-| Property   | Default     |
-| ---------- | ----------- |
-| image      | none        |
-| position   | 0% 0%       |
-| size       | auto auto   |
-| origin     | padding-box |
-| clip       | border-box  |
-| attachment | scroll      |
-| repeat     | repeat      |
-| color      | transparent |
-
-```css
-background: repeat scroll 0% 0%/auto padding-box border-box none transparent;
-```
-
-### box-shadow
-
-inset? | offset-x | offset-y | blur-radius | spread-radius | color
-
-```css
-box-shadow: 3px 3px red, inset -1em 0 0.4em blue;
-```
-
-### text-shadow
-
-offset-x | offset-y | blur-radius | color
-
-```css
-text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
-```
-
-### animation
-
-| Property        | Default |
-| --------------- | ------- |
-| duration        | 0s      |
-| timing-function | ease    |
-| delay           | 0s      |
-| iteration-count | 1       |
-| direction       | normal  |
-| fill-mode       | none    |
-| play-state      | running |
-| name            | none    |
-
-```css
-animation: 3s ease-in 1s infinite reverse both running slidein;
-```
+|                 | New lines | Spaces and tabs | Text wrapping | End-of-line spaces | End-of-line other space separators |
+| :-------------- | :-------- | :-------------- | :------------ | :----------------- | :--------------------------------- |
+| `normal`        | Collapse  | Collapse        | Wrap          | Remove             | Hang                               |
+| `nowrap`        | Collapse  | Collapse        | No wrap       | Remove             | Hang                               |
+| `pre`           | Preserve  | Preserve        | No wrap       | Preserve           | No wrap                            |
+| `pre-wrap`      | Preserve  | Preserve        | Wrap          | Hang               | Hang                               |
+| `pre-line`      | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
+| `break-qspaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
 
 # Flexbox
 
@@ -1793,3 +1801,8 @@ Style the wrapper the same as the textarea, overlay them using `grid`, and hide 
 - use [[Development/Cheat sheets/CSS cheat sheet#print-color-adjust\|#print-color-adjust]] to prevent the browser from adjusting the appearance of elements for print automatically
 - use [[Development/Cheat sheets/CSS cheat sheet#break-before, break-inside, break-after\|#break-before, break-inside, break-after]] to control where pages can break
 - use `orphans` and `widows` to change the minimum number of lines that can be alone at the bottom/top of a page (both default to 2)
+
+# See also
+
+- [[Development/Cheat sheets/Sass cheat sheet\|Sass cheat sheet]]
+- [[Development/Cheat sheets/PicoCSS cheat sheet\|PicoCSS cheat sheet]]

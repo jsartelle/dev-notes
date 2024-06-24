@@ -200,3 +200,9 @@ while True:
     if button_a.is_pressed:
         # do stuff
 ```
+
+# See also
+
+- [[Tech/Clipped/Getting Started with Tufty 2040\|Getting Started with Tufty 2040]]
+- [[Tech/Clipped/Pico Graphics README\|Pico Graphics README]]
+- [[Development/Cheat sheets/Python cheat sheet\|Python cheat sheet]]

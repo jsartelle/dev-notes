@@ -112,6 +112,8 @@
 
 # See also
 
+- [[Development/Secure web application development\|Secure web application development]]
+
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://portswigger.net/web-security" target="_blank">
 	<div class="rich-link-image-container">
 		<div class="rich-link-image" style="background-image: url('https://portswigger.net/content/images/logos/academy-twittercard.png')">
