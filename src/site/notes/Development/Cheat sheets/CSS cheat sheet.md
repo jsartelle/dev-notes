@@ -354,7 +354,7 @@ clip-path: ellipse(25% 40% at 50% 50%);
         - `dark light` is the same, but will prefer dark mode
     - `only light` or `only dark` prevents the browser from overriding the color scheme
 - Use [[Development/Cheat sheets/CSS cheat sheet#prefers-color-scheme\|prefers-color-scheme]] as usual to style elements based on the color scheme, or use [[Development/Cheat sheets/CSS cheat sheet#light-dark\|#light-dark]]
-    - consider using [[Development/Cheat sheets/CSS cheat sheet#System colors\|system color]] keywords to make the page match the system
+    - consider using [[Development/Cheat sheets/CSS cheat sheet#System color keywords\|#System color keywords]] to make the page match the system
 - Add a `color-scheme` meta tag to render the correct page background before the CSS loads
 
 ```html
@@ -1140,7 +1140,7 @@ be the same size regardless of the section width */
 
 - Layers that are declared later take higher priority
 - You can declare layers at the same time as adding rules, but it's clearer to declare the layer names first and then add rules
-- You can also specify a layer name when using `@import` (though you should [[Development/Cheat sheets/CSS cheat sheet#@import\|avoid using @import]])
+- You can also specify a layer name when using `@import` (though you should [[Development/Cheat sheets/CSS cheat sheet#@import (don't use it!)\|avoid using @import]])
 
 ```css
 @layer reset, base, theme, utilities;
@@ -1262,7 +1262,7 @@ be the same size regardless of the section width */
 
 - detect high contrast mode and other situations where the browser is overriding the page colors
     - should be used for small tweaks only - ==respect the user's choices and don't try to override them==
-- in forced colors mode, the browser forcibly applies appropriate [[Development/Cheat sheets/CSS cheat sheet#System colors\|system colors]] to elements, and removes shadows and non-URL background-images (like gradients)
+- in forced colors mode, the browser forcibly applies appropriate system colors to elements, and removes shadows and non-URL background-images (like gradients)
 - also see [[Development/Cheat sheets/CSS cheat sheet#forced-color-adjust\|#forced-color-adjust]]
 
 ```css

@@ -353,7 +353,7 @@ HAVING COUNT(*) > 1
 ## GROUP BY
 
 - Often used in queries with [[Development/Cheat sheets/MySQL cheat sheet#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)\|aggregate functions]] to analyze each group of rows
-- Count the number of rows matching each distinct value of a column (see [[Development/Cheat sheets/MySQL cheat sheet#COUNT\|#COUNT]])
+- Count the number of rows matching each distinct value of a column
 
 ```mysql
 SELECT owner_id, COUNT(*)
