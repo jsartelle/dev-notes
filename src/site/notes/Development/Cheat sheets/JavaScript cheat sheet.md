@@ -109,7 +109,9 @@ console.log(xyz) // [1, 4, 3]
 ## Language-aware sorting with Intl.Collator
 
 ```js
-console.log(['Z', 'a', 'z', 'ä'].sort(new Intl.Collator('de').compare));
+console.log(['Z', 'a', 'z', 'ä'].sort(
+    new Intl.Collator('de').compare)
+);
 // Expected output: Array ["a", "ä", "z", "Z"]
 ```
 
@@ -521,11 +523,24 @@ if (navigator.canShare?.(data)) {
 
 # JSDoc
 
+## Type variables and functions
+
 ```js
 /** @type {string} */
+let upperName
+
+/**
+ * @param {string} input
+ * @returns {string}
+ */
+function uppercase(input) {
+  return input.toUpperCase()
+}
+
+upperName = uppercase('John')
 ```
 
-- to cast within an assignment, put the right side in parentheses
+- to cast during assignment, put the right side in parentheses
 
 ```js
 const photo = /** @type {HTMLImageElement} */ (
@@ -533,7 +548,7 @@ const photo = /** @type {HTMLImageElement} */ (
 )
 ```
 
-- to make a param optional put the *name* in square brackets
+- to make a function parameter optional, put the *name* in square brackets
     - use `[param=value]` for default values
 - when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for adding descriptions
 
@@ -545,22 +560,7 @@ const photo = /** @type {HTMLImageElement} */ (
 */
 ```
 
-- define a reusable object type
-    - can be done in a function doc comment, or a standalone comment
-
-```js
-/**
- * @typedef {Object} leagueParam
- * @property {string} league
- * @property {string[]} team
- * @property {string} rank
- * @property {string} division
- * @property {string} conference
- * @returns {leagueParam}
- */
-```
-
-- type a tuple
+## Tuples
 
 ```js
 /**
@@ -573,7 +573,7 @@ const photo = /** @type {HTMLImageElement} */ (
  */
 ```
 
-- type a generic
+## Generics
 
 ```js
 /**
@@ -604,7 +604,23 @@ append(['a', 1, 'b'], 2) // works even if the array isn't homogenous
 append('ab', 'c') // errors because 'ab' doesn't extend array
 ```
 
-- import a type and give it an alias
+## Reusable types
+
+- can be done in a function doc comment, or a standalone comment
+
+```js
+/**
+ * @typedef {Object} leagueParam
+ * @property {string} league
+ * @property {string[]} team
+ * @property {string} rank
+ * @property {string} division
+ * @property {string} conference
+ * @returns {leagueParam}
+ */
+```
+
+## Import types
 
 ```js
 /** @typedef {import('fruit/types').Apple} apple */
@@ -616,7 +632,19 @@ const redApple = new Apple('red')
 const greenApple = new Apple('green')
 ```
 
-- define function overloads
+- as of TypeScript 5.5, you can use the `@import` rule
+
+```js
+/** @import { Apple } from 'fruit/types' */
+
+/** @type {Apple} */
+const redApple = new Apple('red')
+
+/** @type {Apple} */
+const greenApple = new Apple('green')
+```
+
+## Function overloads
 
 ```js
 /**

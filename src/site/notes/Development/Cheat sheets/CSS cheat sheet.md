@@ -509,9 +509,10 @@ mask-repeat: repeat;
 
 ## print-color-adjust
 
-- control whether the browser is allowed to adjust elements for printing (ex. by removing backgrounds or changing colors)
-- `economy` (default): the browser can optimize the element's appearance for print
+- control whether the browser is allowed to optimize elements for printing (ex. by removing backgrounds or changing colors)
+- `economy` (default): the browser can adjust the element's appearance for print
 - `exact`: don't change the element's appearance
+    - make sure to test that the element looks right when printed!
 
 ## resize
 
@@ -1065,7 +1066,7 @@ be the same size regardless of the section width */
 ### Style queries
 
 > [!danger]
-> As of June 2024 supported for custom properties in Chrome, Safari preview, not yet in Firefox
+> As of June 2024 supported for custom properties in Chrome and Safari preview, not yet supported in Firefox
 
 - lets you query based on the computed values of properties on a container
     - currently only works with custom properties, will eventually work with any property
@@ -1087,11 +1088,27 @@ be the same size regardless of the section width */
 }
 ```
 
-- example (not yet supported by any browsers): make normally italic elements normal if they're inside an italicized container
-    - since browsers style `em` and `i` with italics, and style queries are based on computed properties, this will work even if we don't style `em` and `i` as italic ourselves
+> [!warning]
+> You can't use a style query to apply rules to the same element you're querying!
 
 ```css
-/* not yet supported by any browsers */
+.button {
+    @container (style(--type: warning)) {
+        /* this doesn't work because we're trying to apply rules to the element being queried */
+        background-color: red;
+
+        & span {
+            /* but this is fine */
+            color: white;
+        }
+    }
+}
+```
+
+- example (not yet supported by any browsers): make usually italic elements normal if they're inside an italicized container
+
+```css
+/* not supported by any browsers as of June 2024! */
 @container style(font-style: italic) {
     em, i {
         font-style: normal;
@@ -1798,8 +1815,8 @@ Style the wrapper the same as the textarea, overlay them using `grid`, and hide 
 - use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|@media print]] to restyle or hide elements when printing
     - preview print rules in Chrome devtools -> *Rendering* -> *Emulate CSS media type*
 - use [[Development/Cheat sheets/CSS cheat sheet#@page\|#@page]] rules to adjust the page margins
-- use [[Development/Cheat sheets/CSS cheat sheet#print-color-adjust\|#print-color-adjust]] to prevent the browser from adjusting the appearance of elements for print automatically
-- use [[Development/Cheat sheets/CSS cheat sheet#break-before, break-inside, break-after\|#break-before, break-inside, break-after]] to control where pages can break
+- use [[Development/Cheat sheets/CSS cheat sheet#print-color-adjust\|#print-color-adjust]] to prevent the browser from changing the appearance of elements when printing
+- use [[Development/Cheat sheets/CSS cheat sheet#break-before, break-inside, break-after\|#break-before, break-inside, break-after]] to control where pages break
 - use `orphans` and `widows` to change the minimum number of lines that can be alone at the bottom/top of a page (both default to 2)
 
 # See also
