@@ -466,6 +466,20 @@ mask-clip: border-box;
 mask-repeat: repeat;
 ```
 
+### Fade using a gradient
+
+- use a linear-gradient from white to transparent for `mask-image`
+
+```css
+.fade p {
+    mask-image: linear-gradient(to bottom, white, transparent);
+}
+```
+
+<div style="background-color: black; color: lime;">
+<p style="mask-image: linear-gradient(to bottom, white, transparent)">Reprehenderit est tempor minim id cupidatat mollit velit sit. Eu magna ex nisi aute. Quis id culpa in ex incididunt est aliquip anim consectetur ipsum Lorem. Aute ullamco Lorem laboris tempor fugiat duis ex reprehenderit tempor et. Occaecat velit laborum sint aliquip eiusmod cillum sint esse officia. Nostrud minim duis anim minim tempor consectetur sit proident laboris ea et eiusmod. Irure aliquip ex amet cillum anim anim irure est ex cillum qui culpa aute.</p>
+</div>
+
 ## mix-blend-mode
 
 - controls how an element blends with its background

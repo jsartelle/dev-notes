@@ -3,7 +3,7 @@
 ---
 
 
-# General
+# Syntax
 
 - use `--` for comments
 
@@ -13,7 +13,7 @@
 
 ```applescript
 tell tab 0 of window 0
-    set tabName to the 
+    set tabName to the title
 end tell
 
 -- equivalent to
@@ -33,7 +33,7 @@ end repeat
 
 # Snippets
 
-## Get name of frontmost app
+## Get name of focused app
 
 ```applescript
 global frontApp, frontAppName
@@ -45,4 +45,14 @@ tell application "System Events"
 end tell
 
 return {frontAppName}
+```
+
+## Check if app is focused
+
+```applescript
+tell application "Arc"
+    if frontmost then
+        -- do stuff
+    end if
+end tell
 ```
