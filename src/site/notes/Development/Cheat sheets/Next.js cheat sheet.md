@@ -3,14 +3,30 @@
 ---
 
 
-# Data fetching hooks
+# Data fetching
+
+## Static vs. dynamic rendering
+
+- **Static rendering** means the page is rendered to static HTML at build time, so the same page is served to all users.
+- **Dynamic rendering** means the page is rendered on the server at the time of each request. This means the page can be customized for the user, and you can access request properties like headers and cookies.
+
+## App Router
+
+- within Server Components, you can use `fetch()` to get data server-side
+    - set the `{ cache: 'force-cache' }` option to cache values, or `{ cache: 'no-store' }` to disable caching
+        - in Next.js 14 the default is to cache all non-POST requests, but in Next.js 15 the default is not to cache, so be explicit - [more info](https://x.com/leeerob/status/1803824227704877236)
+    - use the option `{ next: { revalidate: 3600 } }` to set the cache lifetime (in seconds)
+- as of Next.js 15, pages are statically rendered unless the `cookies()`, `headers()`, or `searchParams` are accessed
+    - in the future, pages will be able to mix static and dynamic rendering, and will be statically rendered up to a Suspense boundary - [more info](https://x.com/leeerob/status/1803904284213293327)
+
+## Pages Router
 
 > [!warning]
 > These hooks cannot be used in the `App` component (`_app.js`).
 
-## getStaticProps
+### getStaticProps
 
-- Tells Next to statically render the page with the returned props
+- tells Next to **statically render** the page with the returned props
 
 ```tsx
 export async function getStaticProps(context) {
@@ -20,10 +36,9 @@ export async function getStaticProps(context) {
 }
 ```
 
-## getServerSideProps
+### getServerSideProps
 
-- Tells Next to pre-render (SSR) the page on each request with the returned props
-- Server-side code can be included in this block
+- tells Next to **dynamically render** the page with the returned props
 
 ```tsx
 // context includes things like req, query, params
@@ -42,13 +57,13 @@ export default function Page({ name }: Props) {
 }
 ```
 
-### Get type for server-side props
+#### Get type for server-side props
 
 ```tsx
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 ```
 
-## getInitialProps
+### getInitialProps
 
 - Executes server-side on initial load (SSR), and client-side on page changes
 
