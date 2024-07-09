@@ -247,7 +247,7 @@ Searches files for pattern matches and performs an action based on them
 - `find dir -type f -name foo*`: find all *files* starting with "foo" in dir (recursive)
     - use `-type d` for folders (directories)
 - `find dir -name .DS_Store -delete`: delete all *.DS_Store* files in dir
-- `find . -name foo* -exec command`: ==execute `command` on all matching files==
+- `find . -name foo* -exec command`: execute `command` on all matching files
 
 ### lsof (list open files)
 
@@ -465,11 +465,18 @@ python3 -m http.server 3000
     - for webm use `-vcodec libvpx -acodec libvorbis`
     - `-c copy` **avoids re-encoding** (useful for trimming, changing metadata, etc)
 
-### Examples:
+### Trim video
 
 - `ffmpeg -i input.mp4 -ss 00:01:40 -to 00:02:16 -c copy output.mp4`: trim to between 1m:40s and 2m:16s
-- `ffmpeg -i input.mp4 -ss 00:00:14.435 -vframes 1 out.png`: output one frame from 0h:0m:14sec:435msec to *out.png*
+
+### Convert video to audio
+
 - `ffmpeg -i input.m4a -c:v copy -c:a libmp3lame -q:a 4 output.mp3`: convert m4a to mp3 without significant quality loss
+
+### Extract frames
+
+- `ffmpeg -i input.mp4 -ss 00:00:14.435 -vframes 1 out.png`: extract one frame from 0h:0m:14sec:435msec to *out.png*
+- `ffmpeg -i input.mp4 frame_%04d.jpg`: extract all frames to *frame_0001.jpg*, *frame_0002.jpg*, etc
 
 ## youtube-dl/yt-dlp
 

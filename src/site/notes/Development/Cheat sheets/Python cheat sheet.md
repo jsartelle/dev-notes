@@ -78,6 +78,7 @@ assert x is not None # errors
 - `int` and `float` are separate types, declare a `float` by adding a decimal (ex. `7.0`) or the float constructor (`float(7)`)
 - `//` divides two numbers and returns an integer by flooring the result
 - you can negate variables, ex. `foo = -bar`
+- `x++` and `x--` aren't supported - use `x += 1` or `x -= 1` instead
 
 ## Strings
 
@@ -131,6 +132,125 @@ print("%f %.2f" % (pi, pi)) # 3.141590 3.14
 print("%x %X" % (myhex, myhex)) # ff FF
 ```
 
+### Formatted string literals (f-strings)
+
+- insert objects, expressions, or format specifiers in the curly brackets
+
+```python
+a = 5
+b = 10
+
+f'{a} + {b} = {a + b}' # '5 + 10 = 15'
+```
+
+#### Format specifiers
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://realpython.com/python-format-mini-language/#understanding-the-python-format-mini-language" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://files.realpython.com/media/Pythons-Format-Specification-Mini-Language_Watermarked.96cec7483e05.jpg')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">Python's Format Mini-Language for Tidy Strings – Real Python</h1>
+		<p class="rich-link-card-description">
+		In this tutorial, you'll learn about Python's format mini-language. You'll learn how to use the mini-language to create working format specifiers and build nicely formatted strings and messages in your code.
+		</p>
+		<p class="rich-link-href">
+		https://realpython.com/python-format-mini-language/#understanding-the-python-format-mini-language
+		</p>
+	</div>
+</a></div>
+
+```
+format_spec     ::=  [[fill]align][sign]["z"]["#"]["0"][width]
+                     [grouping_option]["." precision][type]
+fill            ::=  <any character>
+align           ::=  "<" | ">" | "=" | "^"
+sign            ::=  "+" | "-" | " "
+width           ::=  digit+
+grouping_option ::=  "_" | ","
+precision       ::=  digit+
+type            ::=  "b" | "c" | "d" | "e" | "E" | "f" | "F" | "g" |
+                     "G" | "n" | "o" | "s" | "x" | "X" | "%"
+```
+
+- *fill*: any character, used for padding
+- *align*: how the fill characters are aligned
+    - `<`: left (default for strings)
+    - `>`: right (default for numbers)
+    - `^`: center
+    - `=`: between the sign and digits (default for numbers if 0 precedes the width)
+- *sign*: whether to show a sign for numbers
+    - `+`: show sign for positive and negative numbers
+    - `-`: show sign only for negative numbers
+    - ` `: leading space for positive numbers and sign for negative numbers
+- *width*: total number of characters in the string
+- *grouping_option*: sets the thousands separator for numbers
+    - use the `n` type instead for locale-specific thousands separators
+- *precision*: digits after the decimal point for `f` and `F` types
+- *type*: change the output type - different types are allowed based on the type of the expression result
+    - integers:
+        - `d`: base 10 integer (the default)
+        - `n`: same as `d` with thousands separators
+        - `b`: binary
+        - `o`: octal
+        - `x` or `X`: hex (lowercase or uppercase)
+        - `c`: Unicode character
+    - decimal:
+        - `e` or `E`: scientific notation
+        - `f` or `F`: fixed-point
+        - `g` or `G`: fixed-point for small numbers, scientific notation for large numbers
+        - `n`: same as `g` with thousands separators
+        - `%`: displays as a percentage
+
+##### Examples
+
+- pad string:
+
+```python
+str = 'Hello'
+print(f'{str:.>10}') # '.....Hello'
+print(f'{str:.<10}') # 'Hello.....'
+```
+
+- pad a number:
+
+```python
+int = 7
+print(f'{int:4}') # '   7'
+print(f'{int:04}') # '0007'
+```
+
+- format a float with X decimal places:
+
+```python
+float = 300.0
+print(f'${float:.2f}') # '$300.00'
+```
+
+- format a number with thousands separators
+
+```python
+bigNumber = 90000
+print(f'${bigNumber:,}') # '90,000'
+```
+
+- combine number formatters:
+    - the padding is for the total number of characters in the string, not just the number of digits
+
+```python
+int = 3000
+print(f'{int:010,.2f}') # '003,000.00'
+```
+
+- you can also interpolate expressions inside the format specifier
+
+```python
+str = 'Hello'
+width = 10
+print(f'{str:.>{width}}') # '.....Hello'
+```
+
 ### Regular Expressions
 
 ```python
@@ -170,9 +290,14 @@ mylist.append(1)
 mylist.append(2)
 mylist.append(3)
 
-print(mylist[1])
+print(mylist[1]) # 2
 # print(mylist[10]) # error
-print(len(mylist))
+```
+
+- use `len(list)` to get the length of a list
+
+```python
+print(len(mylist)) # 3
 ```
 
 - join an iterable containing all strings
@@ -712,13 +837,7 @@ help(re)
 help(re.compile)
 ```
 
-# Builtins
-
-## math
-
-```import math
-
-```
+# Built-in modules
 
 ## random
 
