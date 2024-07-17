@@ -601,6 +601,22 @@ chflags nohidden file.txt
 defaults write com.apple.Dock showhidden -boolean yes; killall Dock
 ```
 
+### tccutil
+
+#### Reset app permissions
+
+Get the app's Bundle ID:
+
+```shell
+osascript -e 'id of app "Name of App"'
+```
+
+Reset permissions:
+
+```shell
+sudo tccutil reset All [app.bundle.id]
+```
+
 # PowerShell
 
 - `explorer .`: open Explorer window in current working directory

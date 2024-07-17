@@ -496,13 +496,13 @@ print(b.difference(a)) # {'Jill'}
 - union: combines the sets
 
 ```python
-print(a.union(b))# {'Jake', 'John', 'Jill', 'Eric'}
-print(b.union(a))# {'Jake', 'John', 'Jill', 'Eric'}
+print(a.union(b)) # {'Jake', 'John', 'Jill', 'Eric'}
+print(b.union(a)) # {'Jake', 'John', 'Jill', 'Eric'}
 ```
 
 # Functions
 
-- declared using `def`, body is indented
+- declared using `def`, body indented, don't forget the `:` after the arguments
 - must use `return` to return values
 
 ```python
@@ -648,9 +648,9 @@ for random_number in lottery():
 
 # Flow Control
 
-## `if` and Comparisons
+## if and Comparisons
 
-- `None`, `''`, 0, `()` (empty tuple), `[]` (empty list), `{}` (empty dictionary) are all falsy
+- `None`, `''`, `0`, `()` (empty tuple), `[]` (empty list), `{}` (empty dictionary) are all falsy
 - use `and`, `or`, `not` to chain conditions
 
 ```python
@@ -693,7 +693,7 @@ print(x is y) # False
 beverage = 'coffee' if is_morning() else 'water'
 ```
 
-## `for`
+## for
 
 ### Sequences
 
@@ -745,7 +745,7 @@ for word in words:
 print(word_lengths)
 ```
 
-## `while`
+## while
 
 ```python
 count = 0

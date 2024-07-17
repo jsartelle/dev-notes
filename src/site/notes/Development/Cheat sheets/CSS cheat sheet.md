@@ -1080,7 +1080,7 @@ be the same size regardless of the section width */
 ### Style queries
 
 > [!danger]
-> As of June 2024 supported for custom properties in Chrome and Safari preview, not yet supported in Firefox
+> As of June 2024, supported for custom properties in Chrome stable and Safari preview, not yet supported in Firefox
 
 - lets you query based on the computed values of properties on a container
     - currently only works with custom properties, will eventually work with any property
@@ -1107,7 +1107,9 @@ be the same size regardless of the section width */
 
 ```css
 .button {
-    @container (style(--type: warning)) {
+    container-name: button;
+    
+    @container button style(--type: warning) {
         /* this doesn't work because we're trying to apply rules to the element being queried */
         background-color: red;
 
@@ -1116,10 +1118,15 @@ be the same size regardless of the section width */
             color: white;
         }
     }
+    
+    @container style(--type: warning) {
+        /* this is valid if a parent of .button has --type: warning */
+        background-color: red;
+    }
 }
 ```
 
-- example (not yet supported by any browsers): make usually italic elements normal if they're inside an italicized container
+- not yet supported by any browsers: make elements that are usually italic normal if they're inside an italicized container
 
 ```css
 /* not supported by any browsers as of June 2024! */
