@@ -624,6 +624,21 @@ user-select: none;
 | `pre-line`      | Preserve  | Collapse        | Wrap          | Remove             | Hang                               |
 | `break-qspaces` | Preserve  | Preserve        | Wrap          | Wrap               | Wrap                               |
 
+## zoom
+
+- enlarges an element while affecting layout (unlike `transform` or `scale`)
+    - elements are enlarged from the start of the block direction and center of the inline direction (top center by default)
+- can take numeric values or percentages: 1.1 = 110%
+- the square using `zoom` below affects layout, so its container expands to fit it, while the one using `scale` doesn't
+
+<div class="zoom-example-container">
+    <div class="zoom-example" style="zoom: 1.5">zoom</div>
+</div>
+
+<div class="zoom-example-container">
+    <div class="zoom-example" style="scale: 1.5">scale</div>
+</div>
+
 # Flexbox
 
 ## Make flex children the same size
@@ -1370,8 +1385,8 @@ be the same size regardless of the section width */
 
 ## @property
 
-> [!warning]
-> Only supported in Firefox in preview as of June 2024
+> [!note]
+> Supported in all major browsers as of July 2024
 
 - lets you define CSS custom properties with control over data type, inheritance, and initial value
     - can be used to create animatable/transitionable custom properties
