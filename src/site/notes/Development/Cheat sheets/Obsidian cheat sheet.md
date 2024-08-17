@@ -3,6 +3,18 @@
 ---
 
 
+# Inline footnotes
+
+Use the below syntax to add inline, auto-numbered footnotes^[like this]
+
+```
+some text^[footnote text]
+```
+
+# MathJax
+
+- Use `\,` to force a small space, and `\;` for a larger space
+
 # Link to page of PDF
 
 ```
@@ -39,6 +51,11 @@ task-done:/.+/
 ```
 
 <iframe src="https://numbr.dev/#IYBxBsFMGcAIF5YFYBQB7ATsAdgcxgrAIwAMKoEBA1LJjvtCikA=" width="100%" height="300px"></iframe>
+
+# Emulate mobile (for development)
+
+- Open the developer tools and paste `this.app.emulateMobile(true)` into the console
+- To undo, change `true` to `false`
 
 # See also
 

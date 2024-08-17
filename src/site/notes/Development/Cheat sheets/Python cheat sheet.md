@@ -7,10 +7,12 @@
 
 - comments use `#`
 - variables and functions are named using snake_case
-- variables are declared by assignment
-- declare multiple variables at once:
+- variables don't need to be explicitly declared, just assign to them
+- declare/assign multiple variables at once:
 
 ```python
+i = j = 0
+
 a, b = 3, 4
 a, b = b, a
 ```
@@ -21,18 +23,33 @@ a, b = b, a
 print(type(a))
 ```
 
-- use `*` to spread arrays, and `**` to spread dictionaries
+- `None` is the equivalent of `null`
+
+- the `pass` keyword does nothing, can be used as a placeholder or in places where empty code isn't allowed (like an if block)
 
 ```python
-def divide(a, b):
-	return a / b
-
-nums_list = [6, 2]
-nums_dict = { "b": 2, "a": 6 }
-
-print(divide(*nums_list)) # 3.0
-print(divide(**nums_dict)) # 3.0
+if x >= 10:
+    pass
+else:
+    print('x is less than 10')
 ```
+
+## Equality
+
+- `==` compares by value, `is` compares by reference
+    - don't use `is` for primitives, as it can give inconsistent answers because of implementation caching details
+- the opposites are `!=` and `is not` respectively
+- use `is` or `is not` to compare with `None`, since `None` is a singleton
+
+```python
+a = [1, 2, 3]
+b = [1, 2, 3]
+
+print(a == b) # true
+print(a is b) # false
+```
+
+- `nan != nan`, just like JavaScript
 
 ## Type Checking
 
@@ -43,9 +60,8 @@ def add(a: float, b: float):
     return a + b
 ```
 
-- use `str` for string, `bool` for Boolean
+- `str` for string, `bool` for Boolean
 - collection types are declared like this: `list[int]` (Python 3.9+)
-    - on Python 3.8 or earlier, collection type names are capitalized and imported from the `typing` module
 - mappings must have key and value types declared: `dict[str, float]` (Python 3.9+)
 - fixed size tuples should specify the type of each element: `tuple[int, str, str]` (Python 3.9+)
     - for variable size tuples use one type plus an ellipsis: `tuple[int, ...]`
@@ -73,12 +89,193 @@ assert x is not None # errors
 - boolean `True` and `False` are capitalized
 - to invert a boolean, use `foo = not foo`
 
-## Numeric Types
+## Numbers
 
-- `int` and `float` are separate types, declare a `float` by adding a decimal (ex. `7.0`) or the float constructor (`float(7)`)
-- `//` divides two numbers and returns an integer by flooring the result
+- `int` and `float` are separate types
+    - declare a `float` by adding a decimal (ex. `7.0`) or the float constructor (`float(7)`)
+- `max` and `min` built-in functions return the max/min of two or more numbers
+- `//` divides two numbers and floors the result to return an integer
 - you can negate variables, ex. `foo = -bar`
 - `x++` and `x--` aren't supported - use `x += 1` or `x -= 1` instead
+- `nan` is the equivalent of `NaN`
+
+## Lists (Arrays)
+
+- lists are 0-indexed
+- add items using `append` - takes one at a time
+
+```python
+mylist = []
+mylist.append(1)
+mylist.append(2)
+mylist.append(3)
+
+print(mylist[1]) # 2
+# print(mylist[10]) # error
+```
+
+- use `len(list)` to get the length of a list
+
+```python
+print(len(mylist)) # 3
+```
+
+- an error is thrown if you try to access an item past the end of the list
+
+```python
+test = [1, 2]
+# print(test[3]) # IndexError!
+```
+
+- use `in` to check if an item exists in a list
+
+```python
+if 3 in [1, 3, 5]: print('Number found')
+```
+
+### Join and repeat
+
+- join lists using `+`
+
+```python
+even_numbers = [2, 4]
+odd_numbers = [1, 3]
+
+print(odd_numbers + even_numbers) # [1, 3, 2, 4]
+```
+
+- repeat lists using `*`
+
+```python
+numbers = [1, 2]
+print(numbers * 3) # [1, 2, 1, 2, 1, 2]
+```
+
+- join an iterable containing only strings
+    - will error if the iterable contains other types (not automatically cast)
+
+```python
+mylist = ['a', 'b', 'c']
+print('-'.join(mylist)) # 'a-b-c'
+```
+
+### Slice
+
+- works on strings and lists
+
+```python
+string = "Hello world!"
+
+print(string[3:7]) # lo w
+print(string[-1]) # !
+print(string[-4:]) # rld!
+print(string[0:5:2]) # Hlo ([start:stop:step])
+print(string[::-1]) # !dlrow olleH (reverses the string)
+```
+
+### Spread
+
+- spread lists using `*`
+
+```python
+def divide(a, b):
+	return a / b
+
+nums_list = [6, 2]
+
+print(divide(*nums_list)) # 3.0
+```
+
+### Filter
+
+- filter functions take one argument and return a boolean
+- returns a generator, use the list constructor to turn it into a list
+
+```python
+scores = [66, 90, 68, 59, 76, 60, 88, 74, 81, 65]
+
+def is_A_student(score):
+    return score > 75
+
+over_75 = list(filter(is_A_student, scores))
+```
+
+- using lambda functions:
+
+```python
+dromes = ("demigod", "rewire", "madam",
+          "freer", "anutforajaroftuna", "kiosk")
+
+palindromes = list(filter(lambda word: word == word[::-1], dromes))
+```
+
+### Map
+
+- returns a generator, use the list constructor to turn it into a list
+
+```python
+my_pets = ['alfred', 'tabitha', 'william', 'arla']
+uppered_pets = list(map(str.upper, my_pets))
+```
+
+- the `map` function can take multiple arguments to combine multiple iterables
+
+```python
+circle_areas = [3.56773, 5.57668, 4.00914, 56.24241, 9.01344, 32.00013]
+# `circle_areas` and `range(1, 7)` are the two iterables passed to `round`
+result = list(map(round, circle_areas, range(1, 7)))
+```
+
+- `map` will stop executing if there are no more elements in any of the iterables
+
+```python
+result = list(map(round, circle_areas, range(1, 3)))
+print(result) # [3.6, 5.58]
+```
+
+### Zip
+
+- each position will contain a tuple of the input elements
+- returns a generator, use the list constructor to turn it into a list
+
+```python
+my_strings = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+my_numbers = [1, 2, 3, 4, 5]
+
+results = list(zip(my_strings, my_numbers))
+print(results) # [('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)]
+```
+
+- identical to either of the following:
+
+```python
+def my_zip(x, y):
+    return (x, y)
+results = list(map(my_zip, my_strings, my_numbers))
+
+results = list(map(lambda x, y: (x, y), my_strings, my_numbers))
+```
+
+### Reduce
+
+```python
+from functools import reduce
+
+numbers = [1, 2, 3, 4, 5]
+
+def custom_sum(first, second):
+    return first + second
+
+result = reduce(custom_sum, numbers)
+print(result) # 15
+```
+
+- provide an initial value as the third argument
+
+```python
+resultWithInitial = reduce(custom_sum, numbers, 10)
+print(resultWithInitial) # 25
+```
 
 ## Strings
 
@@ -101,16 +298,6 @@ print(string.startswith('Hello')) # True
 print(string.endswith('asdf')) # False
 
 print(string.split(' ')) # ['Hello', 'world!']
-```
-
-### String slicing
-
-```python
-print(string[3:7]) # lo w
-print(string[-1]) # !
-print(string[-4:]) # rld!
-print(string[0:5:2]) # Hlo ([start:stop:step])
-print(string[::-1]) # !dlrow olleH (reverses the string)
 ```
 
 ### String formatting
@@ -205,7 +392,7 @@ type            ::=  "b" | "c" | "d" | "e" | "E" | "f" | "F" | "g" |
 
 ##### Examples
 
-- pad string:
+- pad a string:
 
 ```python
 str = 'Hello'
@@ -280,141 +467,6 @@ print(re.match(pattern, "The bus will arrive at 11:20 AM.")) # None
 print(re.findall(pattern, "The shuttle departs at 8:20 AM, 8:40 AM, and 9:00 AM.")) # [('8:20', 'AM'), ('8:40', 'AM'), ('9:00', 'AM')]
 ```
 
-## Lists
-
-- lists are 0-indexed
-
-```python
-mylist = []
-mylist.append(1)
-mylist.append(2)
-mylist.append(3)
-
-print(mylist[1]) # 2
-# print(mylist[10]) # error
-```
-
-- use `len(list)` to get the length of a list
-
-```python
-print(len(mylist)) # 3
-```
-
-- join an iterable containing all strings
-    - will error if the iterable contains numbers (not automatically cast)
-
-```python
-mylist = ['a', 'b', 'c']
-print('-'.join(mylist)) # 'a-b-c'
-```
-
-- join lists using `+`
-
-```python
-even_numbers = [2, 4]
-odd_numbers = [1, 3]
-
-print(odd_numbers + even_numbers) # [1, 3, 2, 4]
-```
-
-- repeat lists using `*`
-
-```python
-numbers = [1, 2]
-print(numbers * 3) # [1, 2, 1, 2, 1, 2]
-```
-
-### Filter
-
-- filter functions take one argument and return a boolean
-- returns a generator, use the list constructor to turn it into a list
-
-```python
-scores = [66, 90, 68, 59, 76, 60, 88, 74, 81, 65]
-
-def is_A_student(score):
-    return score > 75
-
-over_75 = list(filter(is_A_student, scores))
-```
-
-- using lambda functions:
-
-```python
-dromes = ("demigod", "rewire", "madam",
-          "freer", "anutforajaroftuna", "kiosk")
-
-palindromes = list(filter(lambda word: word == word[::-1], dromes))
-```
-
-### Map
-
-- returns a generator, use the list constructor to turn it into a list
-
-```python
-my_pets = ['alfred', 'tabitha', 'william', 'arla']
-uppered_pets = list(map(str.upper, my_pets))
-```
-
-- the `map` function can take multiple arguments to combine multiple iterables
-
-```python
-circle_areas = [3.56773, 5.57668, 4.00914, 56.24241, 9.01344, 32.00013]
-# `circle_areas` and `range(1, 7)` are the two iterables passed to `round`
-result = list(map(round, circle_areas, range(1, 7)))
-```
-
-- `map` will stop executing if there are no more elements in any of the iterables
-
-```python
-result = list(map(round, circle_areas, range(1, 3)))
-print(result) # [3.6, 5.58]
-```
-
-### Zip
-
-- each position will contain a tuple of the input elements
-- returns a generator, use the list constructor to turn it into a list
-
-```python
-my_strings = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-my_numbers = [1, 2, 3, 4, 5]
-
-results = list(zip(my_strings, my_numbers))
-print(results) # [('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)]
-```
-
-- identical to either of the following:
-
-```python
-def my_zip(x, y):
-    return (x, y)
-results = list(map(my_zip, my_strings, my_numbers))
-
-results = list(map(lambda x, y: (x, y), my_strings, my_numbers))
-```
-
-### Reduce
-
-```python
-from functools import reduce
-
-numbers = [1, 2, 3, 4, 5]
-
-def custom_sum(first, second):
-    return first + second
-
-result = reduce(custom_sum, numbers)
-print(result) # 15
-```
-
-- provide an initial value as the third argument
-
-```python
-resultWithInitial = reduce(custom_sum, numbers, 10)
-print(resultWithInitial) # 25
-```
-
 ## Tuples
 
 - **tuples are immutable**
@@ -434,7 +486,7 @@ print(b) # 2
 
 - tuples can be converted to [[Development/Cheat sheets/Python cheat sheet#Lists\|lists]] using `list(tuple)`
 
-## Dictionaries
+## Dictionaries (Maps/Objects)
 
 - keys must be quoted, and members must be accessed using bracket syntax
 
@@ -458,6 +510,19 @@ print(phonebook) # {'Jill': 789}
 ```python
 for name, number in phonebook.items():
     print("Phone number of %s is %d" % (name, number))
+```
+
+- spread dictionaries using `**`
+
+```python
+def divide(a, b):
+	return a / b
+
+nums_dict = { "b": 2, "a": 6 }
+
+# this works because of named arguments - if we renamed either of the
+# keys in the dictionary this would break
+print(divide(**nums_dict)) # 3.0
 ```
 
 ## Sets
@@ -663,6 +728,9 @@ if name == "John" and age == 23:
 if name == "John" or name == "Rick":
     print("Your name is either John or Rick.")
 
+# one-line shorthand
+if name == "John": print("Hello John!")
+
 if name in ["John", "Rick"]:
     print("Your name is either John or Rick.")
 elif name == "Bob":
@@ -675,16 +743,6 @@ print(bool(""), bool(0), bool([]), bool({})) # all False
 print(not False) # True
 ```
 
-- `==` compares by value, `is` compares by reference
-
-```python
-x = [1, 2, 3]
-y = [1, 2, 3]
-
-print(x == y) # True
-print(x is y) # False
-```
-
 ### Ternary conditionals
 
 - `a if condition else b`
@@ -694,6 +752,8 @@ beverage = 'coffee' if is_morning() else 'water'
 ```
 
 ## for
+
+- `break` and `continue` work the same way as in JavaScript
 
 ### Sequences
 
@@ -712,7 +772,7 @@ for i, x in enumerate(mylist):
 ### Ranges
 
 - `range()` is exclusive, starts at 0 if only one number is provided, third number is the step
-    - if you don't need the current range number, use `_` as the variable name
+    - if you don't need the current number (eg. `x`), use `_` as the variable name
 
 ```python
 for x in range(5):
@@ -723,6 +783,18 @@ for x in range(3, 6):
 
 for x in range(3, 8, 2):
     print(x) # prints 3, 5, 7
+
+for x in range(5, 0, -1):
+    print(x) # prints 5, 4, 3, 2, 1
+```
+
+- to iterate backwards along a list:
+
+```python
+list = ['e', 'd', 'c', 'b', 'a']
+
+for x in range(len(list) - 1, -1, -1):
+    print(list[x]) # prints a, b, c, d, e
 ```
 
 ## List Comprehensions

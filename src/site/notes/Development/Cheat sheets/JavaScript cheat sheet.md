@@ -272,7 +272,7 @@ await navigator.clipboard.writeText('text')
 
 # DOM
 
-## ## DOMContentLoaded vs. load
+## DOMContentLoaded vs. load
 
 
 <div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/cheat-sheets/html-cheat-sheet/#dom-content-loaded-vs-load" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
@@ -312,21 +312,103 @@ document.querySelector('.banana').closest('.banana')
 // matches the element it was called on
 ```
 
-## Element.after
+## Get the previous and next siblings
 
-- inserts the new element after the element it's called on
+- returns null if there is no previous/next sibling
+
+```html
+<div class="first"></div>
+<div class="second"></div>
+<div class="third"></div>
+```
 
 ```js
-const button = document.createElement('button')
-button.textContent = 'Download Image'
+const element = document.querySelector('third')
+element.previousElementSibling // <div class="second">
+element.nextElementSibling // null
+```
 
-const img = document.querySelector('img')
-img.after(button)
+## Insert DOM elements
+
+- `prepend` and `append` accept strings and multiple items, and insert them at the beginning or end of the target's children
+
+```html
+<div id="target">
+    <div>Existing content</div>
+</div>
+```
+
+```js
+const before = document.createElement('div')
+before.textContent = 'Before existing'
+
+const after = document.createElement('div')
+after.textContent = 'After existing'
+
+const target = document.querySelector('#target')
+target.prepend(before, 'Some text')
+target.append(after)
 ```
 
 ```html
-<img src="cat.jpg" />
-<button>Download Image</button>
+<div id="target">
+    <div>Before existing</div>
+    Some text
+    <div>Existing content</div>
+    <div>After existing</div>
+</div>
+```
+
+- `before` and `after` accept strings and multiple items, and insert them before or after the target node itself
+
+```js
+const heading = document.createElement('h2')
+heading.textContent = 'Section heading'
+
+const paragraph = document.createElement('p')
+paragraph.textContent = 'Some descriptive text'
+
+const target = document.querySelector('#target')
+target.before(heading, paragraph)
+target.after('This is a text node')
+```
+
+```html
+<h2>Section heading</h2>
+<p>Some descriptive text</p>
+<div id="target">Target element</div>
+This is a text node
+```
+
+- `insertAdjacentElement` only accepts a single element (not strings), but lets you choose where to insert it, inside or adjacent to the target
+    - `position` can be one of 4 values:
+        - `beforebegin`: before the target element
+        - `afterbegin`: inside the target element, at the beginning
+        - `beforeend`: inside the target element, at the end
+        - `afterend`: after the target element
+- there is also `insertAdjacentText` (for text strings) and `insertAdjacentHTML` (for HTML strings), with the same signature
+
+```js
+const outer = document.createElement('div')
+outer.textContent = 'Outer div'
+const inner = document.createElement('div')
+inner.textContent = 'Inner div'
+
+const target = document.querySelector('#target')
+target.insertAdjacentElement('beforebegin', outer)
+target.insertAdjacentElement('afterbegin', inner)
+target.insertAdjacentHTML('beforeend', '<div>From HTML string</div>')
+target.insertAdjacentText('afterend', 'Text node')
+```
+
+```html
+<div>Outer div</div>
+<div id="target">
+    <div>Inner div</div>
+    Target node
+    <div>From HTML string</div>
+</div>
+Text node
 ```
 
 ## Resize observer
@@ -357,6 +439,24 @@ mediaQuery.addEventListener('change', adjustLayout)
 element.classList.remove('animated')
 element.offsetHeight
 element.classList.add('animated')
+```
+
+## Get computed style of pseudo-elements
+
+```html
+<span class="temperature">73</span>
+```
+
+```css
+.temperature::after {
+    content: 'ºF';
+    color: gray;
+}
+```
+
+```js
+const temp = document.querySelector('.temperature')
+getComputedStyle(temp, '::after').color // rgb(128, 128, 128)
 ```
 
 # Debugging

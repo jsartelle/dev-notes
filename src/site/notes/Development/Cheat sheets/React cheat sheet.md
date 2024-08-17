@@ -59,22 +59,17 @@ const selectedPerson = {
     - numeric values automatically have "px" appended where appropriate
 
 ```jsx
-<img className="avatar" style={ { height: 10 } } />
+<img className="avatar" style={{ height: 10 }} />
 ```
-
-# Rendering
-
-- to render an element into a root DOM node use `ReactDOM.render(element, rootNode)`
-    - React apps normally have a single root node, and most only call `ReactDOM.render` once
 
 # Components
 
 - component names **must start with a capital letter**
 - the return value is what is rendered
-- to render multiple elements wrap them in fragments:
+- to render multiple elements wrap them in a fragment:
 
 ```jsx
-const Cafe = () => {
+function Cafe() {
   return (
     <>
       <Cat name="Munkustrap" />
@@ -95,6 +90,17 @@ You can wrap your app in `<React.StrictMode>` to call each component twice durin
 ## Controlled vs. uncontrolled components
 
 Components that are primarily driven through [[Development/Cheat sheets/React cheat sheet#Props\|props]] are sometimes referred to as *controlled components*, because their parent controls their behavior. Components that keep their primary information in local state are called *uncontrolled components*.
+
+## Server Components
+
+- available in React 19, and Next.js when using the [[Development/Cheat sheets/Next.js cheat sheet#App Router\|App Router]]
+- rendered fully on the server, only HTML is sent to the client
+- cannot use [[Development/Cheat sheets/React cheat sheet#Hooks\|#Hooks]]
+- can be async and use `await`, and can access Node APIs and sensitive data without exposing them to the client
+- add `'use client'` to the top of a file to mark it, and all components below it in the tree, as Client Components
+    - components without `use client` will still be treated as Client Components if they're used within a Client Component
+        - to prevent this, install the `server-only` NPM package and import it in your component
+        - you can also import secrets into a single helper file and mark that with `server-only`, to prevent accidentally passing secrets as props to Client Components
 
 # Props
 
@@ -310,6 +316,42 @@ ReactDOM.render(
 );
 ```
 
+# Forms
+
+- you can pass a function to a `<form>` element's `action` prop to run that function when the form is submitted
+    - the function can be async, or a [[Development/Cheat sheets/React cheat sheet#Server Actions\|Server Action]]
+- the function will receive a `FormData` object as its argument
+- you can set the `formAction` prop on a `<button>` or `<input type="submit">` to override the form's `action` for just that button
+
+```jsx
+async function createUser(formData) {
+    await fetch('/user', {
+        method: 'POST',
+        body: {
+            name: formData.get('name'),
+            email: formData.get('email'),
+        }  
+    })
+}
+
+<form action={createUser}>
+    <input name="name" placeholder="name" />
+    <input name="email" placeholder="email" />
+    <button type="submit">Submit</button>
+</form>
+```
+
+- you can pass additional arguments using `.bind`, or by adding `<input type="hidden">` elements to the form
+
+```jsx
+const [userId, setUserId] = useState(123)
+
+async function createUser(userId, formData) { /* ... */ }
+
+const createUserWithId = createUser.bind(null, userId)
+```
+
+- to use the return value from a form submission, see [[Development/Cheat sheets/React cheat sheet#useActionState/useFormState\|#useActionState/useFormState]]
 # Hooks
 
 - Hooks let you:
@@ -350,6 +392,22 @@ function FriendStatus(props) {
 ## useState
 
 - use `useState` to preserve variables between renders
+
+```jsx
+function Example() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+```
+
 - the argument to `useState` is the initial state
     - can be any kind of value, including objects
 - state should be treated as read-only - to update state objects or arrays, copy it to a new object/array and pass it to the `set` function
@@ -378,23 +436,6 @@ setNumber(number => number + 1) // 2 + 1
 ```
 
 - to update the state from a child component, pass down the `set` function as a prop
-
-```jsx
-function Example() {
-  // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
-
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
-    </div>
-  );
-}
-```
-
 - if the same type of component is rendered in the same tree position, it will keep its state
     - to reset the state without changing the position, change the [[Development/Cheat sheets/React cheat sheet#Lists & Keys\|key]]
 
@@ -510,7 +551,7 @@ const MyInput = forwardRef((props, ref) => {
 
 ## useMemo
 
-- cache a calculation between renders (similar to [[Development/Cheat sheets/Vue 3 cheat sheet#Computed Properties\|computed properties]] in Vue)
+- cache a calculation between renders (like [[Development/Cheat sheets/Vue 3 cheat sheet#Computed Properties\|computed properties]] in Vue)
     - referred to as *memoization*
     - if the dependencies haven't changed, the cached value is returned
     - dependencies are provided the same way as [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]]
@@ -613,6 +654,125 @@ function handleDeleteTask(taskId) {
 }
 ```
 
+## useActionState/useFormState
+
+- lets you access the return value of a function used as a form action (including [[Development/Cheat sheets/React cheat sheet#Server Actions\|Server Actions]])
+    - in React 19 RC, import it as `useActionState` from `react`
+    - in earlier versions, import it as `useFormState` from `react-dom`
+- the first argument is the form action function, the second argument is your initial state
+    - the function receives the state object (see below) as its first argument, and the FormState as its second argument
+- returns an array with two values (like [[Development/Cheat sheets/React cheat sheet#useState\|#useState]]): a state object, and a wrapped version of the action function
+    - before the wrapped action is called, the state is equal to the initial state you passed
+    - after the wrapped action is called, the state is equal to the return value of the function
+
+```js
+/* actions.js */
+export async function createUser(currentState, formData) {
+    'use server'
+    const user = await db.createUser({
+        name: formData.get('name'),
+        email: formData.get('email'),
+    })
+    return user
+}
+```
+
+```jsx
+import { useFormState } from 'react-dom'
+import { createUser } from '@/util/actions'
+
+export default function UserForm() {
+    const [user, createUserForm] = useFormState(createUser, null)
+
+    return (
+        <h2>Sign Up</h2>
+        <form action={createUserForm}>
+            <input name="name" placeholder="Name" />
+            <input name="email" placeholder="Email" />
+            <button type="submit">Submit</button>
+        </form>
+
+        { user ? (
+            <h2>Your Profile</h2>
+            <UserInfo user={user} />
+        ) : null}
+    )
+}
+```
+
+# Suspense
+
+- lets you show fallback content while async children load
+    - this applies to children using [[Development/Cheat sheets/React cheat sheet#use\|#use]], or [[Development/Cheat sheets/React cheat sheet#lazy\|#lazy]] loaded components
+- `fallback` can be any JSX, including components or text
+- the fallback is shown until all async children (at any depth) finish loading
+
+```jsx
+import { Suspense } from 'react';
+
+{/* LoadingSpinner will be shown until both async components finish loading */}
+<Suspense fallback={<LoadingSpinner />}>
+    <AsyncComponentOne />
+    <AsyncComponentTwo />
+</Suspense>
+```
+
+## lazy
+
+- lets you lazy load a component's code
+    - pass it a function which returns a Promise, that resolves to an object whose `.default` property is a React component
+    - returns a component that will Suspend until the component is loaded
+
+```jsx
+import { lazy } from 'react'
+
+const MarkdownPreview = lazy(() => import('./MarkdownPreview.js'))
+
+/* the result is an async component */
+<Suspense fallback="Loading...">
+    <MarkdownPreview />
+</Suspense>
+```
+
+# use
+
+- available in React 19 and recent versions of Next.js
+- not a hook, so it can be used within loops or conditionals
+- lets you render a Client Component async and wait on a promise
+    - the nearest [[Development/Cheat sheets/React cheat sheet#Suspense\|#Suspense]] fallback is shown until the promise resolves
+- promises can be passed from [[Development/Cheat sheets/React cheat sheet#Server Components\|#Server Components]] to Client Components as props and "awaited" with `use`
+    - Server Components don't need `use` since they can use `await` natively
+
+```jsx
+'use client'
+import { use } from 'react'
+
+export default function UserInfo({ userPromise }) {
+    const userData = use(userPromise)
+
+    return (
+        <div>
+            <span>{user.name}</span>
+            {/* etc. */}
+        </div>
+    )
+}
+```
+
+```JSX
+/* this is a Server Component */
+export default function ProfilePage() {
+    const userDataPromise = db.getUserById(123) // not awaited
+
+    return (
+        {/* promise is passed from server to client as a prop */}
+        <Suspense fallback="Loading user data...">
+            <UserInfo userPromise={userDataPromise} />
+        </Suspense>
+    )
+}
+```
+
 # Context
 
 - lets a component pass data down an arbitrary distance in the tree, without having to pass props through multiple levels of components that might not need them (prop drilling)
@@ -657,7 +817,39 @@ export default function Heading({ children }) {
 }
 ```
 
-- like CSS inheritance, you can override a context value by adding another context provider (using the same context) lower in the tree
+- you can override a context value by adding another context provider (using the same context) lower in the tree
+
+# Server Actions
+
+- let you create functions which run on the server that you can call from Client Components, for example as a [[Development/Cheat sheets/React cheat sheet#Forms\|form action]]
+    - [can also be used outside of forms with `startTransition`](https://react.dev/reference/rsc/use-server#calling-a-server-action-outside-of-form)
+- Server Actions must be async and marked with `'use server'` at the top
+    - or add `'use server'` to the top of a file to mark every function within as a Server Action
+- can return any serializable value
+
+```js
+export async function createUser(formData) {
+    'use server'
+    await db.createUser({
+        name: formData.get('name'),
+        email: formData.get('email'),
+    })
+}
+```
+
+```jsx
+import { createUser } from '@/util/actions'
+
+export default function UserForm() {
+    return (
+        <form action={createUser}>
+            <input name="name" placeholder="Name" />
+            <input name="email" placeholder="Email" />
+            <button type="submit">Submit</button>
+        </form>
+    )
+}
+```
 
 # TypeScript
 

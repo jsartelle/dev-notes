@@ -1299,6 +1299,7 @@ be the same size regardless of the section width */
 - detect high contrast mode and other situations where the browser is overriding the page colors
     - should be used for small tweaks only - ==respect the user's choices and don't try to override them==
 - in forced colors mode, the browser forcibly applies appropriate system colors to elements, and removes shadows and non-URL background-images (like gradients)
+    - use [[Development/Cheat sheets/CSS cheat sheet#System color keywords\|#System color keywords]] to adjust colors if necessary
 - also see [[Development/Cheat sheets/CSS cheat sheet#forced-color-adjust\|#forced-color-adjust]]
 
 ```css

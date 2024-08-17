@@ -362,6 +362,11 @@ curl -X POST -H "Content-Type: application/json" -d '{"name": "Oscar", "species"
 - <kbd>Ctrl+Shift+6</kbd>: mark text
     - <kbd>Ctrl+k</kbd>: cut/delete marked text
 
+## xargs
+
+- `xargs command`: run `command` for each line in *stdin*
+    - `-n 2`: limit to the first 2 lines
+
 ## tmux
 
 - `tmux`: create a new session
@@ -483,12 +488,12 @@ python3 -m http.server 3000
 - `--simulate`: dry run
 - `--match-title keyword`: only download items matching *keyword*
 - `-F url`: list all available formats
-    - `-f # url`: download video with format number
+    - `-f # url`: download video using a format number given by `-F`
 - `-f bestaudio[ext=m4a] --add-metadata --embed-thumbnail url`: save audio with thumbnail and chapter markers
 - `-o "%(playlist_index)s-%(title)s.%(ext)s" <playlist_link>`: save a playlist with numbered files
-- `--playlist-start 2`: start at video 2 in the playlist (1-indexed)
-- `--playlist-end 5`: end at video 5
-- `--playlist-items 1,2,5-7`: download certain items
+    - `--playlist-start 2`: start at video 2 in the playlist (1-indexed)
+    - `--playlist-end 5`: end at video 5
+    - `--playlist-items 1,2,5-7`: download certain items
 
 ## ImageMagick
 
@@ -614,7 +619,7 @@ osascript -e 'id of app "Name of App"'
 Reset permissions:
 
 ```shell
-sudo tccutil reset All [app.bundle.id]
+sudo tccutil reset All bundle_id
 ```
 
 # PowerShell

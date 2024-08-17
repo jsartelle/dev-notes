@@ -18,7 +18,7 @@
         - for the example, start with *F(0) = 0* and *F(1) = 1*, then calculate *F(2)*, *F(3)*, etc up to *F(n)*
     - **top-down** (memoization): solve the subproblems using **recursion** from the top down, and save (**memoize**) the results of each subproblem so you don't need to repeat calculations
         - for example, to calculate *F(5)* you need to calculate *F(2)* three times, unless you save the result (typically in a hashmap)
-            - ![06aaae37322e9e0ff4e72cc8dffe8ada_MD5.png](/img/user/%E2%80%A2%20Attachments/06aaae37322e9e0ff4e72cc8dffe8ada_MD5.png)
+            - ![06aaae37322e9e0ff4e72cc8dffe8ada_MD5.png](/img/user/Development/%E2%80%A2%20Attachments/06aaae37322e9e0ff4e72cc8dffe8ada_MD5.png)
     - ==bottom-up tends to be faster, but top-down is easier to write (because the order of solving subproblems doesn't matter)==
 - to identify DP problems:
     - typically ask for an optimum value (minimum, maximum, longest, etc), or whether it's possible to reach a certain point
