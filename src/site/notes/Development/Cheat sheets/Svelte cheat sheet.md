@@ -772,10 +772,14 @@ const value = get(store)
 ## Basics
 
 > [!warning]
-> If using Yarn, [[Development/Cheat sheets/NPM and Yarn cheat sheet#Disable Yarn PnP\|disable Yarn PnP]] or you may run into SvelteKit errors!
+> If using Yarn, [[Development/Cheat sheets/NPM and Yarn cheat sheet#Disable Yarn PnP\|disable Yarn PnP]] to avoid SvelteKit errors!
 
-- Create a project: `npm create svelte@latest project-name`
-    - or `yarn create`
+> [!info] Create a new project:
+>
+> ```bash
+> npm create svelte@latest project-name
+> ```
+
 - Store assets in `src/lib` and import them using `$lib`
 
 ## Pages

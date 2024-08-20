@@ -21,6 +21,9 @@
 
 # React Fundamentals
 
+> [!note]
+> The below doesn't apply if using [[Development/Cheat sheets/React Native cheat sheet#Expo\|#Expo]]
+
 - still need to `import React from 'react'` in each file
 - `index.js` is the starting point for React Native apps, always required (even if it just `import`s other files)
 
@@ -28,10 +31,16 @@
 
 - `<View>` is non-scrolling, `<ScrollView>` is scrolling
 - `<Text>` is for non-editable text (equivalent to `<p>`), `<TextInput>` is an editable text field
+- the *accessible* prop on a component groups all its children together as one element for accessibility purposes
 
-## Handling Text Input
+## Text Input
 
 - `<TextInput>` has *onChangeText* and *onSubmitEditing* props
+    - set *multiline* for multi-line input
+    - use *onChangeText* to update state when the text changes
+    - use *enterKeyHint* to set the label on the software Enter key to one of a few preset values
+        - *enablesReturnKeyAutomatically* will disable the Enter key if no text has been entered
+    - *onSubmitEditing* will fire when the Enter key (software or hardware) is pressed
 
 ## Using a ScrollView
 
@@ -52,6 +61,17 @@
     - *renderItem* prop as described above
 
 # Design
+
+## Layout
+
+- style properties are written with camelCase
+- all dimensions are unitless, density-independent pixels (or percent)
+- `position` can be *relative* (default) or *absolute*
+- all elements use flexbox, with a few differences:
+    - `flex` only accepts a single number (`flex: 2` in React Native is equivalent to `flex: 2 1 0%` on the web)
+    - `flexDirection` defaults to *column*
+    - `alignContent` defaults to *flex-start*
+    - `flexShrink` defaults to 0
 
 ## StyleSheet
 
@@ -86,7 +106,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-- `StyleSheet.compose(style1, style2)` method lets you combine two style objects so that the second overrides the first
+- `StyleSheet.compose(style1, style2)` method lets you combine two StyleSheets so that the second overrides the first
 
 ```jsx
 const styles1 = StyleSheet.create({
@@ -112,7 +132,7 @@ const composedStyles = StyleSheet.compose(styles1, styles2)
 }
 ```
 
-- `StyleSheet.flatten(styleObjects)` takes an array of style objects and returns a flattened object
+- `StyleSheet.flatten(styleObjects)` takes an array of style objects and returns a flattened object that can be used in the `style` prop
 
 ```jsx
 const styles1 = StyleSheet.create({
@@ -164,17 +184,6 @@ const styles = StyleSheet.create({
 })
 ```
 
-## Layout
-
-- style properties are written with camelCase
-- all dimensions are unitless, density-independent pixels (or percent)
-- `position` can be *relative* (default) or *absolute*
-- flexbox works with a few differences:
-    - `flex` only accepts a single number (`flex: 2` in React Native is equivalent to `flex: 2 1 0%` on the web)
-    - `flexDirection` defaults to *column*
-    - `alignContent` defaults to *flex-start*
-    - `flexShrink` defaults to 0
-
 ## Images
 
 - To use an image (or other asset), require it with a relative path
@@ -205,8 +214,11 @@ var icon = this.props.active
 
 ## Colors
 
-- use the `PlatformColor` function to get platform-specific named colors
+- use the `PlatformColor` function to get platform-specific named colors (iOS/Android) which react to light & dark mode
+    - [see here](https://reactnative.dev/docs/next/platformcolor) for valid color names
     - first value is the default, rest are fallbacks
+    - doesn't work on web
+    - always set a default value with [[Development/Cheat sheets/React Native cheat sheet#Platform-specific code\|Platform.select]] to handle other platforms
 
 ```jsx
 const styles = StyleSheet.create({
@@ -234,17 +246,20 @@ const styles = StyleSheet.create({
     - no CORS
 - WebSockets are supported
 
-# Touch
+# Touch (buttons)
 
-- `<Button>` is a styled button with an *onPress* prop
+- `<Button>` is a simple text-only button on iOS, and a button with colored background on Android and web
+    - doesn't accept `style`, the `color` prop can be used to change the text (iOS) or background (Android/web) color
 - For custom buttons, wrap a single element with a `Touchable` wrapper:
     - `<TouchableHighlight>` darkens when you tap (suitable for most buttons)
+        - change the highlight color with the `underlayColor` prop
     - `<TouchableOpacity>` reduces opacity when you tap
     - `<TouchableNativeFeedback>` (Android only) does the Material Design ripple
     - `<TouchableWithoutFeedback>` provides no feedback
-- use *onLongPress* on any `Touchable` for long presses
 - `<Pressable>` is more flexible
     - supports an optional *hitSlop* property ([Rect](https://reactnative.dev/docs/rect) or number) to allow presses outside the child element
+    - `style` can take a function that receives a boolean indicating if the button is currently being pressed
+- `<Button>` only supports `onPress`, the others support the handlers below
     - ![Diagram of the onPress events in sequence.](https://d33wubrfki0l68.cloudfront.net/436d715612d6a5ab228b9fd41f33f799f0c3e6d3/40bdd/docs/assets/d_pressable_pressing.svg)
 
 # Navigation
@@ -291,9 +306,14 @@ export default App;
     - *component* receives a prop called *navigation* with navigation methods, ex. `navigation.navigate` to go to another screen
     - to pass additional props to a screen, wrap the Navigator with a [[Development/Cheat sheets/React cheat sheet#Context \|context provider]] and access it inside the screen components
 
-# Platform Specific Code
+# Safe areas
 
-- `Platform.OS` can be used to test for platform (*ios* or *android*)
+- use the [react-native-safe-area-context](https://github.com/th3rdwave/react-native-safe-area-context) library (already installed in the default Expo project template)
+- use `<SafeAreaView>` (which is a view with padding already applied for safe areas) instead of `<View>`, or use the `useSafeAreaInsets` hook to get the inset values
+
+# Platform-specific code
+
+- `Platform.OS` can be used to test for platform (`ios' | 'android' | 'windows' | 'macos' | 'web'`) for Expo
 
 ```jsx
 import { Platform, StyleSheet } from 'react-native';
@@ -303,7 +323,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-- `Platform.select` method returns the most fitting key for the platform (`ios' | 'android' | 'native' | 'default'`)
+- `Platform.select` method returns the correct input value based on the `Platform.OS` value - also supports the value `'native'` for iOS and Android
 
 ```jsx
 import { Platform, StyleSheet } from 'react-native';
@@ -394,7 +414,172 @@ import BigButton from './BigButton';
 </article>
 ```
 
+# Expo
+
+> [!info] Create a new project:
+>
+> ```bash
+> npx create-expo-app@latest
+> ```
+
+- install [Expo Tools](https://marketplace.visualstudio.com/items?itemName=expo.vscode-expo-tools) for VSCode
+- run `npx expo-doctor` to diagnose issues
+- run `npx expo lint` to set up ESLint, or run it if it's already set up
+- to install Prettier:
+    - run `npx expo install -- --save-dev prettier eslint-config-prettier eslint-plugin-prettier`
+    - add the below to `.eslintrc.js`
+
+```js
+module.exports = {
+  extends: ['expo', 'prettier'],
+  plugins: ['prettier'],
+  rules: {
+    'prettier/prettier': 'error',
+  },
+};
+```
+
+## Basics
+
+- Expo has its own `<Image>` component (`npx expo install expo-image`)
+
+## Routing & navigation
+
+- uses [[Development/Cheat sheets/React Native cheat sheet#react-navigation\|#react-navigation]], setup is done for you
+- file-based routing: all files in the `app` directory become routes
+    - `app/index.tsx` is the default route
+    - `app/settings/index.tsx` matches `/settings`
+    - `app/settings/general.tsx` matches `/settings/general`
+    - `app/settings/[page].tsx` matches any unmatched path under `/settings`, and the name is available as a route parameter via `useLocalSearchParams`
+
+```tsx
+import { useLocalSearchParams } from 'expo-router'
+
+export default function Page() {
+    const { category } = useLocalSearchParams()
+}
+```
+
+- navigate using the `<Link>` component from `expo-router`
+- to use a tab bar layout [see here](https://docs.expo.dev/router/advanced/tabs/)
+
+## Page options
+
+- to configure page options, add a `<Stack.Screen>` component to the `<Stack>` in your layout, with the *name* prop equal to the route name
+    - you can set a *screenOptions* prop on `<Stack>` to set default options
+    - you can also set options within a page component using the `useNavigation` hook
+
+```jsx
+import { useNavigation } from 'expo-router'
+
+const navigation = useNavigation()
+
+useEffect(() => {
+    navigation.setOptions({ headerShown: false })
+}, [navigation])
+```
+
+- change the header title with *title: 'title'*
+- hide the header with *headerShown: false*
+- add buttons to the header by passing a function that returns a component to the *headerLeft* or *headerRight* option
+- show a route as a modal with *presentation: modal*
+
+## Data storage
+
+- [expo-secure-store](https://docs.expo.dev/versions/latest/sdk/securestore/) : store small (<2kb) key-value pairs with encryption
+
+```bash
+npx expo install expo-secure-store
+```
+
+```tsx
+ import * as SecureStore from 'expo-secure-store';
+ 
+ await SecureStore.setItemAsync(key, value);
+ const result = await SecureStore.getItemAsync(key);
+```
+
+- [Async Storage](https://react-native-async-storage.github.io/async-storage/docs/usage): **not encrypted**, can hold larger amounts of data (~2 MB per item and 6 MB total)
+
+```bash
+npx expo install @react-native-async-storage/async-storage
+```
+
+```tsx
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+await AsyncStorage.setItem('todos', JSON.stringify({ name: 'Buy eggs', complete: false }))
+
+const todos = await JSON.parse(AsyncStorage.getItem('todos') ?? '{}')
+```
+
+- [expo-file-system](https://docs.expo.dev/versions/latest/sdk/filesystem/): provides filesystem access
+    - only have read & write access to `FileSystem.documentDirectory` (for permanent files) and `FileSystem.cacheDirectory` (for temporary files)
+
+```bash
+npx expo install expo-file-system
+```
+
+- [expo-sqlite](https://docs.expo.dev/versions/latest/sdk/sqlite/): SQLite database
+
+```bash
+npx expo install expo-sqlite
+```
+
+### MobX
+
+- `npm install --save mobx mobx-react-lite`
+    - `mobx-react-lite` only supports function components, `mobx-react` supports class components too
+- the advantage over [[Development/Cheat sheets/React cheat sheet#Context\|contexts]] is that a component using a context will re-render if **anything** in that context changes, but MobX stores only cause re-render if a piece of state the component is actually using (including individual items in collections) changes
+- three main concepts:
+    - *state*: values you want to observe
+    - *actions*: methods that modify state
+    - *derivations*: anything that can be derived from the state
+        - *computed values*: derived from the current state with no side effects
+        - *reactions*: side effects that run whenever the state changes, should be used sparingly
+- the easiest way to set up a store is to create a class, and use `makeObservable` to "mark" the properties and actions that should be observable
+    - you can also use `makeAutoObservable` to make all the properties of the given object observable
+    - use getters to 
+
+```js
+import { action, makeObservable, observable } from 'mobx'
+
+class TodoStore {
+    todos = []
+
+    constructor() {
+        makeObservable(this, {
+            todos: observable,
+            addTodo: action
+        })
+        /* or makeAutoObservable(this) */
+    }
+
+    get incompleteTodos() {
+        return this.todos.filter(t => !t.complete)
+    }
+
+    addTodo(name) {
+        this.todos.push({ name, complete: false })
+    }
+}
+export default new TodoStore()
+```
+
+- wrap React components that depend on state in `observer` to make them reactive
+
+```tsx
+import { observer } from 'mobx-react-lite'
+
+export default observer(function TodoList() {
+    /* ... */
+}
+```
+
+#### Persistent stores
+
+- `npm install --save mobx-persist-store`
+
 # See also
 
 - [[Development/Cheat sheets/React cheat sheet\|React cheat sheet]]
-- [Next.js with React Native Web](https://github.com/vercel/next.js/tree/canary/examples/with-react-native-web)

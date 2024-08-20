@@ -1757,26 +1757,27 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 
 - use colors provided by the operating system
 - browser support is inconsistent, so use [[Development/Cheat sheets/CSS cheat sheet#@supports\|#@supports]] to test and set fallback values appropriately
+    - `AccentColor` and `AccentColorText` aren't supported in Chromium as of August 2024
 
-| Keyword           | Description                                                                          |
-| ----------------- | ------------------------------------------------------------------------------------ |
-| `AccentColor`     | Background of accented user interface controls                                       |
-| `AccentColorText` | Text of accented user interface controls                                             |
-| `ActiveText`      | Text of active links                                                                 |
-| `ButtonBorder`    | Base border color of controls                                                        |
-| `ButtonFace`      | Background color of controls                                                         |
-| `ButtonText`      | Text color of controls                                                               |
-| `Canvas`          | Background of application content or documents                                       |
-| `CanvasText`      | Text color in application content or documents                                       |
-| `Field`           | Background of input fields                                                           |
-| `FieldText`       | Text in input fields                                                                 |
-| `GrayText`        | Text color for disabled items (e.g. a disabled control)                              |
-| `Highlight`       | Background of selected items                                                         |
-| `HighlightText`   | Text color of selected items                                                         |
-| `LinkText`        | Text of non-active, non-visited links                                                |
-| `Mark`            | Background of text that has been specially marked (such as by the HTML mark element) |
-| `MarkText`        | Text that has been specially marked (such as by the HTML mark element)               |
-| `VisitedText`     | Text of visited links                                                                |
+| Keyword           | Example                                                                | Description                                                                          |
+| ----------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `AccentColor`     | <div style="height:30px;width:30px;background:AccentColor;"></div>     | Background of accented user interface controls                                       |
+| `AccentColorText` | <div style="height:30px;width:30px;background:AccentColorText;"></div> | Text of accented user interface controls                                             |
+| `ActiveText`      | <div style="height:30px;width:30px;background:ActiveText;"></div>      | Text of active links                                                                 |
+| `ButtonBorder`    | <div style="height:30px;width:30px;background:ButtonBorder;"></div>    | Base border color of controls                                                        |
+| `ButtonFace`      | <div style="height:30px;width:30px;background:ButtonFace;"></div>      | Background color of controls                                                         |
+| `ButtonText`      | <div style="height:30px;width:30px;background:ButtonText;"></div>      | Text color of controls                                                               |
+| `Canvas`          | <div style="height:30px;width:30px;background:Canvas;"></div>          | Background of application content or documents                                       |
+| `CanvasText`      | <div style="height:30px;width:30px;background:CanvasText;"></div>      | Text color in application content or documents                                       |
+| `Field`           | <div style="height:30px;width:30px;background:Field;"></div>           | Background of input fields                                                           |
+| `FieldText`       | <div style="height:30px;width:30px;background:FieldText;"></div>       | Text in input fields                                                                 |
+| `GrayText`        | <div style="height:30px;width:30px;background:GrayText;"></div>        | Text color for disabled items (e.g. a disabled control)                              |
+| `Highlight`       | <div style="height:30px;width:30px;background:Highlight;"></div>       | Background of selected items                                                         |
+| `HighlightText`   | <div style="height:30px;width:30px;background:HighlightText;"></div>   | Text color of selected items                                                         |
+| `LinkText`        | <div style="height:30px;width:30px;background:LinkText;"></div>        | Text of non-active, non-visited links                                                |
+| `Mark`            | <div style="height:30px;width:30px;background:Mark;"></div>            | Background of text that has been specially marked (such as by the HTML mark element) |
+| `MarkText`        | <div style="height:30px;width:30px;background:MarkText;"></div>        | Text that has been specially marked (such as by the HTML mark element)               |
+| `VisitedText`     | <div style="height:30px;width:30px;background:VisitedText;"></div>     | Text of visited links                                                                |
 
 ## `opacity: 0` vs. `visibility: hidden`
 

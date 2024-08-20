@@ -3,6 +3,12 @@
 ---
 
 
+> [!info] Create a new project:
+>
+> ```bash
+> npx create-next-app@latest
+> ```
+
 # Data fetching
 
 ## Static vs. dynamic rendering
@@ -19,6 +25,33 @@
     - use the option `{ next: { revalidate: 3600 } }` to set the cache lifetime (in seconds)
 - as of Next.js 15, pages are statically rendered unless the `cookies()`, `headers()`, or `searchParams` are accessed
     - in the future, pages will be able to mix static and dynamic rendering, and will be statically rendered up to a Suspense boundary - [more info](https://x.com/leeerob/status/1803904284213293327)
+
+### Routing and layouts
+
+- To create a page at `/dashboard/analytics`, add a component at `/dashboard/analytics/page.jsx` (or `tsx`)
+- Layouts are nested - if you create a layout in `/dashboard`, it will be nested within the root layout and apply to all the pages under `/dashboard`
+- To link to another page, use the `<Link>` component
+
+```jsx
+import Link from 'next/link'
+ 
+export default function Page() {
+    return <Link href="/dashboard">Dashboard</Link>
+}
+```
+
+### Route Handlers
+
+- let you create custom API request handlers
+- create a `route.js` (or `ts`) file at the desired path, and export functions for each HTTP method you want to support
+    - you can't have a `route.js` and `page.js` at the same path
+- not cached by default, to cache GET methods add `export const dynamic = 'force-static'`
+
+```ts
+export async function GET(request: Request) {
+    /* ... */
+}
+```
 
 ## Pages Router
 
@@ -76,4 +109,3 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 
 - [[Development/Cheat sheets/React cheat sheet\|React cheat sheet]]
 - [[Development/Cheat sheets/PicoCSS cheat sheet#Installation with frameworks\|PicoCSS cheat sheet#Installation with frameworks]]
-- [Next.js with React Native Web](https://github.com/vercel/next.js/tree/canary/examples/with-react-native-web)

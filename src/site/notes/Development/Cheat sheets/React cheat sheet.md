@@ -352,6 +352,7 @@ const createUserWithId = createUser.bind(null, userId)
 ```
 
 - to use the return value from a form submission, see [[Development/Cheat sheets/React cheat sheet#useActionState/useFormState\|#useActionState/useFormState]]
+
 # Hooks
 
 - Hooks let you:
@@ -777,6 +778,7 @@ export default function ProfilePage() {
 
 - lets a component pass data down an arbitrary distance in the tree, without having to pass props through multiple levels of components that might not need them (prop drilling)
     - similar to [[Development/Cheat sheets/Vue 3 cheat sheet#Provide and Inject\|provide and inject in Vue]]
+    - contexts can have performance issues at large scale, look into something like [[Development/Cheat sheets/React Native cheat sheet#MobX\|MobX]] for larger projects
 - create a file for the context, and call `createContext` with a default value
     - the default value is used if you don't have a ContextProvider
 

@@ -9,7 +9,7 @@
 - tests one component (class, function, etc - one *unit*) at a time
 - independent
 - repeatable (known fixed input produces the same known fixed output)
-
+- test the results, not the implementation details
 # Structure
 
 - **setup**: create needed objects and dependencies
