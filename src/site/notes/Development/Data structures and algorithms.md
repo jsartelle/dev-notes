@@ -49,6 +49,41 @@
 - *graph*: a fixed set of nodes or vertices connected by edges
     - common uses: representing networks (such as social media networks, or paths through a city)
 
+# Sorting algorithms
+
+- *Bubble sort*: keep iterating two at a time, swapping the items if they're in the wrong order, until sorted
+    - simple, but not efficient
+    - ![Bubble Sort](https://res.cloudinary.com/practicaldev/image/fetch/s--y08-dItD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://upload.wikimedia.org/wikipedia/commons/c/c8/Bubble-sort-example-300px.gif)
+    - best case $O(n)$ (data already sorted), worst case $O(n^2)$ (data in the opposite order)
+- *Selection sort*: iterate through, find the smallest item and move it to the front of the list, and repeat
+    - ![my alt text](https://res.cloudinary.com/practicaldev/image/fetch/s--j6iFl-xt--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://res.cloudinary.com/practicaldev/image/fetch/s--OQMj34Rc--/c_limit%252Cf_auto%252Cfl_progressive%252Cq_66%252Cw_880/https://upload.wikimedia.org/wikipedia/commons/9/94/Selection-Sort-Animation.gif)
+    - best case $O(n)$, worst case $O(n^2)$, but fewer swaps than Bubble Sort
+- *Insertion sort*: iterate through, and for each item, move its neighbors in front or behind depending on whether they're greater or less than it
+    - ![Insertion Sort](https://res.cloudinary.com/practicaldev/image/fetch/s---SHUAD41--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://upload.wikimedia.org/wikipedia/commons/0/0f/Insertion-sort-example-300px.gif)
+    - best case $O(n)$, worst case $O(n^2)$
+- *QuickSort*: Choose a pivot (usually in the center) and split the array into two sub-arrays around the pivot. Create two pointers, one at the start of the left subarray and one at the end of the right subarray. Iterate toward the pivot until you find a pair of numbers where the left one is larger than the pivot and the right one is smaller than the pivot. Swap those two numbers. Once both pointers reach the pivot, repeat QuickSort on the subarrays.
+    - used if the array is small or there are few elements left to sort
+    - ![QuickSort](https://res.cloudinary.com/practicaldev/image/fetch/s--sYhGyrQ_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://upload.wikimedia.org/wikipedia/commons/9/9c/Quicksort-example.gif)
+    - best and average case $O(n\;log\;n)$, worst case $O(n^2)$ (if the smallest or largest element is chosen as the pivot)
+- *MergeSort*: break the array into pieces one wide, then merge the pieces into two wide so they're in the correct order, then sort the two wide pieces and merge those in the correct order, repeat
+    - ![Merge Sort](https://res.cloudinary.com/practicaldev/image/fetch/s--KkRLBwf_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://upload.wikimedia.org/wikipedia/commons/c/cc/Merge-sort-example-300px.gif)
+    - worst and average case $O(n\;log\;n)$
+- *bucket sort*: divide the array into buckets (stacks) by ranges, sort each bucket with any sorting algorithm or recursive BucketSort, then merge the buckets in order
+    - used with floating point numbers or input that is uniformly distributed over a range
+    - ![](https://res.cloudinary.com/practicaldev/image/fetch/s--Pi_6F6OP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Bucket_sort_1.svg/311px-Bucket_sort_1.svg.png)
+    - ![](https://res.cloudinary.com/practicaldev/image/fetch/s--hlVOc6Dv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Bucket_sort_2.svg/311px-Bucket_sort_2.svg.png)
+    - worst case, elements are all placed in one bucket, so complexity is whatever sorting algorithm is used on that bucket
+    - average case $O(n)$ if elements are randomly distributed
+    - best case $O(n+k)$ if the elements are uniformly distributed, where $k$ is the number of buckets
+- *heap sort*: place the elements in a heap (a tree where the root has the largest value and children are always smaller, or vice versa), then take the root (which will be the largest or smallest of the remaining values), re-heapify the tree, and repeat
+    - like selection sort, but instead of a linear-time scan of the unsorted data, you just maintain it in a heap
+    - no additional space required
+    - great if you only need the smallest or largest of the remaining items, ex. in a priority queue
+    - in practice, usually slower than quicksort, but implementation is simple and worst-case is better
+    - not a stable sort
+    - ![Heap Sort](https://res.cloudinary.com/practicaldev/image/fetch/s--Vc1pnzo0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://upload.wikimedia.org/wikipedia/commons/f/fe/Heap_sort_example.gif)
+    - $O(n\;log\;n)$ for best, worst, and average case
+
 # Tree search types
 
 - *breadth-first search*:
@@ -71,7 +106,7 @@
 - usually consider three cases: best case, average case, and worst case
     - for most algorithms these are equal, but if you only use one it should be the worst case
 - ignore constants: $O(5000n) = O(n)$
-- imagine all variables tending to infinity: $O(2^n + n^2 - 500n) = O(2^n)$, because as $n$ grows, $2^n$ becomes large enough to make the other two terms irrelevant
+- imagine all variables trending to infinity: $O(2^n + n^2 - 500n) = O(2^n)$, because as $n$ grows, $2^n$ becomes large enough to make the other two terms irrelevant
     - similarly, $O(n + 5000) = O(n)$
 
 ## Time complexity examples

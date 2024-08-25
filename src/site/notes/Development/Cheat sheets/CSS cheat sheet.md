@@ -722,6 +722,39 @@ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     <div></div>
 </div>
 
+#### Named lines
+
+- You can name grid lines to make them easier to reference with [[Development/Cheat sheets/CSS cheat sheet#grid-row-start, grid-column-start, grid-row-end, grid-column-end\|#grid-row-start, grid-column-start, grid-row-end, grid-column-end]]
+    - You can give the same line multiple names separated by spaces
+- If you name lines with `-start` and `-end`, the browser will generate an implicit [[Development/Cheat sheets/CSS cheat sheet#grid-template-areas\|named area]] between them (in the below example, `sidebar` and `article`)
+    - The opposite is true: if you create a grid area named `article`, it will generate named lines in each direction called `article-start` and `article-end`
+
+```css
+main {
+    grid-template-columns:
+        [sidebar-start] 200px
+        [sidebar-end article-start] 1fr [article-end];
+}
+
+.sidebar {
+    grid-column: sidebar-start / sidebar-end;
+}
+
+.article {
+    grid-column: article-start / article-end;
+}
+```
+
+<div class="grid-example named-lines">
+    <div style="grid-column: sidebar-start / sidebar-end">
+        <span>sidebar-start</span>
+    </div>
+    <div style="grid-column: article-start / article-end">
+        <span>sidebar-end<br>article-start</span>
+        <span>article-end</span>
+    </div>
+</div>
+
 ### grid-template
 
 - Shorthand for the above: `grid-template-rows / grid-template-columns`
@@ -729,6 +762,48 @@ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 ```css
 grid-template: repeat(auto-fill, 200px) / repeat(2, 1fr);
 ```
+
+### grid-template-areas
+
+- Lets you name certain grid areas, to make it easier to assign elements to them using [[Development/Cheat sheets/CSS cheat sheet#grid-area\|#grid-area]]
+    - Also lets you change the layout without having to update all the child elements
+- Areas must be rectangular
+- Each string represents a row - strings don't need to be on separate lines (ie. you could write `"a a a" "b c c" "b c c"`) but that makes them more readable
+- [[Development/Cheat sheets/CSS cheat sheet#Named lines\|#Named lines]] named with `-start` and `-end` will generate an implicit named area
+    - Conversely, named areas will generate implicit named lines with `-start` and `-end` appended
+
+```css
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 50px);
+    grid-template-areas: 
+        "a a a"
+        "b c c"
+        "b c c";
+}
+```
+
+<div class="grid-example grid-areas">
+    <div style="grid-area: a">Area a</div>
+    <div style="grid-area: b">Area b</div>
+    <div style="grid-area: c">Area c</div>
+</div>
+
+- Use one or more dots to leave an empty space
+
+```css
+grid-template-areas: 
+    ". a a"
+    "b c c"
+    "b c c";
+```
+
+<div class="grid-example grid-areas empty-space">
+    <div style="grid-area: a">Area a</div>
+    <div style="grid-area: b">Area b</div>
+    <div style="grid-area: c">Area c</div>
+</div>
 
 ### grid-auto-flow
 
@@ -778,6 +853,7 @@ grid-column-start: 2;
 grid-column-end: span 2;
 ```
 
+- Can also use [[Development/Cheat sheets/CSS cheat sheet#Named lines\|#Named lines]] (don't put the name in quotes)
 - If the specified lines are outside the bounds of the [[Development/Cheat sheets/CSS cheat sheet#grid-template\|#grid-template]], the browser will generate implicit grid tracks for the item
     - You can use this and [[Development/Cheat sheets/CSS cheat sheet#grid-auto-flow\|#grid-auto-flow]] to accomplish some layouts without defining a `grid-template` at all
 
@@ -788,6 +864,7 @@ grid-column-end: span 2;
 ### grid-area
 
 - Shorthand for `grid-row / grid-column`, or `grid-row-start / grid-column-start / grid-row-end / grid-column-end`
+- Can also specify a named area from [[Development/Cheat sheets/CSS cheat sheet#grid-template-areas\|#grid-template-areas]] (not in quotes)
 
 ### align-self
 

@@ -249,6 +249,43 @@ Searches files for pattern matches and performs an action based on them
 - `find dir -name .DS_Store -delete`: delete all *.DS_Store* files in dir
 - `find . -name foo* -exec command`: execute `command` on all matching files
 
+### fd
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://github.com/sharkdp/fd?tab=readme-ov-file" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://github.com/fluidicon.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">GitHub - sharkdp/fd: A simple, fast and user-friendly alternative to 'find'</h1>
+		<p class="rich-link-card-description">
+		A simple, fast and user-friendly alternative to 'find' - sharkdp/fd
+		</p>
+		<p class="rich-link-href">
+		https://github.com/sharkdp/fd?tab=readme-ov-file
+		</p>
+	</div>
+</a></div>
+
+- faster and friendlier alternative to [[Development/Cheat sheets/Terminal cheat sheet#find\|#find]]
+- recursively searches the current directory by default
+    - can pass a directory as the second argument
+    - can give a regular expression as the pattern
+- if called without an argument, lists all files in the current directory recursively
+- `-e EXT`: match files with extension EXT
+- `-g`: match the given pattern exactly
+- `-H`: include hidden files
+- `-I`: include gitignored files
+- `-E GLOB`: exclude files or folders matching `GLOB`
+    - create a `.fdignore` (like `.gitignore`) file to always ignore certain files/folders
+    - create a global ignore file at `~/.config/fd/ignore`
+- `-p`: match against the full path (ex. `fd -p 'foo/bar'`)
+- `-x COMMAND`: run `COMMAND` against each result in parallel
+    - ex. find and unpack all zip files: `fd -e zip -x unzip`
+- `-X COMMAND`: run `COMMAND` once with all the results as arguments
+    - `-X rm`: remove all files (not folders) that match
+        - run without `-X rm` first to confirm your choices, or use `rm -i`
+
 ### lsof (list open files)
 
 - `lsof +d dir`: shows open files in dir
@@ -621,6 +658,13 @@ Reset permissions:
 ```shell
 sudo tccutil reset All bundle_id
 ```
+
+### Homebrew
+
+- `brew leaves`: show packages that aren't dependencies of any other installed package
+    - `-r`: only show leaves that were manually installed
+    - `-p`: only show leaves that were installed as dependencies of another package
+        - these can be safely uninstalled, since the package that depended on them is no longer installed
 
 # PowerShell
 

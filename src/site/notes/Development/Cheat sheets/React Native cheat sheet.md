@@ -19,13 +19,18 @@
 	</div>
 </a></div>
 
-# React Fundamentals
+# Fundamentals
 
-> [!note]
-> The below doesn't apply if using [[Development/Cheat sheets/React Native cheat sheet#Expo\|#Expo]]
-
-- still need to `import React from 'react'` in each file
-- `index.js` is the starting point for React Native apps, always required (even if it just `import`s other files)
+- if using the development server, shake your device to open the Developer menu (or use Cmd-D for iOS simulator and Cmd-M for Android)
+- to bypass Fast Refresh and force remounting on every edit (for example, testing an intro animation) add `// @refresh reset` anywhere in the file
+- to debug remotely, select *Debug JS Remotely* from the developer menu
+    - React DevTools extension doesn't work, but the [standalone version](https://github.com/facebook/react/tree/main/packages/react-devtools) does
+    - the component selected in the React devtools is available in the Chrome console as `$r` (make sure the Chrome console dropdown says `debuggerWorker.js`)
+    - for the iOS version use the native Safari debugging under Develop -> Simulator -> JSContext
+        - choose *Automatically Show Web Inspectors for JSContexts*
+- display console logs by running `npx react-native log-ios` (or `log-android`)
+    - Expo projects will automatically show logs in the terminal
+- use `__DEV__` to check if running in dev mode
 
 # Native Components
 
@@ -365,19 +370,6 @@ const Component = Platform.select({
 import BigButton from './BigButton';
 ```
 
-# Workflow
-
-- if using the development server, shake your device to open the Developer menu (or use Cmd-D for iOS simulator and Cmd-M for Android)
-- Fast Refresh tries to reload only edited components and preserve state
-    - to force remounting on every edit (for example, testing an intro animation) add `// @refresh reset` anywhere in the file
-- to debug remotely, select *Debug JS Remotely* from the developer menu
-    - React DevTools extension doesn't work, but the [standalone version](https://github.com/facebook/react/tree/main/packages/react-devtools) does
-    - the component selected in the React devtools is available in the Chrome console as `$r` (make sure the Chrome console dropdown says `debuggerWorker.js`)
-    - for the iOS version use the native Safari debugging under Develop -> Simulator -> JSContext
-        - choose *Automatically Show Web Inspectors for JSContexts*
-- display console logs by running `npx react-native log-ios` (or `log-android`)
-    - Expo projects will automatically show logs in the terminal
-
 # React Native Web
 
 - `<Text>` renders to different HTML elements based on `role` and `aria-*` props
@@ -467,7 +459,7 @@ export default function Page() {
 
 - to configure page options, add a `<Stack.Screen>` component to the `<Stack>` in your layout, with the *name* prop equal to the route name
     - you can set a *screenOptions* prop on `<Stack>` to set default options
-    - you can also set options within a page component using the `useNavigation` hook
+    - you can also set options within a page component using the `useNavigation` hook, however, at least on web they won't take effect until the page fully loads
 
 ```jsx
 import { useNavigation } from 'expo-router'
@@ -526,7 +518,7 @@ npx expo install expo-file-system
 npx expo install expo-sqlite
 ```
 
-### MobX
+# MobX
 
 - `npm install --save mobx mobx-react-lite`
     - `mobx-react-lite` only supports function components, `mobx-react` supports class components too
@@ -537,9 +529,15 @@ npx expo install expo-sqlite
     - *derivations*: anything that can be derived from the state
         - *computed values*: derived from the current state with no side effects
         - *reactions*: side effects that run whenever the state changes, should be used sparingly
+- stick to [[Development/Cheat sheets/React cheat sheet#useState\|useState]] for local component state, unless you need deep watching or computed values
+- grab values from objects as late as possible (close to when they're going to be rendered into the DOM)
+
+## Creating stores
+
 - the easiest way to set up a store is to create a class, and use `makeObservable` to "mark" the properties and actions that should be observable
-    - you can also use `makeAutoObservable` to make all the properties of the given object observable
-    - use getters to 
+- you can also use `makeAutoObservable` to make all the properties of the given object observable
+    - getters will become computed values
+    - you can pass overrides as the second argument, the same as `makeObservable` (pass `false` for a property to ignore it)
 
 ```js
 import { action, makeObservable, observable } from 'mobx'
@@ -567,6 +565,7 @@ export default new TodoStore()
 ```
 
 - wrap React components that depend on state in `observer` to make them reactive
+    - you can also use the `<Observer>` component, with the child being a render function for your component
 
 ```tsx
 import { observer } from 'mobx-react-lite'
@@ -576,9 +575,73 @@ export default observer(function TodoList() {
 }
 ```
 
-#### Persistent stores
+- complex apps will often have a store for UI state (which can be passed throughout the application using [[Development/Cheat sheets/React cheat sheet#Context\|Context]], and individual stores for different data domains (ex. todos, users, etc.)
+- to let stores access each other, you can create a RootStore that holds references to all the other stores
+
+```js
+class RootStore {
+    constructor() {
+        this.userStore = new UserStore(this)
+        this.todoStore = new TodoStore(this)
+    }
+}
+
+class UserStore {
+    constructor(rootStore) {
+        this.rootStore = rootStore
+    }
+
+    getTodos(user) {
+        // Access todoStore through the root store.
+        return this.rootStore.todoStore.todos.filter(todo => todo.author === user)
+    }
+}
+
+class TodoStore {
+    todos = []
+    rootStore
+
+    constructor(rootStore) {
+        makeAutoObservable(this)
+        this.rootStore = rootStore
+    }
+}
+```
+
+## Persistent stores
 
 - `npm install --save mobx-persist-store`
+
+# Tamagui
+
+## Fix "problem connecting to the react-native-css-interop Metro server"
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://github.com/tamagui/tamagui/issues/2279#issuecomment-1967426749" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://github.com/fluidicon.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">Error when running yarn ios using starters · Issue #2279 · tamagui/tamagui</h1>
+		<p class="rich-link-card-description">
+		Current Behavior using npm create tamagui@latest --template expo-router and follow the steps to create a project, then run yarn ios to start development via expo go or expo-dev-client, the same err...
+		</p>
+		<p class="rich-link-href">
+		https://github.com/tamagui/tamagui/issues/2279#issuecomment-1967426749
+		</p>
+	</div>
+</a></div>
+
+- in the layout, change the import of `tamagui.css` to be conditional for web only
+    - this will cause FOUC, as will light/dark theme switching, so put up some kind of splash screen
+
+```js
+import { Platform } from "react-native";
+
+if (Platform.OS === "web") {
+  import("../tamagui-web.css");
+}
+```
 
 # See also
 

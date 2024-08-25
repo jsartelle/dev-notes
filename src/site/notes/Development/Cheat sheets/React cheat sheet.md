@@ -550,6 +550,23 @@ const MyInput = forwardRef((props, ref) => {
 <button onClick={() => inputRef.current?.focus()}>Focus Input</button>
 ```
 
+## useId
+
+- generate random IDs for use with form elements
+
+```jsx
+import { useId } from 'react'
+
+export default function checkboxWithLabel() {
+    const id = useId()
+
+    return (
+        <input type="checkbox" id={id}></input>
+        <label htmlFor={id}>Checkbox</label>
+    )
+}
+```
+
 ## useMemo
 
 - cache a calculation between renders (like [[Development/Cheat sheets/Vue 3 cheat sheet#Computed Properties\|computed properties]] in Vue)
