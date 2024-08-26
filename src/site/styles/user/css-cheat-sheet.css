@@ -1,110 +1,106 @@
 /* Note-specific styles for CSS Grid notes */
 
-.css-cheat-sheet {
-  .outline-offset-example {
-    display: flex;
+.css-cheat-sheet .outline-offset-example {
+  display: flex;
+}
 
-    div {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 15px;
-      outline: 3px dashed currentColor;
-      background-color: var(--text-selection);
-      width: 200px;
-      height: 100px;
-    }
-  }
+.css-cheat-sheet .outline-offset-example div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+  outline: 3px dashed currentColor;
+  background-color: var(--text-selection);
+  width: 200px;
+  height: 100px;
+}
 
-  .zoom-example-container {
-    margin: 25px;
-    border: 2px solid currentColor;
-    overflow: visible;
-  }
+.css-cheat-sheet .zoom-example-container {
+  margin: 25px;
+  border: 2px solid currentColor;
+  overflow: visible;
+}
 
-  .zoom-example {
-    display: inline flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--text-selection);
-    width: 50px;
-    height: 50px;
-  }
+.css-cheat-sheet .zoom-example {
+  display: inline flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--text-selection);
+  width: 50px;
+  height: 50px;
+}
 
-  .grid-example {
-    display: grid;
-    position: relative;
+.css-cheat-sheet .grid-example {
+  display: grid;
+  position: relative;
+}
 
-    div {
-      display: flex;
-      flex-flow: row nowrap;
-      justify-content: center;
-      align-items: center;
-      counter-increment: grid-example;
-      border: var(--table-border-width) solid var(--table-border-color);
-      height: auto;
-      min-height: 50px;
-      text-align: center;
-    }
+.css-cheat-sheet .grid-example div {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  counter-increment: grid-example;
+  border: var(--table-border-width) solid var(--table-border-color);
+  height: auto;
+  min-height: 50px;
+  text-align: center;
+}
 
-    .active {
-      background-color: var(--text-selection);
-    }
+.css-cheat-sheet .grid-example .active {
+  background-color: var(--text-selection);
+}
 
-    &.named-lines {
-      grid-template-columns:
-        [sidebar-start] 200px
-        [sidebar-end article-start] 1fr [article-end];
+.css-cheat-sheet .grid-example.named-lines {
+  grid-template-columns:
+    [sidebar-start] 200px
+    [sidebar-end article-start] 1fr [article-end];
+}
 
-      > div {
-        justify-content: space-between;
-      }
-    }
+.css-cheat-sheet .grid-example.named-lines > div {
+  justify-content: space-between;
+}
 
-    &.grid-areas {
-      grid-template-rows: repeat(3, 50px);
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-areas:
-        'a a a'
-        'b c c'
-        'b c c';
+.css-cheat-sheet .grid-example.grid-areas {
+  grid-template-rows: repeat(3, 50px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    'a a a'
+    'b c c'
+    'b c c';
+}
 
-      &.empty-space {
-        grid-template-areas:
-          '. a a'
-          'b c c'
-          'b c c';
-      }
-    }
+.css-cheat-sheet .grid-example.grid-areas.empty-space {
+  grid-template-areas:
+    '. a a'
+    'b c c'
+    'b c c';
+}
 
-    &.number-lines {
-      /* use a span to ignore the counter */
-      > div {
-        justify-content: space-between;
-        z-index: 1;
-      }
+/* use a span to ignore the counter */
+.css-cheat-sheet .grid-example.number-lines > div {
+  justify-content: space-between;
+  z-index: 1;
+}
 
-      > div::before {
-        content: counter(grid-example);
-      }
+.css-cheat-sheet .grid-example.number-lines > div::before {
+  content: counter(grid-example);
+}
 
-      > div:not(:first-of-type)::before {
-        position: relative;
-        left: -0.33em;
-      }
+.css-cheat-sheet .grid-example.number-lines > div:not(:first-of-type)::before {
+  position: relative;
+  left: -0.33em;
+}
 
-      > div:last-of-type::after {
-        counter-increment: grid-example;
-        content: counter(grid-example);
-      }
-    }
+.css-cheat-sheet .grid-example.number-lines > div:last-of-type::after {
+  counter-increment: grid-example;
+  content: counter(grid-example);
+}
 
-    > .abs-fill {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-  }
+.css-cheat-sheet .grid-example > .abs-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
