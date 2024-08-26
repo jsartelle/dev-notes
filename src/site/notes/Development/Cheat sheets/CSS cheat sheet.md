@@ -785,9 +785,9 @@ grid-template: repeat(auto-fill, 200px) / repeat(2, 1fr);
 ```
 
 <div class="grid-example grid-areas">
-    <div style="grid-area: a">Area a</div>
-    <div style="grid-area: b">Area b</div>
-    <div style="grid-area: c">Area c</div>
+    <div style="grid-area: a">a</div>
+    <div style="grid-area: b">b</div>
+    <div style="grid-area: c">c</div>
 </div>
 
 - Use one or more dots to leave an empty space
@@ -800,9 +800,9 @@ grid-template-areas:
 ```
 
 <div class="grid-example grid-areas empty-space">
-    <div style="grid-area: a">Area a</div>
-    <div style="grid-area: b">Area b</div>
-    <div style="grid-area: c">Area c</div>
+    <div style="grid-area: a">a</div>
+    <div style="grid-area: b">b</div>
+    <div style="grid-area: c">c</div>
 </div>
 
 ### grid-auto-flow
