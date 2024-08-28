@@ -3,6 +3,32 @@
 ---
 
 
+# Callout types
+
+> [!abstract]
+
+> [!info]
+
+> [!todo]
+
+> [!tip]
+
+> [!success]
+
+> [!question]
+
+> [!warning]
+
+> [!failure]
+
+> [!danger]
+
+> [!bug]
+
+> [!example]
+
+> [!quote]
+
 # Inline footnotes
 
 Use the below syntax to add inline, auto-numbered footnotes^[like this]
@@ -21,7 +47,7 @@ some text^[footnote text]
 ![[PDF#page=10]]
 ```
 
-# Queries
+# Embedded queries
 
 - set the code block language to `query`
 
@@ -41,7 +67,7 @@ task-done:/.+/
 
 # Embed numbr calculations
 
-> [!note]
+> [!tip]
 > Make the iframe at least 300px high to leave room for the menu.
 >
 > If you make edits, choose **Share document** from the menu and then update the iframe URL.
@@ -54,8 +80,8 @@ task-done:/.+/
 
 # Emulate mobile (for development)
 
-- Open the developer tools and paste `this.app.emulateMobile(true)` into the console
-- To undo, change `true` to `false`
+- Open the developer tools and paste `this.app.emulateMobile(!this.app.isMobile)` into the console
+    - run again to toggle between mobile & desktop
 
 # See also
 

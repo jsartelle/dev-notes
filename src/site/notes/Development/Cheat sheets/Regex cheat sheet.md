@@ -6,13 +6,24 @@
 > [!note]
 > Unless noted, all of the following is written with recent versions of JavaScript in mind. Different environments may support different regex features!
 
-# Tokens
+# General
 
-|         |                     |
-| ------- | ------------------- |
-| (?:...) | non-capturing group |
+- default to using the `v` (widely supported from September 2023 onwards) or `u` (for older browsers) flags to avoid bugs related to Unicode handling
+
+# Groups
+
+|             |                                                                    |
+| ----------- | ------------------------------------------------------------------ |
+| (?:...)     | non-capturing group                                                |
+| (?\<name\>) | named capturing group (the angle brackets are part of the syntax!) |
 
 ## Lookarounds
+
+- look for characters around the match, without adding those characters to the match
+- break them them down into parts:
+    - `?` marks a "special" group (like the ones above)
+    - `<` for *behind* (optional)
+    - `=` for *positive* or `!` for *negative*
 
 |          |                     |
 | -------- | ------------------- |
@@ -40,7 +51,7 @@ For example, given the text: *buffalo buffalo buffalo*
 | $'  | contents after match        |
 | $1  | contents of capture group 1 |
 
-### Change Case
+### Change case (VSCode)
 
 > [!warning]
 > These work in VSCode, but not in JavaScript!
@@ -63,12 +74,12 @@ Replace:
 
 # JavaScript Methods
 
-- `RegExp.test(str)` - returns true/false
-- `String.search(regexp)` - returns match index (-1 if not found)
-- `RegExp.exec(str)` - returns [match, ...captureGroups]
+- `regexp.test(str)` - returns true/false
+- `str.search(regexp)` - returns match index (-1 if not found)
+- `regexp.exec(str)` - returns \[match, ...captureGroups\]
     - array has extra properties: `index`, `input`, `groups` (named capturing groups), `indices` (start/end indices of each capture group, only if `d` flag is used)
-- `String.match(regexp)`
-    - if `g` flag is **not** used, same as `RegExp.exec`
+- `str.match(regexp)`
+    - if `g` flag is **not** used, same as `regexp.exec`
     - if `g` flag is used, returns array of all matches
-- `String.matchAll(regexp)` - returns iterator of `RegExp.exec` results
-    - access using `[...str.matchAll(regexp)]`
+- `str.matchAll(regexp)` - returns iterator of `RegExp.exec` results
+    - can turn it into an array using `[...str.matchAll(regexp)]`
