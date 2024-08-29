@@ -128,6 +128,43 @@
 
 # SST
 
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://sst.dev/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://social-cards.sst.dev/v3-lander/Rm9yJTIwd2hhdGV2ZXIlMjB5b3UlMjBidWlsZC4%3D.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">SST</h1>
+		<p class="rich-link-card-description">
+
+		</p>
+		<p class="rich-link-href">
+		https://sst.dev/
+		</p>
+	</div>
+</a></div>
+
 - third-party tool for setting up and deploying full-stack apps easily on AWS (and other cloud providers)
-    - infrastructure as code
-    - supports various frontends (Next.js, Astro, Solid), cronjobs, storage buckets, databases, queues, and more
+- infrastructure as TypeScript code
+- supports various frontends (Next.js, Astro, Solid), cronjobs, storage buckets, databases, queues, and more
+- lets you run your lambdas locally for development and debugging
+
+# Serverless (framework)
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://www.serverless.com/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://assets.serverless-extras.com/website/general/social-card-serverless-company.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">Serverless: Zero-Friction Serverless Apps On AWS Lambda & Beyond.</h1>
+		<p class="rich-link-card-description">
+		Easily build auto-scaling, low-overhead applications on AWS Lambda, API Gateway, DynamoDB, and other managed services with the Serverless Framework.
+		</p>
+		<p class="rich-link-href">
+		https://www.serverless.com/
+		</p>
+	</div>
+</a></div>
+
+- similar to SST but YAML-based and AWS specific
