@@ -8,6 +8,9 @@
 > [!warning]
 > Remember that `sort`, `reverse`, and `splice` mutate the original array! (see [[Development/Cheat sheets/JavaScript cheat sheet#Non-mutating methods\|#Non-mutating methods]])
 
+> [!tip]
+> If you're storing unique values, use a Set instead! Sets allow for lookups in constant time, rather than linear time.
+
 ## Filter out falsy values
 
 ```js
