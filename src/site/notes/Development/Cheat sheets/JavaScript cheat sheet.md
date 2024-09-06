@@ -29,9 +29,15 @@ array.filter(Boolean)
 [...Array(5).keys()].map(v => v + 1)
 ```
 
-## Remembering sort comparator functions
+## Remembering sort return values
 
-- Imagine a number line - a negative return value means `a` is to the left of `b`, and a positive value means `a` is to the right of `b`
+- Imagine the result representing `a`'s position on a number line where `b` is 0 - a negative return value means `a` is to the left of `b`, and a positive value means `a` is to the right of `b
+
+```
+   a?   b   a?
+<---|---|---|--->
+   -1   0   1
+```
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://www.jameskerr.blog/posts/javascript-sort-comparators/" target="_blank">
 	<div class="rich-link-image-container">
@@ -49,26 +55,16 @@ array.filter(Boolean)
 	</div>
 </a></div>
 
-## Sort array of numbers
-
-```js
-array.sort((a, b) => a - b)
-```
-
-## Sort array of objects by a string property
+## Sort strings with locale-awareness
 
 ```js
 people.sort((a, b) => a.name.localeCompare(b.name))
 ```
 
-## Sort array of objects by date (oldest first)
-
-- Also works for `moment` objects
+## Swap two elements using destructuring
 
 ```js
-people.sort((a, b) =>
-    new Date(a.birthday) - new Date(b.birthday)
-)
+;[arr[3], arr[5]] = [arr[5], arr[3]]
 ```
 
 ## Shuffle (in place)
@@ -226,6 +222,17 @@ test2()                                // bananas are yellow
 ```
 
 # Numbers
+
+## Separators
+
+- use `_` as a separator for long numbers
+
+```js
+const a = 100000000
+const b = 100_000_000
+
+a === b // true
+```
 
 ## Random number in range (exclusive)
 
@@ -676,6 +683,18 @@ const photo = /** @type {HTMLImageElement} */ (
  */
 ```
 
+## `const`
+
+- type a variable with `{const}` during assignment to have the same effect as TypeScript's `as const`
+
+```js
+const foo = [1, 2, 3]
+// ^ type number[]
+
+const bar = /** @type {const} */ ([1, 2, 3])
+// ^ type readonly [1, 2, 3]
+```
+
 ## Generics
 
 ```js
@@ -707,7 +726,7 @@ append(['a', 1, 'b'], 2) // works even if the array isn't homogenous
 append('ab', 'c') // errors because 'ab' doesn't extend array
 ```
 
-## Reusable types
+## Define reusable types
 
 - can be done in a function doc comment, or a standalone comment
 
@@ -726,12 +745,12 @@ append('ab', 'c') // errors because 'ab' doesn't extend array
 ## Import types
 
 ```js
-/** @typedef {import('fruit/types').Apple} apple */
+/** @typedef {import('fruit/types').Apple} Apple */
 
-/** @type {apple} */
+/** @type {Apple} */
 const redApple = new Apple('red')
 
-/** @type {apple} */
+/** @type {Apple} */
 const greenApple = new Apple('green')
 ```
 
