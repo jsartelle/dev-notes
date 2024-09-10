@@ -347,15 +347,15 @@ clip-path: ellipse(25% 40% at 50% 50%);
 
 ## color-scheme
 
-- Choose whether the element adapts to the system color scheme
+- choose whether the element adapts to the system color scheme
     - `normal` (default): use the browser's default color scheme
     - `light` or `dark` will force the element to the specified color scheme
     - `light dark` means the element should support light and dark modes, and prefer light mode
         - `dark light` is the same, but will prefer dark mode
     - `only light` or `only dark` prevents the browser from overriding the color scheme
-- Use [[Development/Cheat sheets/CSS cheat sheet#prefers-color-scheme\|prefers-color-scheme]] as usual to style elements based on the color scheme, or use [[Development/Cheat sheets/CSS cheat sheet#light-dark\|#light-dark]]
+- use [[Development/Cheat sheets/CSS cheat sheet#prefers-color-scheme\|prefers-color-scheme]] as usual to style elements based on the color scheme, or use [[Development/Cheat sheets/CSS cheat sheet#light-dark\|#light-dark]]
     - consider using [[Development/Cheat sheets/CSS cheat sheet#System color keywords\|#System color keywords]] to make the page match the system
-- Add a `color-scheme` meta tag to render the correct page background before the CSS loads
+- add a `color-scheme` meta tag to render the correct page background before the CSS loads
 
 ```html
 <meta name="color-scheme" content="dark-light">
@@ -363,8 +363,9 @@ clip-path: ellipse(25% 40% at 50% 50%);
 
 ## contain
 
-- Isolate an element and its contents from the rest of the document
-- Values (multiple can be used, separated with spaces):
+- isolate an element and its contents from the rest of the document
+    - useful for reducing layout recalculation
+- values (multiple can be used, separated with spaces):
     - `size`: the element's size is unaffected by its children
         - `inline-size`: same as `size` but for inline-size only (can't be combined with `size`)
     - `layout`: nothing outside the element affects the element's internals, and vice versa
@@ -374,7 +375,7 @@ clip-path: ellipse(25% 40% at 50% 50%);
         - like `overflow: hidden` but also applies to text
     - `strict`: same as `size layout paint style`
     - `content`: same as `layout paint style`
-- Use `contain: content` (or better, [[Development/Cheat sheets/CSS cheat sheet#content-visibility\|#content-visibility]]: auto) for elements such as articles that are independent from the rest of the page
+- use `contain: content` (or better, [[Development/Cheat sheets/CSS cheat sheet#content-visibility\|#content-visibility]]: auto) for elements such as articles that are independent from the rest of the page
 
 ### contain-intrinsic-size
 

@@ -3,42 +3,12 @@
 ---
 
 
-# Serverless basics
-
-
-<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/notes/serverless-architecture/" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
-
-
-
-
-
-- Less management of scaling - don’t have to worry about how many pods are running, etc
-- Managed services (AWS Lambda, Dynamo DB, CloudWatch Logs)
-    - Aurora Serverless - managed MySQL/Postgres that can also handle auto horizontal scaling, sharding
-- Server farm handles ingress, spins up small containers & handle scaling automatically
-- Edge caching
-- Only pay for what you use
-- Can have per-developer production environments
-- More locked in to one provider
-- Code will be the same, minus composition root (entry point)
-    - only the last mile changes
-
-
-</div></div>
-
-
-# CloudFormation
-
-- infrastructure as code tool for managing resources across AWS services
-- resources are organized into "stacks", which can be created from templates
-- stacks are region-specific
-
 # Lambda
 
-- run serverless functions on demand in response to events, such as:
+- [[Development/Serverless architecture\|serverless]] functions that run on demand in response to events, such as:
     - updates to application state, like a user putting an item in their shopping cart
     - on demand via HTTP requests
-    - changes to [[Development/Cheat sheets/AWS cheat sheet#S3\|#S3]] buckets
+    - changes to [[Development/Cheat sheets/AWS cheat sheet#Simple Storage Service (S3)\|#Simple Storage Service (S3)]] buckets
     - table updates in [[Development/Cheat sheets/AWS cheat sheet#DynamoDB\|#DynamoDB]]
     - state transitions in [[Development/Cheat sheets/AWS cheat sheet#Step Functions\|#Step Functions]]
 - you only pay for used compute time
@@ -51,12 +21,20 @@
 - code and dependencies are packaged and uploaded to an S3 bucket
     - there is a limit on the total package size, if you need larger you can use a Docker image
 
-# S3
+# Elastic Compute Cloud (EC2)
+
+- non-serverless cloud computing infrastructure platform
+    - servers are virtualized and can be spun up and terminated as needed
+    - paid for by the second
+- useful for web hosting, though simple static pages can be hosted on S3
+
+# Simple Storage Service (S3)
 
 - key-value cloud object storage
     - *objects*: files + metadata
     - *buckets*: containers for objects
-- offers versioning, replication across regions, per-object permissions with [[Development/Cheat sheets/AWS cheat sheet#IAM\|#IAM]]
+- can be used to host files (including static web pages) for public access, not just access from other S3 services
+- offers versioning, replication across regions, per-object permissions with [[Development/Cheat sheets/AWS cheat sheet#Identity and access management (IAM)\|IAM]]
 - *data lake*: stores data in its original form, relational or non-relational
     - schema-on-read: the data schema doesn't need to be defined until it's read
 - S3 Glacier: meant for archiving data that's rarely accessed, cheaper storage prices but higher data access costs
@@ -81,18 +59,25 @@
 - *data warehouse*: stores relational data in a concrete schema (schema-on-write)
     - harder to scale than a data lake
 
+# Elasticache
+
+- Redis or Memcached caching
+
 # CloudFront
 
-- CDN
+- CDN with edge caching
 
-# Step Functions
+# Route 53
 
-- visual programming (like Power Automate or UE Blueprints) for distributed applications
-- example use cases:
-    - automate ETL (data ingestion/transformation) pipelines
-    - orchestrate multiple [[Development/Cheat sheets/AWS cheat sheet#Lambda\|#Lambda]] functions into microservices
-    - process large datasets in parallel
-    - create workflows for security incident response
+- DNS and domain name management
+
+# Elastic Load Balancing (ELB)
+
+- distributes traffic across multiple zones or servers (don't have to be AWS services)
+
+# Web Application Firewall (WAF)
+
+- traffic filtering, can protect against things like [[Development/Web app security#SQL Injection (sqli)\|SQL injection]] and [[Development/Web app security#Cross-Site Scripting (XSS)\|XSS]]
 
 # API Gateway
 
@@ -136,7 +121,32 @@
             - can assign [[Development/Cheat sheets/AWS cheat sheet#IAM\|#IAM]] roles based on rules or group membership in the user pool
         - you can also offer custom authentication, or no authentication (for anonymous access)
 
-# SST
+# CloudFormation
+
+- infrastructure as code tool for managing resources across AWS services
+- resources are organized into "stacks", which can be created from templates
+- stacks are region-specific
+
+# Step Functions
+
+- visual programming (like Power Automate or UE Blueprints) for distributed applications
+- example use cases:
+    - automate ETL (data ingestion/transformation) pipelines
+    - orchestrate multiple [[Development/Cheat sheets/AWS cheat sheet#Lambda\|#Lambda]] functions into microservices
+    - process large datasets in parallel
+    - create workflows for security incident response
+
+# Architecture examples
+
+## Web hosting
+
+[An AWS Cloud architecture for web hosting - Web Application Hosting in the AWS Cloud](https://docs.aws.amazon.com/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
+
+![image4.png](/img/user/%E2%80%A2%20Attachments/image4.png)
+
+# Frameworks
+
+## SST
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://sst.dev/" target="_blank">
 	<div class="rich-link-image-container">
@@ -159,7 +169,7 @@
 - supports various frontends (Next.js, Astro, Solid), cronjobs, storage buckets, databases, queues, and more
 - lets you run your lambdas locally for development and debugging
 
-# Serverless (framework)
+## Serverless Framework
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://www.serverless.com/" target="_blank">
 	<div class="rich-link-image-container">
@@ -180,3 +190,53 @@
 - similar to SST, but YAML-based
 - [serverless-http](https://github.com/dougmoscrop/serverless-http?tab=readme-ov-file) lets you use Express and other API frameworks with serverless, by translating incoming request payloads into an Express-compatible format
     - since it's still serverless, you can't use state that persists between requests
+
+# Troubleshooting
+
+## Delete stuck CloudFormation stack
+
+- If you get a *Failed to delete stack: Role {role} is invalid or cannot be assumed* error when trying to delete a stack:
+
+- create a new role with type **AWS Service**, use case **CloudFormation**, permission **AdministratorAccess**, with the name of the role the stuck stack used (the part after `:role/`)
+
+- may take a few seconds for the role to propagate to CloudFormation
+
+- if there are any resources left in the **Resources** tab that were already deleted (such as a Lambda function), try the delete again and check the box to retain them
+
+## Export Route 53 DNS zonefile using cli53
+
+```shell
+
+cli53 export --full --debug example.com > example.com.zone 2> example.com.zone.log
+
+```
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://stackoverflow.com/a/58358563" target="_blank">
+
+<div class="rich-link-image-container">
+
+<div class="rich-link-image" style="background-image: url('https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded')">
+
+</div>
+
+</div>
+
+<div class="rich-link-card-text">
+
+<h1 class="rich-link-card-title">Exporting DNS zonefile from Amazon Route 53</h1>
+
+<p class="rich-link-card-description">
+
+I would like to export a DNS zonefile from my Amazon Route 53 setup. Is this possible, or can zonefiles only be created manually? (e.g. through http://www.zonefile.org/?lang=en)
+
+</p>
+
+<p class="rich-link-href">
+
+https://stackoverflow.com/a/58358563
+
+</p>
+
+</div>
+
+</a></div>

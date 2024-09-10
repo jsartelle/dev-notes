@@ -894,6 +894,12 @@ from re import compile
 from re import *
 ```
 
+- list all available modules
+
+```python
+help('modules')
+```
+
 - list all objects in a module using `dir`
 
 ```python
