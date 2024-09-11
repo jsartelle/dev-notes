@@ -17,7 +17,7 @@
 array.filter(Boolean)
 ```
 
-## Array with range of numbers
+## Create an array with a range of numbers
 
 ```js
 // [0, 1, 2, 3, 4]
@@ -26,12 +26,13 @@ array.filter(Boolean)
 
 ```js
 // [1, 2, 3, 4, 5]
-[...Array(5).keys()].map(v => v + 1)
+[...Array(5).keys()].map(i => i + 1)
 ```
 
-## Remembering sort return values
+## Remembering sort function return values
 
-- Imagine the result representing `a`'s position on a number line where `b` is 0 - a negative return value means `a` is to the left of `b`, and a positive value means `a` is to the right of `b
+- imagine the result representing `a`'s position on a number line where `b` is 0 - a negative return value means `a` is to the left of `b`, and a positive value means `a` is to the right of `b
+    - if the values being compared are numeric, `a.value - b.value` will sort from smallest to largest, and vice versa
 
 ```
    a?   b   a?
@@ -57,11 +58,35 @@ array.filter(Boolean)
 
 ## Sort strings with locale-awareness
 
+- this will correctly handle things like accented letters
+
 ```js
 people.sort((a, b) => a.name.localeCompare(b.name))
 ```
 
+## Sort elements based on a computed value (Schwartzian transform)
+
+- If you want to sort an array based on a value that's expensive to compute, avoid directly using `sort`, since it will recompute the value for every comparison. Instead:
+    - map the array to a two-dimensional array containing the original element and the computed value (which will only need to be calculated once per element)
+    - sort based on the computed value
+    - map the array back to just the original elements
+
+```js
+// example: sort files by modified time (earliest to latest)
+// assume calculating the modified time is somewhat expensive
+
+// ⛔️ this will recalculate the modified time on each comparison!
+files.sort((a, b) => a.modifiedAt() - b.modifiedAt())
+
+// instead, calculate the modified times once and store them temporarily
+files = files.map(file => ([file, file.modifiedAt()]))
+             .sort((a, b) => a[1] - b[1])
+             .map(([file, modifiedAt]) => file)
+```
+
 ## Swap two elements using destructuring
+
+- omit the semicolon at the beginning if you
 
 ```js
 ;[arr[3], arr[5]] = [arr[5], arr[3]]

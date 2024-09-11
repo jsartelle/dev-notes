@@ -51,7 +51,7 @@ const selectedPerson = {
 <Person {...selectedPerson} />
 ```
 
-## Classes and Styles
+## Classes and styles
 
 - classes are added using `className`
 - the `style` attribute accepts an object instead of a string
@@ -60,6 +60,101 @@ const selectedPerson = {
 
 ```jsx
 <img className="avatar" style={{ height: 10 }} />
+```
+
+## Conditional rendering
+
+- JSX elements can be stored in variables
+
+```jsx
+const button = <LoginButton />;
+return (
+    <div>
+        {button}
+    </div>
+)
+```
+
+- `&&` can be used in expressions to conditionally include elements
+
+```jsx
+return (
+    <div>
+        <h1>Hello!</h1>
+        {unreadMessages.length > 0 &&
+            <h2>
+                You have {unreadMessages.length} unread messages.
+            </h2>
+        }
+    </div>
+)
+```
+
+- can also use ternary conditional operator
+
+```jsx
+return (
+    <div>
+        {isLoggedIn
+            ? <LogoutButton />
+            : <LoginButton />
+        }
+    </div>
+)
+```
+
+- to avoid rendering a component, **return null** from its `render` function
+    - class component lifecycle methods like `componentDidUpdate` will still be called
+
+```jsx
+function WarningBanner(props) {
+    {/* will not be rendered if props.warn is falsy */}
+    if (!props.warn) {
+        return null;
+    }
+
+    return (
+        <div className="warning">
+        Warning!
+        </div>
+    );
+}
+```
+
+- Use the `hidden` HTML attribute to include elements in the DOM, but not render them (similar to v-show in Vue)
+
+## Lists & keys
+
+- render arrays using a map function to create the corresponding elements
+- list items should have a unique (among siblings) **string** key
+    - do not use index as key if item order may change
+    - key is **not a prop**, and is not passed to the component as one
+
+```jsx
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map(number => 
+    <li key={number.toString()}>
+        {number}
+    </li>
+);
+
+ReactDOM.render(
+    <ul>{listItems}<ul>,
+    document.getElementById('root')
+);
+```
+
+- can inline the `map()` call, but be mindful of readability
+
+```jsx
+const numbers = [1, 2, 3, 4, 5];
+ReactDOM.render(
+    <ul>
+        {numbers.map(number => 
+            <ListItem key={number.toString()} value={number} />
+        )}
+    </ul>
+);
 ```
 
 # Components
@@ -221,105 +316,9 @@ render() {
 }
 ```
 
-# Conditional Rendering
+# Actions
 
-- React elements can be stored in variables
-
-```jsx
-const button = <LoginButton />;
-return (
-    <div>
-        {button}
-    </div>
-)
-```
-
-- `&&` can be used in expressions to conditionally include elements
-
-```jsx
-return (
-    <div>
-        <h1>Hello!</h1>
-        {unreadMessages.length > 0 &&
-            <h2>
-                You have {unreadMessages.length} unread messages.
-            </h2>
-        }
-    </div>
-)
-```
-
-- can also use ternary conditional operator
-
-```jsx
-return (
-    <div>
-        {isLoggedIn
-            ? <LogoutButton />
-            : <LoginButton />
-        }
-    </div>
-)
-```
-
-- to avoid rendering a component, **return null** from its `render` function
-    - class component lifecycle methods like `componentDidUpdate` will still be called
-
-```jsx
-function WarningBanner(props) {
-    {/* will not be rendered if props.warn is falsy */}
-    if (!props.warn) {
-        return null;
-    }
-
-    return (
-        <div className="warning">
-        Warning!
-        </div>
-    );
-}
-```
-
-- Use the `hidden` HTML attribute to include elements in the DOM, but not render them (similar to v-show in Vue)
-
-# Lists & Keys
-
-- render arrays using a map function to create the corresponding elements
-- list items should have a unique (among siblings) **string** key
-    - do not use index as key if item order may change
-    - key is **not a prop**, and is not passed to the component as one
-
-```jsx
-const numbers = [1, 2, 3, 4, 5];
-const listItems = numbers.map(number => 
-    <li key={number.toString()}>
-        {number}
-    </li>
-);
-
-ReactDOM.render(
-    <ul>{listItems}<ul>,
-    document.getElementById('root')
-);
-```
-
-- can inline the `map()` call:
-
-```jsx
-const numbers = [1, 2, 3, 4, 5];
-ReactDOM.render(
-    <ul>
-        {numbers.map(number => 
-            <ListItem key={number.toString()} value={number} />
-        )}
-    </ul>
-);
-```
-
-# Forms
-
-- you can pass a function to a `<form>` element's `action` prop to run that function when the form is submitted
-    - the function can be async, or a [[Development/Cheat sheets/React cheat sheet#Server Actions\|Server Action]]
+- you can pass a function (known as an [[Development/Cheat sheets/React cheat sheet#Actions\|Action]]) to a `<form>` element's `action` prop to run that function when the form is submitted
 - the function will receive a `FormData` object as its argument
 - you can set the `formAction` prop on a `<button>` or `<input type="submit">` to override the form's `action` for just that button
 
@@ -353,13 +352,47 @@ const createUserWithId = createUser.bind(null, userId)
 
 - to use the return value from a form submission, see [[Development/Cheat sheets/React cheat sheet#useActionState/useFormState\|#useActionState/useFormState]]
 
+## Server Actions
+
+- action functions which run on the server that you can call from Client Components
+    - [can also be used outside of forms with `startTransition`](https://react.dev/reference/rsc/use-server#calling-a-server-action-outside-of-form)
+- Server Actions must be async and marked with `'use server'` at the top
+    - or add `'use server'` to the top of a file to mark every function within as a Server Action
+- can return any serializable value
+
+```js
+export async function createUser(formData) {
+    'use server'
+    await db.createUser({
+        name: formData.get('name'),
+        email: formData.get('email'),
+    })
+}
+```
+
+```jsx
+import { createUser } from '@/util/actions'
+
+export default function UserForm() {
+    return (
+        <form action={createUser}>
+            <input name="name" placeholder="Name" />
+            <input name="email" placeholder="Email" />
+            <button type="submit">Submit</button>
+        </form>
+    )
+}
+```
+
 # Hooks
 
-- Hooks let you:
+- hooks let you:
     - avoid writing classes
     - reuse stateful logic (ex. connecting to a store) without adding more components
     - group related logic in different lifecycle methods together
-- Hooks must be imported from React
+- hooks re-run on every render, but many of them allow for persisting values between renders
+- hooks must be imported from `react`
+- hooks only run client-side - if using a framework that supports [[Development/Cheat sheets/React cheat sheet#Server Components\|#Server Components]], components that use hooks must be marked with `'use client'`
 
 ## Rules of Hooks
 
@@ -533,11 +566,21 @@ const myRef = useRef(null)
 <div ref={myRef}>
 ```
 
-### forwardRef
+### Component refs and forwardRef
 
-#todo update for React 19 and `ref` as a prop
+- in React 19, refs are passed to function components as props, just like children
 
-- allows functional components to receive a ref and forward it to a child component or element
+```jsx
+const MyInput = ({ ref, ...props }) => {
+    return <input {...props} ref={ref} />
+}
+
+// inside another component
+<MyInput ref={inputRef} />
+<button onClick={() => inputRef.current?.focus()}>Focus Input</button>
+```
+
+- pre-React 19, a wrapper that lets function components forward their ref to a child component or element
     - this makes it harder to refactor your component in the future (since users of your component may rely on behavior of the element the ref is forwarded to), so typically used for low-level components like custom buttons or inputs
 
 ```jsx
@@ -548,6 +591,19 @@ const MyInput = forwardRef((props, ref) => {
 // inside another component
 <MyInput ref={inputRef} />
 <button onClick={() => inputRef.current?.focus()}>Focus Input</button>
+```
+
+### Cleanup
+
+- starting in React 19, ref functions can return a cleanup function (similar to [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]]) that is called when the component unmounts
+
+```jsx
+<input ref={(ref) => {
+    // ref creation logic here
+    return () => {
+        // cleanup here
+    }
+}}
 ```
 
 ## useId
@@ -674,14 +730,14 @@ function handleDeleteTask(taskId) {
 
 ## useActionState/useFormState
 
-- lets you access the return value of a function used as a form action (including [[Development/Cheat sheets/React cheat sheet#Server Actions\|Server Actions]])
-    - in React 19 RC, import it as `useActionState` from `react`
-    - in earlier versions, import it as `useFormState` from `react-dom`
-- the first argument is the form action function, the second argument is your initial state
-    - the function receives the state object (see below) as its first argument, and the FormState as its second argument
-- returns an array with two values (like [[Development/Cheat sheets/React cheat sheet#useState\|#useState]]): a state object, and a wrapped version of the action function
-    - before the wrapped action is called, the state is equal to the initial state you passed
-    - after the wrapped action is called, the state is equal to the return value of the function
+- lets you access the status and return value of an [[Development/Cheat sheets/React cheat sheet#Actions\|Action]] used with a form (including Server Actions)
+    - in some earlier canary releases (used by Next.js), it was known as `useFormState` and imported from `react-dom`
+- the first argument is the Action function, the second argument is your initial state
+    - the Action receives the state (see below) as its first argument, and the FormState as its second argument
+- returns an array with three values: a state object, a wrapped version of the Action, and a `pending` flag
+    - before the wrapped Action is called, the state is equal to the initial state you passed
+    - after the wrapped Action is called at least once, the state is equal to the last return value of the Action
+    - `useFormState` does not have the `pending` flag
 
 ```js
 /* actions.js */
@@ -696,18 +752,20 @@ export async function createUser(currentState, formData) {
 ```
 
 ```jsx
-import { useFormState } from 'react-dom'
+import { useActionState } from 'react'
 import { createUser } from '@/util/actions'
 
 export default function UserForm() {
-    const [user, createUserForm] = useFormState(createUser, null)
+    const [user, createUserForm, pending] = useActionState(createUser, null)
 
     return (
         <h2>Sign Up</h2>
         <form action={createUserForm}>
             <input name="name" placeholder="Name" />
             <input name="email" placeholder="Email" />
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={pending}>
+                {pending ? 'Please wait...' : 'Submit'}
+            </button>
         </form>
 
         { user ? (
@@ -718,9 +776,64 @@ export default function UserForm() {
 }
 ```
 
+## useFormStatus
+
+- lets you get the pending status of a form that is the parent of the current component (not within the current component!)
+- useful if there are multiple forms on the page
+- returns an object with these properties:
+    - `pending`: the pending state of the form submission
+    - `data`: the FormData
+    - `method`: 'GET' or 'POST'
+    - `action`: the `action` function of the parent form (if there is one)
+
+```jsx
+import { useFormStatus } from 'react-dom'
+
+export default function SubmitButton() {
+    const { pending } = useFormStatus()
+
+    return (
+        <button type="submit" disabled={pending}>
+            {pending ? 'Please wait...' : 'Submit'}
+        </button>
+    )
+}
+```
+
+## useOptimistic
+
+- show the results of an async state change (like sending a message) optimistically while the request is happening
+- the value that is passed in (the current state) will be returned **unless** an async Action is pending, in which case the optimistic state is returned
+    - either success or failure will cause the passed in state to be displayed again, so make sure to update that as well
+
+```jsx
+import { useOptimistic } from 'react'
+
+const updateNameAction = async (formData) => {
+    const newName = formData.get('name')
+    setOptimisticName(newName)
+    const updatedName = await updateNameInDatabase(newName)
+    onUpdateName(updatedName)
+}
+
+export default function changeName({ currentName, onUpdateName }) {
+    const [optimisticName, setOptimisticName] = useOptimistic(currentName)
+
+    return (
+        <form action={updateNameAction}>
+            <p>Your name is: {optimisticName}</p>
+            <label>
+                <span>Change Name:</span>
+                <input name="name" disabled={currentName !== optimisticName} />
+            </label>
+        </form>
+    )
+}
+```
+
 # Suspense
 
-- lets you show fallback content while async children load
+- lets you show fallback content while async child components load
     - this applies to children using [[Development/Cheat sheets/React cheat sheet#use\|#use]], or [[Development/Cheat sheets/React cheat sheet#lazy\|#lazy]] loaded components
 - `fallback` can be any JSX, including components or text
 - the fallback is shown until all async children (at any depth) finish loading
@@ -823,6 +936,14 @@ export default function Section({ level, children }) {
 }
 ```
 
+- in React 19, you can use the context itself as the provider rather than `Context.Provider`
+
+```jsx
+<LevelContext value={level}>
+    {children}
+</LevelContext>
+```
+
 - use the context in the child component
 
 ```jsx
@@ -838,34 +959,19 @@ export default function Heading({ children }) {
 
 - you can override a context value by adding another context provider (using the same context) lower in the tree
 
-# Server Actions
+# Metadata (`＜head＞` tags)
 
-- let you create functions which run on the server that you can call from Client Components, for example as a [[Development/Cheat sheets/React cheat sheet#Forms\|form action]]
-    - [can also be used outside of forms with `startTransition`](https://react.dev/reference/rsc/use-server#calling-a-server-action-outside-of-form)
-- Server Actions must be async and marked with `'use server'` at the top
-    - or add `'use server'` to the top of a file to mark every function within as a Server Action
-- can return any serializable value
-
-```js
-export async function createUser(formData) {
-    'use server'
-    await db.createUser({
-        name: formData.get('name'),
-        email: formData.get('email'),
-    })
-}
-```
+- starting in React 19, `<title>`, `<link>`, and `<meta>` tags inside components will be hoisted to the `<head>`
 
 ```jsx
-import { createUser } from '@/util/actions'
-
-export default function UserForm() {
+export default function BlogPost({ post }) {
     return (
-        <form action={createUser}>
-            <input name="name" placeholder="Name" />
-            <input name="email" placeholder="Email" />
-            <button type="submit">Submit</button>
-        </form>
+        <article>
+            <title>{post.title}</title>
+            <meta name="author" content={post.author} />
+            <link rel="author" href={post.authorUrl} />
+            ...
+        </article>
     )
 }
 ```
@@ -1028,7 +1134,7 @@ export default function Page() {
 </a></div>
 
 - Lets you easily animate changes to list items
-- Make sure that children have a `key`, and functional components are wrapped in [[Development/Cheat sheets/React cheat sheet#forwardRef\|#forwardRef]]
+- Make sure that children have a `key`, and function components are wrapped in [[Development/Cheat sheets/React cheat sheet#forwardRef\|#forwardRef]]
 
 ```jsx
 const Item = forwardRef((props, ref) => (
@@ -1046,3 +1152,4 @@ const Item = forwardRef((props, ref) => (
 
 - [[Development/Cheat sheets/React Native cheat sheet\|React Native cheat sheet]]
 - [[Development/Cheat sheets/Next.js cheat sheet\|Next.js cheat sheet]]
+- [[Development/Cheat sheets/MobX cheat sheet\|MobX cheat sheet]]

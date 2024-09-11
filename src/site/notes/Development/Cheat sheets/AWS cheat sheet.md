@@ -89,14 +89,11 @@
 
 # Simple Queue Service (SQS)
 
-- messaging queue
-- *producers*: components that send messages to the queue
-- *consumers*: components that receive messages from the queue
-- uses a polling model - consumers pick messages out of the queue at their own speed
+- [[Development/Message queues\|message queue]]
+- pull-based - consumers pick messages out of the queue at their own speed
 - supports both *standard* queues (messages may be delivered out of order or more than once) or *FIFO* queues (guarantees messages are delivered in order and exactly once)
 - while a message is being processed, it's hidden from other requests for the duration of the user-set visibility timeout (default 30 seconds)
     - it's the responsibility of a message consumer to delete the message once it's done processing, otherwise it will go back in the queue for other consumers to try
-- *dead letter queue* (DLQ): queue which holds messages that have failed to process a certain number of times, letting them be inspected before moving back into a source queue
 
 ## Other message services
 
@@ -104,7 +101,7 @@
     - uses a push model - good when immediate response is needed, such as real-time user engagement or alarm systems
     - doesn't hold messages if subscribers are offline
         - SNS messages can be sent to a SQS queue to offer both immediate delivery and persistence
-- Amazon MQ: for migrating from existing message brokers like RabbitMQ
+- Amazon MQ: for migrating from existing message brokers like [[Development/Message queues#RabbitMQ\|RabbitMQ]]
 
 # Identity and access management (IAM)
 

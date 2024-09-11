@@ -183,9 +183,80 @@ The `title` attribute is displayed in a tooltip on hover. It should contain text
 
 If an image is also a hyperlink, the `alt` text should describe the function of the link.
 
-## `＜script＞`
+## `＜link＞`
 
-- [[Development/Clipped/Everything I Know About The Script Tag\|Everything I Know About The Script Tag]]
+### Preload files
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://www.lkhrs.com/blog/2024/preloading/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://www.lkhrs.com/swishv2.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">Preloading files to reduce download chains in the browser</h1>
+		<p class="rich-link-card-description">
+		I made a little update to the site today to fix how browsers were loading files needed by other files. The custom font I use and the random quote in the header loads in slightly faster now because the browser is downloading all the files it needs at the same time. My head element looked like this: <head> <link rel="stylesheet" href="css/main.css" /> <link rel="stylesheet" href="css/font.css" /> <script src="js/quotes.js" defer></script> </head> font.
+		</p>
+		<p class="rich-link-href">
+		https://www.lkhrs.com/blog/2024/preloading/
+		</p>
+	</div>
+</a></div>
+
+- assume `styles.css` loads `font1.woff2` and `font2.woff2`, and `script.js` fetches `data.json`
+- without preloading, the download chain looks like this, with items on the same level loading in parallel:
+    - `styles.css`
+        - `font1.woff2`
+        - `font2.woff2`
+    - `script.js`
+        - `data.json`
+- with preloading, we can load all the files in parallel
+    - note that only the second-tier files use `rel="preload"`
+
+```html
+<head>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js"></script>
+
+    <!-- preloading -->
+    <link rel="preload" as="font" crossorigin href="font1.woff2" type="font/woff2" />
+    <link rel="preload" as="font" crossorigin href="font2.woff2" type="font/woff2" />
+    <link rel="preload" as="fetch" href="data.json" type="application/json" />
+</head>
+```
+
+- valid embed types
+    - `font` requires the `crossorigin` attribute - see [CORS-enabled fetches](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/preload#cors-enabled_fetches) on MDN
+    - using `crossorigin` with `as="fetch"` may cause the preloaded file to be discarded in Chromium and Safari
+        - when using `fetch()` in JavaScript to fetch the preloaded file, set `credentials: 'include'` and `mode: 'no-cors'`, and do not include any custom headers
+
+| Value    | Applies To                                                                                                       |
+| -------- | ---------------------------------------------------------------------------------------------------------------- |
+| audio    | `<audio>` elements                                                                                               |
+| document | `<iframe>` and `<frame>` elements                                                                                |
+| embed    | `<embed>` elements                                                                                               |
+| fetch    | fetch, XHR                                                                                                       |
+| font     | CSS @font-face                                                                                                   |
+| image    | `<img>` and `<picture>` elements with srcset or imageset attributes, SVG `<image>` elements, CSS `*-image` rules |
+| object   | `<object>` elements                                                                                              |
+| script   | `<script>` elements, Worker `importScripts`                                                                      |
+| style    | `<link rel=stylesheet>` elements, CSS `@import`                                                                  |
+| track    | `<track>` elements                                                                                               |
+| video    | `<video>` elements                                                                                               |
+| worker   | Worker, SharedWorker                                                                                             |
+
+### Preload JavaScript modules
+
+- downloads the module, but also compiles it so it's ready to execute
+- no `as` attribute required
+
+```html
+<head>
+    <link rel="modulepreload" href="module.js" />
+</head>
+```
+
+## `＜script＞`
 
 ### async vs. defer
 
@@ -205,6 +276,10 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
     - scripts with `type="module"` are deferred by default
     - use for **anything that can't be async**
 - `async` and `defer` are both ignored for inline scripts
+
+### See also
+
+- [[Development/Clipped/Everything I Know About The Script Tag\|Everything I Know About The Script Tag]]
 
 ## `＜section＞`
 
@@ -319,7 +394,7 @@ The `DOMContentLoaded` event fires when the HTML document has been completely p
 
 Use `document.activeElement` to find the currently focused element. You can add this as a live expression in the Chrome devtools to get a live updating view of the focused element.
 
-## Example image URLs
+## Quick test image URLs
 
 - width / height, leave out height for a square image
 

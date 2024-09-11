@@ -28,7 +28,7 @@
 ## Reactive State & Refs
 
 > [!note]
-> It seems to be simplest to default to `ref`, unless there's a specific reason to use `reactive`.
+> Use `ref` for state that will be replaced wholesale, and `reactive` for object types that hold many individual state items.
 
 - for object types (including arrays & collection types), use `reactive` to create a proxy of the object with reactive properties
     - newly added properties will be reactive (no need for Vue.set)
@@ -92,75 +92,6 @@ console.log(state.count) // don't need .value
 
 const array = reactive([ref('Hello')])
 console.log(array[0].value)
-```
-
-### Reactivity Transform
-
-- still experimental, must be [opted into](https://vuejs.org/guide/extras/reactivity-transform.html#explicit-opt-in)
-- create reactive variables that don't need `.value` by using `$ref()`
-    - also `$computed`, `$shallowRef`, `$customRef`, `$toRef`
-
-```js
-let count = $ref(0)
-console.log(count) // OK
-count++ // OK
-```
-
-- destructure reactive objects using `$()`
-    - can also convert existing `ref`s into reactive variables
-
-```js
-const { x, y } = $(useMouse())
-
-const createRef = () => ref(0)
-let count = $(createRef())
-```
-
-- allows you to destructure props with no additional code, and set default values easier when using [[Development/Cheat sheets/Vue 3 cheat sheet#^04077c\|type-based declaration]]
-
-```ts
-interface Props {
-    msg: string
-    count?: number
-    foo?: string
-}
-
-const {
-    msg,
-    count = 1,
-    foo: bar
-} = defineProps<Props>()
-```
-
-- passing reactive variables to functions won't work, because it will pass the value instead of the `ref`
-- to fix this, wrap the variable in `$$()` to preserve the `ref`
-
-```js
-let count = $ref(0)
-trackChange($(count))
-```
-
-- same with returning `ref`s from functions - you can use `$$()` on an object of refs
-
-```js
-function useMouse() {
-    let x = $ref(0)
-    let y = $ref(0)
-
-    return $({
-        x,
-        y,
-    })
-}
-```
-
-- these compiler macros don't need to be imported, but you can import them from `vue/macros` if desired
-    - may also need to set this eslint rule to suppress error when destructuring props
-
-```js
-rules: {
-  'vue/no-setup-props-destructure': 0,
-},
 ```
 
 ## Computed Properties
