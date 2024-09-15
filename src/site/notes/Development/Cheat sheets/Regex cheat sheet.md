@@ -10,6 +10,12 @@
 
 - default to using the `v` (widely supported from September 2023 onwards) or `u` (for older browsers) flags to avoid bugs related to Unicode handling
 
+## Match superscript and subscript numbers
+
+```regex
+\p{No}
+```
+
 # Groups
 
 |             |                                                                    |
@@ -72,7 +78,7 @@ Replace:
 \U$1\L$2
 ```
 
-# JavaScript Methods
+# JavaScript
 
 - `regexp.test(str)` - returns true/false
 - `str.search(regexp)` - returns match index (-1 if not found)

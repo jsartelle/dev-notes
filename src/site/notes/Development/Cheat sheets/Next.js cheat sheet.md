@@ -3,11 +3,11 @@
 ---
 
 
-> [!info] Create a new project:
->
-> ```bash
-> npx create-next-app@latest
-> ```
+# Create a project
+
+```bash
+npx create-next-app@latest
+```
 
 # Data fetching
 

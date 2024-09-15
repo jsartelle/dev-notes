@@ -85,4 +85,5 @@ task-done:/.+/
 
 # See also
 
+- [[Development/Cheat sheets/Markdown Cheatsheet\|Markdown Cheatsheet]]
 - [[Tech/Clipped/Obsidian CSS Image Alt Codes\|Obsidian CSS Image Alt Codes]]

@@ -834,7 +834,7 @@ export default function changeName({ currentName, onUpdateName }) {
 # Suspense
 
 - lets you show fallback content while async child components load
-    - this applies to children using [[Development/Cheat sheets/React cheat sheet#use\|#use]], or [[Development/Cheat sheets/React cheat sheet#lazy\|#lazy]] loaded components
+    - this applies to child components using [[Development/Cheat sheets/React cheat sheet#use\|#use]], or [[Development/Cheat sheets/React cheat sheet#lazy\|#lazy]] loaded components
 - `fallback` can be any JSX, including components or text
 - the fallback is shown until all async children (at any depth) finish loading
 
@@ -863,6 +863,56 @@ const MarkdownPreview = lazy(() => import('./MarkdownPreview.js'))
 <Suspense fallback="Loading...">
     <MarkdownPreview />
 </Suspense>
+```
+
+## startTransition and useTransition
+
+- lets you mark code that would trigger a component to suspend as not urgent, so the previous state is shown until the update finishes
+
+```jsx
+import { useState, startTransition } from 'react'
+
+function PageView() {
+    const [page, setPage] = useState(0)
+
+    function switchPage() {
+        startTransition(() => setPage(page === 0 ? 1 : 0))
+    }
+
+    // assume FirstPage and SecondPage are async components
+    return (
+        <div>
+            <Button onClick={switchPage}>Switch Page</button>
+            page === 0 ? <FirstPage /> : <SecondPage />
+        </div>
+    )
+}
+
+```
+
+- useTransition returns a copy of startTransition, as well as an `isPending` flag so you can update your UI while the transition is happening
+
+```jsx
+import { useState, useTransition } from 'react'
+
+function PageView() {
+    const [page, setPage] = useState(0)
+    const [isPending, startTransition] = useTransition()
+
+    function switchPage() {
+        startTransition(() => setPage(page === 0 ? 1 : 0))
+    }
+
+    // assume FirstPage and SecondPage are async components
+    return (
+        <div>
+            <Button disabled={isPending} onClick={switchPage}>
+                {isPending ? 'Loading...' : 'Switch Page'}
+            </button>
+            page === 0 ? <FirstPage /> : <SecondPage />
+        </div>
+    )
+}
 ```
 
 # use
@@ -903,6 +953,13 @@ export default function ProfilePage() {
     )
 }
 ```
+
+# Error Boundaries
+
+- by default, any errors thrown inside a component take down the whole app
+- to avoid this, you can create an *Error Boundary* - a special component that catches any errors inside of it, and can show an error message or other fallback instead
+- error boundaries must be class components
+- [react-error-boundary](https://github.com/bvaughn/react-error-boundary) provides a premade Error Boundary component
 
 # Context
 
@@ -1004,15 +1061,36 @@ export default function Person({ name, age, children }: PersonProps) {
 type PageProps = ComponentProps<typeof Page>
 ```
 
-# Libraries
+# Creating a project
 
 ## create-react-app
 
-- create a new single-page React app using TypeScript:
+> [!warning]
+> create-react-app is deprecated and not as performant as other solutions. Try [[Development/Cheat sheets/React cheat sheet#Vite\|#Vite]] instead for a simple app, or [[Development/Cheat sheets/Next.js cheat sheet\|Next.js]] for a full-featured app with routing.
 
-```shell
-npx create-react-app my-app --template typescript
+## Vite
+
+- create a basic app with TypeScript
+
+```bash
+npm create vite@latest my-app -- --template react-ts
 ```
+
+- use SWC instead of Babel (faster, but less community support)
+
+```bash
+npm create vite@latest my-app -- --template react-swc-ts
+```
+
+## Next.js
+
+[[Development/Cheat sheets/Next.js cheat sheet\|Next.js cheat sheet]]
+
+# Libraries
+
+## React Query/TanStack Query
+
+[[Development/Cheat sheets/React Query cheat sheet\|React Query cheat sheet]]
 
 ## Styled Components
 
@@ -1033,8 +1111,8 @@ npx create-react-app my-app --template typescript
 </a></div>
 
 - lets you attach styles to components using template strings
-    - you can use Sass-style nesting in style strings
-        - a single `&` refers to all instances of the component, a double `&&` refers to only the current instance
+    - style rules can be nested
+- styled components should be defined **outside of the render function**, or they will be recreated on every render
 
 ```jsx
 import styled from 'styled-components'
@@ -1059,9 +1137,6 @@ export default function Page() {
 }
 ```
 
-> [!important]
-> Be sure to define styled components outside of your render function, or they will be recreated on every render!
-
 - to extend an existing component's styles, pass it to the `styled` constructor
 
 ```jsx
@@ -1072,6 +1147,22 @@ const Button = styled.button`
 
 const PrimaryButton = styled(Button)`
     background-color: darkblue;
+`
+```
+
+- you can use other styled components in selectors with interpolation (only on the web, not React Native)
+
+```JSX
+const Link = styled.a`
+    /* styles */
+`
+
+const Icon = styled.svg`
+    fill: black;
+
+    ${Link}:hover & {
+        fill: blue;
+    }
 `
 ```
 
@@ -1090,7 +1181,7 @@ export default function Popup() {
 }
 ```
 
-- you can set props on the styled component using `styled.attrs`
+- you can pass props to the component being wrapped using `styled.attrs`
 - to make a styled component render with a different tag, use the `as` prop
 
 ```jsx
@@ -1099,8 +1190,7 @@ const Header = styled.h1`
 `
 
 const SubHeader = styled(Header).attrs(props => ({
-    as: 'h2',
-    someOtherProp: 123
+    as: 'h2'
 }))`
     color: darkgray;
 `
