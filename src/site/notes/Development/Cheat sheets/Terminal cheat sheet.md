@@ -665,6 +665,7 @@ sudo tccutil reset All bundle_id
     - `-r`: only show leaves that were manually installed
     - `-p`: only show leaves that were installed as dependencies of another package
         - these can be safely uninstalled, since the package that depended on them is no longer installed
+- `brew cleanup -s`: remove unused and outdated cache files
 
 # PowerShell
 

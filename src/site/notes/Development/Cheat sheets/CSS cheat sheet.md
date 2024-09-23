@@ -3,6 +3,11 @@
 ---
 
 
+# General tips
+
+- when an element can be in one of multiple exclusive states (for example, a dialog with normal, alert, or error states), use `data-` attributes instead of classes to avoid conflicting styles
+    - set sensible default styles for when the data attribute isn't present
+
 # Selectors
 
 ## Attribute selectors
@@ -11,8 +16,8 @@
 | -------- | --------------------------------------------------------------------------------- |
 | ~=       | a whitespace-separated list of words, one of which is exactly *value*             |
 | \|=      | can be exactly *value* or can begin with *value* immediately followed by a hyphen |
-| ^=       | prefixed by *value*                                                               |
-| $=       | suffixed by *value*                                                               |
+| ^=       | starts with *value*                                                               |
+| $=       | ends with *value*                                                                 |
 | \*=      | contains *value*                                                                  |
 | [... i]  | case insensitive                                                                  |
 
@@ -41,10 +46,10 @@ button:focus-visible {
 
 ## :has
 
-- Matches elements where **any** of the given selectors match relative to the current element
+- matches elements where **any** of the given selectors match relative to the current element
     - Invalid selectors are ignored
-- Lets you target elements based on their children or subsequent elements
-- Takes the specificity of its most specific argument
+- lets you target elements based on their children or subsequent elements
+- takes the specificity of its most specific argument
 
 > [!warning]
 > `:has` **cannot** be nested inside another `:has`!
@@ -65,9 +70,9 @@ div:has(+ span, > span) {
 
 ## :is
 
-- Matches any element that can be matched by **any** of the given selectors
+- matches any element that can be matched by **any** of the given selectors
     - Invalid selectors are ignored
-- Takes the specificity of its most specific argument
+- takes the specificity of its most specific argument
 
 ```css
 :is(ol, ul) :is(ol, ul, :banana /* invalid selector is ignored */) {
@@ -77,7 +82,7 @@ div:has(+ span, > span) {
 
 ## :where
 
-- Same as [[Development/Cheat sheets/CSS cheat sheet#:is\|#:is]] but with specificity 0
+- same as [[Development/Cheat sheets/CSS cheat sheet#:is\|#:is]] but with specificity 0
 
 ## :nth-child
 
@@ -85,8 +90,7 @@ div:has(+ span, > span) {
 
 ### Limiting with selectors
 
-- Lets you limit `:nth-child` (and `:nth-last-child`) to only "look at" elements that match the given selector
-- Supported by major browsers as of May 2023
+- lets you limit `:nth-child` (and `:nth-last-child`) to only "look at" elements that match the given selector
 
 ```html
 <article>
@@ -107,7 +111,7 @@ div:has(+ span, > span) {
 </article>
 ```
 
-- Float inline images in alternating directions
+- float inline images in alternating directions
 
 ```css
 article > img.inline {
@@ -125,8 +129,8 @@ article > img:nth-child(even of .inline) {
 }
 ```
 
-- The `nth-child` selector can't "see" selectors outside itself
-- Select the 2nd `.important` item **after** `.anchor` (should be Item 8)
+- the `nth-child` selector can't "see" selectors outside itself
+- in the example below, we want to select the 2nd `.important` item **after** `.anchor` (should be item 8)
 
 ```html
 <ul>
@@ -144,12 +148,12 @@ article > img:nth-child(even of .inline) {
 ```
 
 ```css
-/* this will select item 5 - it's after the anchor, and *separately* it's the second child with .important */
+/* ❌ this will select item 5 - it's after .anchor, and *separately* it's the second child with .important */
 li.anchor ~ :nth-child(2 of .important) {
 	color: lime;
 }
 
-/* This will select item 8, because it's the second child *after the anchor with .important* */
+/* ✅ This will select item 8, because it's the second child that is *after .anchor and has .important* */
 :nth-child(2 of li.anchor ~ .important) {
 	color: deepskyblue;
 }
@@ -395,9 +399,6 @@ contain-intrinsic-size: auto 300px 100px;
 See [[Development/Cheat sheets/CSS cheat sheet#@container (container queries)\|#@container (container queries)]]
 
 ## content-visibility
-
-> [!warning]
-> Only supported in Safari in preview as of June 2024
 
 - Controls whether the browser renders the element's contents
 - `auto`: the element is only rendered if it is "relevant to the user" - in or near the viewport, focused, selected, or in the top layer
@@ -1764,15 +1765,21 @@ function closeModal() {
 - The browser first determines the cascaded value for an element, then "throws away" all other possible values, **before** checking if the cascaded value is valid
     - this means if a custom property value is invalid, it won't fall back to a less specific value
 
+```html
+<div class="card">
+    <p>Lorem ipsum dolor sit amet</p>
+</div>
+```
+
 ```css
 html { color: red; }
 
-/* gets thrown away because the value on `.card p` is more specific */
+/* When calculating the `color` value, this gets thrown away because there is a more specific selector (.card p) */
 p { color: blue; }
 
 .card { --color: #notacolor; }
 
-/* Gets selected as the final *cascaded* value. But since it's invalid, and the value on `p` was already thrown away, falls back to the *inherited* value from `html` */
+/* This gets selected as the cascaded value for `color`, but the actual value is invalid! But since the value on `p` was already thrown away, the browser falls back to the value on `html`. */
 .card p { color: var(--color); }
 ```
 
@@ -1901,7 +1908,7 @@ Sync the textarea's contents to a data attribute on the wrapper:
 </div>
 ```
 
-Style the wrapper the same as the textarea, overlay them using `grid`, and hide the wrapper
+Style the wrapper the same as the textarea, overlay them using `grid`, and make the wrapper invisible
 
 ```css
 .grow-wrap {
@@ -1915,7 +1922,7 @@ Style the wrapper the same as the textarea, overlay them using `grid`, and hide 
     white-space: pre-wrap;
     resize: none;
     overflow: hidden;
-    /* make the  */
+    /* position the textarea and ::after element in the same space */
     grid-area: 1 / 1 / 2 / 2;
 }
 
@@ -1926,7 +1933,7 @@ Style the wrapper the same as the textarea, overlay them using `grid`, and hide 
 }
 ```
 
-## Print-specific styling
+## Styling for print
 
 - use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|@media print]] to restyle or hide elements when printing
     - preview print rules in Chrome devtools -> *Rendering* -> *Emulate CSS media type*

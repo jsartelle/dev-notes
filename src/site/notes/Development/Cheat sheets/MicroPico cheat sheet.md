@@ -204,6 +204,6 @@ while True:
 # See also
 
 - [[Tech/Clipped/Getting Started with Tufty 2040\|Getting Started with Tufty 2040]]
-- [[Tech/Clipped/Getting Started with Plasma 2040\|Getting Started with Plasma 2040]]
+- [[Tech/Clipped/Getting Started with Plasma 2040 (modified)\|Getting Started with Plasma 2040 (modified)]]
 - [[Tech/Clipped/Pico Graphics README\|Pico Graphics README]]
 - [[Development/Cheat sheets/Python cheat sheet\|Python cheat sheet]]

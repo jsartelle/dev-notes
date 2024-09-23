@@ -36,7 +36,7 @@ else:
 
 ## Equality
 
-- `==` compares by value, `is` compares by reference
+- `==` compares by value, `is` compares by identity
     - don't use `is` for primitives, as it can give inconsistent answers because of implementation caching details
 - the opposites are `!=` and `is not` respectively
 - use `is` or `is not` to compare with `None`, since `None` is a singleton
@@ -872,7 +872,9 @@ myobjectx.variable = "banana"
 
 print(myobjectx.variable) # banana
 print(myobjecty.variable) # apple
-myobjectx.function() # This is a message inside the class.
+myobjectx.function() # prints "This is a message inside the class."
+
+isinstance(myobjectx, MyClass) # True
 ```
 
 # Modules and Packages
@@ -916,6 +918,100 @@ help(re.compile)
 ```
 
 # Built-in modules
+
+## enum
+
+```python
+from enum import Enum
+
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+    BLUE = 3
+    CRIMSON = 1 # this is an alias for RED since they have the same value
+
+Color.RED is Color(1) # True
+Color.RED is Color['RED'] # True
+Color.RED is Color.CRIMSON # True
+
+print(Color.BLUE) # Color.BLUE
+print(Color.BLUE.name) # BLUE
+print(Color.BLUE.value) # 3
+
+# note: aliases aren't included when iterating
+print(list(Color)) # [<Color.RED: 1>, <Color.GREEN: 2>, <Color.BLUE: 3>]
+```
+
+- enum values don't have to be numeric
+- other syntaxes:
+
+```python
+Color = Enum('Color', ['RED', 'GREEN', 'BLUE'])
+
+Color = Enum('Color', { 'RED': 'red', 'GREEN': 'green', 'BLUE': 'blue' })
+```
+
+- use `auto()` to automatically define numeric values
+
+```python
+from enum import Enum, auto
+
+class Color(Enum):
+    RED = auto()
+    GREEN = auto()
+    BLUE = auto()
+```
+
+- you can define methods on enums
+
+```python
+from enum import Enum
+
+class Weekday(Enum):
+    MONDAY = 1
+    TUESDAY = 2
+    WEDNESDAY = 3
+    THURSDAY = 4
+    FRIDAY = 5
+    SATURDAY = 6
+    SUNDAY = 7
+    #
+    @classmethod
+    def from_date(cls, date):
+        return cls(date.isoweekday())
+
+from datetime import date
+print(Weekday.from_date(date.today())) # prints the enum member for the current day
+```
+
+- Flags are like Enums, but support bitwise operations, so you can combine multiple values in one variable
+    - flag values must be powers of 2, or you can use `auto()`
+
+```python
+from enum import Flag
+class Weekday(Flag):
+    MONDAY = 1
+    TUESDAY = 2
+    WEDNESDAY = 4
+    THURSDAY = 8
+    FRIDAY = 16
+    SATURDAY = 32
+    SUNDAY = 64
+
+weekend = Weekday.SATURDAY | Weekday.SUNDAY
+
+for day in weekend:
+    print(day) # prints Weekday.SATURDAY and Weekday.SUNDAY
+```
+
+## time
+
+```Python
+import time
+
+# Unix timestamp, float of seconds since the epoch
+time.time()
+```
 
 ## random
 
