@@ -1008,7 +1008,7 @@ import { useContext } from 'react'
 import { LevelContext } from './LevelContext'
 
 export default function Heading({ children }) {
-    const level = useContext(LeveLContext)
+    const level = useContext(LevelContext)
 
     return (/* ... */)
 }
@@ -1069,6 +1069,10 @@ type PageProps = ComponentProps<typeof Page>
 > create-react-app is deprecated and not as performant as other solutions. Try [[Development/Cheat sheets/React cheat sheet#Vite\|#Vite]] instead for a simple app, or [[Development/Cheat sheets/Next.js cheat sheet\|Next.js]] for a full-featured app with routing.
 
 ## Vite
+
+- built-in support for TypeScript, Sass/Less/Stylus
+- no built-in routing
+- [create-vite-extra](https://github.com/bluwy/create-vite-extra) can be used to set up a project with SSR support
 
 - create a basic app with TypeScript
 

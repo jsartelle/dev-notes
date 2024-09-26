@@ -21,6 +21,14 @@
 - code and dependencies are packaged and uploaded to an S3 bucket
     - there is a limit on the total package size, if you need larger you can use a Docker image
 
+# Amplify
+
+- full stack application hosting (similar to Vercel)
+    - zero config for Next.js and Nuxt
+- fully typed configuration, similar to [[Development/Cheat sheets/AWS cheat sheet#SST\|#SST]]
+- supports SSR, SPAs, static apps, and native or Flutter/RN mobile apps
+- integrates with other AWS services
+
 # Elastic Compute Cloud (EC2)
 
 - non-serverless cloud computing infrastructure platform
@@ -133,14 +141,6 @@
     - process large datasets in parallel
     - create workflows for security incident response
 
-# Architecture examples
-
-## Web hosting
-
-[An AWS Cloud architecture for web hosting - Web Application Hosting in the AWS Cloud](https://docs.aws.amazon.com/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
-
-![image4.png](/img/user/%E2%80%A2%20Attachments/image4.png)
-
 # Frameworks
 
 ## SST
@@ -187,6 +187,14 @@
 - similar to SST, but YAML-based
 - [serverless-http](https://github.com/dougmoscrop/serverless-http?tab=readme-ov-file) lets you use Express and other API frameworks with serverless, by translating incoming request payloads into an Express-compatible format
     - since it's still serverless, you can't use state that persists between requests
+
+# Architecture examples
+
+## Web hosting
+
+[An AWS Cloud architecture for web hosting - Web Application Hosting in the AWS Cloud](https://docs.aws.amazon.com/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
+
+![image4.png](/img/user/%E2%80%A2%20Attachments/image4.png)
 
 # Troubleshooting
 

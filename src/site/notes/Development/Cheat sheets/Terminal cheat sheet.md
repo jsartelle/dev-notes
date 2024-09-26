@@ -480,6 +480,14 @@ curl -X POST -H "Content-Type: application/json" -d '{"name": "Oscar", "species"
 
 - lets you interactively filter data from *stdin* and output the selected item to *stdout*
 
+## SSH Agent
+
+- `ssh-keygen -l -f <path>`: view key fingerprint
+    - to view in MD5 format (colon-delimited) add `-E MD5`
+- `ssh-add <path>`: add key to SSH agent
+- `ssh-add -l`: list keys added to SSH agent
+- `ssh-add -D`: remove all keys from SSH agent
+
 ## node
 
 - `node --watch script.js`: re-run script whenever it changes
@@ -669,6 +677,7 @@ sudo tccutil reset All bundle_id
 
 # PowerShell
 
+- `$profile`: print path to PowerShell profile
 - `explorer .`: open Explorer window in current working directory
     - or `ii .`: short for `Invoke-Item .`
 - `taskkill /F /IM name`: kill process matching name (wildcard * can be used)
@@ -677,6 +686,15 @@ sudo tccutil reset All bundle_id
     - `-ItemType HardLink` for hard links
 - `Get-Content urls.txt | ForEach-Object {Invoke-WebRequest $_ -OutFile $(Split-Path $_ -Leaf)}`: download list of URLs
     - `Split-Path $_ -Leaf` gets the last part of the URL as the file name
+
+## Profile
+
+- add environment variables:
+
+```powershell
+$Env:VariableName = 'value'
+$Env:Path += ';C:\Tools'
+```
 
 ## Snippets
 
