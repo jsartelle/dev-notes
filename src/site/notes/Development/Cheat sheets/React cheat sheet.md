@@ -189,13 +189,15 @@ Components that are primarily driven through [[Development/Cheat sheets/React ch
 ## Server Components
 
 - available in React 19, and Next.js when using the [[Development/Cheat sheets/Next.js cheat sheet#App Router\|App Router]]
-- rendered fully on the server, only HTML is sent to the client
-- cannot use [[Development/Cheat sheets/React cheat sheet#Hooks\|#Hooks]]
-- can be async and use `await`, and can access Node APIs and sensitive data without exposing them to the client
-- add `'use client'` to the top of a file to mark it, and all components below it in the tree, as Client Components
-    - components without `use client` will still be treated as Client Components if they're used within a Client Component
-        - to prevent this, install the `server-only` NPM package and import it in your component
-        - you can also import secrets into a single helper file and mark that with `server-only`, to prevent accidentally passing secrets as props to Client Components
+- rendered **fully** on the server, only the HTML is sent to the client (no hydration)
+- cannot use [[Development/Cheat sheets/React cheat sheet#Hooks\|#Hooks]], event listeners, or other interactive features
+- can be async and use `await` (which causes them to trigger [[Development/Cheat sheets/React cheat sheet#Suspense\|#Suspense]]), and can access Node APIs and sensitive data without exposing them to the client
+- add `'use client'` to the top of a file to mark it, and all components that it imports, as Client Components
+    - Client Components **can still be server-side rendered**, but they will be hydrated on the client in order to access client-side features like the `window` object
+    - components without `use client` will still be rendered as Client Components if they're imported within a Client Component
+        - to throw an error if your component is rendered on the client, install the `server-only` NPM package and import it in your component
+        - you can also import secrets into a single helper file and mark that with `server-only`, to prevent accidentally importing them on the client
+    - Client Components cannot **import** Server Components, but they can be passed Server Components as children
 
 # Props
 
@@ -834,7 +836,7 @@ export default function changeName({ currentName, onUpdateName }) {
 # Suspense
 
 - lets you show fallback content while async child components load
-    - this applies to child components using [[Development/Cheat sheets/React cheat sheet#use\|#use]], or [[Development/Cheat sheets/React cheat sheet#lazy\|#lazy]] loaded components
+    - this applies to child components using [[Development/Cheat sheets/React cheat sheet#use\|#use]], async [[Development/Cheat sheets/React cheat sheet#Server Components\|#Server Components]], or [[Development/Cheat sheets/React cheat sheet#lazy\|#lazy]] loaded components
 - `fallback` can be any JSX, including components or text
 - the fallback is shown until all async children (at any depth) finish loading
 

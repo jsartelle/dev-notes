@@ -31,7 +31,7 @@
 </datalist>
 
 <label>
-    <span>Choose your favorite notes app:</span>
+    <span>What is your favorite notes app?</span>
     <input type="text" list="apps" />
 </label>
 ```
@@ -284,6 +284,88 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 ## `＜section＞`
 
 - on content-based pages, should always have a heading (may not apply to web applications)
+
+## `＜table＞`
+
+- `border-spacing: <horizontal> <vertical>` lets you adjust the gap between cells
+- `border-collapse: collapse` removes the gap between cells (overrides `border-spacing`), and prevents borders from doubling up
+- `border-radius` must be applied to `td`, not `th`/`tr`
+    - you may also need to set backgrounds on `td` for them to respect the border radius
+
+```html
+<table>
+  <caption style="caption-side: bottom">
+    Front-end web developer course 2021
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Person</th>
+      <th scope="col">Most interest in</th>
+      <th scope="col">Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Chris</th>
+      <td>HTML tables</td>
+      <td>22</td>
+    </tr>
+    <!-- ... -->
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row" colspan="2">Average age</th>
+      <td>33</td>
+    </tr>
+  </tfoot>
+</table>
+```
+
+<table>
+  <caption style="caption-side: bottom">
+    Front-end web developer course 2021
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Person</th>
+      <th scope="col">Most interest in</th>
+      <th scope="col">Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Chris</th>
+      <td>HTML tables</td>
+      <td>22</td>
+    </tr>
+    <tr>
+      <th scope="row">Dennis</th>
+      <td>Web accessibility</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th scope="row">Sarah</th>
+      <td>JavaScript frameworks</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th scope="row">Karen</th>
+      <td>Web performance</td>
+      <td>36</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th scope="row" colspan="2">Average age</th>
+      <td>33</td>
+    </tr>
+  </tfoot>
+</table>
+
+### `＜caption＞`
+
+- must be the first child of the table
+- the `caption-side` CSS property can be used to set the position (`top` or `bottom`)
 
 ## `＜video＞`
 
