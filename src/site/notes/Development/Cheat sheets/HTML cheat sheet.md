@@ -7,6 +7,8 @@
 
 ## `＜a＞`
 
+- the text inside a link should describe it (don't just say something like "click here")
+
 ### Keyboard focus on links without href
 
 - Links without an `href` attribute do not receive focus from the <kbd>Tab</kbd> key by default. To make them focusable add `href=""`.
@@ -94,6 +96,48 @@ dialog:not([open]) {
 
 </div></div>
 
+
+### Dismiss by clicking outside contents
+
+- to dismiss a dialog by clicking outside the contents:
+    - make the `<dialog>` element fill the screen, and remove its default styles
+    - place the contents in a wrapper element
+    - add a click listener to the `<dialog>` that closes it, but only if the `<dialog>` itself was clicked
+
+```html
+<dialog>
+    <div>Contents go here</div>
+</dialog>
+```
+
+```css
+dialog {
+  border: none;
+  background: none;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+
+  &::backdrop {
+    all: unset;
+  }
+
+  > :first-child {
+    max-width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+  }
+}
+```
+
+```js
+document.querySelector('border').addEventListener('click', function (e) {
+    if (e.target === this) {
+        this.close()
+    }
+})
+```
 
 ## `＜details＞` and `＜summary＞` (accordions)
 
@@ -256,6 +300,10 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 </head>
 ```
 
+## `＜menu＞`
+
+- behaves identically to `<ul>`, but can be used as a semantic alternative
+
 ## `＜script＞`
 
 ### async vs. defer
@@ -287,10 +335,11 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 
 ## `＜table＞`
 
-- `border-spacing: <horizontal> <vertical>` lets you adjust the gap between cells
+- `border-spacing: [horizontal] [vertical]` adjusts the gap between cells
 - `border-collapse: collapse` removes the gap between cells (overrides `border-spacing`), and prevents borders from doubling up
-- `border-radius` must be applied to `td`, not `th`/`tr`
-    - you may also need to set backgrounds on `td` for them to respect the border radius
+    - borders on `<tr>` have no effect unless `border-collapse: collapse` is set
+- `border-radius` must be applied to `td`, not `<th>`/`<tr>`
+    - if you want backgrounds to respect the border radius, you may need to set them on `<td>`
 
 ```html
 <table>
@@ -446,7 +495,6 @@ dialog:not([open]) {
 
 - `event.currentTarget` is always the element that the ==event listener is attached to==
 - `event.target` is the element that ==received the event==
-    - this can be different if, ex. you click on a child of an element with a `click` handler
     - in the example below, if you click on the child, `target` is the child and `currentTarget` is the parent
 
 ```html

@@ -3,10 +3,54 @@
 ---
 
 
-# General tips
+# Tips
 
-- when an element can be in one of multiple exclusive states (for example, a dialog with normal, alert, or error states), use `data-` attributes instead of classes to avoid conflicting styles
-    - set sensible default styles for when the data attribute isn't present
+## Responsive layouts
+
+- when building responsive layouts, default to the smallest (usually mobile) layout, and use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|media queries]] to adjust the layout for larger screens
+- use `rem` for media queries most of the time, as you want them to scale if the user changes their default font size
+
+## Styling elements with multiple states
+
+- if an element can be in one of multiple **exclusive** states (for example, a dialog with normal, alert, or error states), use `data-` attributes instead of classes, to avoid the possibility of applying multiple states and causing style conflicts
+    - the default styles for when the data attribute isn't present should reflect the default state
+
+## `rem` vs `em` vs `px`
+
+- use `rem` for values that should scale with the user's **default font size** (different from **page zoom**)
+    - use `em` instead if the values are highly dependent on the current element's font size
+    - in most browsers, the default font size is 16px if not modified by the user
+- examples:
+    - horizontal padding should usually use `px`, since you don't want to shrink the line width just because the text is larger
+    - vertical margins between paragraphs should usually use `em`, since they should adapt to the paragraph's font size
+    - borders and other decorative elements should use `px`
+    - media queries should usually use `rem` - larger font sizes will increase the width of sidebars and other asides, which may make the main content area too narrow, so the mobile layout is often preferred
+        - when used in media queries, **`rem` always refers to the default font size**, even if you set a custom font size on the root element in CSS
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://www.joshwcomeau.com/images/og-surprising-truth-about-pixels-and-accessibility.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">The Surprising Truth About Pixels and Accessibility: should I use pixels or rems? • Josh W. Comeau</h1>
+		<p class="rich-link-card-description">
+		“Should I use pixels or rems?”. In this comprehensive blog post, we'll answer this question once and for all. You'll learn about the accessibility implications, and how to determine the best unit to use in any scenario.
+		</p>
+		<p class="rich-link-href">
+		https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility/
+		</p>
+	</div>
+</a></div>
+
+## Styling for print
+
+- use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|@media print]] to restyle or hide elements when printing
+    - preview print rules in Chrome devtools -> *Rendering* -> *Emulate CSS media type*
+- use [[Development/Cheat sheets/CSS cheat sheet#@page\|#@page]] rules to adjust the page margins
+- use [[Development/Cheat sheets/CSS cheat sheet#print-color-adjust\|#print-color-adjust]] to prevent the browser from changing the appearance of elements when printing
+- use [[Development/Cheat sheets/CSS cheat sheet#break-before, break-inside, break-after\|#break-before, break-inside, break-after]] to control where pages break
+- use `orphans` and `widows` to change the minimum number of lines that can be alone at the bottom/top of a page (both default to 2)
 
 # Selectors
 
@@ -806,6 +850,8 @@ grid-template-areas:
     <div style="grid-area: b">b</div>
     <div style="grid-area: c">c</div>
 </div>
+
+- use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|media queries]] to make area layouts responsive
 
 ### grid-auto-flow
 
@@ -1932,15 +1978,6 @@ Style the wrapper the same as the textarea, overlay them using `grid`, and make 
     pointer-events: none;
 }
 ```
-
-## Styling for print
-
-- use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|@media print]] to restyle or hide elements when printing
-    - preview print rules in Chrome devtools -> *Rendering* -> *Emulate CSS media type*
-- use [[Development/Cheat sheets/CSS cheat sheet#@page\|#@page]] rules to adjust the page margins
-- use [[Development/Cheat sheets/CSS cheat sheet#print-color-adjust\|#print-color-adjust]] to prevent the browser from changing the appearance of elements when printing
-- use [[Development/Cheat sheets/CSS cheat sheet#break-before, break-inside, break-after\|#break-before, break-inside, break-after]] to control where pages break
-- use `orphans` and `widows` to change the minimum number of lines that can be alone at the bottom/top of a page (both default to 2)
 
 # See also
 

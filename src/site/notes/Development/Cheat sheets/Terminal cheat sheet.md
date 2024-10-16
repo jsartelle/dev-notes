@@ -353,6 +353,20 @@ pkill -9 "node"
 
 ## Network
 
+### Simple web server
+
+- if npm is installed:
+
+```shell
+npx serve@latest out -l 3000
+```
+
+- if Python 3 is installed:
+
+```shell
+python3 -m http.server 3000
+```
+
 ### ipconfig
 
 #### Get list of network adapters
@@ -492,17 +506,106 @@ curl -X POST -H "Content-Type: application/json" -d '{"name": "Oscar", "species"
 
 - `node --watch script.js`: re-run script whenever it changes
 
+## npm/yarn
+
+> [!NOTE]- NPM and Yarn cheat sheet
+> 
+<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/cheat-sheets/npm-and-yarn-cheat-sheet/" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
+
+
+
+
+
+# Types of dependencies
+
+- `dependencies`
+    - packages ==required by your package at runtime==
+    - are always installed on `npm install` (or `yarn install`, etc)
+- `devDependencies`
+    - packages that are ==only required during development== (ex. testing, transpilation, etc)
+    - are not installed:
+        - if your package is being installed as a dependency of another package
+        - if you pass the `--production` flag
+- `peerDependencies`
+    - used if your package doesn't require the dependency, but instead ==is used by the dependency== (your package is a *plugin* for the dependency)
+    - should only be [[Development/Cheat sheets/Terminal cheat sheet#package.json version pinning syntax\|pinned]] to major versions, because the package manager will error if the peerDependency can't be resolved correctly
+
+# package.json version pinning syntax
+
+- No pinning (always install the latest version): `*` or `x`
+- Only same major version: `^1.0.4` or  `1` or `1.x`
+- Only same minor version: `~1.0.4` or `1.0` or `1.0.x`
+- Only exact version: `1.0.4`
+- `>`, `>=`, `<`, `<=`, etc. ignore the major/minor/patch division
+
+# Commands
+
 ## npm
 
-[[Development/Cheat sheets/NPM and Yarn cheat sheet\|NPM and Yarn cheat sheet]]
+- `npm list`: list installed packages (useful for [[Development/Cheat sheets/Terminal cheat sheet#grep\|grepping]])
+    - `-g`: global
+    - `-a`: include nested dependencies
+    - `-l`: include descriptions
+- `npm ls foo`: see which installed packages have a dependency on `foo`
 
-## python
+# List versions of dependencies
 
-### Simple web server
+- Shows every package that lists `vue` as a dependency, and which version is installed
 
 ```shell
-python3 -m http.server 3000
+npm why vue
 ```
+
+```shell
+yarn why vue
+```
+
+# npm-check
+
+- Scans for out of date and unused packages
+- Pass `-u` to interactively update packages by patch/minor/major version
+
+```shell
+npx npm-check
+```
+
+# Disable Yarn PnP
+
+- Yarn PnP causes issues with some frameworks like SvelteKit, and can interfere with VSCode TypeScript support
+
+```shell
+yarn config set nodeLinker node-modules
+```
+
+# Yarn .gitignore
+
+If using Zero-Installs:
+
+```gitignore
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+```
+
+If not:
+
+```gitignore
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+```
+
+
+</div></div>
+
 
 ## ffmpeg
 

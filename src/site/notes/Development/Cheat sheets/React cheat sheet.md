@@ -186,18 +186,30 @@ You can wrap your app in `<React.StrictMode>` to call each component twice durin
 
 Components that are primarily driven through [[Development/Cheat sheets/React cheat sheet#Props\|props]] are sometimes referred to as *controlled components*, because their parent controls their behavior. Components that keep their primary information in local state are called *uncontrolled components*.
 
-## Server Components
+## Server Components vs. Client Components
 
-- available in React 19, and Next.js when using the [[Development/Cheat sheets/Next.js cheat sheet#App Router\|App Router]]
-- rendered **fully** on the server, only the HTML is sent to the client (no hydration)
-- cannot use [[Development/Cheat sheets/React cheat sheet#Hooks\|#Hooks]], event listeners, or other interactive features
-- can be async and use `await` (which causes them to trigger [[Development/Cheat sheets/React cheat sheet#Suspense\|#Suspense]]), and can access Node APIs and sensitive data without exposing them to the client
-- add `'use client'` to the top of a file to mark it, and all components that it imports, as Client Components
-    - Client Components **can still be server-side rendered**, but they will be hydrated on the client in order to access client-side features like the `window` object
-    - components without `use client` will still be rendered as Client Components if they're imported within a Client Component
-        - to throw an error if your component is rendered on the client, install the `server-only` NPM package and import it in your component
-        - you can also import secrets into a single helper file and mark that with `server-only`, to prevent accidentally importing them on the client
-    - Client Components cannot **import** Server Components, but they can be passed Server Components as children
+- Server Components:
+    - are available in React 19, and Next.js when using the [[Development/Cheat sheets/Next.js cheat sheet#App Router\|App Router]]
+    - are rendered on the server, and only the HTML is sent to the client (no hydration)
+    - cannot use [[Development/Cheat sheets/React cheat sheet#Hooks\|#Hooks]], event listeners, or other interactive features
+    - can be async and use `await` (which causes them to trigger [[Development/Cheat sheets/React cheat sheet#Suspense\|#Suspense]])
+    - can use Node APIs and access sensitive data like secrets, since only the final HTML is sent to the client
+- Client Components:
+    - are marked with `'use client'` at the top of the file
+    - **can still be server-side rendered** for performance, but will be hydrated on the client to become interactive
+- if you need to use library components that use client-only features, but aren't marked with `'use client'`, you can create wrapper components for them
+
+```jsx
+'use client'
+
+import { Button } from 'ui-library'
+export default Button
+```
+
+- Client Components create a *server-client boundary* - anything **imported** into a Client Component, including Server Components, will run on the client
+    - Server Components that are passed into Client Components as props or children will not be rendered on the client
+- to enforce that Server Components or helper functions **only** run on the server, install and import the `server-only` NPM package
+    - you can import secrets into a helper file and mark that with `server-only`, to prevent accidentally importing them on the client
 
 # Props
 
@@ -582,7 +594,7 @@ const MyInput = ({ ref, ...props }) => {
 <button onClick={() => inputRef.current?.focus()}>Focus Input</button>
 ```
 
-- pre-React 19, a wrapper that lets function components forward their ref to a child component or element
+- in earlier versions of React, `ForwardRef` is a wrapper that lets function components forward their ref to a child component or element
     - this makes it harder to refactor your component in the future (since users of your component may rely on behavior of the element the ref is forwarded to), so typically used for low-level components like custom buttons or inputs
 
 ```jsx
@@ -961,7 +973,7 @@ export default function ProfilePage() {
 - by default, any errors thrown inside a component take down the whole app
 - to avoid this, you can create an *Error Boundary* - a special component that catches any errors inside of it, and can show an error message or other fallback instead
 - error boundaries must be class components
-- [react-error-boundary](https://github.com/bvaughn/react-error-boundary) provides a premade Error Boundary component
+    - [react-error-boundary](https://github.com/bvaughn/react-error-boundary) provides a premade Error Boundary component
 
 # Context
 
@@ -1037,30 +1049,71 @@ export default function BlogPost({ post }) {
 
 # TypeScript
 
+- `PropsWithChildren` adds the `children` prop with correct typing
+
 ```tsx
 import type { PropsWithChildren } from 'react'
 
-export interface PersonProps extends PropsWithChildren {
+interface PersonProps extends PropsWithChildren {
   name: string
   age?: number
 }
-
-export default function Person({ name, age, children }: PersonProps) {
-  return (
-    <div>
-      <span>Hello {name}!</span>
-      {age ? <span>You are {age} years old.</span> : null}
-      {children}
-    </div>
-  )
+function Person({ name, age, children }: PersonProps) {
+  /* ... */
 }
 
+// PropsWithChildren can also accept a type argument
+interface CardProps {
+  title: string
+}
+function CardWithChildren = (
+  { title, children }: PropsWithChildren<CardProps>
+) {
+  /* ... */
+}
 ```
 
 - use `ComponentProps` with `typeof` to get a component's prop type
 
-```ts
+```tsx
 type PageProps = ComponentProps<typeof Page>
+```
+
+- use `HTMLProps` to extend HTML elements
+
+```tsx
+type ButtonProps extends HTMLProps<HTMLButtonElement> {
+    primary?: boolean
+}
+
+function Button({ className, children, primary }: ButtonProps) {
+    /* ... */
+}
+```
+
+- type style attribute objects with `React.CSSProperties`
+
+```tsx
+const buttonStyle: React.CSSProperties = {
+    backgroundColor: Colors.blue;
+}
+
+return <button style={buttonStyle}></button>
+```
+
+## Prop types with generics
+
+```tsx
+interface DataGridProps<T extends { id: any }> {
+    /* data is an array of objects with an `id` property of any type */
+    data: T[]
+    selectedIds: Set<T>
+    onSelect: (id: T['id']) => void
+}
+
+function DataGrid<T>(props: DataGridProps<T>) {
+    /* ... */
+}
 ```
 
 # Creating a project

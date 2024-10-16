@@ -5,6 +5,12 @@
 
 # Git
 
+## Show all files in index
+
+```shell
+git ls-tree -r BRANCH_NAME --name-only
+```
+
 ## Remove ignored file from index
 
 ```shell
@@ -39,6 +45,11 @@ git checkout origin/main -- path/to/file
 ```shell
 git reset --hard @{u}
 ```
+
+## Drop a commit
+
+- run `git rebase -i HEAD~N`, where N is the number of commits to list (the commit you want to drop should be less than N commits back)
+- in the document that appears, delete the line with the commit you want to drop, then save and exit
 
 ## Undo reset or dropped commit
 

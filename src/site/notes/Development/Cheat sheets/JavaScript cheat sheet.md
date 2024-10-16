@@ -29,7 +29,7 @@ array.filter(Boolean)
 [...Array(5).keys()].map(i => i + 1)
 ```
 
-## Remembering sort function return values
+## Visualize sort function return values
 
 - imagine the result representing `a`'s position on a number line where `b` is 0 - a negative return value means `a` is to the left of `b`, and a positive value means `a` is to the right of `b
     - if the values being compared are numeric, `a.value - b.value` will sort from smallest to largest, and vice versa

@@ -61,10 +61,10 @@
 
 # JavaScript Type Checking
 
-- Add `// @ts-check` comment to top of JS file for type checking
-- Type annotations: `/** @type {number} */`
+- add `// @ts-check` comment to top of JS file for type checking
+- type annotations: `/** @type {number} */`
     - More info: [[Development/Cheat sheets/JavaScript cheat sheet#JSDoc\|JavaScript cheat sheet#JSDoc]]
-- To type check an entire JS project, create a `jsconfig.json` file in the root with the following:
+- to type check an entire JS project, create a `jsconfig.json` file in the root with the following:
 
 ```json
 {
@@ -74,8 +74,26 @@
 }
 ```
 
+- to type check all JS code, set `js/ts.implicitProjectConfig.checkJs` to true in your user settings
 - add globals and types to a `.d.ts` file anywhere in the project
+
+# Debug NPM scripts and ignore `node_modules`
+
+- add this config to `.vscode/launch.json` (replace `dev` with the script name)
+
+```json
+{
+        "type": "node-terminal",
+        "request": "launch",
+        "name": "Run Dev Script",
+        "skipFiles": [
+            "<node_internals>/**",
+            "${workspaceFolder}/node_modules/**/*.js"
+        ],
+        "command": "npm run dev",
+    }
+```
 
 # Other
 
-- Hold <kbd>Cmd</kbd>+<kbd>Opt</kbd> when clicking a result line in the search editor to jump to that line in a split pane
+- Hold <kbd>Cmd</kbd>+<kbd>Opt</kbd> when clicking a result line in the search editor to open that line in a split pane
