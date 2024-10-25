@@ -42,7 +42,7 @@ enum Response { Yes = 1, No }
 enum Response { Yes = 1, No = 2}
 ```
 
-- Numeric enums get a reverse mapping between keys and values:
+- enums exist at runtime, and numeric enums have a reverse mapping between keys and values
 
 ```ts
 enum Colors { Red = 1, Blue }
@@ -51,7 +51,8 @@ console.log(Colors.Red) // 1
 console.log(Colors[1]) // "Red"
 ```
 
-- String enums **do not** get a reverse mapping, but their values can be easier to understand at runtime:
+- You can also create enums with string values
+- String enums **do not** get a reverse mapping, but their values can be easier to understand at runtime
 
 ```ts
 enum Direction {

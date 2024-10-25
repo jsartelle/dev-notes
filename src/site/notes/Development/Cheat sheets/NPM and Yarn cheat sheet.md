@@ -56,6 +56,31 @@ yarn why vue
 npx npm-check
 ```
 
+# Link local dependencies
+
+- to use a local package folder as a dependency of another repo (ex. for testing package changes):
+- in the package repo, run one of these:
+
+```shell
+npm link
+```
+
+```shell
+yarn link
+```
+
+- in the repo that uses the package:
+
+```shell
+npm link packageName
+```
+
+```shell
+yarn link packageName
+```
+
+- to undo, follow the same steps in reverse, with `unlink` instead of `link`
+
 # Disable Yarn PnP
 
 - Yarn PnP causes issues with some frameworks like SvelteKit, and can interfere with VSCode TypeScript support

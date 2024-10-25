@@ -332,7 +332,7 @@ box-shadow: 3px 3px red, inset -1em 0 0.4em blue;
 > [!info]
 > There are many values, but these are the most common ones that are widely supported as of June 2024
 
-- decide whether [[Development/Cheat sheets/CSS cheat sheet#Print-specific styling\|page]] or column breaks are allowed before, after, or inside an element
+- decide whether [[Development/Cheat sheets/CSS cheat sheet#Styling for print\|page]] or column breaks are allowed before, after, or inside an element
 - `avoid`: don't allow page or column breaks
 - before and after only:
     - `page`: force a page break before/after

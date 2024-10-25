@@ -43,7 +43,7 @@ git checkout origin/main -- path/to/file
 `@{u}` represents the upstream branch that the current branch is tracking
 
 ```shell
-git reset --hard @{u}
+git reset --hard "@{u}"
 ```
 
 ## Drop a commit

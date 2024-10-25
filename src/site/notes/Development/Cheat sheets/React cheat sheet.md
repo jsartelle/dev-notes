@@ -406,7 +406,7 @@ export default function UserForm() {
     - group related logic in different lifecycle methods together
 - hooks re-run on every render, but many of them allow for persisting values between renders
 - hooks must be imported from `react`
-- hooks only run client-side - if using a framework that supports [[Development/Cheat sheets/React cheat sheet#Server Components\|#Server Components]], components that use hooks must be marked with `'use client'`
+- hooks only run client-side - if using a framework that supports [[Development/Cheat sheets/React cheat sheet#Server Components vs. Client Components\|Server Components]], components that use hooks must be marked with `'use client'`
 
 ## Rules of Hooks
 
@@ -500,36 +500,6 @@ return (
 )
 ```
 
-## useEffect
-
-- lets you perform side effects from a function component
-    - primarily used for **synchronizing with external systems** - data fetching, setting up a subscription, etc.
-    - **You don’t need Effects to transform data for rendering** - transform the data at the top level instead (use [[Development/Cheat sheets/React cheat sheet#useMemo\|#useMemo]] if the transformation is expensive)
-    - **You don’t need Effects to handle user events** - use [[Development/Cheat sheets/React cheat sheet#Events\|event handlers]]
-- can return a "cleanup" function that will run before each time the effect function runs, as well as on component unmount
-- by default the provided function runs on every render, including the first one, ==after React has updated the DOM==
-    - if you don't want it to run on the first render use [[Development/Cheat sheets/React cheat sheet#useLayoutEffect\|#useLayoutEffect]]
-- to react to prop changes, pass an array of reactive values as the second argument to `useEffect` - the effect (including cleanup) will only run if any of the array items have changed
-    - if you pass an empty array, the effect will only run once on mount (and cleanup on unmount)
-        - code should still be resilient to effects running multiple times, both for Fast Refresh and future-proofing
-- if you need to call a function inside the render loop in useEffect, define it using [[Development/Cheat sheets/React cheat sheet#useCallback\|#useCallback]]
-
-```jsx
-const [port, setPort] = useState(3000);
-
-// if port changes, the component will disconnect from the old port and connect to the new one
-useEffect(() => {
-    connectToPort(3000)
-    return () => { disconnectFromPort(3000) };
-}, [port])
-```
-
-## useLayoutEffect
-
-- like [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]] but fires before the DOM changes, blocking the browser from painting
-    - won't run on the first render, but the result of the first render won't be displayed
-    - use `useEffect` instead whenever possible
-
 ## useRef
 
 - `useRef` will hold onto information between renders, but aren't tracked by React and **don't trigger re-render** when updated
@@ -620,22 +590,36 @@ const MyInput = forwardRef((props, ref) => {
 }}
 ```
 
-## useId
+## useEffect
 
-- generate random IDs for use with form elements
+- lets you perform side effects from a function component
+    - primarily used for **synchronizing with external systems** - data fetching, setting up a subscription, etc.
+    - **You don’t need Effects to transform data for rendering** - transform the data at the top level instead (use [[Development/Cheat sheets/React cheat sheet#useMemo\|#useMemo]] if the transformation is expensive)
+    - **You don’t need Effects to handle user events** - use [[Development/Cheat sheets/React cheat sheet#Events\|event handlers]]
+- since hooks only run client-side, you can wrap code that uses browser APIs like `localStorage` in an effect to use it in server-side rendered components
+- can return a "cleanup" function that will run before each time the effect function runs, as well as on component unmount
+- if you don't provide a dependency array, the provided function runs on every render (including the first one), ==after React has updated the DOM==
+    - if you don't want it to run on the first render use [[Development/Cheat sheets/React cheat sheet#useLayoutEffect\|#useLayoutEffect]]
+- to limit how often the effect runs, pass an array of reactive values as the second argument to `useEffect` - the effect (including cleanup) will only run if any of the array items have changed
+    - if you pass an empty array, the effect will only run once on mount (and cleanup on unmount)
+        - code should still be resilient to effects running multiple times, both for Fast Refresh and future-proofing
+- if you need to call a function inside the render loop in useEffect, define it using [[Development/Cheat sheets/React cheat sheet#useCallback\|#useCallback]]
 
 ```jsx
-import { useId } from 'react'
+const [port, setPort] = useState(3000);
 
-export default function checkboxWithLabel() {
-    const id = useId()
-
-    return (
-        <input type="checkbox" id={id}></input>
-        <label htmlFor={id}>Checkbox</label>
-    )
-}
+// when port changes, the component will disconnect from the old port and connect to the new one
+useEffect(() => {
+    connectToPort(3000)
+    return () => { disconnectFromPort(3000) };
+}, [port])
 ```
+
+## useLayoutEffect
+
+- like [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]] but fires before the DOM changes, blocking the browser from painting
+    - won't run on the first render, but the result of the first render won't be displayed
+    - use `useEffect` instead whenever possible
 
 ## useMemo
 
@@ -742,6 +726,23 @@ function handleDeleteTask(taskId) {
 }
 ```
 
+## useId
+
+- generate random IDs for use with form elements
+
+```jsx
+import { useId } from 'react'
+
+export default function checkboxWithLabel() {
+    const id = useId()
+
+    return (
+        <input type="checkbox" id={id}></input>
+        <label htmlFor={id}>Checkbox</label>
+    )
+}
+```
+
 ## useActionState/useFormState
 
 - lets you access the status and return value of an [[Development/Cheat sheets/React cheat sheet#Actions\|Action]] used with a form (including Server Actions)
@@ -817,16 +818,19 @@ export default function SubmitButton() {
 ## useOptimistic
 
 - show the results of an async state change (like sending a message) optimistically while the request is happening
-- the value that is passed in (the current state) will be returned **unless** an async Action is pending, in which case the optimistic state is returned
-    - either success or failure will cause the passed in state to be displayed again, so make sure to update that as well
+- the value passed to `useOptimistic` (the current state) will be returned **unless** an async Action is pending, in which case the optimistic state (the value passed to the `setWhatever` function) is returned
+    - either success or failure will cause the current state to be displayed again, so make sure to update that before the Action finishes
 
 ```jsx
 import { useOptimistic } from 'react'
 
 const updateNameAction = async (formData) => {
     const newName = formData.get('name')
+    // start showing the optimistic state
     setOptimisticName(newName)
     const updatedName = await updateNameInDatabase(newName)
+    // if updateNameInDatabase was successful,
+    // update the current state
     onUpdateName(updatedName)
 }
 
@@ -848,7 +852,7 @@ export default function changeName({ currentName, onUpdateName }) {
 # Suspense
 
 - lets you show fallback content while async child components load
-    - this applies to child components using [[Development/Cheat sheets/React cheat sheet#use\|#use]], async [[Development/Cheat sheets/React cheat sheet#Server Components\|#Server Components]], or [[Development/Cheat sheets/React cheat sheet#lazy\|#lazy]] loaded components
+    - this applies to child components using [[Development/Cheat sheets/React cheat sheet#use\|#use]], async [[Development/Cheat sheets/React cheat sheet#Server Components vs. Client Components\|Server Components]], or [[Development/Cheat sheets/React cheat sheet#lazy\|#lazy]] loaded components
 - `fallback` can be any JSX, including components or text
 - the fallback is shown until all async children (at any depth) finish loading
 
@@ -935,7 +939,7 @@ function PageView() {
 - not a hook, so it can be used within loops or conditionals
 - lets you render a Client Component async and wait on a promise
     - the nearest [[Development/Cheat sheets/React cheat sheet#Suspense\|#Suspense]] fallback is shown until the promise resolves
-- promises can be passed from [[Development/Cheat sheets/React cheat sheet#Server Components\|#Server Components]] to Client Components as props and "awaited" with `use`
+- promises can be passed from [[Development/Cheat sheets/React cheat sheet#Server Components vs. Client Components\|Server Components]] to Client Components as props and "awaited" with `use`
     - Server Components don't need `use` since they can use `await` natively
 
 ```jsx
@@ -979,7 +983,7 @@ export default function ProfilePage() {
 
 - lets a component pass data down an arbitrary distance in the tree, without having to pass props through multiple levels of components that might not need them (prop drilling)
     - similar to [[Development/Cheat sheets/Vue 3 cheat sheet#Provide and Inject\|provide and inject in Vue]]
-    - contexts can have performance issues at large scale, look into something like [[Development/Cheat sheets/React Native cheat sheet#MobX\|MobX]] for larger projects
+    - contexts can have performance issues at large scale, look into something like [[Development/Cheat sheets/MobX cheat sheet\|MobX]] for larger projects
 - create a file for the context, and call `createContext` with a default value
     - the default value is used if you don't have a ContextProvider
 
@@ -1283,7 +1287,7 @@ export default function Page() {
 </a></div>
 
 - Lets you easily animate changes to list items
-- Make sure that children have a `key`, and function components are wrapped in [[Development/Cheat sheets/React cheat sheet#forwardRef\|#forwardRef]]
+- Make sure that children have a `key`, and function components are wrapped in [[Development/Cheat sheets/React cheat sheet#Component refs and forwardRef\|forwardRef]]
 
 ```jsx
 const Item = forwardRef((props, ref) => (

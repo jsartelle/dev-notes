@@ -21,7 +21,7 @@
 
 - helps with fetching, caching, synchronizing, and updating remote data (server state)
     - can also be used for async data fetching that doesn't involve the network, such as AsyncStorage
-- can be used alongside a client-side state manager like [[Redux cheat sheet\|Redux]] or [[Development/Cheat sheets/MobX cheat sheet\|MobX]], but if most of your state is asynchronous data from a server, it's simpler to just use React Query and [[Development/Cheat sheets/React Query cheat sheet#Context\|#Context]]
+- can be used alongside a client-side state manager like [[Redux cheat sheet\|Redux]] or [[Development/Cheat sheets/MobX cheat sheet\|MobX]], but if most of your state is asynchronous data from a server, it's simpler to just use React Query and [[Development/Cheat sheets/React cheat sheet#Context\|Context]]
 
 # Queries
 
@@ -299,7 +299,7 @@ return useInfiniteQuery({
 - `useSuspenseQuery`, `useSuspenseInfiniteQuery`, `useSuspenseQueries` provide Suspense-enabled queries
 - instead of the `status` and `error` objects, [[Development/Cheat sheets/React cheat sheet#Suspense\|Suspense]] and [[Development/Cheat sheets/React cheat sheet#Error Boundaries\|Error Boundaries]] will be used
 - all Suspense queries inside the same component are fetched in serial
-- `placeholderData` can't be used - to avoid the Suspense fallback being shown if the query key changes (ex. during pagination), wrap updates that change the query key in [[Development/Cheat sheets/React cheat sheet#startTransition\|startTransition]]
+- `placeholderData` can't be used - to avoid the Suspense fallback being shown if the query key changes (ex. during pagination), wrap updates that change the query key in [[Development/Cheat sheets/React cheat sheet#startTransition and useTransition\|startTransition]]
 - errors are only thrown if there is no data in the cache, so if you want to error even if a successful fetch has happened, you'll need to check `error && !isFetching` and throw an error manually
 - to retry failed suspense queries, use the `QueryErrorResetBoundary` component and `useQueryErrorResetBoundary` hook
     - `useQueryErrorResetBoundary` resets any query errors within the nearest `QueryErrorResetBoundary` component, or globally if there are no boundaries

@@ -484,7 +484,7 @@ a, b, c = x
 print(b) # 2
 ```
 
-- tuples can be converted to [[Development/Cheat sheets/Python cheat sheet#Lists\|lists]] using `list(tuple)`
+- tuples can be converted to [[Development/Cheat sheets/Python cheat sheet#Lists (Arrays)\|lists]] using `list(tuple)`
 
 ## Dictionaries (Maps/Objects)
 
@@ -615,7 +615,7 @@ keyword_only_argument(1, b=2)
 keyword_only_argument(1, 2) # errors
 ```
 
-- declare a [[Development/Cheat sheets/Python cheat sheet#Dictionaries\|dictionary]] argument with `**name` to wrap extra keyword args
+- declare a [[Development/Cheat sheets/Python cheat sheet#Dictionaries (Maps/Objects)\|dictionary]] argument with `**name` to wrap extra keyword args
 
 ```python
 def arguments_dict(first, second, third, **options):

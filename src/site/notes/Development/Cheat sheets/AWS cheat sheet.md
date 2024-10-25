@@ -92,7 +92,7 @@
 - lets you create and manage APIs (HTTP, REST or WebSocket) that call [[Development/Cheat sheets/AWS cheat sheet#Lambda\|#Lambda]] functions or HTTP endpoints
     - HTTP APIs are cheaper, but don't support some features of REST APIs, like edge optimization and API key management
 - manages traffic, CORS, authorization and access control, throttling, monitoring, version management
-    - can use [[Development/Cheat sheets/AWS cheat sheet#IAM\|#IAM]] or [[Development/Cheat sheets/AWS cheat sheet#Cognito\|#Cognito]] for authorization
+    - can use [[Development/Cheat sheets/AWS cheat sheet#Identity and access management (IAM)\|IAM]] or [[Development/Cheat sheets/AWS cheat sheet#Cognito\|#Cognito]] for authorization
     - can run multiple versions of the same API simultaneously
 
 # Simple Queue Service (SQS)
@@ -123,7 +123,7 @@
     - user pools: for authorizing users of your app or API
     - identity pools: for authorizing users to access your AWS resources
         - you can have a user sign in to a user pool to authenticate them, then exchange a user pool token with the identity pool to get credentials for AWS services
-            - can assign [[Development/Cheat sheets/AWS cheat sheet#IAM\|#IAM]] roles based on rules or group membership in the user pool
+            - can assign [[Development/Cheat sheets/AWS cheat sheet#Identity and access management (IAM)\|IAM]] roles based on rules or group membership in the user pool
         - you can also offer custom authentication, or no authentication (for anonymous access)
 
 # CloudFormation

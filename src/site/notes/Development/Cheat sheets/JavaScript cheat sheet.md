@@ -631,7 +631,7 @@ async function sleep(time) {
 
 ## Print
 
-- see [[Development/Cheat sheets/CSS cheat sheet#Print-specific styling\|CSS cheat sheet#Print-specific styling]] to optimize the page for printing
+- see [[Development/Cheat sheets/CSS cheat sheet#Styling for print\|CSS cheat sheet#Styling for print]] to optimize the page for printing
 
 ```js
 window.print()

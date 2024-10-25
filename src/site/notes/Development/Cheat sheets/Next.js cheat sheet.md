@@ -18,7 +18,7 @@ npx create-next-app@latest
 
 ## App Router
 
-- all components are [[Development/Cheat sheets/React cheat sheet#Server Components\|Server Components]] by default
+- all components are [[Development/Cheat sheets/React cheat sheet#Server Components vs. Client Components\|Server Components]] by default
 - within Server Components, you can use `fetch()` to get data server-side
     - set the `{ cache: 'force-cache' }` option to cache values, or `{ cache: 'no-store' }` to disable caching
         - in Next.js 14 the default is to cache all non-POST requests, but in Next.js 15 the default is not to cache, so be explicit - [more info](https://x.com/leeerob/status/1803824227704877236)
