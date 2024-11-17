@@ -3,22 +3,6 @@
 ---
 
 
-<div class="rich-link-card-container"><a class="rich-link-card" href="https://react.dev/learn" target="_blank">
-	<div class="rich-link-image-container">
-		<div class="rich-link-image" style="background-image: url('https://react.dev/images/og-learn.png')">
-	</div>
-	</div>
-	<div class="rich-link-card-text">
-		<h1 class="rich-link-card-title">Quick Start – React</h1>
-		<p class="rich-link-card-description">
-		The library for web and native user interfaces
-		</p>
-		<p class="rich-link-href">
-		https://react.dev/learn
-		</p>
-	</div>
-</a></div>
-
 # JSX
 
 - expressions in JSX use **single curly braces**
@@ -28,7 +12,8 @@
 ```
 
 - wrap multi-line JSX in parentheses to avoid semicolon issues
-- all tags must be closed
+- all tags must be closed, and can be self-closing
+- need to `import React` in order for JSX to work (not required in [[Development/Cheat sheets/Next.js cheat sheet\|Next.js]])
 
 ## Attributes & Props
 
@@ -210,6 +195,56 @@ export default Button
     - Server Components that are passed into Client Components as props or children will not be rendered on the client
 - to enforce that Server Components or helper functions **only** run on the server, install and import the `server-only` NPM package
     - you can import secrets into a helper file and mark that with `server-only`, to prevent accidentally importing them on the client
+
+### cache
+
+- only available in Server Components
+- memoizes results, so if the function is called with the same data the cached result is returned
+    - object arguments must be the same reference, not just the same shape
+    - errors are also cached
+- only lasts for the duration of a single server request - meant for sharing data between components during a single page load, not for long-lived caching like [[Development/Cheat sheets/React Query cheat sheet\|React Query]]
+- doesn't call the function as part of memoizing it
+- each call to `cache` creates a new function with its own cache, even if you call `cache` with the same function twice
+    - you can export the memoized function from a module to let components share it
+- you can call the memoized function outside of a component, but it will only read or update the cache when used in a component
+
+```jsx
+import { cache } from 'react';
+const getMetrics = cache(calculateMetrics);
+
+getMetrics(user) // will calculate and cache the result
+getMetrics(user) // will return the cached result without calling calculateMetrics again
+```
+
+- you can call it in a high level component to preload data fetched in a lower level component (in the example, Profile) before that component starts rendering
+
+```jsx
+const getUser = cache(async (id) => {
+  return await db.user.query(id);
+});
+
+async function Profile({id}) {
+  // if the getUser call from Page finished, will use the cache
+  const user = await getUser(id);
+  return (
+    <section>
+      <img src={user.profilePic} />
+      <h2>{user.name}</h2>
+    </section>
+  );
+}
+
+function Page({id}) {
+  // start fetching the user data, even though the result isn't used here
+  getUser(id);
+  // ... some computational work
+  return (
+    <>
+      <Profile id={id} />
+    </>
+  );
+}
+```
 
 # Props
 
@@ -412,7 +447,7 @@ export default function UserForm() {
 
 - **only call Hooks at the top level** - hooks need to be called in the same order every time
     - if you want to call a hook from a condition or loop, extract a new component and put it there
-- only call Hooks from React functions (components or custom Hooks), not standard JS functions
+- only call Hooks from components or custom Hooks, not standard JS functions
 
 ## Custom Hooks
 
@@ -435,6 +470,14 @@ function useFriendStatus(friendID) {
 function FriendStatus(props) {
   const isOnline = useFriendStatus(props.friend.id);
 }
+```
+
+### useDebugValue
+
+- lets you show a label for your custom Hook in React Devtools
+
+```jsx
+useDebugValue(isOnline ? 'Online' : 'Offline');
 ```
 
 ## useState
@@ -672,6 +715,95 @@ const handleSubmit = useCallback((orderDetails) => {
 }, [productId, referrer])
 ```
 
+## useId
+
+- generate random IDs for use with form elements
+
+```jsx
+import { useId } from 'react'
+
+export default function checkboxWithLabel() {
+    const id = useId()
+
+    return (
+        <input type="checkbox" id={id}></input>
+        <label htmlFor={id}>Checkbox</label>
+    )
+}
+```
+
+## useFormStatus
+
+- lets you get the pending status of a form that is the parent of the current component (not within the current component!)
+- useful if there are multiple forms on the page
+- returns an object with these properties:
+    - `pending`: the pending state of the form submission
+    - `data`: the FormData
+    - `method`: 'GET' or 'POST'
+    - `action`: the `action` function of the parent form (if there is one)
+
+```jsx
+import { useFormStatus } from 'react-dom'
+
+export default function SubmitButton() {
+    const { pending } = useFormStatus()
+
+    return (
+        <button type="submit" disabled={pending}>
+            {pending ? 'Please wait...' : 'Submit'}
+        </button>
+    )
+}
+```
+
+## useActionState/useFormState
+
+- lets you access the status and return value of an [[Development/Cheat sheets/React cheat sheet#Actions\|Action]] used with a form (including Server Actions)
+    - in some earlier canary releases (used by Next.js), it was known as `useFormState` and imported from `react-dom`
+- the first argument is the Action function, the second argument is your initial state
+    - the Action receives the state (see below) as its first argument, and the FormState as its second argument
+- returns an array with three values: a state object, a wrapped version of the Action, and a `pending` flag
+    - before the wrapped Action is called, the state is equal to the initial state you passed
+    - after the wrapped Action is called at least once, the state is equal to the last return value of the Action
+    - `useFormState` does not have the `pending` flag
+
+```js
+/* actions.js */
+export async function createUser(currentState, formData) {
+    'use server'
+    const user = await db.createUser({
+        name: formData.get('name'),
+        email: formData.get('email'),
+    })
+    return user
+}
+```
+
+```jsx
+import { useActionState } from 'react'
+import { createUser } from '@/util/actions'
+
+export default function UserForm() {
+    const [user, createUserForm, pending] = useActionState(createUser, null)
+
+    return (
+        <h2>Sign Up</h2>
+        <form action={createUserForm}>
+            <input name="name" placeholder="Name" />
+            <input name="email" placeholder="Email" />
+            <button type="submit" disabled={pending}>
+                {pending ? 'Please wait...' : 'Submit'}
+            </button>
+        </form>
+
+        { user ? (
+            <h2>Your Profile</h2>
+            <UserInfo user={user} />
+        ) : null}
+    )
+}
+```
+
 ## useReducer
 
 - reducers let you consolidate state update logic from multiple event handlers into one function
@@ -726,98 +858,10 @@ function handleDeleteTask(taskId) {
 }
 ```
 
-## useId
-
-- generate random IDs for use with form elements
-
-```jsx
-import { useId } from 'react'
-
-export default function checkboxWithLabel() {
-    const id = useId()
-
-    return (
-        <input type="checkbox" id={id}></input>
-        <label htmlFor={id}>Checkbox</label>
-    )
-}
-```
-
-## useActionState/useFormState
-
-- lets you access the status and return value of an [[Development/Cheat sheets/React cheat sheet#Actions\|Action]] used with a form (including Server Actions)
-    - in some earlier canary releases (used by Next.js), it was known as `useFormState` and imported from `react-dom`
-- the first argument is the Action function, the second argument is your initial state
-    - the Action receives the state (see below) as its first argument, and the FormState as its second argument
-- returns an array with three values: a state object, a wrapped version of the Action, and a `pending` flag
-    - before the wrapped Action is called, the state is equal to the initial state you passed
-    - after the wrapped Action is called at least once, the state is equal to the last return value of the Action
-    - `useFormState` does not have the `pending` flag
-
-```js
-/* actions.js */
-export async function createUser(currentState, formData) {
-    'use server'
-    const user = await db.createUser({
-        name: formData.get('name'),
-        email: formData.get('email'),
-    })
-    return user
-}
-```
-
-```jsx
-import { useActionState } from 'react'
-import { createUser } from '@/util/actions'
-
-export default function UserForm() {
-    const [user, createUserForm, pending] = useActionState(createUser, null)
-
-    return (
-        <h2>Sign Up</h2>
-        <form action={createUserForm}>
-            <input name="name" placeholder="Name" />
-            <input name="email" placeholder="Email" />
-            <button type="submit" disabled={pending}>
-                {pending ? 'Please wait...' : 'Submit'}
-            </button>
-        </form>
-
-        { user ? (
-            <h2>Your Profile</h2>
-            <UserInfo user={user} />
-        ) : null}
-    )
-}
-```
-
-## useFormStatus
-
-- lets you get the pending status of a form that is the parent of the current component (not within the current component!)
-- useful if there are multiple forms on the page
-- returns an object with these properties:
-    - `pending`: the pending state of the form submission
-    - `data`: the FormData
-    - `method`: 'GET' or 'POST'
-    - `action`: the `action` function of the parent form (if there is one)
-
-```jsx
-import { useFormStatus } from 'react-dom'
-
-export default function SubmitButton() {
-    const { pending } = useFormStatus()
-
-    return (
-        <button type="submit" disabled={pending}>
-            {pending ? 'Please wait...' : 'Submit'}
-        </button>
-    )
-}
-```
-
 ## useOptimistic
 
-- show the results of an async state change (like sending a message) optimistically while the request is happening
+- show the "after" state of an async [[Development/Cheat sheets/React cheat sheet#Actions\|Action]] optimistically while the request is happening
+    - for example, if a user updates the name on their account, show the new name instantly while updating it on the server
 - the value passed to `useOptimistic` (the current state) will be returned **unless** an async Action is pending, in which case the optimistic state (the value passed to the `setWhatever` function) is returned
     - either success or failure will cause the current state to be displayed again, so make sure to update that before the Action finishes
 
@@ -885,7 +929,7 @@ const MarkdownPreview = lazy(() => import('./MarkdownPreview.js'))
 
 ## startTransition and useTransition
 
-- lets you mark code that would trigger a component to suspend as not urgent, so the previous state is shown until the update finishes
+- `startTransition` lets you mark code that would trigger a component to suspend as not urgent, so the previous state is shown until the update finishes
 
 ```jsx
 import { useState, startTransition } from 'react'
@@ -908,7 +952,7 @@ function PageView() {
 
 ```
 
-- useTransition returns a copy of startTransition, as well as an `isPending` flag so you can update your UI while the transition is happening
+- `useTransition` returns a copy of `startTransition`, as well as an `isPending` flag so you can update your UI while the transition is happening
 
 ```jsx
 import { useState, useTransition } from 'react'
@@ -933,12 +977,39 @@ function PageView() {
 }
 ```
 
-# use
+## useDeferredValue
+
+- update a value asynchronously, but keep using the old value during the update instead of [[Development/Cheat sheets/React cheat sheet#Suspense\|suspending]]
+- in the example below, assume that SearchResults suspends while fetching the results for the given query
+    - when the query is updated, the input will update automatically since it's using the non-deferred `query`
+    - but since SearchResults is using `deferredQuery`, instead of suspending it will continue to display the results from the previous query until it finishes fetching
+
+```jsx
+import { Suspense, useState, useDeferredValue } from 'react';
+import SearchResults from './SearchResults.js';
+
+export default function App() {
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
+  return (
+    <>
+      <label>
+        Search albums:
+        <input value={query} onChange={e => setQuery(e.target.value)} />
+      </label>
+      <Suspense fallback={<h2>Loading...</h2>}>
+        <SearchResults query={deferredQuery} />
+      </Suspense>
+    </>
+  );
+}
+```
+
+## use
 
 - available in React 19 and recent versions of Next.js
-- not a hook, so it can be used within loops or conditionals
-- lets you render a Client Component async and wait on a promise
-    - the nearest [[Development/Cheat sheets/React cheat sheet#Suspense\|#Suspense]] fallback is shown until the promise resolves
+- ==not a hook==, so it can be used within loops or conditionals
+- lets you render a Client Component asynchronously, and [[Development/Cheat sheets/React cheat sheet#Suspense\|suspend]] until the given promise resolves
 - promises can be passed from [[Development/Cheat sheets/React cheat sheet#Server Components vs. Client Components\|Server Components]] to Client Components as props and "awaited" with `use`
     - Server Components don't need `use` since they can use `await` natively
 
@@ -998,7 +1069,7 @@ export const LevelContext = createContext(1)
 ```jsx
 import { LevelContext } from './LevelContext'
 
-/* here the context value (`level`) is passed as a prop to the higher level component, but it could come from state or wherever */
+/* here the context value (`level`) is passed as a prop to the higher level component, but it could come from state or anywhere */
 export default function Section({ level, children }) {
     return (
         <section>
@@ -1105,6 +1176,8 @@ const buttonStyle: React.CSSProperties = {
 return <button style={buttonStyle}></button>
 ```
 
+- use `JSX.Element` to accept only elements, and `ReactNode` to accept elements or strings
+
 ## Prop types with generics
 
 ```tsx
@@ -1154,118 +1227,6 @@ npm create vite@latest my-app -- --template react-swc-ts
 ## React Query/TanStack Query
 
 [[Development/Cheat sheets/React Query cheat sheet\|React Query cheat sheet]]
-
-## Styled Components
-
-<div class="rich-link-card-container"><a class="rich-link-card" href="https://styled-components.com/" target="_blank">
-	<div class="rich-link-image-container">
-		<div class="rich-link-image" style="background-image: url('https://www.styled-components.com/atom.png')">
-	</div>
-	</div>
-	<div class="rich-link-card-text">
-		<h1 class="rich-link-card-title">styled-components</h1>
-		<p class="rich-link-card-description">
-		Visual primitives for the component age. Use the best bits of ES6 and CSS to style your apps without stress 💅🏾
-		</p>
-		<p class="rich-link-href">
-		https://styled-components.com/
-		</p>
-	</div>
-</a></div>
-
-- lets you attach styles to components using template strings
-    - style rules can be nested
-- styled components should be defined **outside of the render function**, or they will be recreated on every render
-
-```jsx
-import styled from 'styled-components'
-
-const Header = styled.h1`
-    font-size: 1.5em;
-    color: deepskyblue;
-
-    &::before {
-        content: '# ';
-    }
-
-    span {
-        color: red;
-    }
-`
-
-export default function Page() {
-    return (
-        <Header>Hello world! <span>This text will be red</span></Header>
-    )
-}
-```
-
-- to extend an existing component's styles, pass it to the `styled` constructor
-
-```jsx
-const Button = styled.button`
-    background-color: gray;
-    color: white;
-`
-
-const PrimaryButton = styled(Button)`
-    background-color: darkblue;
-`
-```
-
-- you can use other styled components in selectors with interpolation (only on the web, not React Native)
-
-```JSX
-const Link = styled.a`
-    /* styles */
-`
-
-const Icon = styled.svg`
-    fill: black;
-
-    ${Link}:hover & {
-        fill: blue;
-    }
-`
-```
-
-- you can access props on the styled component using interpolated functions
-
-```jsx
-const Button = styled.button`
-    background-color: ${props => props.primary ? 'deepskyblue' : 'white'};
-`
-
-export default function Popup() {
-    return (
-        <Button>Cancel</Button>
-        <Button primary>OK</Button>
-    )
-}
-```
-
-- you can pass props to the component being wrapped using `styled.attrs`
-- to make a styled component render with a different tag, use the `as` prop
-
-```jsx
-const Header = styled.h1`
-    color: gray;
-`
-
-const SubHeader = styled(Header).attrs(props => ({
-    as: 'h2'
-}))`
-    color: darkgray;
-`
-
-export default function Page() {
-    return (
-        <Header>Heading 1</Header>
-        <SubHeader>Heading 2</SubHeader>
-        <SubHeader as="h3">Heading 3</SubHeader>
-    )
-}
-```
 
 ## Flip Move
 

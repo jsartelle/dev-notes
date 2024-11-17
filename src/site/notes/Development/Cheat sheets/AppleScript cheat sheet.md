@@ -14,6 +14,7 @@
 ```applescript
 tell tab 0 of window 0
     set tabName to the title
+    set tabURL to the url
 end tell
 
 -- equivalent to
@@ -36,12 +37,10 @@ end repeat
 ## Get name of focused app
 
 ```applescript
-global frontApp, frontAppName
+global frontAppName
 
-set windowTitle to ""
 tell application "System Events"
-    set frontApp to first application process whose frontmost is true
-    set frontAppName to name of frontApp
+    set frontAppName to name of first application process whose frontmost is true
 end tell
 
 return {frontAppName}
@@ -50,7 +49,7 @@ return {frontAppName}
 ## Check if app is focused
 
 ```applescript
-tell application "Arc"
+tell application "Safari"
     if frontmost then
         -- do stuff
     end if

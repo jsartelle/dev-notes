@@ -205,6 +205,34 @@ li.anchor ~ :nth-child(2 of .important) {
 
 # Properties
 
+## align- and justify-
+
+- grid:
+    - `align` is relative to the block axis
+    - `justify` is relative to the inline axis
+    - `-content` moves the grid **areas** within their container (if they don't take up the whole container)
+    - `-items` moves grid **items** inside their grid area
+- flexbox:
+    - `justify-content` moves children along the main axis (corresponding to the `flex-direction`)
+        - by default this matches grid, as the default `flex-direction` is `row`
+    - `align-items` moves children along the cross axis
+    - `align-content` moves wrapping flex lines within their container, and has no effect on non-wrapping flex containers
+- block:
+    - as of April 2024, `align-content` can be used in block layout to align children along the block axis
+
+### Shorthand (place-)
+
+- shorthand for `align-{property} justify-{property}`
+
+#### Center elements within a container
+
+```css
+.container {
+    display: grid;
+    place-content: center;
+}
+```
+
 ## animation
 
 ### Shorthand
@@ -291,8 +319,6 @@ To fix this, move the `backdrop-filter` that's on the outer element to a pseudo-
 ```
 
 ## background
-
-### Background order
 
 - if you have multiple backgrounds, earlier ones are drawn on top
 
@@ -427,7 +453,7 @@ clip-path: ellipse(25% 40% at 50% 50%);
 
 ### contain-intrinsic-size
 
-- lets you set a placeholder size for elements affected by size containment
+- lets you set a placeholder size for elements affected by size containment (such as from [[Development/Cheat sheets/CSS cheat sheet#contain\|#contain]] or [[Development/Cheat sheets/CSS cheat sheet#content-visibility\|#content-visibility]])
 - the `auto` keyword tells the browser to remember the last rendered size, and use that as the intrinsic size if available
 
 ```css
@@ -451,6 +477,8 @@ See [[Development/Cheat sheets/CSS cheat sheet#@container (container queries)\|#
     - like a hybrid of `display: none` and `visibility: hidden` - doesn't render, but stays cached so unhiding is fast
 - example usage: on a blog page, wrap each article in `content-visibility: auto` so only visible articles are rendered
 
+[[Development/Clipped/Improving rendering performance with CSS content-visibility\|Improving rendering performance with CSS content-visibility]]
+
 ## font-weight
 
 | Value | Common weight name        |
@@ -468,7 +496,7 @@ See [[Development/Cheat sheets/CSS cheat sheet#@container (container queries)\|#
 
 ## forced-color-adjust
 
-- use `none` to override an element's colors when in [[Development/Cheat sheets/CSS cheat sheet#forced-colors\|#forced-colors]] mode
+- Use `none` to override an element's colors when in [[Development/Cheat sheets/CSS cheat sheet#forced-colors\|#forced-colors]] mode
     - **respect the user's choices - only use this if the colors the browser applies aren't readable**
 
 ```css
@@ -494,6 +522,38 @@ gap: 10px 5px;
 - `none`: words are never broken
 - `manual` (default): words are only broken at line break opportunities (`-` characters or `&shy;`)
 - `auto`: the browser uses its dictionary to break words automatically
+
+## inset
+
+- Shorthand for `top right bottom left` (same syntax as `margin` or `padding`)
+
+```css
+inset: 1rem 2rem; /* top: 1rem; right: 2rem; bottom: 1rem; left: 2rem; */
+```
+
+## inset-block, inset-inline
+
+- Short for `inset-block-start inset-block-end` (or inline)
+
+```css
+inset-block: 50px 100px; /* 50px start, 100px end */
+inset-inline: 20px; /* 20px start and end */
+```
+
+## interpolate-size and calc-size()
+
+> [!danger]
+> As of November 2024, supported in Chromium only
+
+- `interpolate-size: allow-keywords` lets you transition or animate between a length or percentage, and `auto` or another [[#Intrinsic sizing keywords (`min-content`, `fit-content`, `max-content`)|intrinsic size]]
+    - one of the values must be a length or percentage
+    - set this on the root to enable it for the entire page
+- `calc-size(size, expression)` behaves like `calc()`, but allows you to include an intrinsic size in the calculation (given as the first argument, and referred to in the expression with the `size` keyword)
+    - only one intrinsic size can be used per calculation
+
+```css
+width: calc-size(min-content, size + 100px)
+```
 
 ## mask
 
@@ -620,9 +680,6 @@ transition: grid-template-rows;
 
 ## transition-behavior
 
-> [!warn]
-> As of June 2024 Firefox only supports it in nightlies
-
 - lets you transition properties that are *discrete* (things like `display: none` that can't be interpolated)
     - discrete properties will swap from one state to another at 50%, with no smooth transition
         - exceptions for `display: none` or `content-visibility: hidden`: the browser will make sure the content is displayed during the entire animation
@@ -650,7 +707,7 @@ transition: grid-template-rows;
     - `contain`: limit the text selection to the bounds of this element
 
 > [!important]
-> `user-select: none` should be used sparingly, and only for UI text that a user isn't likely to want to copy.
+> `user-select: none` should be used sparingly, and only for UI text that a user isn't likely to want to copy (like button labels).
 
 ```css
 user-select: none;
@@ -726,15 +783,47 @@ grid-template-rows: repeat(5, 20%);
     <div></div>
 </div>
 
+- Use `auto` for automatic sizing, or `none` to remove the explicit grid
+
+#### fr
+
 - The `fr` unit represents one "part" of the available space
-- If some columns are defined with lengths or percentages, `fr` divides the remaining space
+- Unlike percentages, `fr` divides up **extra** space - columns won't overflow, even if that means breaking the proportions given
 
 ```css
-grid-template-columns: 1fr 4fr; /* same as 20% 80% */
-grid-template-rows: 50px repeat(3, 1fr) 50px;
+grid-template-columns: 1fr 3fr;
 ```
 
-- use `auto` for automatic sizing, or `none` to remove the explicit grid
+<div class="grid-example" style="grid-template-columns: 1fr 3fr;">
+    <div style="white-space: nowrap;">This is a long sentence that will overflow this column if allowed</div>
+    <div></div>
+</div>
+
+```css
+grid-template-columns: 25% 75%;
+```
+
+<div class="grid-example" style="grid-template-columns: 25% 75%;">
+    <div style="white-space: nowrap;">This is a long sentence that will overflow this column if allowed</div>
+    <div></div>
+</div>
+
+- `fr` also ignores [[Development/Cheat sheets/CSS cheat sheet#gap\|#gap]], while percentages don't (since they're based on the total area of the grid container)
+
+<div class="grid-example" style="grid-template-columns: 1fr 3fr; gap: 20px;">
+    <div>1fr</div>
+    <div>3fr</div>
+</div>
+
+<div class="grid-example" style="grid-template-columns: 25% 75%; gap: 20px;">
+    <div>25%</div>
+    <div>75% - overflowing!</div>
+</div>
+
+#### minmax
+
+- Item width will be >= min and <= max
+- use `minmax(0, 1fr)` to keep all rows/columns the same size
 
 #### auto-fill
 
@@ -814,9 +903,10 @@ grid-template: repeat(auto-fill, 200px) / repeat(2, 1fr);
 - Lets you name certain grid areas, to make it easier to assign elements to them using [[Development/Cheat sheets/CSS cheat sheet#grid-area\|#grid-area]]
     - Also lets you change the layout without having to update all the child elements
 - Areas must be rectangular
-- Each string represents a row - strings don't need to be on separate lines (ie. you could write `"a a a" "b c c" "b c c"`) but that makes them more readable
+- Each string represents a row - strings don't need to be on separate lines (ie. you could write `"a a a" "b c c" "b c c"`), but putting them on separate lines makes them more readable
 - [[Development/Cheat sheets/CSS cheat sheet#Named lines\|#Named lines]] named with `-start` and `-end` will generate an implicit named area
     - Conversely, named areas will generate implicit named lines with `-start` and `-end` appended
+- Named areas created this way can't overlap, but you can create [[Development/Cheat sheets/CSS cheat sheet#Named lines\|#Named lines]] with `-start` and `-end` suffixes to create overlapping named areas
 
 ```css
 .grid {
@@ -867,13 +957,6 @@ grid-auto-rows: 100px;
 grid-auto-columns: minmax(100px, auto);
 ```
 
-### align-items, justify-content
-
-- Works like in flexbox, except with `start` and `end` rather than `flex-start` and `flex-end`
-{ #0c043d}
-
-    - Aligns each item within its grid area (could span many cells)
-
 ## Grid item properties
 
 ### grid-row-start, grid-column-start, grid-row-end, grid-column-end
@@ -913,18 +996,6 @@ grid-column-end: span 2;
 
 - Shorthand for `grid-row / grid-column`, or `grid-row-start / grid-column-start / grid-row-end / grid-column-end`
 - Can also specify a named area from [[Development/Cheat sheets/CSS cheat sheet#grid-template-areas\|#grid-template-areas]] (not in quotes)
-
-### align-self
-
-
-<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/cheat-sheets/css-cheat-sheet/#0c043d" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
-
-
-
-- Works like in flexbox, except with `start` and `end` rather than `flex-start` and `flex-end` 
-
-</div></div>
-
 
 ### position: absolute
 
@@ -985,12 +1056,6 @@ clamp(min, ideal, max)
 ```css
 font-size: clamp(1rem, 4vw, 3rem)
 ```
-
-## minmax
-
-- Used with [[Development/Cheat sheets/CSS cheat sheet#grid-template-columns, grid-template-rows\|#grid-template-columns, grid-template-rows]]
-- Item width will be >= min and <= max
-- use `minmax(0, 1fr)` to keep all rows/columns the same size
 
 ## color-mix
 
@@ -1277,7 +1342,7 @@ be the same size regardless of the section width */
 }
 ```
 
-## @import (don't use it!)
+## @import (don't use it)
 
 ==Avoid using `@import`==, as it makes the browser download CSS sequentially and slows down rendering. Instead, link the stylesheets separately in your HTML, or use a bundler to combine them into one stylesheet.
 
@@ -1332,7 +1397,7 @@ be the same size regardless of the section width */
 ```
 
 > [!important]
-> Rules outside of layeres take priority over layered rules!
+> Rules outside of layers take priority over layered rules!
 
 - Use the `revert-layer` keyword to "roll back" a value to the previous layer
     - Behaves like `revert` if used outside a layer
@@ -1409,7 +1474,7 @@ be the same size regardless of the section width */
 ### prefers-reduced-transparency
 
 > [!warning]
-> Supported in Chromium only as of June 2024
+> Supported in Chromium only as of November 2024
 
 ```css
 @media (prefers-reduced-transparency: reduce) {
@@ -1455,7 +1520,7 @@ be the same size regardless of the section width */
 
 ```css
 @media (orientation: portrait) and (min-width: 300px) {
-    /* landscape *and* at least 300px wide */
+    /* portrait *and* at least 300px wide */
 }
 ```
 
@@ -1510,9 +1575,6 @@ be the same size regardless of the section width */
 ```
 
 ## @property
-
-> [!note]
-> Supported in all major browsers as of July 2024
 
 - lets you define CSS custom properties with control over data type, inheritance, and initial value
     - can be used to create animatable/transitionable custom properties
@@ -1637,7 +1699,7 @@ syntax: "*"; /* any value */
 ## @starting-style
 
 > [!danger]
-> Not supported in Firefox as of June 2024
+> As of November 2024, Firefox doesn't support animating from `display: none`
 
 - lets you define starting values for an element, which can be used for transitions when the element is first drawn (either from being inserted into the DOM, or moved from `display: none` to visible)
     - `@starting-style` rules aren't applied when removing the element
@@ -1756,7 +1818,7 @@ syntax: "*"; /* any value */
 
 # Animating dialogs and popovers
 
-## With `transition-behavior`
+## With [[Development/Cheat sheets/CSS cheat sheet#transition-behavior\|#transition-behavior]]
 
 ```css
 dialog, [popover] {
@@ -1785,7 +1847,7 @@ dialog:not([open]) {
 }
 ```
 
-## Without `transition-behavior`
+## Without transition-behavior
 
 - use an animation targeting the `[open]` attribute
 - to animate closing (ex. for a fade out):
@@ -1870,11 +1932,17 @@ For example, the default value of the `display` property is `inline`, but browse
 
 Setting `display: unset` on a `<div>` will apply `display: inline`, which probably isn't what you want. Setting `display: revert` instead will apply `display: block`.
 
-## `min-content`, `fit-content`, and `max-content` sizes
+## Intrinsic sizing keywords (`min-content`, `fit-content`, `max-content`)
 
 - `min-content`: wrap text content as much as possible (fit to the width of the longest word)
 - `fit-content`: fit to the content, wrapping if necessary
 - `max-content`: don't wrap text content at all
+
+<div style="width: min-content"><b>min-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
+
+<div style="width: fit-content"><b>fit-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
+
+<div style="width: max-content"><b>max-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
 
 ## Font-based length units (`ex`, `cap`, `ch`, `lh`)
 

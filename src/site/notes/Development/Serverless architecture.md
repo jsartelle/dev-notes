@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Serverless architecture.md","permalink":"/notes/serverless-architecture/","tags":["articles/dev-process","tech/web"]}
+{"dg-publish":true,"dg-path":"Notes/Serverless architecture.md","permalink":"/notes/serverless-architecture/","tags":["tech/dev-process","tech/web"]}
 ---
 
 

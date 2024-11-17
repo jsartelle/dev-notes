@@ -21,7 +21,7 @@
 
 - helps with fetching, caching, synchronizing, and updating remote data (server state)
     - can also be used for async data fetching that doesn't involve the network, such as AsyncStorage
-- can be used alongside a client-side state manager like [[Redux cheat sheet\|Redux]] or [[Development/Cheat sheets/MobX cheat sheet\|MobX]], but if most of your state is asynchronous data from a server, it's simpler to just use React Query and [[Development/Cheat sheets/React cheat sheet#Context\|Context]]
+- can be used alongside a client-side state manager like Redux or [[Development/Cheat sheets/MobX cheat sheet\|MobX]], but if most of your state is asynchronous data from a server, it's simpler to just use React Query and [[Development/Cheat sheets/React cheat sheet#Context\|Context]]
 
 # Queries
 

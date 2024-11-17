@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Unit tests.md","permalink":"/notes/unit-tests/","tags":["articles/dev-process"]}
+{"dg-publish":true,"dg-path":"Notes/Unit tests.md","permalink":"/notes/unit-tests/","tags":["tech/testing"]}
 ---
 
 

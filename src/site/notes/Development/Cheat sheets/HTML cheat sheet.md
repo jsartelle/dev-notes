@@ -64,7 +64,7 @@
 
 
 
-## With `transition-behavior`
+## With [[Development/Cheat sheets/HTML cheat sheet#transition-behavior\|#transition-behavior]]
 
 ```css
 dialog, [popover] {
@@ -456,7 +456,7 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 
 
 
-## With `transition-behavior`
+## With [[Development/Cheat sheets/HTML cheat sheet#transition-behavior\|#transition-behavior]]
 
 ```css
 dialog, [popover] {

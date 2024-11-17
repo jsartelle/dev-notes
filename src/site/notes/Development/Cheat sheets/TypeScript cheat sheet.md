@@ -3,18 +3,21 @@
 ---
 
 
-# Types vs. Interfaces
+# Type Aliases vs. Interfaces
 
 > [!tip]
-> Interfaces are simpler to reason with. Prefer interfaces unless you need the added power of types.
+> When creating types for objects, prefer interfaces when possible.
 
-- Interfaces can be added to after creation through [[Development/Cheat sheets/TypeScript cheat sheet#Declaration merging\|declaration merging]], types can't
+- Interfaces always describe objects, type aliases can also describe primitives and unions
+- Interfaces can be added to after creation through [[Development/Cheat sheets/TypeScript cheat sheet#Interface declaration merging\|declaration merging]], type aliases can't
+- Interfaces can be more efficient to compile
 
 # Tuples
 
 - An array with a fixed number of elements, and a fixed type for each element position
 - `string[]` creates an array which can hold any number of string values, `[string]` creates a tuple which holds a single string
-    - `[string][]` is an array that holds any number of `[string]` tuples, `[string[]]` is a tuple which holds a single `string[]` array
+    - `[string][]` is an array that holds any number of `[string]` tuples (ex. `[['a'], ['b']]`), `[string[]]` is a tuple which holds a single `string[]` array (ex. `[['a', 'b']]`)
+- Tuples can mix types (ex. `[string, number]`)
 - Tuple elements can be optional: `[number, number?, number?]` is a tuple that can hold between 1 and 3 numbers
 
 ```ts
@@ -22,6 +25,16 @@ type NameAndAge = [string, number]
 
 const person: NameAndAge = ['Bob', 42]
 const [name, age] = person // destructuring
+```
+
+- You can use a spread to indicate a set of known elements, followed by any number of extra elements
+
+```ts
+// an array with at least two numbers
+type operands = [number, number, ...number[]]
+
+// an array with a string, number, and any number of other arguments of any type
+type arguments = [string, number, ...any[]]
 ```
 
 # Enums
@@ -91,7 +104,7 @@ enum Test {
     // all these are constant
     A = 1,
     B = 2,
-    C = A + B,
+    C = A + B, // still constant because it's evaluated at compile time
     // this is computed
     Z = "aaaaa".length
 }
@@ -99,7 +112,7 @@ enum Test {
 
 ## Const enums
 
-- Enums with **only constant** members can be marked as `const` to boost performance - they will be removed during compilation and their values will be inlined
+- Enums with **only constant** members can be marked with `const` to boost performance - they will be removed during compilation and their values will be inlined
 
 ```ts
 const enum Direction {
@@ -115,7 +128,7 @@ let skyDirection = Direction.Up
 let skyDirection = "UP"
 ```
 
-# Template Literal Types
+# Template literal types
 
 ```ts
 type PlanType = 'individual' | 'family'
@@ -126,6 +139,37 @@ type PlanString = `${PlanType}.${PlanSchedule}`
 
 type PlanStringCamelCase = `${PlanType}${Capitalize<PlanSchedule>}`
 // 'individualMonthly' | 'individualAnnual' | 'familyMonthly' | 'familyAnnual'
+```
+
+# Generics with arrow functions
+
+- the comma hints that T is a generic and not a JSX tag
+
+```ts
+const arrowFunc = <T,>(value: T) => { /* ... */ }
+```
+
+# Function overloads
+
+- the *implementation signature* (the final one) is what's used in the function body, but is invisible to function callers
+
+```typescript
+interface Fruit { /* ... */ }
+interface Apple extends Fruit { /* ... */ }
+
+function getFruits(options?: { applesOnly: false }): Fruit[]
+function getFruits(options: { applesOnly: true }): Apple[]
+function getFruits({ applesOnly = false } = {}): Fruit[]  {
+    /* function body here */
+}
+
+// type Fruit[]
+const fruitSaladIngredients = getFruits()
+// type Fruit[]
+const tartIngredients = getFruits({ applesOnly: false })
+
+// type Apple[] - even though the implementation signature declares a return type of Fruit[], TypeScript knows to narrow it based on the overload
+const applesauceIngredients = getFruits({ applesOnly: true })
 ```
 
 # Discriminating unions
@@ -200,9 +244,217 @@ const redComponent = palette.red.at(0);
 const greenNormalized = palette.green.toUpperCase();
 ```
 
-## Removing modifiers
+# `infer`
 
-- Remove `readonly` or `?` modifiers using `-`
+- Used when writing a conditional type, to infer a new type variable from part of the condition
+
+```ts
+type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
+type Flat1 = Flatten<number[]> // number
+type Flat2 = Flatten<string> // string
+
+type GetReturnType<Type> = Type extends (...args: never[]) => infer Return
+  ? Return
+  : never;
+type Num = GetReturnType<() => number>; // number
+type Bools = GetReturnType<(a: boolean, b: boolean) => boolean[]>; // boolean[]
+type NotFunction = GetReturnType<string> // never
+```
+
+# Narrow type of `for...in` loop key
+
+```ts
+const Colors = {
+    red: '#ff0000',
+    green: '#00ff00',
+    blue: '#0000ff',
+}
+
+let key: keyof typeof Colors
+for (key in Colors) {
+    console.log(`The hex code of ${key} is ${Colors[key]}`)
+}
+```
+
+# Type Manipulation
+
+## Extending interfaces
+
+```ts
+interface Foo { a: number }
+interface Bar { b: number }
+
+interface Baz extends Foo, Bar {
+  c: number
+}
+```
+
+- Properties with the same name and different object types cause an error:
+
+```ts
+interface Foo { x: { y: number } }
+interface Bar { x: { z: string } }
+
+interface Baz extends Foo, Bar // error: Named property 'x' of types 'Foo' and 'Bar' are not identical
+```
+
+## Interface declaration merging
+
+- Two interfaces with the same name will be merged automatically
+
+```ts
+interface Book {
+  title: string
+  author: string
+}
+
+interface Book {
+  year: number
+}
+```
+
+## Combine types (intersection type)
+
+```ts
+type Foo = { a: number }
+interface Bar { b: number }
+
+// you can combine types (including object literals) & interfaces, and the result will be a type
+type Baz = Foo & Bar & {
+  c: number
+}
+```
+
+- Properties with the same name and different object types are merged:
+
+```ts
+type Foo = { x: { y: number } }
+type Bar = { x: { z: string } }
+
+type Baz = Foo & Bar
+
+const x: Baz = { x: { y: 123, z: 'abc' } }
+```
+
+## Combine index signatures and known properties
+
+```ts
+interface Foo {
+  length: number;
+}
+
+interface Bar {
+  [key: string]: string;
+}
+
+type FooBar = Foo | Bar;
+
+const foo: FooBar = {
+  length: 1, // OK
+  txt: "TXT", // OK
+  hello: 1 // not allowed
+};
+```
+
+## Get type of a property (indexed access types)
+
+```ts
+interface Book {
+    genre: 'comedy' | 'drama' | 'mystery'
+}
+
+interface Movie {
+    genre: Book['genre']
+}
+```
+
+## Remap properties from another type or union (mapped types)
+
+- the result must be a type, not an interface
+
+```ts
+interface Features {
+  darkMode: () => void;
+  newUserProfile: () => void;
+};
+
+// { darkMode: boolean; newUserProfile: boolean; }
+type FeatureOptions = {
+  [Property in keyof Features]: boolean;
+}
+```
+
+- also works with unions
+
+```ts
+type ColorChannel = 'red' | 'green' | 'blue' | 'alpha'
+
+interface Color {
+    /* this won't work */
+    // [channel: ColorChannel]: number
+
+    /* use this instead */
+    [channel in ColorChannel]: number
+}
+```
+
+- exclude keys by producing `never` (such as with [[TypeScript Utility Types#`Exclude<UnionType, ExcludedMembers>`|Exclude]])
+
+```ts
+type RemoveKindField<Type> = {
+    [Property in keyof Type as Exclude<Property, "kind">]: Type[Property]
+};
+ 
+interface Circle {
+    kind: "circle";
+    radius: number;
+}
+ 
+type KindlessCircle = RemoveKindField<Circle>;
+// { radius: number; }
+```
+
+- use `as` to remap keys
+
+```ts
+type EventConfig<Events extends { kind: string }> = {
+    [E in Events as E["kind"]]: (event: E) => void;
+}
+ 
+type SquareEvent = { kind: "square", x: number, y: number };
+type CircleEvent = { kind: "circle", radius: number };
+
+// {
+//   square: (event: SquareEvent) => void;
+//   circle: (event: CircleEvent) => void;
+// }
+type Config = EventConfig<SquareEvent | CircleEvent>
+```
+
+- works with [[Development/Cheat sheets/TypeScript cheat sheet#Template Literal Types\|#Template Literal Types]] as well
+
+```ts
+type Getters<Type> = {
+    [Property in keyof Type as `get${Capitalize<string & Property>}`]: () => Type[Property]
+};
+ 
+interface Person {
+    name: string;
+    age: number;
+    location: string;
+}
+
+// {
+//   getName: () => string;
+//   getAge: () => number;
+//   getLocation: () => string;
+// }
+type LazyPerson = Getters<Person>;
+```
+
+### Mapping modifiers
+
+- You can add `readonly` or `?` modifiers, or remove them using `-readonly` or `-?`
 
 ```ts
 // Removes 'readonly' attributes from a type's properties
@@ -231,123 +483,7 @@ type MaybeUser = {
 type User = Concrete<MaybeUser>;
 ```
 
-# Typing `for...in` loops
-
-```ts
-const Colors = {
-    red: '#ff0000',
-    green: '#00ff00',
-    blue: '#0000ff',
-}
-
-let key: keyof typeof Colors
-for (key in Colors) {
-    console.log(`The hex code of ${key} is ${Colors[key]}`)
-}
-```
-
-# Type Manipulation
-
-## Intersection types
-
-```ts
-type Foo = { a: number }
-interface Bar { b: number }
-
-// you can combine types (including object literals) & interfaces, and the result will be a type
-type Baz = Foo & Bar & {
-  c: number
-}
-```
-
-- Properties with the same name and different object types are merged:
-
-```ts
-type Foo = { x: { y: number } }
-type Bar = { x: { z: string } }
-
-type Baz = Foo & Bar
-
-const x: Baz = { x: { y: 123, z: 'abc' } }
-```
-
-## Extending interfaces
-
-```ts
-interface Foo { a: number }
-interface Bar { b: number }
-
-interface Baz extends Foo, Bar {
-  c: number
-}
-```
-
-- Properties with the same name and different object types cause an error:
-
-```ts
-interface Foo { x: { y: number } }
-interface Bar { x: { z: string } }
-
-interface Baz extends Foo, Bar // error: Named property 'x' of types 'Foo' and 'Bar' are not identical
-```
-
-## Declaration merging
-
-- Used to add new properties to an existing interface
-
-```ts
-interface Book {
-  title: string
-  author: string
-}
-
-interface Book {
-  year: number
-}
-```
-
-## Combine types (intersection type)
-
-```ts
-interface Identity {
-    id: number;
-    name: string;
-}
-
-interface Contact {
-    email: string;
-    phone: string;
-}
-
-type Employee = Identity & Contact
-```
-
-## Get type from interface (indexed access types)
-
-```ts
-interface Book {
-    genre: 'comedy' | 'drama' | 'mystery'
-}
-
-interface Movie {
-    genre: Book['genre']
-}
-```
-
-## Omit keys from a type
-
-```ts
-type Cube = {
-    length: number
-    width: number
-    depth: number
-}
-
-type Square = Omit<Cube, 'depth'>
-type Line = Omit<Cube, 'width' | 'depth'>
-```
-
-## Union type from interface properties (`keyof`)
+## Union type from type/interface keys (`keyof`)
 
 ```ts
 interface Person {
@@ -399,21 +535,7 @@ const bob = {
 type PersonFields = (typeof bob)[keyof typeof bob]
 ```
 
-## Type with keys from object keys
-
-```ts
-const StorageKeys = {
-    name: 'user_name',
-    email: 'user_email',
-    phone: 'user_phone',
-} as const
-
-type StorageKey = {
-    -readonly [key in keyof typeof StorageKeys]: string
-}
-```
-
-## Type from array items
+## Union type from array items
 
 ```ts
 const people = [{ name: 'Bob', age: 23 }, { name: 'Susan', age: 16 }]
@@ -440,20 +562,6 @@ const animals = [
 type Animal = typeof animals[number]['species']
 ```
 
-## Index signature from literal type union
-
-```ts
-type ColorChannel = 'red' | 'green' | 'blue' | 'alpha'
-
-interface Color {
-    /* this won't work */
-    // [channel: ColorChannel]: number
-
-    /* use this instead */
-    [channel in ColorChannel]: number
-}
-```
-
 ## Pick properties of `T`, omitting properties of `BaseModel`
 
 ```ts
@@ -466,29 +574,6 @@ type ModelFields<T> = Omit<T, keyof BaseModel>
 type PickByType<T, Value> = {
   [P in keyof T as T[P] extends Value | undefined ? P : never]: T[P]
 }
-```
-
-# Function overloads
-
-- the *implementation signature* (the final one) is what's used in the function body, but is invisible to function callers
-
-```typescript
-interface Fruit { /* ... */ }
-interface Apple extends Fruit { /* ... */ }
-
-function getFruits(options?: { applesOnly: false }): Fruit[]
-function getFruits(options: { applesOnly: true }): Apple[]
-function getFruits({ applesOnly = false } = {}): Fruit[]  {
-    /* function body here */
-}
-
-// type Fruit[]
-const fruitSaladIngredients = getFruits()
-// type Fruit[]
-const tartIngredients = getFruits({ applesOnly: false })
-
-// type Apple[] - even though the implementation signature declares a return type of Fruit[], TypeScript knows to narrow it based on the overload
-const applesauceIngredients = getFruits({ applesOnly: true })
 ```
 
 # Declaration files (`.d.ts`)
@@ -536,5 +621,4 @@ declare global {
 # See also
 
 - [[Development/Clipped/TypeScript Utility Types\|TypeScript Utility Types]]
-- [[Development/Clipped/Use TypeScript Mapped Types Like a Pro\|Use TypeScript Mapped Types Like a Pro]]
 - [[Development/Cheat sheets/JavaScript cheat sheet\|JavaScript cheat sheet]]

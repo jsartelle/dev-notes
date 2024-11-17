@@ -685,7 +685,6 @@ const photo = /** @type {HTMLImageElement} */ (
 
 - to make a function parameter optional, put the *name* in square brackets
     - use `[param=value]` for default values
-- when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for adding descriptions
 
 ```js
 /**
@@ -694,6 +693,8 @@ const photo = /** @type {HTMLImageElement} */ (
 @param {boolean} [param3=true] This param has a default value
 */
 ```
+
+- when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for adding descriptions
 
 ## Tuples
 
