@@ -1166,7 +1166,7 @@ function Button({ className, children, primary }: ButtonProps) {
 }
 ```
 
-- type style attribute objects with `React.CSSProperties`
+- type style attribute objects as `React.CSSProperties`
 
 ```tsx
 const buttonStyle: React.CSSProperties = {
@@ -1176,7 +1176,11 @@ const buttonStyle: React.CSSProperties = {
 return <button style={buttonStyle}></button>
 ```
 
-- use `JSX.Element` to accept only elements, and `ReactNode` to accept elements or strings
+## Component and element types
+
+- `JSX.Element` accepts only elements
+- `ReactNode` accepts anything that React can render (elements, strings, null/undefined, etc.)
+- `ComponentType<props>` accepts component constructors - use this if you get "*JSX element type '...' does not have any construct or call signatures*" errors
 
 ## Prop types with generics
 
@@ -1190,6 +1194,19 @@ interface DataGridProps<T extends { id: any }> {
 
 function DataGrid<T>(props: DataGridProps<T>) {
     /* ... */
+}
+```
+
+## forwardRef
+
+- takes 2 type arguments, the ref type and the component props type
+
+```tsx
+const ButtonWrapper = forwardRef<HTMLButtonElement, ButtonProps>(
+    { label, children }, // type ButtonProps
+    ref // type ForwardedRef<HTMLButtonElement>
+) {
+    return <button ref={ref}>...</button>
 }
 ```
 

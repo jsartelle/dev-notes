@@ -3,19 +3,11 @@
 ---
 
 
-# Tips
-
-## Responsive layouts
+# Responsive layouts
 
 - when building responsive layouts, default to the smallest (usually mobile) layout, and use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|media queries]] to adjust the layout for larger screens
-- use `rem` for media queries most of the time, as you want them to scale if the user changes their default font size
 
-## Styling elements with multiple states
-
-- if an element can be in one of multiple **exclusive** states (for example, a dialog with normal, alert, or error states), use `data-` attributes instead of classes, to avoid the possibility of applying multiple states and causing style conflicts
-    - the default styles for when the data attribute isn't present should reflect the default state
-
-## `rem` vs `em` vs `px`
+## rem vs em vs px
 
 - use `rem` for values that should scale with the user's **default font size** (different from **page zoom**)
     - use `em` instead if the values are highly dependent on the current element's font size
@@ -42,15 +34,6 @@
 		</p>
 	</div>
 </a></div>
-
-## Styling for print
-
-- use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|@media print]] to restyle or hide elements when printing
-    - preview print rules in Chrome devtools -> *Rendering* -> *Emulate CSS media type*
-- use [[Development/Cheat sheets/CSS cheat sheet#@page\|#@page]] rules to adjust the page margins
-- use [[Development/Cheat sheets/CSS cheat sheet#print-color-adjust\|#print-color-adjust]] to prevent the browser from changing the appearance of elements when printing
-- use [[Development/Cheat sheets/CSS cheat sheet#break-before, break-inside, break-after\|#break-before, break-inside, break-after]] to control where pages break
-- use `orphans` and `widows` to change the minimum number of lines that can be alone at the bottom/top of a page (both default to 2)
 
 # Selectors
 
@@ -208,8 +191,8 @@ li.anchor ~ :nth-child(2 of .important) {
 ## align- and justify-
 
 - grid:
-    - `align` is relative to the block axis
-    - `justify` is relative to the inline axis
+    - `align` moves along the block axis
+    - `justify` moves along the inline axis
     - `-content` moves the grid **areas** within their container (if they don't take up the whole container)
     - `-items` moves grid **items** inside their grid area
 - flexbox:
@@ -219,6 +202,10 @@ li.anchor ~ :nth-child(2 of .important) {
     - `align-content` moves wrapping flex lines within their container, and has no effect on non-wrapping flex containers
 - block:
     - as of April 2024, `align-content` can be used in block layout to align children along the block axis
+
+<div style="height: 100px; align-content: center; border: 1px solid currentColor;">
+    <span>Vertical centering without flex or grid!</span>
+</div>
 
 ### Shorthand (place-)
 
@@ -427,8 +414,9 @@ clip-path: ellipse(25% 40% at 50% 50%);
     - `light dark` means the element should support light and dark modes, and prefer light mode
         - `dark light` is the same, but will prefer dark mode
     - `only light` or `only dark` prevents the browser from overriding the color scheme
-- use [[Development/Cheat sheets/CSS cheat sheet#prefers-color-scheme\|prefers-color-scheme]] as usual to style elements based on the color scheme, or use [[Development/Cheat sheets/CSS cheat sheet#light-dark\|#light-dark]]
+- use [[Development/Cheat sheets/CSS cheat sheet#prefers-color-scheme\|prefers-color-scheme]] as usual to style elements based on the color scheme, or use [[Development/Cheat sheets/CSS cheat sheet#light-dark\|#light-dark]] as a shortcut for setting colors
     - consider using [[Development/Cheat sheets/CSS cheat sheet#System color keywords\|#System color keywords]] to make the page match the system
+- you can set `color-scheme` on the page root if your page has its own theme picker
 - add a `color-scheme` meta tag to render the correct page background before the CSS loads
 
 ```html
@@ -657,10 +645,19 @@ text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
 
 - controls *how* text is wrapped
 - `wrap` and `nowrap`: same as [[Development/Cheat sheets/CSS cheat sheet#white-space\|#white-space]]
-- `balance`: tries to keep the line length equal
+- `balance`: wraps and tries to keep the line length equal
     - only works for blocks of text with 6 or less lines
-- `pretty`: text wraps, but favors better layout over speed
-- `stable`: text wraps, but when the user is editing content, lines before the line being edited will remain static and not re-wrap
+- `pretty`: wraps and favors better layout over speed
+- `stable`: wraps, but when the user is editing content, lines before the line being edited will remain static and not re-wrap
+
+<strong>wrap</strong>
+<p style="text-wrap: wrap">Est dolor excepteur exercitation adipisicing. Aute occaecat cillum esse nulla do eiusmod. In et non mollit do incididunt nisi cupidatat duis. Excepteur eu excepteur dolore nisi occaecat eu enim deserunt.</p>
+
+<strong>pretty</strong>
+<p style="text-wrap: pretty">Est dolor excepteur exercitation adipisicing. Aute occaecat cillum esse nulla do eiusmod. In et non mollit do incididunt nisi cupidatat duis. Excepteur eu excepteur dolore nisi occaecat eu enim deserunt.</p>
+
+<strong>balance</strong>
+<p style="text-wrap: balance">Est dolor excepteur exercitation adipisicing. Aute occaecat cillum esse nulla do eiusmod. In et non mollit do incididunt nisi cupidatat duis. Excepteur eu excepteur dolore nisi occaecat eu enim deserunt.</p>
 
 ## transition
 
@@ -1868,6 +1865,11 @@ function closeModal() {
 
 # Other
 
+## Styling elements with multiple states
+
+- if an element can be in one of multiple **exclusive** states (for example, a dialog with normal, alert, or error states), use `data-` attributes instead of classes, to avoid the possibility of applying multiple states and causing style conflicts
+    - the default styles for when the data attribute isn't present should reflect the default state
+
 ## Custom property quirks
 
 - The browser first determines the cascaded value for an element, then "throws away" all other possible values, **before** checking if the cascaded value is valid
@@ -1932,6 +1934,14 @@ For example, the default value of the `display` property is `inline`, but browse
 
 Setting `display: unset` on a `<div>` will apply `display: inline`, which probably isn't what you want. Setting `display: revert` instead will apply `display: block`.
 
+## `opacity: 0` vs. `visibility: hidden`
+
+- Elements with `opacity: 0` are still:
+    - clickable (will fire click events)
+    - focusable
+    - visible to screen readers
+- Elements with `visibility: hidden` (or [[Development/Cheat sheets/CSS cheat sheet#content-visibility\|content-visibility: hidden]]) don't do any of the above.
+
 ## Intrinsic sizing keywords (`min-content`, `fit-content`, `max-content`)
 
 - `min-content`: wrap text content as much as possible (fit to the width of the longest word)
@@ -1977,14 +1987,6 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 | `Mark`            | <div style="height:30px;width:30px;background:Mark;"></div>            | Background of text that has been specially marked (such as by the HTML mark element) |
 | `MarkText`        | <div style="height:30px;width:30px;background:MarkText;"></div>        | Text that has been specially marked (such as by the HTML mark element)               |
 | `VisitedText`     | <div style="height:30px;width:30px;background:VisitedText;"></div>     | Text of visited links                                                                |
-
-## `opacity: 0` vs. `visibility: hidden`
-
-- Elements with `opacity: 0` are still:
-    - clickable (will fire click events)
-    - focusable
-    - visible to screen readers
-- Elements with `visibility: hidden` (or [[Development/Cheat sheets/CSS cheat sheet#content-visibility\|content-visibility: hidden]]) don't do any of the above.
 
 ## Negative transition/animation-delays
 
@@ -2046,6 +2048,15 @@ Style the wrapper the same as the textarea, overlay them using `grid`, and make 
     pointer-events: none;
 }
 ```
+
+## Styling for print
+
+- use [[Development/Cheat sheets/CSS cheat sheet#@media (media queries)\|@media print]] to restyle or hide elements when printing
+    - preview print rules in Chrome devtools -> *Rendering* -> *Emulate CSS media type*
+- use [[Development/Cheat sheets/CSS cheat sheet#@page\|#@page]] rules to adjust the page margins
+- use [[Development/Cheat sheets/CSS cheat sheet#print-color-adjust\|#print-color-adjust]] to prevent the browser from changing the appearance of elements when printing
+- use [[Development/Cheat sheets/CSS cheat sheet#break-before, break-inside, break-after\|#break-before, break-inside, break-after]] to control where pages break
+- use `orphans` and `widows` to change the minimum number of lines that can be alone at the bottom/top of a page (both default to 2)
 
 # See also
 

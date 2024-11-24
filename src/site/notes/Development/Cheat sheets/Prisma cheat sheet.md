@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Prisma cheat sheet.md","permalink":"/cheat-sheets/prisma-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Prisma cheat sheet.md","permalink":"/cheat-sheets/prisma-cheat-sheet/","tags":["tech/databases"]}
 ---
 
 

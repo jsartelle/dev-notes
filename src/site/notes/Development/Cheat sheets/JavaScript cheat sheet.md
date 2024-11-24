@@ -494,6 +494,53 @@ const temp = document.querySelector('.temperature')
 getComputedStyle(temp, '::after').color // rgb(128, 128, 128)
 ```
 
+# Language
+
+## Operator precedence
+
+- `&&` has a higher precedence than `||`
+    - `a || b && c` is the same as `a || (b && c)`
+    - but don't rely on this, use parentheses to make your intention clearer
+- `&&` and `||` **short circuit**
+    - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
+- math operators follow PEMDAS (`%` has the same precedence as `/`)
+
+## Assignment using switch statements
+
+- You can assign a variable from a switch statement by wrapping it in an arrow function and immediately calling it
+
+```js
+const screenName = (() => {
+	switch (index) {
+		case 0:
+			return 'Home'
+		case 1:
+			return 'Profile'
+		case 2:
+			return 'Settings'
+		default:
+			return 'Unknown'
+	}
+})()
+```
+
+## Test expressions in switch statements
+
+- You can test expressions in `switch` statements by comparing against `true`
+
+```js
+switch(true) {
+    case !user:
+        throw new Error('User not provided')
+    case !user.name:
+        throw new Error('User name not provided')
+    case user.name.length < 5:
+        throw new Error('User name must be at least 5 characters')
+    case typeof user.name !== 'string':
+        throw new Error('User name is not a string')
+}
+```
+
 # Debugging
 
 ## Quickly log variables with labels
@@ -572,69 +619,12 @@ Use the `copy()` function in the console to copy long strings from the console.
 
 # Other
 
-## Operator precedence
-
-- `&&` has a higher precedence than `||`
-    - `a || b && c` is the same as `a || (b && c)`
-    - but don't rely on this, use parentheses to make your intention clearer
-- `&&` and `||` **short circuit**
-    - in `a && (b + c)`, if `a` is falsy, `(b + c)` won't be evaluated even though it's in parentheses
-- math operators follow PEMDAS (`%` has the same precedence as `/`)
-
-## Assignment using switch statements
-
-- You can assign a variable from a switch statement by wrapping it in an arrow function and immediately calling it
-
-```js
-const screenName = (() => {
-	switch (index) {
-		case 0:
-			return 'Home'
-		case 1:
-			return 'Profile'
-		case 2:
-			return 'Settings'
-		default:
-			return 'Unknown'
-	}
-})()
-```
-
-## Use expressions in switch statements
-
-- You can test expressions in `switch` statements by comparing against `true`
-
-```js
-switch(true) {
-    case !user:
-        throw new Error('User not provided')
-    case !user.name:
-        throw new Error('User name not provided')
-    case user.name.length < 5:
-        throw new Error('User name must be at least 5 characters')
-    case typeof user.name !== 'string':
-        throw new Error('User name is not a string')
-}
-```
-
 ## Sleep function
 
 ```js
 async function sleep(time) {
     return await new Promise(resolve => window.setTimeout(resolve, time))
 }
-```
-
-## Deep clone objects with `structuredClone`
-
-- `window.structuredClone()` will create a deep copy of an object, and preserve `Date`, `Map`, and `Set` values (among others)
-
-## Print
-
-- see [[Development/Cheat sheets/CSS cheat sheet#Styling for print\|CSS cheat sheet#Styling for print]] to optimize the page for printing
-
-```js
-window.print()
 ```
 
 ## Sharing with the system share sheet
@@ -656,6 +646,21 @@ if (navigator.canShare?.(data)) {
 }
 ```
 
+## Deep clone objects with `structuredClone`
+
+- `window.structuredClone()` will create a deep copy of an object, and preserve `Date`, `Map`, and `Set` values (among others)
+
+## error.cause
+
+- Set `error.cause` when rethrowing an error to preserve the original error
+
+```js
+try {
+  connectToDatabase();
+} catch (err) {
+  throw new Error("Connecting to database failed.", { cause: err });
+}
+```
 # JSDoc
 
 ## Type variables and functions

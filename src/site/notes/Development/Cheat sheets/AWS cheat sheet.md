@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/AWS cheat sheet.md","permalink":"/cheat-sheets/aws-cheat-sheet/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/AWS cheat sheet.md","permalink":"/cheat-sheets/aws-cheat-sheet/","tags":["tech/databases","tech/networking","tech/web"]}
 ---
 
 
