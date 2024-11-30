@@ -661,6 +661,7 @@ try {
   throw new Error("Connecting to database failed.", { cause: err });
 }
 ```
+
 # JSDoc
 
 ## Type variables and functions

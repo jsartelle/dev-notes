@@ -543,6 +543,88 @@ return (
 )
 ```
 
+## useEffect
+
+- lets you perform side effects from a function component
+    - primarily used for **synchronizing with external systems** - data fetching, setting up a subscription, etc.
+    - **You don’t need Effects to transform data for rendering** - transform the data at the top level instead (use [[Development/Cheat sheets/React cheat sheet#useMemo\|#useMemo]] if the transformation is expensive)
+    - **You don’t need Effects to handle user events** - use [[Development/Cheat sheets/React cheat sheet#Events\|event handlers]]
+- since hooks only run client-side, you can wrap code that uses browser APIs like `localStorage` in an effect to use it in server-side rendered components
+- can return a "cleanup" function that will run before each time the effect function runs, as well as on component unmount
+- if you don't provide a dependency array, the provided function runs on every render (including the first one), ==after React has updated the DOM==
+    - if you don't want it to run on the first render use [[Development/Cheat sheets/React cheat sheet#useLayoutEffect\|#useLayoutEffect]]
+- to limit how often the effect runs, pass an array of reactive values as the second argument to `useEffect` - the effect (including cleanup) will only run if any of the array items have changed
+    - if you pass an empty array, the effect will only run once on mount (and cleanup on unmount)
+        - code should still be resilient to effects running multiple times, both for Fast Refresh and future-proofing
+- if you need to call a function inside the render loop in useEffect, define it using [[Development/Cheat sheets/React cheat sheet#useCallback\|#useCallback]]
+
+```jsx
+const [port, setPort] = useState(3000);
+
+// when port changes, the component will disconnect from the old port and connect to the new one
+useEffect(() => {
+    connectToPort(3000)
+    return () => { disconnectFromPort(3000) };
+}, [port])
+```
+
+### useLayoutEffect
+
+- like [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]] but fires before the DOM changes, blocking the browser from painting
+    - won't run on the first render, but the result of the first render won't be displayed
+    - use `useEffect` instead whenever possible
+
+## useMemo
+
+- cache a calculation between renders (like [[Development/Cheat sheets/Vue 3 cheat sheet#Computed Properties\|computed properties]] in Vue)
+    - referred to as *memoization*
+    - if the dependencies haven't changed, the cached value is returned
+    - dependencies are provided the same way as [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]]
+- to keep code readable, **avoid using `useMemo` and `memo` unless necessary**
+
+```jsx
+const sortTodos = useMemo(
+    () => todos.sort(sortFunction),
+    [todos, sortFunction]
+)
+```
+
+### memo
+
+- wrap a component function in `memo` to avoid re-rendering the component when its parent re-renders, as long as its props are the same
+    - referred to as a *memoized component*
+
+```jsx
+const Greeting = memo(function Greeting({ name }) {
+  return <h1>Hello, {name}!</h1>
+})
+```
+
+- optional second argument is a function that takes the old and new props and returns `true` if the cached component can be used (the props have **not** changed)
+    - usually not needed, the default is to compare the props objects with [`Object.is`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is) (shallow equality)
+- to best take advantage of `memo`, instead of passing objects as props, pass individual primitives or memoized [[Development/Cheat sheets/React cheat sheet#useMemo\|objects]] & [[Development/Cheat sheets/React cheat sheet#useCallback\|functions]]
+    - if your component only cares if a value exists or not, instead of passing the value as a prop (which will trigger re-render each time the value changes), pass a boolean that indicates if the value exists
+
+```jsx
+function GroupsLanding({ person }) {
+  const hasGroups = person.groups !== null
+  return <CallToAction hasGroups={hasGroups} />
+}
+```
+
+## useCallback
+
+- cache a function definition so it only changes when one of its dependencies changes
+    - like [[Development/Cheat sheets/React cheat sheet#useMemo\|#useMemo]] but for functions
+    - dependencies are provided the same way as [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]]
+- callbacks can also be declared outside the render function if they don't need access to component data
+
+```jsx
+const handleSubmit = useCallback((orderDetails) => {
+    // ... function body here
+}, [productId, referrer])
+```
+
 ## useRef
 
 - `useRef` will hold onto information between renders, but aren't tracked by React and **don't trigger re-render** when updated
@@ -620,6 +702,32 @@ const MyInput = forwardRef((props, ref) => {
 <button onClick={() => inputRef.current?.focus()}>Focus Input</button>
 ```
 
+### useImperativeHandle
+
+- lets you expose only certain values or functions through forwardRef
+- prefer props when possible - ex. instead of exposing `open` and `close` methods for a modal, add an `isOpen` prop
+
+```jsx
+const MyInput = forwardRef(function MyInput(props, ref) {
+  const inputRef = useRef(null);
+
+  function getValue() {
+    return inputRef.current?.value;
+  }
+
+  useImperativeHandle(ref, () => {
+    return {
+      focus() {
+        inputRef.current.focus();
+      },
+      getValue
+    };
+  }, []);
+
+  return <input {...props} ref={inputRef} />;
+});
+```
+
 ### Cleanup
 
 - starting in React 19, ref functions can return a cleanup function (similar to [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]]) that is called when the component unmounts
@@ -631,88 +739,6 @@ const MyInput = forwardRef((props, ref) => {
         // cleanup here
     }
 }}
-```
-
-## useEffect
-
-- lets you perform side effects from a function component
-    - primarily used for **synchronizing with external systems** - data fetching, setting up a subscription, etc.
-    - **You don’t need Effects to transform data for rendering** - transform the data at the top level instead (use [[Development/Cheat sheets/React cheat sheet#useMemo\|#useMemo]] if the transformation is expensive)
-    - **You don’t need Effects to handle user events** - use [[Development/Cheat sheets/React cheat sheet#Events\|event handlers]]
-- since hooks only run client-side, you can wrap code that uses browser APIs like `localStorage` in an effect to use it in server-side rendered components
-- can return a "cleanup" function that will run before each time the effect function runs, as well as on component unmount
-- if you don't provide a dependency array, the provided function runs on every render (including the first one), ==after React has updated the DOM==
-    - if you don't want it to run on the first render use [[Development/Cheat sheets/React cheat sheet#useLayoutEffect\|#useLayoutEffect]]
-- to limit how often the effect runs, pass an array of reactive values as the second argument to `useEffect` - the effect (including cleanup) will only run if any of the array items have changed
-    - if you pass an empty array, the effect will only run once on mount (and cleanup on unmount)
-        - code should still be resilient to effects running multiple times, both for Fast Refresh and future-proofing
-- if you need to call a function inside the render loop in useEffect, define it using [[Development/Cheat sheets/React cheat sheet#useCallback\|#useCallback]]
-
-```jsx
-const [port, setPort] = useState(3000);
-
-// when port changes, the component will disconnect from the old port and connect to the new one
-useEffect(() => {
-    connectToPort(3000)
-    return () => { disconnectFromPort(3000) };
-}, [port])
-```
-
-## useLayoutEffect
-
-- like [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]] but fires before the DOM changes, blocking the browser from painting
-    - won't run on the first render, but the result of the first render won't be displayed
-    - use `useEffect` instead whenever possible
-
-## useMemo
-
-- cache a calculation between renders (like [[Development/Cheat sheets/Vue 3 cheat sheet#Computed Properties\|computed properties]] in Vue)
-    - referred to as *memoization*
-    - if the dependencies haven't changed, the cached value is returned
-    - dependencies are provided the same way as [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]]
-- to keep code readable, **avoid using `useMemo` and `memo` unless necessary**
-
-```jsx
-const sortTodos = useMemo(
-    () => todos.sort(sortFunction),
-    [todos, sortFunction]
-)
-```
-
-### memo
-
-- wrap a component function in `memo` to avoid re-rendering the component when its parent re-renders, as long as its props are the same
-    - referred to as a *memoized component*
-
-```jsx
-const Greeting = memo(function Greeting({ name }) {
-  return <h1>Hello, {name}!</h1>
-})
-```
-
-- optional second argument is a function that takes the old and new props and returns `true` if the cached component can be used (the props have **not** changed)
-    - usually not needed, the default is to compare the props objects with [`Object.is`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is) (shallow equality)
-- to best take advantage of `memo`, instead of passing objects as props, pass individual primitives or memoized [[Development/Cheat sheets/React cheat sheet#useMemo\|objects]] & [[Development/Cheat sheets/React cheat sheet#useCallback\|functions]]
-    - if your component only cares if a value exists or not, instead of passing the value as a prop (which will trigger re-render each time the value changes), pass a boolean that indicates if the value exists
-
-```jsx
-function GroupsLanding({ person }) {
-  const hasGroups = person.groups !== null
-  return <CallToAction hasGroups={hasGroups} />
-}
-```
-
-## useCallback
-
-- cache a function definition so it only changes when one of its dependencies changes
-    - like [[Development/Cheat sheets/React cheat sheet#useMemo\|#useMemo]] but for functions
-    - dependencies are provided the same way as [[Development/Cheat sheets/React cheat sheet#useEffect\|#useEffect]]
-- callbacks can also be declared outside the render function if they don't need access to component data
-
-```jsx
-const handleSubmit = useCallback((orderDetails) => {
-    // ... function body here
-}, [productId, referrer])
 ```
 
 ## useId

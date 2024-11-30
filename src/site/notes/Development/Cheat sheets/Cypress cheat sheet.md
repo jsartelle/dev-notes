@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Cypress cheat sheet.md","permalink":"/cheat-sheets/cypress-cheat-sheet/","tags":["tech/testing","language/javascript"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Cypress cheat sheet.md","permalink":"/cheat-sheets/cypress-cheat-sheet/","tags":["language/javascript","tech/testing"]}
 ---
 
 

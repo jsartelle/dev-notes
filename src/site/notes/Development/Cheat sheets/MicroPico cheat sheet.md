@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/MicroPico cheat sheet.md","permalink":"/cheat-sheets/micro-pico-cheat-sheet/","tags":["tech/tufty","language/python"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/MicroPico cheat sheet.md","permalink":"/cheat-sheets/micro-pico-cheat-sheet/","tags":["language/python","tech/tufty"]}
 ---
 
 
