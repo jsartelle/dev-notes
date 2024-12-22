@@ -330,6 +330,25 @@ To fix this, move the `backdrop-filter` that's on the outer element to a pseudo-
 background: repeat scroll 0% 0%/auto padding-box border-box none transparent;
 ```
 
+## box-decoration-break
+
+> [!warning]
+> In Safari, requires `-webkit-` prefix and only works on inline elements
+
+- copy decorations like borders and backgrounds to each line of wrapping text
+
+```
+box-decoration-break: clone;
+```
+
+<div width="300px">
+    <span style="border: 3px solid currentcolor">Multi line text<br>without box-decoration-break</span>
+</div>
+
+<div width="300px">
+    <span style="border: 3px solid currentcolor; -webkit-box-decoration-break: clone;">Multi line text<br>with box-decoration-break</span>
+</div>
+
 ## box-shadow
 
 ### Shorthand
@@ -428,13 +447,13 @@ clip-path: ellipse(25% 40% at 50% 50%);
 - isolate an element and its contents from the rest of the document
     - useful for reducing layout recalculation
 - values (multiple can be used, separated with spaces):
-    - `size`: the element's size is unaffected by its children
+    - `size`: the element's size is unaffected by its contents
     - `inline-size`: same as `size` but for the inline direction only (can't be combined with `size`)
-    - `layout`: nothing outside the element affects the element's internals, and vice versa
-        - `position: fixed` children won't escape the element, and floating children won't affect the rest of the page
+    - `layout`: nothing outside the element affects the element's internal layout, and vice versa
+        - for example, `position: fixed` children won't escape the element, and margins won't collapse with the parent's margin
     - `style`: counters and quotes are scoped to the element and its contents
-    - `paint`: the element's contents will not be drawn outside its bounds
-        - like `overflow: hidden` but also applies to text
+    - `paint`: the element's contents will not be drawn outside its border-box
+        - this means if the element is off screen, its children don't need to be rendered because they can't escape the element's box
     - `strict`: same as `size layout paint style`
     - `content`: same as `layout paint style`
 - use `contain: content` (or better, [[Development/Cheat sheets/CSS#content-visibility\|#content-visibility]]: auto) for elements such as articles that are independent from the rest of the page
@@ -442,6 +461,8 @@ clip-path: ellipse(25% 40% at 50% 50%);
 ### contain-intrinsic-size
 
 - lets you set a placeholder size for elements affected by size containment (such as from [[Development/Cheat sheets/CSS#contain\|#contain]] or [[Development/Cheat sheets/CSS#content-visibility\|#content-visibility]])
+- values are *width* and *height*
+    - `contain-intrinsic-block-size` and `contain-intrinsic-width-size` are also available
 - the `auto` keyword tells the browser to remember the last rendered size, and use that as the intrinsic size if available
 
 ```css
@@ -458,12 +479,17 @@ See [[Development/Cheat sheets/CSS#Marking containers\|#Marking containers]]
 
 ## content-visibility
 
-- Controls whether the browser renders the element's contents
-- `auto`: the element is only rendered if it is "relevant to the user" - in or near the viewport, focused, selected, or in the top layer
+- controls whether the browser renders the element's **content** - doesn't affect the box of the element itself!
+    - this includes text nodes and pseudo-content
+- `visible`: the default (normal rendering)
+- `hidden`: the element's contents aren't rendered (similar to `display: none`), and are hidden from the accessibility tree and Find feature
+- `auto`: the contents are only rendered if the element is "relevant to the user" - in or near the viewport, focused, selected, or in the top layer
     - `auto` elements get layout, style, and paint [[Development/Cheat sheets/CSS#contain\|containment]], and size containment if off-screen
-- `hidden`: the element is never rendered
-    - like a hybrid of `display: none` and `visibility: hidden` - doesn't render, but stays cached so unhiding is fast
+    - the contents of `auto` elements that aren't being rendered still appear in the accessibility tree and Find feature
+        - styles aren't rendered for the contents, so they'll still appear in the accessibility tree even if they have `display: none` or `visibility: hidden` - use `aria-hidden="true"` to hide them from accessibility
+    - use the `contentvisibilityautostatechange` to start and stop expensive JavaScript based on the visibility state
 - example usage: on a blog page, wrap each article in `content-visibility: auto` so only visible articles are rendered
+    - use [[Development/Cheat sheets/CSS#contain-intrinsic-size\|#contain-intrinsic-size]] to keep the scrollbar accurate
 
 [[Development/Clipped/Improving rendering performance with CSS content-visibility\|Improving rendering performance with CSS content-visibility]]
 
