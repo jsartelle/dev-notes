@@ -3,9 +3,9 @@
 ---
 
 
-Welcome! These are [James Sartelle's](https://github.com/jsartelle) personal development notes, written in [Obsidian](https://obsidian.md/) and published with the [Digital Garden](https://github.com/oleeskild/obsidian-digital-garden) plugin.
+Welcome! These are [James Sartelle's](https://www.sartelle.dev) personal development notes, written in [Obsidian](https://obsidian.md/) and published with the [Digital Garden](https://github.com/oleeskild/obsidian-digital-garden) plugin.
 
-⬅️ Open one of the folders on the left and start browsing! Good places to start are the [[Development/Cheat sheets/CSS cheat sheet\|CSS cheat sheet]] or [[Development/Cheat sheets/React cheat sheet\|React cheat sheet]].
+⬅️ Open one of the folders on the left and start browsing! Good places to start are the [[Development/Cheat sheets/CSS\|CSS]] or [[Development/Cheat sheets/React\|React]] cheat sheets.
 
 Some notes on these notes:
 

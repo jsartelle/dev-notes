@@ -11,7 +11,7 @@
 - avoid awaiting non-critical things like analytics, and wrap them in their own try/catch so they don't cause an error if they fail
 - variable/method/export names should be clear & specific
     - if argument names aren't self-explanatory, use [JSDoc](https://jsdoc.app/about-getting-started.html) to add descriptions
-    - prefer [[Development/Cheat sheets/JavaScript cheat sheet#Options objects with defaults \|options objects]] over long argument lists
+    - prefer [[Development/Cheat sheets/JavaScript#Options objects with defaults\|options objects]] over long argument lists
 - failure states:
     - error handling
     - default to least access
