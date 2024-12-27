@@ -462,7 +462,7 @@ clip-path: ellipse(25% 40% at 50% 50%);
 
 - lets you set a placeholder size for elements affected by size containment (such as from [[Development/Cheat sheets/CSS#contain\|#contain]] or [[Development/Cheat sheets/CSS#content-visibility\|#content-visibility]])
 - values are *width* and *height*
-    - `contain-intrinsic-block-size` and `contain-intrinsic-width-size` are also available
+    - can also use `contain-intrinsic-height`, `contain-intrinsic-width`, `contain-intrinsic-block-size`, `contain-intrinsic-inline-size`
 - the `auto` keyword tells the browser to remember the last rendered size, and use that as the intrinsic size if available
 
 ```css
@@ -908,7 +908,7 @@ main {
         <span>sidebar-start</span>
     </div>
     <div style="grid-column: article-start / article-end">
-        <span>sidebar-end<br>article-start</span>
+       <span>sidebar-end<br>article-start</span>
         <span>article-end</span>
     </div>
 </div>
@@ -1992,11 +1992,15 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 
 ## Font-based length units (ex, cap, ch, lh)
 
-- `ex`: height of a lowercase letter in the current font
+- `ex`: height of a lowercase letter in the current font, usually (not always) ~0.5em
 - `cap`: height of a capital letter in the current font
     - useful for sizing icons inline with text
-- `ch`: width/height of the character `0` in the current font
+- `ch`: inline size of the character `0` in the current font
+- `ic`: inline size of the character 水 (size of full width ideographse of full width ideographs)
 - `lh`: the computed line height
+    - good for margins in sections of text
+    - good for margins in sections of text
+- root versions of all: `rlh`, etc
 
 ## System color keywords
 
