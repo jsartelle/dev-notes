@@ -683,9 +683,9 @@ Another approach:
 2. update the code to use the new column and deploy
 3. drop the old column
 
-# PostgreSQL differences
+# PostgreSQL differences from MySQL
 
-- not as performant as MySQL for reads
+- not as performant for reads
 - more performant for writes, large datasets, large numbers of concurrent sessions
 - variables don't need to start with `@`, aren't set with the SET keyword, and can be any data type
 
@@ -699,8 +699,17 @@ myfield tablename.columnname%TYPE;
 arow RECORD;
 ```
 
-- array types
-    - write array values as literals using `{}`, or `ARRAY[]`
+- `||` is the concatenation operator
+
+```postgresql
+'AB' || 'CD' -> 'ABCD'
+
+'ABC' || 123 -> 'ABC123'
+```
+
+## Arrays
+
+- write array values as literals using `'{}'` or `ARRAY[]`
 
 ```postgresql
 CREATE TABLE sal_emp (
@@ -728,5 +737,18 @@ UPDATE sal_emp SET pay_by_quarter[1:2] = '{27000,27000}'
     WHERE name = 'Carol';
 ```
 
-- key-value stores (`hstore`)
-    - #todo https://www.postgresql.org/docs/current/hstore.html
+- `||` can concatenate arrays, or add elements to an array
+
+```postgresql
+ARRAY[1, 2] || ARRAY[3, 4] -> {1, 2, 3, 4}
+
+ARRAY[1, 2, 3] || 4 -> {1, 2, 3, 4}
+
+0 || ARRAY[1, 2, 3] -> {0, 1, 2, 3}
+```
+
+- to check if an array contains an element, use `ANY ()`
+
+```postgresql
+WHERE 10000 = ANY (pay_by_quarter)
+```

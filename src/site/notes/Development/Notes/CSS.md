@@ -1960,6 +1960,26 @@ p {
 	</div>
 </a></div>
 
+- when used in custom property values, `!important` only applies when matching custom property values against each other, not against regular rules
+
+```css
+div {
+  --color: red !important;
+  --color: blue;
+  /* red wins even though blue was declared later */
+  color: var(--color);
+}
+```
+
+```css
+div {
+  --color: red !important;
+  color: var(--color);
+  /* yellow wins because !important is stripped out after the value of var(--color) is resolved */
+  color: yellow;
+}
+```
+
 ## unset vs. revert
 
 - `unset` uses the *property's* inherited value if it inherits, or its initial value if not

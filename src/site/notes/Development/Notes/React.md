@@ -5,6 +5,7 @@
 
 # JSX
 
+- need to `import React` in order for JSX to work (not required in [[Development/Notes/Next.js\|Next.js]])
 - expressions in JSX use **single curly braces**
 
 ```jsx
@@ -13,7 +14,7 @@
 
 - wrap multi-line JSX in parentheses to avoid semicolon issues
 - all tags must be closed, and can be self-closing
-- need to `import React` in order for JSX to work (not required in [[Development/Notes/Next.js\|Next.js]])
+- literal less than and greater than symbols must be written with HTML codes (`&lt;`/`&gt;`)
 
 ## Attributes & Props
 

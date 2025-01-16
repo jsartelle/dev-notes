@@ -560,6 +560,11 @@ curl -X POST -H "Content-Type: application/json" -d '{"name": "Oscar", "species"
 - `--match-title keyword`: only download items matching *keyword*
 - `-F url`: list all available formats
     - `-f # url`: download video using a format number given by `-F`
+- `--write-sub --sub-lang en`: download subtitles
+    - `--write-auto-sub`: download YouTube automatic subtitles
+- `--embed-metadata`: add metadata like chapters
+- `--merge-output-format mp4`: set the output format to mp4
+- `--batch-file='videos.txt'`: download all files in `videos.txt` (list of URLs, one per line)
 - `-f bestaudio[ext=m4a] --add-metadata --embed-thumbnail url`: save audio with thumbnail and chapter markers
 - `-o "%(playlist_index)s-%(title)s.%(ext)s" <playlist_link>`: save a playlist with numbered files
     - `--playlist-start 2`: start at video 2 in the playlist (1-indexed)
@@ -700,6 +705,14 @@ sudo tccutil reset All bundle_id
     - `-p`: only show leaves that were installed as dependencies of another package
         - these can be safely uninstalled, since the package that depended on them is no longer installed
 - `brew cleanup -s`: remove unused and outdated cache files
+
+### Moom
+
+- adjust spacing for Stage Manager
+
+```shell
+defaults read com.manytricks.Moom "Grid Spacing: Apply To Edges: Gaps" {0,0,0,75}
+```
 
 # PowerShell
 
