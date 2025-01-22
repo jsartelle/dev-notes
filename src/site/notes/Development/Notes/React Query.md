@@ -20,11 +20,13 @@
 </a></div>
 
 - helps with fetching, caching, synchronizing, and updating remote data (server state)
-    - can also be used for async data fetching that doesn't involve the network, such as AsyncStorage
-- can be used alongside a client-side state manager like Redux or [[Development/Notes/MobX\|MobX]], but if most of your state is asynchronous data from a server, it's simpler to just use React Query and [[Development/Notes/React#Context\|Context]]
+- can be used alongside a client-side state manager like Redux or [[Development/Notes/MobX\|MobX]], but if most of your state is asynchronous data from a server, it's simpler to just use React Query
 
 # Queries
 
+- query functions simply need to return a Promise - this means you can do more than just fetch data from the network, for example accessing async storage
+    - you can also fetch related data from multiple endpoints in a single query function, useful if the second fetch relies on the first
+- queries only run if the `enabled` option is true, which can be used to wait for a user condition - ex `enabled = searchQuery.length >= 3`
 - queries run in parallel
 - query results are cached based on the query key
     - query keys are arrays, and can hold strings or serializable objects
@@ -94,7 +96,7 @@ queryClient.cancelQueries({ queryKey: ['todos'] })
         - `queryKey`
         - `signal`: an [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) that can be used to cancel the query
         - `meta`: whatever data was passed into `queryOptions.meta
-- `enabled`: whether the query is ready to run
+- `enabled`: if false, the query will not run even if stale
     - this can be used to make a query dependent on another query finishing, though it's better to change the backend so the queries can be done in parallel if possible
 - `initialData`: provide initial data for the query, which will be cached as if it had been fetched
     - can provide a function (which will be called exactly once) if the data is expensive to calculate
@@ -138,7 +140,6 @@ queryClient.cancelQueries({ queryKey: ['todos'] })
 
 ---
 
-- #todo default options
 - you can use the `queryOptions` helper to type query options objects
 
 ```tsx
@@ -180,6 +181,7 @@ queryClient.setQueryData(groupOptions(42).queryKey, newGroups)
 - `failureCount`: number of failures/retries, reset to 0 when the query succeeds
 - `failureReason`: reason for the last query retry
 - `refetch`: function to manually refetch the query
+    - if something about the query has changed, change the query key instead of calling `refetch`
     - takes an options object with these options:
         - `throwOnError`:
             - `false` (default): errors are just logged
@@ -199,8 +201,9 @@ queryClient.invalidateQueries()
 queryClient.invalidateQueries({ queryKey: ['todos'] })
 ```
 
-# Update the cache manually
+# Update queries manually
 
+- allows you to use React Query as a state manager
 - if the given data is `undefined`, the cache won't be updated
 
 ```tsx
@@ -208,6 +211,14 @@ queryClient.setQueryData(['todo', { id: 5 }], data)
 
 // partially update the old data
 queryClient.setQueryData(['todo', { id: 5 }], (oldData) => ({ ...oldData, complete: true }))
+```
+
+# Check if a query is currently running
+
+- returns the count of running queries matching the query ke, (or all running queries if no key is passed
+
+```ts
+useIsFetching({ queryKey: ['todo', { id: 5 }]})
 ```
 
 # Infinite queries
@@ -390,5 +401,5 @@ function App() {
 - pass the following event handlers to `useMutation` or `mutate/mutateAsync:
     - `onMutate`: mutation is about to happen
     - `onError`
-    - `onSuccess`: useful to [[Development/Notes/React Query#Query invalidation\|invalidate related queries]], or [[Development/Notes/React Query#Update the cache manually\|update the cache]] on updates
+    - `onSuccess`: useful to [[Development/Notes/React Query#Query invalidation\|invalidate related queries]], or [[Development/Notes/React Query#Update queries manually\|update the cache]] on updates
     - `onSettled`: runs on error or success
