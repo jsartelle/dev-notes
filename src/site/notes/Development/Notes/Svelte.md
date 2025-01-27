@@ -903,7 +903,7 @@ $effect.pre(() => {
 > [!info] Create a new project:
 >
 > ```bash
-> npm create svelte@latest project-name
+> npx sv create my-app
 > ```
 
 - Store shared code and assets in `src/lib`, and import them using `$lib`
