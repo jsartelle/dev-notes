@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Home.md","permalink":"/home/","tags":["gardenEntry"]}
+{"dg-publish":true,"dg-path":"Home.md","permalink":"/home/","title":"Home","hideInGraph":true,"pinned":true,"tags":["gardenEntry"]}
 ---
 
 
