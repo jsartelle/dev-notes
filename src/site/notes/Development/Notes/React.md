@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/React.md","permalink":"/notes/notes/react/","tags":["language/react"]}
+{"dg-publish":true,"dg-path":"Notes/React.md","permalink":"/notes/react/","tags":["language/react"]}
 ---
 
 
@@ -176,6 +176,14 @@ You can wrap your app in `<React.StrictMode>` to call each component twice durin
 ## Controlled vs. uncontrolled components
 
 Components that are primarily driven through [[Development/Notes/React#Props\|props]] are sometimes referred to as *controlled components*, because their parent controls their behavior. Components that keep their primary information in local state are called *uncontrolled components*.
+
+Example of a controlled `<input>`:
+
+```jsx
+const [firstName, setFirstName] = useState('')
+
+return <input value={firstName} onChange={e => setFirstName(e.target.value)} />
+```
 
 ## Server Components vs. Client Components
 
@@ -455,37 +463,6 @@ export default function UserForm() {
     - if you want to call a hook from a condition or loop, extract a new component and put it there
 - only call Hooks from components or custom Hooks, not standard JS functions
 
-## Custom Hooks
-
-- are normal functions with any signature, but must start with `use` and follow the [[Development/Notes/React#Rules of Hooks\|#Rules of Hooks]]
-- only functions that **call** Hooks need to **be** Hooks - otherwise you can use regular functions
-
-```jsx
-import { useState, useEffect } from 'react';
-
-function useFriendStatus(friendID) {
-  const [isOnline, setIsOnline] = useState(null);
-
-  useEffect(() => {
-    /* ... */
-  });
-
-  return isOnline;
-}
-
-function FriendStatus(props) {
-  const isOnline = useFriendStatus(props.friend.id);
-}
-```
-
-### useDebugValue
-
-- lets you show a label for your custom Hook in React Devtools
-
-```jsx
-useDebugValue(isOnline ? 'Online' : 'Offline');
-```
-
 ## useState
 
 - use `useState` to preserve variables between renders
@@ -515,6 +492,7 @@ function Example() {
 ```jsx
 const [number, setNumber] = useState(0);
 
+// incorrect
 setNumber(number + 1) // 0 + 1
 setNumber(number + 1) // 0 + 1
 setNumber(number + 1) // 0 + 1
@@ -525,6 +503,7 @@ setNumber(number + 1) // 0 + 1
 ```jsx
 const [number, setNumber] = useState(0);
 
+// correct
 setNumber(number => number + 1) // 0 + 1
 setNumber(number => number + 1) // 1 + 1
 setNumber(number => number + 1) // 2 + 1
@@ -553,7 +532,7 @@ return (
 
 - lets you perform side effects from a function component
     - primarily used for **synchronizing with external systems** - data fetching, setting up a subscription, etc.
-- **You don’t need Effects to transform data for rendering** - transform the data at the top level instead (use [[Development/Notes/React#useMemo\|#useMemo]] if the transformation is expensive)
+- **You don’t need Effects to transform data for rendering** - transform the data at the top level instead (wrap the transformation in [[Development/Notes/React#useMemo\|#useMemo]] if it's expensive)
 - **You don’t need Effects to handle user events** - use [[Development/Notes/React#Events\|event handlers]]
 - since hooks only run client-side, you can wrap code that uses browser APIs like `localStorage` in an effect to use it in server-side rendered components
 - can return a "cleanup" function that will run before each time the effect function runs, as well as on component unmount
@@ -632,8 +611,10 @@ const handleSubmit = useCallback((orderDetails) => {
 - `useRef` should be used for information that is **not needed for rendering**, for example:
     - timeout and interval IDs
     - [[Development/Notes/React#DOM element refs\|DOM elements]]
-- **don't read or write `ref.current` during render**, unless only doing it on the first render (by checking `ref.current`), otherwise your component will no longer be [[Development/Notes/React#Component purity\|pure]]
+- **don't read or write `ref.current` during render (including in the JSX)**
     - reading or writing from [[Development/Notes/React#Events\|event handlers]] or [[Development/Notes/React#useEffect\|#useEffect]] is okay
+    - if you need a value during render, use [[Development/Notes/React#useState\|#useState]] instead
+    - an exception is initializing `ref.current` only on the first render, for example when calling an expensive function (see below)
 
 ```js
 const ref = useRef(0) // can be any value, like useState
@@ -644,7 +625,8 @@ const ref = useRef(0) // can be any value, like useState
 }
 
 useEffect(() => {
-    // ref.current is mutable
+    // ref.current is mutable, but should only be read and written
+    // in effects or handlers
     ref.current = ref.current + 1
 })
 ```
@@ -676,7 +658,50 @@ const myRef = useRef(null)
 <div ref={myRef}>
 ```
 
-### Component refs and forwardRef
+### Refs with multiple DOM elements
+
+- you can store multiple elements in a Map inside a ref by setting the ref attribute to a function
+- the function receives the node when setting the ref, and `null` when it should be cleared
+
+```jsx
+const rows = useRef(null)
+function getRowMap() {
+    if (!rows.current) {
+        // initialize the map only once
+        rows.current = new Map()
+    }
+    return rows.current
+}
+
+return (
+    <tbody>
+        {data.map((row) => (
+            <tr key={row.id} ref={(node) => {
+                const map = getRowMap()
+                node ? map.set(row.id, node) : map.delete(index)
+            }}></tr>
+        ))}
+    </tbody>
+)
+```
+
+- in React 19, you can pass a cleanup function from the ref attribute instead
+
+```jsx
+return (
+    <tbody>
+        {data.map((row) => (
+            <tr key={row.id} ref={(node) => {
+                const map = getRowMap()
+                map.set(row.id, node)
+                return () => map.delete(row.id)
+            }}></tr>
+        ))}
+    </tbody>
+)
+```
+
+### forwardRef for component refs
 
 - in React 19, refs are passed to function components as props, just like children
 
@@ -690,7 +715,7 @@ const MyInput = ({ ref, ...props }) => {
 <button onClick={() => inputRef.current?.focus()}>Focus Input</button>
 ```
 
-- in earlier versions of React, `ForwardRef` is a wrapper that lets function components forward their ref to a child component or element
+- in earlier versions, `ForwardRef` lets function components forward their ref to a child component or element
     - this makes it harder to refactor your component in the future (since users of your component may rely on behavior of the element the ref is forwarded to), so typically used for low-level components like custom buttons or inputs
 
 ```jsx
@@ -919,6 +944,37 @@ export default function changeName({ currentName, onUpdateName }) {
         </form>
     )
 }
+```
+
+## Custom Hooks
+
+- are normal functions with any signature, but must start with `use` and follow the [[Development/Notes/React#Rules of Hooks\|#Rules of Hooks]]
+- only functions that **call** Hooks need to **be** Hooks - otherwise you can use regular functions
+
+```jsx
+import { useState, useEffect } from 'react';
+
+function useFriendStatus(friendID) {
+  const [isOnline, setIsOnline] = useState(null);
+
+  useEffect(() => {
+    /* ... */
+  });
+
+  return isOnline;
+}
+
+function FriendStatus(props) {
+  const isOnline = useFriendStatus(props.friend.id);
+}
+```
+
+### useDebugValue
+
+- lets you show a label for your custom Hook in React Devtools
+
+```jsx
+useDebugValue(isOnline ? 'Online' : 'Offline');
 ```
 
 # Suspense
@@ -1228,7 +1284,7 @@ interface DataGridProps<T extends { id: any }> {
     onSelect: (id: T['id']) => void
 }
 
-function DataGrid<T>(props: DataGridProps<T>) {
+function DataGrid<T extends { id: any }>(props: DataGridProps<T>) {
     /* ... */
 }
 ```
@@ -1321,7 +1377,7 @@ npm create vite@latest my-app -- --template react-swc-ts
 </a></div>
 
 - Lets you easily animate changes to list items
-- Make sure that children have a `key`, and function components are wrapped in [[Development/Notes/React#Component refs and forwardRef\|forwardRef]]
+- Make sure that children have a `key`, and function components are wrapped in [[Development/Notes/React#forwardRef for component refs\|forwardRef]]
 
 ```jsx
 const Item = forwardRef((props, ref) => (

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Swift and SwiftUI.md","permalink":"/notes/notes/swift-and-swift-ui/","tags":["language/swift"]}
+{"dg-publish":true,"dg-path":"Notes/Swift and SwiftUI.md","permalink":"/notes/swift-and-swift-ui/","tags":["language/swift"]}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Inkscape.md","permalink":"/notes/notes/inkscape/"}
+{"dg-publish":true,"dg-path":"Notes/Inkscape.md","permalink":"/notes/inkscape/"}
 ---
 
 

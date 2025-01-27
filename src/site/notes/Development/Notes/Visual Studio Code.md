@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Visual Studio Code.md","permalink":"/notes/notes/visual-studio-code/"}
+{"dg-publish":true,"dg-path":"Notes/Visual Studio Code.md","permalink":"/notes/visual-studio-code/"}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/TypeScript.md","permalink":"/notes/notes/type-script/","tags":["language/typescript"]}
+{"dg-publish":true,"dg-path":"Notes/TypeScript.md","permalink":"/notes/type-script/","tags":["language/typescript"]}
 ---
 
 

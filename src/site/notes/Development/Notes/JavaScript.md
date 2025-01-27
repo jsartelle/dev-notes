@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/JavaScript.md","permalink":"/notes/notes/java-script/","tags":["language/javascript"]}
+{"dg-publish":true,"dg-path":"Notes/JavaScript.md","permalink":"/notes/java-script/","tags":["language/javascript"]}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/React Native.md","permalink":"/notes/notes/react-native/","tags":["language/react"]}
+{"dg-publish":true,"dg-path":"Notes/React Native.md","permalink":"/notes/react-native/","tags":["language/react"]}
 ---
 
 

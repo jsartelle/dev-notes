@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/MobX.md","permalink":"/notes/notes/mob-x/","tags":["language/react"]}
+{"dg-publish":true,"dg-path":"Notes/MobX.md","permalink":"/notes/mob-x/","tags":["language/react"]}
 ---
 
 

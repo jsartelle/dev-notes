@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/AppleScript.md","permalink":"/notes/notes/apple-script/","tags":["language/applescript"]}
+{"dg-publish":true,"dg-path":"Notes/AppleScript.md","permalink":"/notes/apple-script/","tags":["language/applescript"]}
 ---
 
 

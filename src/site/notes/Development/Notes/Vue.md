@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Vue.md","permalink":"/notes/notes/vue/","tags":["language/vue"]}
+{"dg-publish":true,"dg-path":"Notes/Vue.md","permalink":"/notes/vue/","tags":["language/vue"]}
 ---
 
 

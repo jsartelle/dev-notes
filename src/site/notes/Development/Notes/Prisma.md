@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Prisma.md","permalink":"/notes/notes/prisma/","tags":["tech/databases"]}
+{"dg-publish":true,"dg-path":"Notes/Prisma.md","permalink":"/notes/prisma/","tags":["tech/databases"]}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Terminal.md","permalink":"/notes/notes/terminal/","tags":["language/terminal"]}
+{"dg-publish":true,"dg-path":"Notes/Terminal.md","permalink":"/notes/terminal/","tags":["language/terminal"]}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Data structures and algorithms.md","permalink":"/notes/data-structures-and-algorithms/"}
+{"dg-publish":true,"dg-path":"Data structures and algorithms.md","permalink":"/data-structures-and-algorithms/"}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Web app security.md","permalink":"/notes/web-app-security/","tags":["tech/security","tech/web"]}
+{"dg-publish":true,"dg-path":"Web app security.md","permalink":"/web-app-security/","tags":["tech/security","tech/web"]}
 ---
 
 

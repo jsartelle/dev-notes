@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/AWS.md","permalink":"/notes/notes/aws/","tags":["tech/databases","tech/networking","tech/web"]}
+{"dg-publish":true,"dg-path":"Notes/AWS.md","permalink":"/notes/aws/","tags":["tech/databases","tech/networking","tech/web"]}
 ---
 
 

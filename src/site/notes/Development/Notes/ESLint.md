@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/ESLint.md","permalink":"/notes/notes/es-lint/","tags":["language/javascript"]}
+{"dg-publish":true,"dg-path":"Notes/ESLint.md","permalink":"/notes/es-lint/","tags":["language/javascript"]}
 ---
 
 

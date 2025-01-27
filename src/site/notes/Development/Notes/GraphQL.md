@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/GraphQL.md","permalink":"/notes/notes/graph-ql/"}
+{"dg-publish":true,"dg-path":"Notes/GraphQL.md","permalink":"/notes/graph-ql/"}
 ---
 
 

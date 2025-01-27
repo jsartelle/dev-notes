@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/NPM and Yarn.md","permalink":"/notes/notes/npm-and-yarn/","tags":["tech/web"]}
+{"dg-publish":true,"dg-path":"Notes/NPM and Yarn.md","permalink":"/notes/npm-and-yarn/","tags":["tech/web"]}
 ---
 
 

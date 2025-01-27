@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Secure development principles.md","permalink":"/notes/secure-development-principles/","tags":["tech/security"]}
+{"dg-publish":true,"dg-path":"Secure development principles.md","permalink":"/secure-development-principles/","tags":["tech/security"]}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Git and GitHub.md","permalink":"/notes/notes/git-and-git-hub/","tags":["language/terminal"]}
+{"dg-publish":true,"dg-path":"Notes/Git and GitHub.md","permalink":"/notes/git-and-git-hub/","tags":["language/terminal"]}
 ---
 
 
@@ -44,6 +44,12 @@ git checkout origin/main -- path/to/file
 
 ```shell
 git reset --hard "@{u}"
+```
+
+## Stop tracking remote branch
+
+```shell
+git branch --unset-upstream
 ```
 
 ## Drop a commit

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/HTML.md","permalink":"/notes/notes/html/","tags":["language/html"]}
+{"dg-publish":true,"dg-path":"Notes/HTML.md","permalink":"/notes/html/","tags":["language/html"]}
 ---
 
 
@@ -227,6 +227,10 @@ The `title` attribute is displayed in a tooltip on hover. It should contain text
 ### Alt text for image links
 
 If an image is also a hyperlink, the `alt` text should describe the function of the link.
+
+## `＜input＞` and `＜label＞`
+
+Even if you nest an `<input>` inside a `<label>`, you should still use the `for` attribute on label to link the two, as some screen readers don't recognize association through nesting.
 
 ## `＜link＞`
 

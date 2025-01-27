@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Adblock filters.md","permalink":"/notes/notes/adblock-filters/"}
+{"dg-publish":true,"dg-path":"Notes/Adblock filters.md","permalink":"/notes/adblock-filters/"}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Audacity.md","permalink":"/notes/notes/audacity/"}
+{"dg-publish":true,"dg-path":"Notes/Audacity.md","permalink":"/notes/audacity/"}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Next.js.md","permalink":"/notes/notes/next-js/","tags":["language/react"]}
+{"dg-publish":true,"dg-path":"Notes/Next.js.md","permalink":"/notes/next-js/","tags":["language/react"]}
 ---
 
 

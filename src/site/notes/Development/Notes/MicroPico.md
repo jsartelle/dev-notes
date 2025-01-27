@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/MicroPico.md","permalink":"/notes/notes/micro-pico/","tags":["language/python","tech/tufty"]}
+{"dg-publish":true,"dg-path":"Notes/MicroPico.md","permalink":"/notes/micro-pico/","tags":["language/python","tech/tufty"]}
 ---
 
 

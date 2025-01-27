@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Nushell.md","permalink":"/notes/notes/nushell/"}
+{"dg-publish":true,"dg-path":"Notes/Nushell.md","permalink":"/notes/nushell/"}
 ---
 
 

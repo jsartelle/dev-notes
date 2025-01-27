@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/PicoCSS.md","permalink":"/notes/notes/pico-css/","tags":["language/css"]}
+{"dg-publish":true,"dg-path":"Notes/PicoCSS.md","permalink":"/notes/pico-css/","tags":["language/css"]}
 ---
 
 

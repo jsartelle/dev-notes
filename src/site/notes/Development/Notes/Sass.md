@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Sass.md","permalink":"/notes/notes/sass/","tags":["language/css"]}
+{"dg-publish":true,"dg-path":"Notes/Sass.md","permalink":"/notes/sass/","tags":["language/css"]}
 ---
 
 

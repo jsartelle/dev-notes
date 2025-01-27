@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Regular Expressions.md","permalink":"/notes/notes/regular-expressions/","tags":["language/javascript"]}
+{"dg-publish":true,"dg-path":"Notes/Regular Expressions.md","permalink":"/notes/regular-expressions/","tags":["language/javascript"]}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/CSS.md","permalink":"/notes/notes/css/","contentClasses":"css-cheat-sheet","tags":["language/css"]}
+{"dg-publish":true,"dg-path":"Notes/CSS.md","permalink":"/notes/css/","contentClasses":"css-cheat-sheet","tags":["language/css"]}
 ---
 
 

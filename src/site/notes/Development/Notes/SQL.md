@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/SQL.md","permalink":"/notes/notes/sql/","tags":["tech/databases"]}
+{"dg-publish":true,"dg-path":"Notes/SQL.md","permalink":"/notes/sql/","tags":["tech/databases"]}
 ---
 
 

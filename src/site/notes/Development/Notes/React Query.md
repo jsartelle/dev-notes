@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/React Query.md","permalink":"/notes/notes/react-query/"}
+{"dg-publish":true,"dg-path":"Notes/React Query.md","permalink":"/notes/react-query/"}
 ---
 
 
@@ -201,7 +201,7 @@ queryClient.invalidateQueries()
 queryClient.invalidateQueries({ queryKey: ['todos'] })
 ```
 
-# Update queries manually
+# Set query data manually
 
 - allows you to use React Query as a state manager
 - if the given data is `undefined`, the cache won't be updated
@@ -219,6 +219,18 @@ queryClient.setQueryData(['todo', { id: 5 }], (oldData) => ({ ...oldData, comple
 
 ```ts
 useIsFetching({ queryKey: ['todo', { id: 5 }]})
+```
+
+# Prefetching
+
+- lets you fetch data to be placed into the cache, but not used yet
+- if you already have the data, use [[Development/Notes/React Query#Set query data manually\|setQueryData]] instead
+
+```js
+await queryClient.prefetchQuery({
+    queryKey,
+    queryFn
+})
 ```
 
 # Infinite queries
@@ -401,5 +413,5 @@ function App() {
 - pass the following event handlers to `useMutation` or `mutate/mutateAsync:
     - `onMutate`: mutation is about to happen
     - `onError`
-    - `onSuccess`: useful to [[Development/Notes/React Query#Query invalidation\|invalidate related queries]], or [[Development/Notes/React Query#Update queries manually\|update the cache]] on updates
+    - `onSuccess`: useful to [[Development/Notes/React Query#Query invalidation\|invalidate related queries]], or [[Development/Notes/React Query#Set query data manually\|update the cache]] on updates
     - `onSettled`: runs on error or success

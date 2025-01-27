@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/Notes/Cypress.md","permalink":"/notes/notes/cypress/","tags":["language/javascript","tech/testing"]}
+{"dg-publish":true,"dg-path":"Notes/Cypress.md","permalink":"/notes/cypress/","tags":["language/javascript","tech/testing"]}
 ---
 
 

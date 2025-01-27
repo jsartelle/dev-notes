@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Notes/GitOps.md","permalink":"/notes/git-ops/"}
+{"dg-publish":true,"dg-path":"GitOps.md","permalink":"/git-ops/"}
 ---
 
 
