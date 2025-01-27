@@ -213,6 +213,7 @@
             - all except `scroll(X|Y)` are readonly
     - `<svelte:document>` and `<svelte:body>`
         - for `mouseenter` and `mouseleave` use `<svelte:body>`
+        - allows you to use [[Development/Notes/Svelte#Actions\|#Actions]] on these elements
     - All of these must appear at the top level
     - Listeners on all of these will be cleaned up automatically when the component is destroyed, and are safe to use with SSR
 
@@ -432,6 +433,19 @@
 
 ```
 
+## Preprocessors
+
+- Vite supports PostCSS, SCSS, Less, Stylus, and SugarSS (already set up in SvelteKit)
+    - may be prompted to install dependencies
+
+```js
+// svelte.config.js
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+
+export default {
+  preprocess: [vitePreprocess()]
+};
+```
 # State and reactivity
 
 - declare reactive variables with the `$state` rune
@@ -906,7 +920,8 @@ $effect.pre(() => {
 > npx sv create my-app
 > ```
 
-- Store shared code and assets in `src/lib`, and import them using `$lib`
+- shared components and code go in `src/lib`, and are imported from `$lib`
+    - server-only code can be placed in `src/lib/server` and imported from `$lib/server`
 
 ## Pages and routing
 

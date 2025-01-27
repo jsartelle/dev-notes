@@ -10,25 +10,24 @@
 - Install dependencies
 
 ```shell
-npx svelte-add@latest scss
-```
-
-```shell
 yarn add @picocss/pico
 ```
 
+Svelte 4:
+
 ```shell
-yarn
+npx svelte-add@latest scss
+```
+
+Svelte 5:
+
+```shell
+yarn add --dev sass-embedded
 ```
 
 - Add `id="root"` to the `<div>` container in `app.html`
     - not needed for Next.js
-
-```html
-<body data-sveltekit-preload-data="hover">
-    <div id="root" style="display: contents">%sveltekit.body%</div>
-</body>
-```
+- Add a style tag pointing to `src/app.scss`
 
 - Add this to `src/app.scss`
     - remove the `$semantic-root-element` line for Next.js
