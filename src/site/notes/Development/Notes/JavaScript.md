@@ -31,8 +31,8 @@ array.filter(Boolean)
 
 ## Visualize sort function return values
 
-- imagine the result representing `a`'s position on a number line where `b` is 0 - a negative return value means `a` is to the left of `b`, and a positive value means `a` is to the right of `b
-    - if the values being compared are numeric, `a.value - b.value` will sort from smallest to largest, and vice versa
+- Imagine the result representing `a`'s position on a number line where `b` is 0 - a negative return value means `a` is to the left of `b`, and a positive value means `a` is to the right of `b
+    - If the values being compared are numeric, `a.value - b.value` will sort from smallest to largest, and vice versa
 
 ```
    a?   b   a?
@@ -58,7 +58,7 @@ array.filter(Boolean)
 
 ## Sort strings with locale-awareness
 
-- this will correctly handle things like accented letters
+- Will correctly handle things like accented letters
 
 ```js
 people.sort((a, b) => a.name.localeCompare(b.name))
@@ -86,7 +86,7 @@ files = files.map(file => ([file, file.modifiedAt()]))
 
 ## Swap two elements using destructuring
 
-- omit the semicolon at the beginning if you
+- Omit the semicolon at the beginning if you end lines with semicolons
 
 ```js
 ;[arr[3], arr[5]] = [arr[5], arr[3]]
@@ -310,7 +310,7 @@ await navigator.clipboard.writeText('text')
 ## DOMContentLoaded vs. load
 
 
-<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/notes/notes/html/#dom-content-loaded-vs-load" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
+<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/notes/html/#dom-content-loaded-vs-load" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
 
 
 
@@ -590,7 +590,7 @@ console.table({ foo: 'bar', obj: { a: 1, b: 2 }})
 
 ## Launch debugger with a countdown
 
-- Good for capturing things like toasts that are triggered by user interaction
+- Useful for debugging things like tooltips or modals that disappear when losing focus
 
 ```js
 setTimeout(() => { debugger }, 3000)
@@ -630,7 +630,7 @@ async function sleep(time) {
 ## Sharing with the system share sheet
 
 > [!warning]
-> As of June 2024 not supported in Firefox, or Chrome on macOS and Linux
+> As of January 2025 not supported in Firefox, or Chrome on macOS and Linux
 
 ```ts
 /* at least one property should be specified */

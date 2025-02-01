@@ -3,16 +3,19 @@
 ---
 
 
-> [!warning]
+> [!attention]
+> These notes are written for Vue 2. Also see [[Development/Notes/Vue 3\|Vue 3]]
+
+# General
+
+- Prop and event names should be written in the template in kebab-case
+
+> [!warning] Common pitfalls
 > - props default to optional unless `required: true` is specified!
 > - computed property getters should not have side effects!
 > - don't mix `v-if` and `v-for` on the same element!
 > - don't change a value that's used in a `v-if` inside the `beforeMount()` hook - this can cause the DOM element to unload during render and cause an error!
 >     - use `mounted()` instead, or a [[Development/Notes/Vue#Nuxt\|Nuxt hook]] if you're using Nuxt and the value can be loaded server-side
-
-# General
-
-- Prop and event names should be written in the template in kebab-case
 
 # Reactivity
 
@@ -346,7 +349,7 @@ export default defineComponent({
 # Nuxt
 
 > [!attention]
-> The info below has only been verified with Nuxt 2.
+> These notes are written for Nuxt 2.
 
 ## asyncData hook
 
