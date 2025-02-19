@@ -246,6 +246,10 @@ test2({})                              // undefineds are undefined (errors in TS
 test2()                                // bananas are yellow
 ```
 
+## Deep clone objects with `structuredClone`
+
+- `window.structuredClone()` will create a deep copy of an object, and preserve `Date`, `Map`, and `Set` values (among others)
+
 # Numbers
 
 ## Separators
@@ -307,25 +311,6 @@ await navigator.clipboard.writeText('text')
 
 # DOM
 
-## DOMContentLoaded vs. load
-
-
-<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/notes/html/#dom-content-loaded-vs-load" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
-
-
-
-## `DOMContentLoaded` vs. `load`
-
-The `load` event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images. This is in contrast to `DOMContentLoaded`, which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
-
-The `DOMContentLoaded` event fires when the HTML document has been completely parsed, and all deferred scripts (`<script defer src="…">` and `<script type="module">`) have downloaded and executed. It doesn't wait for other things like images, subframes, and async scripts to finish loading.
-
-`DOMContentLoaded` does not wait for stylesheets to load, however deferred scripts *do* wait for stylesheets, and `DOMContentLoaded` queues behind deferred scripts. Also, scripts which aren't deferred or async (e.g. `<script>`) will wait for already-parsed stylesheets to load.
-
-
-</div></div>
-
-
 ## Element.closest
 
 - finds the closest element in an element's ancestor tree (including itself) that matches the selector
@@ -349,7 +334,7 @@ document.querySelector('.banana').closest('.banana')
 
 ## Get the previous and next siblings
 
-- returns null if there is no previous/next sibling
+- `null` if there is no previous/next sibling
 
 ```html
 <div class="first"></div>
@@ -446,7 +431,23 @@ target.insertAdjacentText('afterend', 'Text node')
 Text node
 ```
 
-## Resize observer
+## Find focused element
+
+Use `document.activeElement` to find the currently focused element. You can add this as a live expression in the Chrome devtools to get a live updating view of the focused element.
+
+## Element heights/widths
+
+- `clientHeight`/`clientWidth`: includes padding
+- `offsetHeight`/`offsetWidth`: includes padding and borders
+- `scrollHeight`/`scrollWidth`: height of all the element's content, including padding but not borders
+- all of the above round to integers
+- `element.getBoundingClientRect()`: includes padding and borders, float
+
+## ResizeObserver
+
+- doesn't work on inline elements, except those with intrinsic dimensions (like `<img>` or `<canvas>`)
+- `observer.disconnect()` stops observing all elements
+    - **you must stop observing all elements for the ResizeObserver to be garbage collected** (for example, in a React [[Development/Notes/React#useEffect\|useEffect]] cleanup function)
 
 ```js
 const observer = new ResizeObserver((entries) => {
@@ -455,8 +456,31 @@ const observer = new ResizeObserver((entries) => {
         console.log('height', entry.contentBoxSize[0].blockSize)
     })
 })
-observer.observe(document.querySelector('main'))
+observer.observe(document.querySelector('main'), {
+    box: 'border-box'
+})
 ```
+
+## DOMContentLoaded vs. load
+
+
+<div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/notes/html/#dom-content-loaded-vs-load" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
+
+
+
+## `DOMContentLoaded` vs. `load`
+
+The `load` event is fired when the whole page has loaded, including all dependent resources such as stylesheets and images. This is in contrast to `DOMContentLoaded`, which is fired as soon as the page DOM has been loaded, without waiting for resources to finish loading.
+
+The `DOMContentLoaded` event fires when the HTML document has been completely parsed, and all deferred scripts (`<script defer src="…">` and `<script type="module">`) have downloaded and executed. It doesn't wait for other things like images, subframes, and async scripts to finish loading.
+
+`DOMContentLoaded` does not wait for stylesheets to load, however deferred scripts *do* wait for stylesheets, and `DOMContentLoaded` queues behind deferred scripts. Also, scripts which aren't deferred or async (e.g. `<script>`) will wait for already-parsed stylesheets to load.
+
+
+</div></div>
+
+
+# Styling
 
 ## Media queries
 
@@ -645,10 +669,6 @@ if (navigator.canShare?.(data)) {
   navigator.share(data)
 }
 ```
-
-## Deep clone objects with `structuredClone`
-
-- `window.structuredClone()` will create a deep copy of an object, and preserve `Date`, `Map`, and `Set` values (among others)
 
 ## error.cause
 

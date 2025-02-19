@@ -5,7 +5,7 @@
 
 # JSX
 
-- need to `import React` in order for JSX to work (not required in [[Development/Notes/Next.js\|Next.js]])
+- may need to `import React` in order to use JSX (not required in [[Development/Notes/Next.js\|Next.js]])
 - expressions in JSX use **single curly braces**
 
 ```jsx
@@ -465,7 +465,8 @@ export default function UserForm() {
 
 ## useState
 
-- use `useState` to preserve variables between renders
+- use `useState` to preserve values between renders
+    - the argument to `useState` is the initial state - can be a primitive or object
 
 ```jsx
 function Example() {
@@ -482,12 +483,22 @@ function Example() {
 }
 ```
 
-- the argument to `useState` is the initial state
-    - can be any kind of value, including objects
-- state should be treated as read-only - to update state objects or arrays, copy it to a new object/array and pass it to the `set` function
-    - the `set` function always replaces, never merges
-- state changes are batched and ==don't take effect until the next render==
-    - if you need to update the same state multiple times in each render, pass a function to the setter
+- if you call a function to get the initial state, it will be called on every render even though the result is only used the first time
+    - if the function call is expensive, pass an *initializer* function which takes no arguments and returns the initial state
+
+```jsx
+// bad - createTodosExpensive is called on every render, but only used on the first render
+const [todos, setTodos] = useState(createTodosExpensive(todoData))
+
+// good - initializeTodos is called only once
+const initializeTodos = () => createTodosExpensive(todoData)
+const [todos, setTodos] = useState(initializeTodos)
+```
+
+- state should be treated as immutable - to update state objects or arrays, copy it to a new object/array and pass it to the `set` function
+    - the `set` function replaces the entire state, no merging
+- **state changes don't take effect until the next render**
+    - if you need to update the same state multiple times in one render, pass a function to the setter
 
 ```jsx
 const [number, setNumber] = useState(0);
@@ -516,7 +527,7 @@ setNumber(number => number + 1) // 2 + 1
     - to reset the state without changing the position, change the [[Development/Notes/React#Lists & Keys\|key]]
 
 ```js
-// Counter will keep its state when isFancy changes
+// contrived example - Counter will keep its state when isFancy changes
 return (
     <div>
       {isFancy ? (
@@ -582,7 +593,7 @@ const Greeting = memo(function Greeting({ name }) {
     - usually not needed, the default is to compare the props objects with [`Object.is`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is) (shallow equality)
 - to best take advantage of `memo`, instead of passing objects as props, pass individual primitives or memoized [[Development/Notes/React#useMemo\|objects]] & [[Development/Notes/React#useCallback\|functions]]
     - if your component only cares if a value exists or not, instead of passing the value as a prop (which will trigger re-render each time the value changes), pass a boolean that indicates if the value exists
-- like `useMemo`, should only be used when necessary
+- like [[Development/Notes/React#useMemo\|#useMemo]], should only be used when necessary
 
 ```jsx
 function GroupsLanding({ person }) {
@@ -594,10 +605,11 @@ function GroupsLanding({ person }) {
 ## useCallback
 
 - cache a function definition so it only changes when one of its dependencies changes
-    - like [[Development/Notes/React#useMemo\|#useMemo]] but for functions
-    - dependencies are provided the same way as [[Development/Notes/React#useEffect\|#useEffect]]
-- callbacks can also be declared outside the render function if they don't need access to component data
-- like `useMemo`, should only be used when necessary
+    - the same as returning a function from [[Development/Notes/React#useMemo\|#useMemo]]
+- callbacks can also be declared outside the render function if they don't need access to component data or Hooks
+- like [[Development/Notes/React#useMemo\|#useMemo]], should only be used when necessary - may be useful when:
+    - the function is passed to a [[Development/Notes/React#memo\|memoized]] component
+    - the function is used as a dependency of another hook
 
 ```jsx
 const handleSubmit = useCallback((orderDetails) => {
@@ -611,10 +623,6 @@ const handleSubmit = useCallback((orderDetails) => {
 - `useRef` should be used for information that is **not needed for rendering**, for example:
     - timeout and interval IDs
     - [[Development/Notes/React#DOM element refs\|DOM elements]]
-- **don't read or write `ref.current` during render (including in the JSX)**
-    - reading or writing from [[Development/Notes/React#Events\|event handlers]] or [[Development/Notes/React#useEffect\|#useEffect]] is okay
-    - if you need a value during render, use [[Development/Notes/React#useState\|#useState]] instead
-    - an exception is initializing `ref.current` only on the first render, for example when calling an expensive function (see below)
 
 ```js
 const ref = useRef(0) // can be any value, like useState
@@ -631,7 +639,11 @@ useEffect(() => {
 })
 ```
 
-- the initial value passed into `useRef` is only stored once, but evaluated on every render, so avoid calling expensive functions
+- like [[Development/Notes/React#useState\|#useState]], the initial value passed into `useRef` is only stored once but evaluated on every render, so avoid calling expensive functions
+- **don't read or write `ref.current` during render (including in the JSX)**
+    - reading or writing from [[Development/Notes/React#Events\|event handlers]] or [[Development/Notes/React#useEffect\|#useEffect]] is okay
+    - if you need a value during render, use [[Development/Notes/React#useState\|#useState]] instead
+    - an exception is initializing `ref.current` only on the first render, for example when calling an expensive function
 
 ```jsx
 // instead of this
@@ -658,7 +670,7 @@ const myRef = useRef(null)
 <div ref={myRef}>
 ```
 
-### Refs with multiple DOM elements
+### Refs for multiple DOM elements
 
 - you can store multiple elements in a Map inside a ref by setting the ref attribute to a function
 - the function receives the node when setting the ref, and `null` when it should be cleared
@@ -685,7 +697,7 @@ return (
 )
 ```
 
-- in React 19, you can pass a cleanup function from the ref attribute instead
+- in React 19, you can return a cleanup function from the ref function instead, like with [[Development/Notes/React#useEffect\|#useEffect]]
 
 ```jsx
 return (
@@ -1139,7 +1151,7 @@ export default function ProfilePage() {
 # Context
 
 - lets a component pass data down an arbitrary distance in the tree, without having to pass props through multiple levels of components that might not need them (prop drilling)
-    - contexts can have performance issues at large scale, use something like [[Development/Notes/MobX\|MobX]] for larger projects
+    - contexts can have performance issues at scale, because the component will re-render if any property in the context changes, even if the component doesn't use that property - store libraries like [[Development/Notes/MobX\|MobX]] or [[Development/Notes/Redux\|Redux]] can solve this
 - create a file for the context, and call `createContext` with a default value
     - the default value is used if you don't have a ContextProvider
 

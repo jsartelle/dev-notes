@@ -263,7 +263,7 @@
 }
 ```
 
-## Applying styles to elements
+## Classes
 
 - classes can be added with a string as normal, or conditionally using array or object syntax (the same as the `classnames` package)
 - in the example, the `card` class is always applied, and the `selected` and `flipped` classes are applied if the state values of the same name are truthy
@@ -271,6 +271,8 @@
 ```jsx
 <button class={["card", selected && "selected", { flipped }]} />
 ```
+
+## Styles
 
 - inline styles can be set individually with `style:propName`, including custom properties
     - mark them as important by adding `|important` to the name
@@ -284,6 +286,8 @@
 
 <p style:color style:--opacity={bgOpacity}></p>
 ```
+
+## Custom properties
 
 - custom properties can be set on components without using `style:`
     - this wraps the component in an element with `display: contents`, which may affect global CSS selectors such as `.parent > .child`
@@ -446,6 +450,7 @@ export default {
   preprocess: [vitePreprocess()]
 };
 ```
+
 # State and reactivity
 
 - declare reactive variables with the `$state` rune
@@ -461,6 +466,8 @@ function addNumber() {
     numbers.push(numbers.length + 1)
 }
 ```
+
+- state can be TypeScript typed like a normal variable
 
 ## Reactive builtins
 
@@ -523,6 +530,7 @@ class Box {
 ## Derived state
 
 - use `$derived` to compute state from other state
+    - `$derived` accepts expressions, `$derived.by` accepts functions
 - derived state is read-only
 
 ```js
@@ -573,6 +581,19 @@ $effect(() => {
 })
 ```
 
+## untrack
+
+- use `untrack` to exclude state inside `$derived` or `$effect` from being treated as a dependency
+
+```js
+$effect(() => {
+	// this will run when `data` changes, but not when `time` changes
+	save(data, {
+		timestamp: untrack(() => time)
+	});
+});
+```
+
 # Components
 
 - import components within the `<script>` tag
@@ -588,6 +609,9 @@ $effect(() => {
 <Component />
 ```
 
+- components use the `Component` TypeScript type
+- component props can be extracted with `ComponentProps<Component>`
+
 # Props
 
 - destructured from the `$props` rune
@@ -599,6 +623,35 @@ let { answer = 42, renamed: newName, ...rest } = $props()
 
 - the child component can temporarily *reassign* a prop, and it will keep the new value until the prop is updated by the parent - useful for ephemeral state
     - however, props should not be *mutated* (use [[Development/Notes/Svelte#Bindings\|$bindable]] instead)
+
+- props can be TypeScript typed like any object
+    - to use generics, add a `generics` attribute to the `script` tag
+
+```html
+<script lang="ts" generics="Item extends { text: string }">
+	interface Props {
+		items: Item[];
+		select(item: Item): void;
+	}
+
+	let { items, select }: Props = $props();
+</script>
+```
+
+- HTML element types can be imported from `svelte/elements `
+    - if an element doesn't have its own type definitions use `SvelteHTMLElements`
+
+```html
+<script lang="ts">
+	import type { SvelteHTMLElements } from 'svelte/elements';
+
+	let { children, ...rest }: SvelteHTMLElements['div'] = $props();
+</script>
+
+<div {...rest}>
+	{@render children?.()}
+</div>
+```
 
 # Context
 
@@ -774,9 +827,9 @@ const { addItem } = getContext('canvas')
 {/each}
 ```
 
-## Component Props
+## Binding props
 
-- you can bind to a prop of a child component, if the child marks it as bindable with `$bindable`
+- you can bind to a prop of a child component, if the child marks it as bindable by setting it equal to `$bindable`
 - `$bindable` can take a fallback value, which is used if the prop is not bound
 
 ```html
@@ -826,7 +879,7 @@ const { addItem } = getContext('canvas')
 ## Other
 
 - elements have readonly `clientWidth`, `clientHeight`, `offsetWidth`, `offsetHeight` bindings
-    - inline elements without intrinsic dimensions can't be observed unless their `display` value is changed
+    - inline elements without intrinsic dimensions can't be observed unless their `display` value is changed (see [[Development/Notes/JavaScript#ResizeObserver\|ResizeObserver]])
 - elements with `contenteditable="true"` support `bind:textContent` and `bind:innerHTML`
 - media elements support bindings like `currentTime`, `duration`, `paused`
 
@@ -889,7 +942,7 @@ import { tick } from 'svelte';
 $effect.pre(() => {
     console.log('the component is about to update');
     tick().then(() => {
-            console.log('the component just updated');
+        console.log('the component just updated');
     });
 });
 ```
@@ -929,6 +982,7 @@ $effect.pre(() => {
     - `src/routes/+page.svelte` is the index page
 - create dynamic route parameters by adding square brackets to the folder (ex. `/src/routes/blog/[slug]/+page.svelte`)
     - advanced routing: [Advanced routing / Optional parameters • Svelte Tutorial](https://svelte.dev/tutorial/kit/optional-params)
+- programmatic routing functions and callbacks are in `$app/navigation`
 
 ## Layouts
 

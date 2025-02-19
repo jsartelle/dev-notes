@@ -603,7 +603,7 @@ mask-repeat: repeat;
 ## mix-blend-mode
 
 - controls how an element blends with its background
-    - [[Tech/Clipped/Blending Modes\|Blending Modes]]
+    - [[Development/Clipped/Blending Modes\|Blending Modes]]
 - use `mix-blend-mode: difference` to reverse text color of a progress bar
 
 <div class="rich-link-card-container"><a class="rich-link-card" href="https://css-tricks.com/reverse-text-color-mix-blend-mode/" target="_blank">
@@ -685,6 +685,14 @@ text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
 <strong>balance</strong>
 <p style="text-wrap: balance">Est dolor excepteur exercitation adipisicing. Aute occaecat cillum esse nulla do eiusmod. In et non mollit do incididunt nisi cupidatat duis. Excepteur eu excepteur dolore nisi occaecat eu enim deserunt.</p>
 
+## touch-action
+
+- `pan-x pan-y`: allow single-finger panning, but not pinch zoom or double-tap zoom
+- `pinch-zoom`: allow multi-finger panning and pinch zoom, but not single finger panning
+- `manipulation`: disable double-tap zoom, but allow pan and pinch-zoom
+    - same as `pan-x pan-y pinch-zoom`
+- `none`: disable all pan and zoom gestures
+
 ## transition
 
 ### Transition from height 0 to auto
@@ -726,8 +734,7 @@ transition: grid-template-rows;
 
 - Lets you control how text selection in an element works, or disable it entirely
     - `none`: disable text selection within the bounds of this element
-    - `all`: select all the text within this element on click
-    - `contain`: limit the text selection to the bounds of this element
+    - `all`: select all the text within this element on clickÏ
 
 > [!important]
 > `user-select: none` should be used sparingly, and only for UI text that a user isn't likely to want to copy (like button labels).
@@ -771,9 +778,11 @@ user-select: none;
 
 Use `flex: 1 1 100%` to make every flex child the same size, regardless of content.
 
-## Prevent flex items from overflowing container
+## Prevent flex and grid items from overflowing container
 
-By default flex items have `min-width: auto` and `min-height: auto`, meaning they can't be smaller than their content. If flex items are overflowing their container, set `min-width: 0` or `min-height: 0`, or `overflow:hidden` on them.
+By default, flex and grid items have `min-width: auto` and `min-height: auto`, meaning they can't be smaller than their content.
+
+If the items are overflowing their container, set `min-width: 0` or `min-height: 0`, or any `overflow` value other than visible on them.
 
 # Grid
 
@@ -1022,6 +1031,7 @@ grid-column-end: span 2;
 
 - Grid items with `position: absolute` will take their grid area as their containing block if they have one, or the entire grid if they don't
     - Make sure the grid container has `position: relative`
+- In the example below, the highlighted block has `grid-column: 2 / 3` set
 
 <div class="grid-example" style="position: relative; grid-template-columns: repeat(3, 1fr);">
     <div></div>
@@ -1086,7 +1096,7 @@ color-mix(in oklab, red 25%, blue)
 
 - There are lots of different color spaces, `oklab` tends to give the most "natural-looking" result
 
-![Pasted image 20230812150956.png](/img/user/Development/%E2%80%A2%20Attachments/Pasted%20image%2020230812150956.png)
+![Color spaces.png](/img/user/Development/%E2%80%A2%20Attachments/Color%20spaces.png)
 
 ## Relative color syntax
 
@@ -2000,15 +2010,17 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 
 ## Intrinsic sizing keywords (min-content, fit-content, max-content)
 
-- `min-content`: wrap text content as much as possible (fit to the width of the longest word)
-- `fit-content`: fit to the content, wrapping if necessary
-- `max-content`: don't wrap text content at all
+- `min-content`: soft-wrap content as much as possible (fit to the longest word/child)
+- `fit-content`: fit to the container, but never smaller than `min-content` or larger than `max-content`
+- `max-content`: don't wrap content at all, even if it causes overflow
 
-<div style="width: min-content"><b>min-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
+<div style="width: min-content; border: 1px solid currentColor"><b>min-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
 
-<div style="width: fit-content"><b>fit-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
+<div style="width: fit-content; border: 1px solid currentColor"><b>fit-content</b>: Corporis aliquam rerum sint dolorem modi.</div>
 
-<div style="width: max-content"><b>max-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
+<div style="width: fit-content; border: 1px solid currentColor"><b>fit-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
+
+<div style="width: max-content; border: 1px solid currentColor"><b>max-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
 
 ## Font-based length units (ex, cap, ch, lh)
 
@@ -2019,14 +2031,13 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 - `ic`: inline size of the character 水 (size of full width ideographse of full width ideographs)
 - `lh`: the computed line height
     - good for margins in sections of text
-    - good for margins in sections of text
-- root versions of all: `rlh`, etc
+- root versions of all: `rlh`, etc.
 
 ## System color keywords
 
 - use colors provided by the operating system
 - browser support is inconsistent, so use [[Development/Notes/CSS#@supports\|#@supports]] to test and set fallback values appropriately
-    - `AccentColor` and `AccentColorText` aren't supported in Chromium as of August 2024
+    - `AccentColor` and `AccentColorText` aren't supported in Chromium as of January 2025
 
 | Keyword           | Example                                                                | Description                                                                          |
 | ----------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |

@@ -9,6 +9,7 @@
 
 - No need to use `calc` for expressions that are based on constants or Sass variables
 - `/` is deprecated for division - use `math.div()` instead
+    - if `/` is being interpreted as division when it should be a separator, use `list.slash()` from `sass:list`
 
 ```scss
 @use 'sass:math';
@@ -33,6 +34,19 @@ animation: {
   direction: alternate;
   fill-mode: both;
   name: bounce;
+}
+```
+
+# @for (repetition)
+
+```scss
+@use 'sass:list';
+
+@for $i from 1 to 10 {
+    &:nth-child(#{$i}) {
+        // use list.slash because / will perform division
+        grid-area: list.slash($i, $i);
+    }
 }
 ```
 

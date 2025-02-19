@@ -512,8 +512,8 @@ dialog:not([open]) {
 
 ## `event.target` vs `event.currentTarget`
 
-- `event.currentTarget` is always the element that the ==event listener is attached to==
 - `event.target` is the element that ==received the event==
+- `event.currentTarget` is always the element that the ==event listener is attached to==
     - in the example below, if you click on the child, `target` is the child and `currentTarget` is the parent
 
 ```html
@@ -521,6 +521,12 @@ dialog:not([open]) {
     <div id="child"></div>
 </div>
 ```
+
+## `mouseover` vs. `mouseenter`
+
+- `mouseover` fires when the mouse enters the element, or a child of the element
+- `mouseenter` doesn't bubble, so it doesn't respond to the mouse moving in and out of children
+- also applies to `pointerover` and `pointerenter`
 
 ## `input` vs. `change`
 
@@ -538,10 +544,6 @@ The `DOMContentLoaded` event fires when the HTML document has been completely p
 `DOMContentLoaded` does not wait for stylesheets to load, however deferred scripts *do* wait for stylesheets, and `DOMContentLoaded` queues behind deferred scripts. Also, scripts which aren't deferred or async (e.g. `<script>`) will wait for already-parsed stylesheets to load.
 
 # Other
-
-## Find focused element
-
-Use `document.activeElement` to find the currently focused element. You can add this as a live expression in the Chrome devtools to get a live updating view of the focused element.
 
 ## Quick test image URLs
 

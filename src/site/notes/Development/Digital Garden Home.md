@@ -9,7 +9,7 @@ Welcome! These are [James Sartelle's](https://www.sartelle.dev) personal develop
 
 Some notes on these notes:
 
-- They aren't comprehensive! I write them for myself, so I don't include things I already know well or find intuitive.
+- Most of them aren't comprehensive! I write them for myself, so I don't include things I already know well or find intuitive.
 - You may find broken links, which most likely point to articles I've clipped into my vault. I don't want to reproduce others' work here, but you can usually find them by searching the web for the link title.
 
 You might also be interested in a collection of [Obsidian CSS snippets](https://github.com/jsartelle/Obsidian-Snippets)!

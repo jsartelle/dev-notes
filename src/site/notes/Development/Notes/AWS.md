@@ -194,7 +194,7 @@
 
 [An AWS Cloud architecture for web hosting - Web Application Hosting in the AWS Cloud](https://docs.aws.amazon.com/whitepapers/latest/web-application-hosting-best-practices/an-aws-cloud-architecture-for-web-hosting.html)
 
-![image4.png](/img/user/%E2%80%A2%20Attachments/image4.png)
+![image4.png](/img/user/Development/%E2%80%A2%20Attachments/image4.png)
 
 # Troubleshooting
 

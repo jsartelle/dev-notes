@@ -105,6 +105,16 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 
 - If using browser-only APIs such as `window`, wrap them in `useEffect` to avoid a mismatch between server and client on hydration
 
+# Disable build failure on TypeScript errors
+
+- add this to `next.config.mjs`
+
+```js
+typescript: {
+    ignoreBuildErrors: true
+}
+```
+
 # See also
 
 - [[Development/Notes/React\|React]]

@@ -238,6 +238,9 @@ Both are shorthand for:
 
 # Slots
 
+- the component with the slot uses a `<slot>` element, the parent component inserts content with `<template #slotName>`
+    - the `<slot>` element can contain default content
+
 ```html
 <!-- Component.vue -->
 <template>

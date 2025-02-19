@@ -5,7 +5,8 @@
 
 # Installation with frameworks
 
-- Directions are for SvelteKit, but Next.js is similar
+> [!tip]
+> Directions are for SvelteKit, but Next.js is similar
 
 - Install dependencies
 
@@ -27,9 +28,8 @@ yarn add --dev sass-embedded
 
 - Add `id="root"` to the `<div>` container in `app.html`
     - not needed for Next.js
-- Add a style tag pointing to `src/app.scss`
 
-- Add this to `src/app.scss`
+- Create `src/lib/app.scss` (`src/app.scss` for Next.js) with this content
     - remove the `$semantic-root-element` line for Next.js
 
 ```scss
@@ -39,6 +39,8 @@ yarn add --dev sass-embedded
   $enable-responsive-spacings: true
 );
 ```
+
+- In the root layout, import `$lib/app.scss`
 
 ## Cascade layer
 

@@ -717,6 +717,7 @@ defaults read com.manytricks.Moom "Grid Spacing: Apply To Edges: Gaps" {0,0,0,75
 # PowerShell
 
 - `$profile`: print path to PowerShell profile
+    - edit profile with ex. `code $profile`
 - `explorer .`: open Explorer window in current working directory
     - or `ii .`: short for `Invoke-Item .`
 - `taskkill /F /IM name`: kill process matching name (wildcard * can be used)

@@ -30,8 +30,41 @@
 > [!note]
 > Use `ref` for state that will be replaced wholesale, and `reactive` for object types that hold many individual state items.
 
-- for object types (including arrays & collection types), use `reactive` to create a proxy of the object with reactive properties
-    - newly added properties will be reactive (no need for Vue.set)
+- `ref` creates reactive state, by wrapping the argument in an object with a `value` property
+    - `ref` values are deeply reactive - if you don't need deep reactivity you can use `shallowRef`
+
+```js
+import { ref } from 'vue'
+
+const count = ref(0)
+
+console.log(count.value)
+
+// deep reactivity
+const objRef = ref({ count: 0 })
+objRef.value.count++
+```
+
+- `ref`s **at the top level** are unwrapped when accessed in the template
+
+```js
+const count = ref(0)
+const nested = { count: ref(1) }
+const { count: nestedCount } = nested
+```
+
+```html
+<template>
+    <h1>{{count}}</h1>
+    <!-- this doesn't work since nested.count isn't top level -->
+    <h2>{{nested}}</h2>
+    <!-- but this does since the destructured property is top level -->
+    <h3>{{nestedCount}}</h3>
+</template>
+```
+
+- you can use `reactive` to directly proxy object types (including arrays)
+    - newly added properties will be reactive (no need for `Vue.set`)
 
 ```js
 import { reactive } from 'vue'
@@ -43,7 +76,11 @@ function increment() {
 }
 ```
 
-- anything that changes the reference to the `reactive` object will break the reactivity connection, including all of the following:
+- anything that doesn't preserve the reference to the `reactive` object breaks the reactivity connection, including:
+    - reassigning the whole object
+    - destructuring
+    - passing individual properties to a function
+- `reactive` is used to make objects passed to `ref` deeply reactive, so the same caveats apply
 
 ```js
 /* do not do any of these! */
@@ -59,30 +96,7 @@ const { count } = reactive({ count: 0 })
 callFunction(state.count)
 ```
 
-- for value types, use `ref`, which wraps the value in an object with a `.value` property
-    - object types can be stored in `ref`s as well, and replaced without the wrapper losing reactivity
-
-```js
-import { ref } from 'vue'
-
-const count = ref(0)
-
-console.log(count.value)
-
-// this is fine!
-const objRef = ref({ count: 0 })
-objRef.value = { count: 1 }
-```
-
-- `ref`s are unwrapped when accessed as **top-level** properties in the template, so you don't need to use `.value`
-
-```html
-<template>
-    <h1>{{count}}</h1>
-</template>
-```
-
-- `ref`s are also unwrapped when used as properties of `reactive` objects, but not `reactive` arrays or collection types
+- if a `ref` is a property of a `reactive` object, it automatically gets unwrapped inside JavaScript, but the same isn't true of `reactive` arrays or collection types like `Map`
 
 ```js
 const count = ref(0)
