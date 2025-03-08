@@ -58,7 +58,7 @@
 {/if}
 ```
 
-### foreach
+### each
 
 - use `{#each iterable as value, index (key)}` to loop over iterables
     - index is optional
@@ -84,7 +84,7 @@
 - repeat a block a certain number of times
 
 ```html
-{#each { length: buttonCount } as _, i}
+{#each { length: buttonCount }}
     <Button on:click={() => alert(`Button ${i} clicked`)} />
 {/each}
 ```
@@ -455,7 +455,6 @@ export default {
 
 - declare reactive variables with the `$state` rune
 - state is deeply reactive, and can be written to or modified directly
-    - declare state with `let` to allow writing
 - state can be placed inside any file named with `.svelte.js`, and shared between components like a store
 - `$state.snapshot` can be used to take a static snapshot of a state value, useful for passing to third-party libraries
 
@@ -553,11 +552,11 @@ let data = $state.raw(poll());
 <polyline points={data.map((d, i) => [x(i), y(d)]).join(' ')} />
 ```
 
-## Logging state
+## Logging state ($inspect)
 
 - use the `$inspect` rune to log state whenever it changes
     - will automatically be stripped out of production builds
-    - pass a logging function to `.with()` to change how the value is logged
+    - you can pass a custom logging function to `.with()` - the first argument is either "init" or "update", and the rest of the arguments are the inspected values
 
 ```js
 $inspect(numbers).with(console.trace)
@@ -885,12 +884,12 @@ const { addItem } = getContext('canvas')
 
 # Actions
 
-- actions are functions that are called when an element is created, and can do things like add event listeners, or hook up third-party libraries to elements
+- actions are functions that are called when an element is created, and can do things like add event listeners or interface with third-party libraries
 - typically use [[Development/Notes/Svelte#Effects\|$effect]] so they are cleaned up when the element unmounts
+- actions receive the element as the first argument, and the attribute's contents as a second argument
+    - actions don't re-run when their argument changes, but [[Development/Notes/Svelte#State and Reactivity\|state]] can be passed via a function, and [[Development/Notes/Svelte#Effects\|effects]] will re-run when that state changes
+- attached with `use:name`
 - not called during SSR
-- actions can receive an argument, but will not re-run if the argument changes
-    - however, [[Development/Notes/Svelte#State and Reactivity\|state]] can be passed via a function, and [[Development/Notes/Svelte#Effects\|effects]] will re-run when that state changes
-- applied to elements with `use:`
 
 ```html
 <script>

@@ -15,8 +15,9 @@ action:
 # General
 
 - [ ] make sure there aren't any unwanted merges - for example, merging `sandbox` into a branch that will later be merged into `main`
-- variable/method/export names should be clear & specific
-    - [ ] if argument names aren't self-explanatory, use [JSDoc](https://jsdoc.app/about-getting-started.html) to add descriptions
+- variable/function/export names should be clear & specific
+    - [ ] consistent naming of related items
+    - [ ] if names aren't self-explanatory, use [[Development/Notes/JavaScript#JSDoc\|JSDoc]] to add descriptions
     - [ ] prefer [[Development/Notes/JavaScript#Options objects with defaults\|options objects]] over long argument lists
 - failure states:
     - [ ] make sure potential errors are handled

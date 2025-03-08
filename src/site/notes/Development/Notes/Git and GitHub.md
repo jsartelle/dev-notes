@@ -95,6 +95,16 @@ git fsck --unreachable | grep commit | cut -d ' ' -f3 | xargs git log --merges -
 git stash apply <SHA>
 ```
 
+## Abort merge or rebase
+
+```shell
+git merge --abort
+```
+
+```shell
+git rebase --abort
+```
+
 # GitHub
 
 > [!warning]

@@ -657,7 +657,7 @@ async function sleep(time) {
 > As of January 2025 not supported in Firefox, or Chrome on macOS and Linux
 
 ```ts
-/* at least one property should be specified */
+/* at least one pr operty should be specified */
 const data: ShareData = {
   url: location.href,
   text: 'Some arbitrary text to share',
@@ -691,26 +691,19 @@ try {
 let upperName
 
 /**
+ * Makes the input uppercase
  * @param {string} input
  * @returns {string}
  */
 function uppercase(input) {
   return input.toUpperCase()
 }
-
-upperName = uppercase('John')
-```
-
-- to cast during assignment, put the right side in parentheses
-
-```js
-const photo = /** @type {HTMLImageElement} */ (
-    document.querySelector('#photo)
-)
 ```
 
 - to make a function parameter optional, put the *name* in square brackets
-    - use `[param=value]` for default values
+- use `[param=value]` to declare default values
+    - parameters with default values must be optional
+- when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for descriptions
 
 ```js
 /**
@@ -720,7 +713,13 @@ const photo = /** @type {HTMLImageElement} */ (
 */
 ```
 
-- when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for adding descriptions
+- to cast during assignment, put the right side in parentheses
+
+```js
+const photo = /** @type {HTMLImageElement} */ (
+    document.querySelector('#photo)
+)
+```
 
 ## Tuples
 

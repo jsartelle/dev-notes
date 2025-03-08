@@ -28,8 +28,7 @@
     - you can also fetch related data from multiple endpoints in a single query function, useful if the second fetch relies on the first
 - queries only run if the `enabled` option is true, which can be used to wait for a user condition - ex `enabled = searchQuery.length >= 3`
 - queries run in parallel
-- query results are cached based on the query key
-    - query keys are arrays, and can hold strings or serializable objects
+- query results are cached based on the query key (see [[Development/Notes/React Query#Query options\|#Query options]])
     - if two components both use a query with the same key:
         - the second component to mount will immediately receive the cached data
         - if the data is stale, a fetch will happen to update the data
@@ -87,8 +86,11 @@ queryClient.cancelQueries({ queryKey: ['todos'] })
 # Query options
 
 - `queryKey`: a unique way to identify the data that the query fetches
-    - the query key is an array that can contain strings, or objects with additional options
-    - any variables the query function uses to fetch the data, such as an ID, should be part of the query key
+    - query keys are arrays, and can hold strings or serializable objects
+    - any variables the query function uses to fetch the data (such as user ID or search term) should be part of the query key
+    - query keys are hashed deterministically (not by object equality)
+        - `[{ a: 1, b: 2 }]` and `[{ b: 2, a: 1, c: undefined }]` are the same key
+        - however, `[{ a: 1 }, { b: 2 }]` and `[{ b: 2 }, { a: 1 }]` are not the same (array order matters)
     - pagination can be achieved by including the page in the query key, but since changing the query key results in a brand new query, this will cause the query to flip back from `success` to `pending` - this can be fixed using `placeholderData` (see below)
 - `queryFn`: a function that returns a promise with the data or an error
     - remember that `fetch` doesn't throw on request errors, so you'll have to manually throw

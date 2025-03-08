@@ -141,13 +141,87 @@ type PlanStringCamelCase = `${PlanType}${Capitalize<PlanSchedule>}`
 // 'individualMonthly' | 'individualAnnual' | 'familyMonthly' | 'familyAnnual'
 ```
 
-# Generics with arrow functions
+# `satisfies`
+
+- Lets you check that an expression matches a type, without changing the expression's type
+
+```ts
+type Colors = "red" | "green" | "blue";
+type RGB = [red: number, green: number, blue: number];
+```
+
+- Without `satisfies`:
+
+```ts
+const palette: Record<Colors, string | RGB> = {
+    red: [255, 0, 0],
+    green: "#00ff00",
+    bleu: [0, 0, 255] // this typo will be caught
+};
+
+const redComponent = palette.red.at(0); // but this will error, because the type of palette.red has changed to string|RGB
+```
+
+- With `satisfies`:
+
+```ts
+const palette = {
+    red: [255, 0, 0],
+    green: "#00ff00",
+    bleu: [0, 0, 255] // the typo is caught
+} satisfies Record<Colors, string | RGB>;
+
+// these both work because the properties keep their types
+const redComponent = palette.red.at(0);
+const greenNormalized = palette.green.toUpperCase();
+```
+
+# Narrow type of `for...in` loop key
+
+```ts
+const Colors = {
+    red: '#ff0000',
+    green: '#00ff00',
+    blue: '#0000ff',
+}
+
+let key: keyof typeof Colors
+for (key in Colors) {
+    console.log(`The hex code of ${key} is ${Colors[key]}`)
+}
+```
+
+# Arrow functions with generics
 
 - the comma hints that T is a generic and not a JSX tag
     - the comma isn't necessary if you're using `extends`
 
 ```ts
 const arrowFunc = <T,>(value: T) => { /* ... */ }
+```
+
+# Function return type based on parameters
+
+- might require TypeScript 5.8+
+
+```ts
+enum SelectionKind {
+    Single,
+    Multiple,
+}
+
+interface QuickPickReturn {
+    [SelectionKind.Single]: string;
+    [SelectionKind.Multiple]: string[];
+}
+
+async function showQuickPick<S extends SelectionKind>(
+    prompt: string,
+    selectionKind: S,
+    items: readonly string[],
+): Promise<QuickPickReturn[S]> {
+    // returns String if SelectionKind is Single, and String[] if SelectionKind is Multiple
+}
 ```
 
 # Function overloads
@@ -210,41 +284,6 @@ function logState(requestState: networkState) {
 }
 ```
 
-# `satisfies`
-
-- Lets you check that an expression matches a type, without changing the expression's type
-
-```ts
-type Colors = "red" | "green" | "blue";
-type RGB = [red: number, green: number, blue: number];
-```
-
-- Without `satisfies`:
-
-```ts
-const palette: Record<Colors, string | RGB> = {
-    red: [255, 0, 0],
-    green: "#00ff00",
-    bleu: [0, 0, 255] // this typo will be caught
-};
-
-const redComponent = palette.red.at(0); // but this will error, because the type of palette.red has changed to string|RGB
-```
-
-- With `satisfies`:
-
-```ts
-const palette = {
-    red: [255, 0, 0],
-    green: "#00ff00",
-    bleu: [0, 0, 255] // the typo is caught
-} satisfies Record<Colors, string | RGB>;
-
-// these both work because the properties keep their types
-const redComponent = palette.red.at(0);
-const greenNormalized = palette.green.toUpperCase();
-```
-
 # `infer`
 
 - Used when writing a conditional type, to infer a new type variable from part of the condition
@@ -260,21 +299,6 @@ type GetReturnType<Type> = Type extends (...args: never[]) => infer Return
 type Num = GetReturnType<() => number>; // number
 type Bools = GetReturnType<(a: boolean, b: boolean) => boolean[]>; // boolean[]
 type NotFunction = GetReturnType<string> // never
-```
-
-# Narrow type of `for...in` loop key
-
-```ts
-const Colors = {
-    red: '#ff0000',
-    green: '#00ff00',
-    blue: '#0000ff',
-}
-
-let key: keyof typeof Colors
-for (key in Colors) {
-    console.log(`The hex code of ${key} is ${Colors[key]}`)
-}
 ```
 
 # Type Manipulation

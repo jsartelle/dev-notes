@@ -37,6 +37,10 @@
 - `npm pack`: create an archive of all the files listed in the `package.json` `files` array
     - simulates how your package will look when installed as a dependency
 
+## yarn
+
+- `yarn cache clean`: clean cache
+
 # List versions of dependencies
 
 - Shows every package that lists `vue` as a dependency, and which version is installed
@@ -82,6 +86,22 @@ yarn link packageName
 ```
 
 - to undo, follow the same steps in reverse, with `unlink` instead of `link`
+- you can see and delete linked packages in these locations (Windows):
+    - only delete the symlinks, not the other folders like `corepack` and `npm`
+
+```
+C:\Program Files\nodejs\node_modules
+```
+
+```
+%LOCALAPPDATA%\Yarn\Data\link
+```
+
+- to see all linked packages in NPM:
+
+```shell
+npm ls -g --depth=0 --link=true
+```
 
 # Yarn resolutions
 
