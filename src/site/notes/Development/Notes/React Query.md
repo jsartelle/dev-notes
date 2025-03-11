@@ -30,7 +30,7 @@
 - queries run in parallel
 - query results are cached based on the query key (see [[Development/Notes/React Query#Query options\|#Query options]])
     - if two components both use a query with the same key:
-        - the second component to mount will immediately receive the cached data
+        - the second component to mount will immediately render with the cached data
         - if the data is stale, a fetch will happen to update the data
         - once the data is updated, both components will re-render with the new data
 - by default:
