@@ -358,8 +358,6 @@ const App = () => (
 
 # Mutations
 
-- used to create/update/delete data
-
 ```tsx
 function App() {
   const mutation = useMutation({
@@ -394,7 +392,9 @@ function App() {
 }
 ```
 
-- mutations do not retry by default, but you can pass `retry` and `retryDelay` options just like [[Development/Notes/React Query#Query options\|queries]]
+- used to make calls with side effects, like creating/updating/deleting data
+- the mutation runs each time you call `mutate` or `mutateAsync` (not cached like [[Development/Notes/React Query#Queries\|#Queries]])
+- mutations do not retry by default, but you can pass `retry` and `retryDelay` options
 - if `throwOnError` is set to true (or a function that returns true), mutation errors will be thrown and propagate to the nearest [[Development/Notes/React#Error Boundaries\|Error Boundary]]
 - by default all mutations run in parallel, even multiple calls to the same mutation
     - you can pass a `scope` object with an `id` property, and all mutations with the same scope will run in serial
