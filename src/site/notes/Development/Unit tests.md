@@ -10,10 +10,11 @@
 - independent
 - repeatable (known fixed input produces the same known fixed output)
 - test the results, not the implementation details
+
 # Structure
 
 - **setup**: create needed objects and dependencies
-    - external dependencies (database, network requests, etc) should be [[Development/Unit tests#Types of Mocks\|mocked]] so that they don't affect the test results
+    - external dependencies (database, network requests, etc) should be [[#Types of Mocks|mocked]] so that they don't affect the test results
 - **execute**: run the *unit* of code being tested
 - **expect**: verify that the result matches what is expected
 

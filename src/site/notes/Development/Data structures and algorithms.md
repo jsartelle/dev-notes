@@ -291,7 +291,7 @@ print(is_subsequence("adb", "abcde"))  # false
 # Sliding Window
 
 - another common technique for array and string problems, where you look for valid subarrays
-    - implemented with [[Development/Data structures and algorithms#Two Pointers\|#Two Pointers]] (`left` and `right`) that mark the start and end indices (inclusive) of the subarray
+    - implemented with [[#Two Pointers]] (`left` and `right`) that mark the start and end indices (inclusive) of the subarray
 - problems that can be solved efficiently with sliding window have two criteria:
     - a constraint metric - some attribute of a subarray (the sum, number of unique elements, etc)
         - the constraint metric has to meet a numeric restriction for the subarray to be considered valid - ex. sum <= 10

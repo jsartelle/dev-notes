@@ -5,7 +5,7 @@
 
 Welcome! These are [James Sartelle's](https://www.sartelle.dev) personal development notes, written in [Obsidian](https://obsidian.md/) and published with the [Digital Garden](https://github.com/oleeskild/obsidian-digital-garden) plugin.
 
-← If you don't see the list of notes on the left, click the ≡ button! The [[Development/Notes/CSS\|CSS]], [[Development/Notes/React\|React]], and [[Development/Notes/Svelte\|Svelte]] notes are the most detailed.
+← If you don't see the list of notes on the left, click the ≡ button! The [[Development/Cheat sheets/CSS\|CSS]], [[Development/Cheat sheets/React\|React]], and [[Development/Cheat sheets/Svelte\|Svelte]] notes are the most detailed.
 
 Some notes on these notes:
 

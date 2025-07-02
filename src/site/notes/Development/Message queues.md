@@ -54,6 +54,6 @@
 
 ## Kafka
 
-- uses the [[Development/Message queues#Publisher-Subscriber (pub-sub) model\|pub-sub]] model (topic-based)
+- uses the [[#Publisher-Subscriber (pub-sub) model|pub-sub]] model (topic-based)
 - *pull*-based - consumers pull messages from queues in batches
 - "dumb broker/smart consumer" - the broker doesn't track which messages are read, all messages are kept for a certain period of time (so Kafka can act as a log)

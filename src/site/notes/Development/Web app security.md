@@ -32,7 +32,7 @@
     - sanitize output before displaying it
     - filter input data when possible - for example, a phone number field shouldn't accept HTML
     - use your framework's XSS protection - most frameworks won't let you directly render HTML from a string without jumping through hoops
-    - use a [[Development/Web app security#Content-Security-Policy\|#Content-Security-Policy]] to disable untrusted scripts
+    - use a [[#Content-Security-Policy]] to disable untrusted scripts
     - mark cookies as `HttpOnly` so they can't be read by JavaScript running in the browser
 
 ## Cross-Site Request Forgery (CSRF)
@@ -80,7 +80,7 @@
     - *CSRF tokens*: when the user logs in or navigates, the server sends their browser a unique token, and every state-changing request is required to include that token as a header or POST variable
         - this works because the attacker can't see the victim's cookies or other local storage
         - these tokens should have a limited lifespan to further increase security
-    - require a custom header or use a non-standard content type to trigger a [[Development/Web app security#CORS (Cross-Origin Resource Sharing)\|CORS]] preflight request
+    - require a custom header or use a non-standard content type to trigger a [[#CORS (Cross-Origin Resource Sharing)|CORS]] preflight request
 
 ## Server-Side Request Forgery (SSRF)
 
@@ -126,7 +126,7 @@
 
 - when user input is interpreted as a template string by the app
     - usually when building templates with string concatenation
-- can result in [[Development/Web app security#Cross-Site Scripting (XSS)\|XSS]] or full code execution on app server
+- can result in [[#Cross-Site Scripting (XSS)|XSS]] or full code execution on app server
 - **prevention**:
     - use template engine variables instead of string concatenation
 
@@ -153,17 +153,17 @@
         - although JWTs are signed, they aren't typically encrypted (though they can be), so avoid storing sensitive information in them
     - *signature*: calculated based on the header and payload, so if either is tampered with the signature won't match
         - signatures can use either a shared secret, or public/private keys - shared secrets allow clients to generate a JWT on their own
-- best to avoid storing JWTs in browser storage (except `HttpOnly` cookies), because browser extensions and other client-side JavaScript (such as that from an [[Development/Web app security#Cross-Site Scripting (XSS)\|XSS]] attack) can access them
+- best to avoid storing JWTs in browser storage (except `HttpOnly` cookies), because browser extensions and other client-side JavaScript (such as that from an [[#Cross-Site Scripting (XSS)|XSS]] attack) can access them
 - typically sent in the `Authorization` header with each request
 - invalidation:
     - the secret can be rotated to invalidate all tokens
     - tokens can be stored in a blocklist on the server to invalidate them in case of a known security breach, but then the authentication is no longer stateless
         - use an in-memory database like Redis to auto-expire the blocklist entries when the associated token would expire, so the blocklist doesn't grow forever
-    - JWTs can be made to expire quickly, but combined with a long-lived [[Development/Web app security#Refresh Tokens\|refresh token]], to keep the JWT stateless while still allowing login to be revoked (at least as quickly as the JWT expires)
+    - JWTs can be made to expire quickly, but combined with a long-lived [[#Refresh Tokens|refresh token]], to keep the JWT stateless while still allowing login to be revoked (at least as quickly as the JWT expires)
 
 ## Refresh Tokens
 
-- a long-lived token that can be exchanged to get a shorter-lived access token (such as a [[Development/Web app security#JSON Web Tokens (JWT)\|JWT]])
+- a long-lived token that can be exchanged to get a shorter-lived access token (such as a [[#JSON Web Tokens (JWT)|JWT]])
 - if an attacker gets the refresh token, they can generate new access tokens, but there are ways to mitigate this:
     - make refresh tokens single-use, and return a new one each time it's exchanged for an access token
     - if a previously-used refresh token is reused, invalidate all tokens for that user (log them out)

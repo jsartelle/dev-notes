@@ -17,8 +17,8 @@ action:
 - [ ] make sure there aren't any unwanted merges - for example, merging `sandbox` into a branch that will later be merged into `main`
 - variable/function/export names should be clear & specific
     - [ ] consistent naming of related items
-    - [ ] if names aren't self-explanatory, use [[Development/Notes/JavaScript#JSDoc\|JSDoc]] to add descriptions
-    - [ ] prefer [[Development/Notes/JavaScript#Options objects with defaults\|options objects]] over long argument lists
+    - [ ] if names aren't self-explanatory, use [[Development/Cheat sheets/JavaScript#JSDoc\|JSDoc]] to add descriptions
+    - [ ] prefer [[Development/Cheat sheets/JavaScript#Options objects with defaults\|options objects]] over long argument lists
 - failure states:
     - [ ] make sure potential errors are handled
     - [ ] default to least access: instead of checking if a request should be **blocked**, block it by default and check if it should be **allowed**
@@ -50,8 +50,8 @@ if (apiKey !== process.env.API_KEY) {
 
 # React
 
-- [ ] [[Development/Notes/React#useMemo\|memoize]] complex calculations (but don't overdo it)
-- [ ] wrap debounced functions or other higher-order functions in [[Development/Notes/React#useCallback\|useCallback]]
+- [ ] [[Development/Cheat sheets/React#useMemo\|memoize]] complex calculations (but don't overdo it)
+- [ ] wrap debounced functions or other higher-order functions in [[Development/Cheat sheets/React#useCallback\|useCallback]]
 
 # Axios
 
