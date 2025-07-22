@@ -767,7 +767,6 @@ user-select: none;
 
 ## white-space
 
-- spaces include space characters, tabs, and segment breaks (such as newlines)
 - *hang* means that the character may be placed outside the box and does not affect sizing
 
 |                 | New lines | Spaces and tabs | Text wrapping | End-of-line spaces | End-of-line other space separators |

@@ -183,6 +183,19 @@ WHERE
     p.species = 'cat'
 ```
 
+### Update based on records from another table
+
+```mysql
+UPDATE
+    pets p
+SET
+    p.owner_name = u.name
+FROM
+    users as u
+WHERE
+    p.owner_id = u.id
+```
+
 ## JOIN
 
 ```mysql
@@ -319,7 +332,6 @@ WHERE id BETWEEN 100 AND 200
 ### EXISTS and NOT EXISTS
 
 - Lets you filter based on the results of another query
-- If using multiple in a row, only use the `WHERE` keyword once
 
 ```mysql
 WHERE EXISTS ( ... )
@@ -701,9 +713,6 @@ Another approach:
 3. drop the old column
 
 # PostgreSQL differences from MySQL
-
-- not as performant for reads
-- more performant for writes, large datasets, large numbers of concurrent sessions
 
 ## Syntax
 

@@ -9,6 +9,7 @@
 - [Design system](https://usetrmnl.com/framework)
 - [Demo plugins](https://usetrmnl.com/plugins/demo)
     - add `?data=true` to use your own data
+- [Built-in plugin source](https://github.com/usetrmnl/plugins/tree/master)
 - [Custom plugins with Shortcuts](https://help.usetrmnl.com/en/articles/10108737-custom-plugins-with-apple-shortcuts)
     - send a POST request to the TRMNL webhook
 

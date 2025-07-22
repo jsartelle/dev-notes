@@ -10,7 +10,6 @@
 - JS code goes in the `<script>` tag
     - use `<script lang="ts">` for TypeScript
     - all variables in the `<script>` block can be used in the markup
-    - exported values can be imported in other files as normal
 - expressions in markup and attributes use single curly braces
     - you can use expressions inside quoted string attributes
 
