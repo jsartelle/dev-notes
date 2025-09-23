@@ -8,11 +8,7 @@
 ## `＜a＞`
 
 - the text inside a link should describe it (don't just say something like "click here")
-
-### Keyboard focus on links without href
-
-- Links without an `href` attribute do not receive focus from the <kbd>Tab</kbd> key by default. To make them focusable add `href=""`.
-    - `tabindex="0"` will not allow the link to be activated with <kbd>Enter</kbd>
+- don't use hyperlinks without `href` to handle clicks (ex. for opening a modal) - use a `<button>` instead
 
 ## `＜datalist＞`
 

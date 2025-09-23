@@ -43,8 +43,6 @@ font-size: clamp(2rem, 8vw, 4rem)
 
 - scales the font size based on the viewport width, with minimum and maximum based on the root font size (values are examples and should be adjusted)
 
-#todo viewport units
-
 # Selectors
 
 ## Attribute selectors
@@ -90,6 +88,9 @@ button:focus-visible {
 
 > [!warning]
 > `:has` **cannot** be nested inside another `:has`!
+
+> [!warning]
+> Do not use `:has` by itself, without another selector (ex. `body:has`), as this will cause it to be checked against every element on the page!
 
 ```css
 div:has(+ span) {
@@ -509,9 +510,9 @@ See [[#Marking containers]]
     - `auto` elements get layout, style, and paint [[#contain|containment]], and size containment if off-screen
     - the contents of `auto` elements that aren't being rendered still appear in the accessibility tree and Find feature
         - styles aren't rendered for the contents, so they'll still appear in the accessibility tree even if they have `display: none` or `visibility: hidden` - use `aria-hidden="true"` to hide them from accessibility
-    - use the `contentvisibilityautostatechange` to start and stop expensive JavaScript based on the visibility state
+    - use the `contentvisibilityautostatechange` event to start and stop expensive JavaScript based on the visibility state
 - example usage: on a blog page, wrap each article in `content-visibility: auto` so only visible articles are rendered
-    - use [[#contain-intrinsic-size]] to keep the scrollbar accurate
+    - use [[#contain-intrinsic-size]] to ensure the elements still take up the correct space
 
 [[Development/Clipped/Improving rendering performance with CSS content-visibility\|Improving rendering performance with CSS content-visibility]]
 
@@ -2054,6 +2055,17 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 <div style="width: fit-content; border: 1px solid currentColor"><b>fit-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
 
 <div style="width: max-content; border: 1px solid currentColor"><b>max-content</b>: Corporis aliquam rerum sint dolorem modi. Dolorum neque et eum dolorum reprehenderit est at ad.</div>
+
+## Viewport units
+
+- `svh` and `svw`: size when the toolbar is expanded
+- `lvh` and `lvw`: size when the toolbar is shrunken
+- `dvh` and `dvw`: change when the toolbar expands or shrinks
+- `vh` and `vw`: depends on the browser, usually the same as `lvh` and `lvw`
+- `vmin` and `vmax`: the smaller or larger, respectively, of `vh` and `vw`
+    - also `svmin`, `lvmin`, etc
+- `vb` and `vi`: same as `vh` and `vw` but using block & inline directions
+    - also `svb`, `svi`, etc
 
 ## Font-based length units (ex, cap, ch, lh)
 

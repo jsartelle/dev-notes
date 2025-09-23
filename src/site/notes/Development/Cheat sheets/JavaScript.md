@@ -311,9 +311,9 @@ await navigator.clipboard.writeText('text')
 
 # DOM
 
-## Element.closest
+## Find the closest matching element
 
-- finds the closest element in an element's ancestor tree (including itself) that matches the selector
+- `Element.closest` finds the closest element in an element's ancestor tree (including itself) that matches the selector
 
 ```html
 <div class="apple">
@@ -350,7 +350,7 @@ element.nextElementSibling // null
 
 ## Insert DOM elements
 
-- `prepend` and `append` accept strings and multiple items, and insert them at the beginning or end of the target's children
+- `Element.prepend` and `Element.append` accept strings and multiple items, and insert them at the beginning or end of the element's children
 
 ```html
 <div id="target">
@@ -379,7 +379,7 @@ target.append(after)
 </div>
 ```
 
-- `before` and `after` accept strings and multiple items, and insert them before or after the target node itself
+- `Element.before` and `Element.after` accept strings and multiple items, and insert them before or after the target node itself
 
 ```js
 const heading = document.createElement('h2')
@@ -429,6 +429,26 @@ target.insertAdjacentText('afterend', 'Text node')
     <div>From HTML string</div>
 </div>
 Text node
+```
+
+## Replace an element
+
+- `Element.replaceWith` replaces the element with one or more nodes (elements or strings)
+
+```js
+const newEl = document.createElement('div')
+newEl.textContent = 'New element'
+
+document.querySelector('#target').replaceWith(newEl, 'Hello')
+```
+
+```html
+<!-- before -->
+<div id="target"></div>
+
+<!-- after -->
+<div>New element</div>
+Hello
 ```
 
 ## Find focused element

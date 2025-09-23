@@ -15,10 +15,15 @@ jest spec/index
 ```
 
 - you can also filter tests by test name (not file name)
+    - this includes the surrounding describe blocks - ex. `jest -t "#describe testName"`
 
 ```shell
 jest -t testName
 ```
+
+## Show console logs
+
+- add `--silent=false`
 
 # Matchers
 

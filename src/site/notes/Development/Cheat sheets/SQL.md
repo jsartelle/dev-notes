@@ -4,7 +4,7 @@
 
 
 > [!note]
-> Unless otherwise specified, these notes are written with MySQL in mind.
+> These notes are mostly written with MySQL in mind.
 
 > [!important]
 > The order of keywords matters! The keywords below are listed in the order they should be used.
@@ -13,7 +13,8 @@
 
 - Comments start with `--`
 - `TRUE` and `FALSE` are the same as `1` and `0` respectively
-- Single and double quotes are the same except for escaping (same as JavaScript, Python, etc)
+- In MySQL, single and double quotes are the same except for escaping (same as JavaScript, Python, etc)
+    - in Postgres, use single quotes for strings
 - Table/column names that are also keywords (ex. `trigger`) must be quoted using \`
 
 # Variables
@@ -65,6 +66,52 @@ AND
 WHERE created_date >= NOW() - INTERVAL 1 DAY
 ```
 
+# Arrays (Postgres)
+
+- write array values as literals using `'{}'` or `ARRAY[]`
+
+```postgresql
+CREATE TABLE sal_emp (
+    name            text,
+    pay_by_quarter  integer[],
+    schedule        text[][]
+);
+
+INSERT INTO sal_emp
+    VALUES ('Bill',
+    '{10000, 10000, 10000, 10000}',
+    '{{"meeting", "lunch"}, {"training", "presentation"}}');
+-- or
+INSERT INTO sal_emp
+    VALUES ('Bill',
+    ARRAY[10000, 10000, 10000, 10000],
+    ARRAY[['meeting', 'lunch'], ['training', 'presentation']]);
+
+SELECT pay_by_quarter[3] FROM sal_emp;
+
+-- if using slices, use them for all dimensions
+SELECT schedule[1:2][1:1] FROM sal_emp WHERE name = 'Bill';
+
+UPDATE sal_emp SET pay_by_quarter[1:2] = '{27000,27000}'
+    WHERE name = 'Carol';
+```
+
+- `||` can concatenate arrays, or add elements to an array
+
+```postgresql
+ARRAY[1, 2] || ARRAY[3, 4] -> {1, 2, 3, 4}
+
+ARRAY[1, 2, 3] || 4 -> {1, 2, 3, 4}
+
+0 || ARRAY[1, 2, 3] -> {0, 1, 2, 3}
+```
+
+- to check if an array contains an element, use `ANY ()`
+
+```postgresql
+WHERE 10000 = ANY (pay_by_quarter)
+```
+
 # Keywords
 
 ## SELECT / AS / FROM
@@ -75,6 +122,13 @@ SELECT
     name,
     owner_name AS owner
 FROM pets
+```
+
+- Concatenate strings:
+
+```sql
+SELECT
+    first_name || ' ' || last_name AS full_name
 ```
 
 ### SELECT DISTINCT
@@ -89,6 +143,14 @@ FROM pets
 ```mysql
 SELECT DISTINCT name, owner_name
 FROM pets
+```
+
+### Count rows
+
+```mysql
+SELECT COUNT(*)
+FROM pets
+WHERE species = 'cat'
 ```
 
 - Also see [[#Count number of distinct values]] and [[#GROUP BY]]
@@ -307,19 +369,6 @@ WHERE REGEXP_LIKE(name, '\\w+_\\d{4}_\\d{2}_\\d{2}')
 WHERE name IN ('Alice', 'Bob')
 ```
 
-### MEMBER_OF (in JSON array)
-
-```mysql
-WHERE id MEMBER OF ('[1, 2, 3]')
-```
-
-- since JSON object keys are always strings, if you used [[#JSON_KEYS]] to get the array, you may need to [[#CAST|cast]] the value being checked to a string
-
-```mysql
--- if `user.relationships` was a JSON field with something like '{ 123: 'sibling' }'
-WHERE CONVERT(user.id, CHAR) MEMBER OF (JSON_KEYS(user.relationships))
-```
-
 ### BETWEEN (ranges)
 
 - Both sides are inclusive
@@ -396,7 +445,7 @@ GROUP BY owner_id
 
 ### GROUP BY and ordering
 
-- By default, which row is returned from `GROUP_BY` is not deterministic, so the following will not work as expected (returning the oldest pet for each owner)
+- By default, which row is returned from GROUP BY is not deterministic, so the following will not work as expected (returning the oldest pet for each owner)
 
 ```mysql
 SELECT owner_id, name, age
@@ -412,6 +461,18 @@ SELECT owner_id, name, MAX(age)
 FROM pets
 GROUP BY owner_id
 ORDER BY age DESC
+```
+
+- In some versions of SQL, you can only select columns that are used in the GROUP BY clause
+
+```mysql
+# this won't work since species isn't in the GROUP BY
+SELECT
+    species, owner_id
+FROM
+    pets
+GROUP BY
+    owner_id
 ```
 
 ## ORDER BY
@@ -431,7 +492,7 @@ LIMIT 5
 OFFSET 10
 ```
 
-# WITH / AS (subqueries)
+# WITH / AS (subqueries/CTEs)
 
 - Let you store temporary results (*Common Table Expressions* or *CTE*s) that you can refer to later
 - MySQL does not let you combine [[#UPDATE / SET|UPDATE]] and [[#LIMIT / OFFSET]], this can be used to get around that
@@ -475,6 +536,21 @@ FROM
     JOIN bar USING (id)
 ```
 
+- You can also inline a subquery into a SELECT, but you still need to give it a name
+
+```mysql
+SELECT
+    id
+FROM (
+    SELECT
+        a.*
+    FROM
+        albums a
+    WHERE
+        a.stars = 5
+) from five_star_albums
+```
+
 # Functions
 
 > [!WARNING]
@@ -507,6 +583,10 @@ GROUP BY
 SELECT COUNT(DISTINCT first_name) ...
 ```
 
+### Count rows by distinct value
+
+See [[#GROUP BY]]
+
 ## CAST
 
 | Format       | Notes/Example                                                                 |
@@ -531,7 +611,9 @@ WHERE length(first_name) <= 5
 
 ## JSON
 
-### JSON_OBJECT
+### MySQL
+
+#### JSON_OBJECT
 
 - Create a JSON object from key-value pairs
 
@@ -539,7 +621,7 @@ WHERE length(first_name) <= 5
 SET u.metadata = JSON_OBJECT('is_enrolled', TRUE, 'is_mobile', FALSE)
 ```
 
-### JSON_KEYS
+#### JSON_KEYS
 
 - Get a JSON array from the keys of a JSON object
     - see [[#MEMBER_OF (in JSON array)|MEMBER_OF]] to use it in a WHERE or JOIN
@@ -548,7 +630,7 @@ SET u.metadata = JSON_OBJECT('is_enrolled', TRUE, 'is_mobile', FALSE)
 SELECT JSON_KEYS(user.metadata)
 ```
 
-### JSON_CONTAINS_PATH
+#### JSON_CONTAINS_PATH
 
 - Find out if a value exists at a path
     - can provide many paths - second argument is "one" or "all", to check whether any or all of the paths have a value
@@ -559,7 +641,20 @@ WHERE JSON_CONTAINS_PATH(p.metadata, 'one', '$.processed_date')
 WHERE JSON_CONTAINS_PATH(p.metadata, 'all', '$.created_date', '$.processed_date')
 ```
 
-### JSON_EXTRACT
+#### MEMBER_OF (in JSON array)
+
+```mysql
+WHERE id MEMBER OF ('[1, 2, 3]')
+```
+
+- since JSON object keys are always strings, if you used [[#JSON_KEYS]] to get the array, you may need to [[#CAST|cast]] the value being checked to a string
+
+```mysql
+-- if `user.relationships` was a JSON field with something like '{ 123: 'sibling' }'
+WHERE CONVERT(user.id, CHAR) MEMBER OF (JSON_KEYS(user.relationships))
+```
+
+#### JSON_EXTRACT
 
 - Select based on values within JSON fields
     - make sure to use backticks or nothing around the column name, not single or double quotes
@@ -582,7 +677,7 @@ DATE(JSON_UNQUOTE(JSON_EXTRACT(p.metadata, '$.created_date')))
 CAST(JSON_UNQUOTE(JSON_EXTRACT(p.metadata, '$.created_date')) as datetime)
 ```
 
-### JSON_SET, JSON_INSERT, JSON_REPLACE
+#### JSON_SET, JSON_INSERT, JSON_REPLACE
 
 - `JSON_SET`: Insert or update JSON data
 - `JSON_REPLACE`: same but only replaces *existing* values
@@ -601,7 +696,7 @@ WHERE
 	u.id = 12345
 ```
 
-### JSON_REMOVE
+#### JSON_REMOVE
 
 - Remove the specified JSON key
 
@@ -615,11 +710,32 @@ WHERE
     u.id = 12345
 ```
 
-### See also
+#### See also
 
 - [[Development/Clipped/How to Use JSON Data Fields in MySQL Databases\|How to Use JSON Data Fields in MySQL Databases]]
 
-# Creating tables
+### Postgres
+
+[JSON functions (Postgres 13)]([PostgreSQL: Documentation: 13: 9.16. JSON Functions and Operators](https://www.postgresql.org/docs/13/functions-json.html))
+
+- search inside JSON values with the `@>` operator
+    - or `@<` to go the other way
+    - JSON strings must be placed in double quotes (inside the single quotes)
+- use `NOT` to negate - ex. `NOT ids @> '"abc"'`
+
+```postgresql
+-- ids = ["abc", "def"]
+WHERE ids @> '"abc"'
+```
+
+```postgresql
+-- user = { "name": "Bob", "age": 30 }
+WHERE user @> '{"name": "Bob"}'
+```
+
+# Tables
+
+## Create table
 
 ```mysql
 CREATE TABLE pets (
@@ -629,6 +745,15 @@ CREATE TABLE pets (
     FOREIGN KEY (owner_id) REFERENCES Users(id),
     PRIMARY KEY (id)
 );
+```
+
+## Drop (delete) table
+
+- remove `IF EXISTS` to error if the table doesn't exist
+- in Postgres you can add `CASCADE` after the table name(s) to also drop objects that depend on the table
+
+```mysql
+DROP TABLE IF EXISTS fruit, vegetables;
 ```
 
 # Transactions
@@ -711,81 +836,3 @@ Another approach:
 1. add a new column with the new name and copy the data over
 2. update the code to use the new column and deploy
 3. drop the old column
-
-# PostgreSQL differences from MySQL
-
-## Syntax
-
-- use single quotes for strings
-- `||` is the string or array concatenation operator
-
-```postgresql
-'AB' || 'CD' -> 'ABCD'
-
-'ABC' || 123 -> 'ABC123'
-
-ARRAY[1,2] || ARRAY[3,4] -> ARRAY[1,2,3,4]
-```
-
-## Arrays
-
-- write array values as literals using `'{}'` or `ARRAY[]`
-
-```postgresql
-CREATE TABLE sal_emp (
-    name            text,
-    pay_by_quarter  integer[],
-    schedule        text[][]
-);
-
-INSERT INTO sal_emp
-    VALUES ('Bill',
-    '{10000, 10000, 10000, 10000}',
-    '{{"meeting", "lunch"}, {"training", "presentation"}}');
--- or
-INSERT INTO sal_emp
-    VALUES ('Bill',
-    ARRAY[10000, 10000, 10000, 10000],
-    ARRAY[['meeting', 'lunch'], ['training', 'presentation']]);
-
-SELECT pay_by_quarter[3] FROM sal_emp;
-
--- if using slices, use them for all dimensions
-SELECT schedule[1:2][1:1] FROM sal_emp WHERE name = 'Bill';
-
-UPDATE sal_emp SET pay_by_quarter[1:2] = '{27000,27000}'
-    WHERE name = 'Carol';
-```
-
-- `||` can concatenate arrays, or add elements to an array
-
-```postgresql
-ARRAY[1, 2] || ARRAY[3, 4] -> {1, 2, 3, 4}
-
-ARRAY[1, 2, 3] || 4 -> {1, 2, 3, 4}
-
-0 || ARRAY[1, 2, 3] -> {0, 1, 2, 3}
-```
-
-- to check if an array contains an element, use `ANY ()`
-
-```postgresql
-WHERE 10000 = ANY (pay_by_quarter)
-```
-
-## JSON
-
-[JSON functions (Postgres 13)]([PostgreSQL: Documentation: 13: 9.16. JSON Functions and Operators](https://www.postgresql.org/docs/13/functions-json.html))
-
-- search inside JSON values with the `@>` operator
-    - JSON strings must be placed in double quotes (inside the single quotes)
-
-```postgresql
--- ids = ["abc", "def"]
-WHERE ids @> '"abc"'
-```
-
-```postgresql
--- user = { "name": "Bob", "age": 30 }
-WHERE user @> '{"name": "Bob"}'
-```

@@ -33,6 +33,7 @@
     - [x] faster refresh rate
 - [x] Random SCP article
     - [x] filter out avatar images
+- [ ] Random Instapaper item
 - Japanese learning with pronunciation - might be able to use [Data Mode](https://docs.usetrmnl.com/go/private-api/fetch-plugin-content)
 - random task (like that Todo notebook)
 - Random game from your Steam library

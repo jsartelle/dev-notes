@@ -384,18 +384,18 @@ export default function Component({ Tag = 'div' }: ComponentProps) {
 
 # Events
 
-- DOM event names are written in camelCase
-    - instead of custom events like Vue, React uses callbacks passed as props and called by the child component
-- event handlers are passed as functions
+- DOM event names are written in camelCase (ex. `onClick`)
+- handlers for custom events are passed as props and called by the child component
+    - custom event handler props are usually named `onSomething`, and the handler function is named `handleSomething`
 
 ```jsx
 function MyButton() {
-    function activateLasers() {
+    function handleFireLasers() {
         alert('Lasers activated!')
     }
 
     return (
-        <button onClick={activateLasers}>
+        <button onFireLasers={handleFireLasers}>
             Activate Lasers
         </button>
     )

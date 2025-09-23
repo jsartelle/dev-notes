@@ -116,6 +116,16 @@
 - fine-grained permissions system used across AWS products
 - can define different roles with different permissions
 
+## ARN
+
+- *Amazon Resource Name* - identifier in a format below
+
+```
+arn:partition:service:region:account-id:resource-id
+arn:partition:service:region:account-id:resource-type/resource-id
+arn:partition:service:region:account-id:resource-type:resource-id
+```
+
 # Cognito
 
 - user directory and authentication server

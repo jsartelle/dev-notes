@@ -142,15 +142,6 @@ fi
             - if `-a` is used, each variable will contain a list of matches
     - `-v`: only print lines that do not match the pattern
 
-## Snippets
-
-### Get name of frontmost app (macOS)
-
-```shell
-set result (string match -r '"LSDisplayName"="(.+)"' (lsappinfo info -only name (lsappinfo front)))
-echo $result[2]
-```
-
 # Commands
 
 ## Text search and manipulation
@@ -682,10 +673,30 @@ chflags nohidden file.txt
 
 ### defaults
 
+#### Remove dock autohide delay
+
+```shell
+defaults write com.apple.dock autohide-delay -float 0;killall Dock
+```
+
 #### Dim Dock icons of hidden apps
 
 ```shell
 defaults write com.apple.Dock showhidden -boolean yes; killall Dock
+```
+
+#### Add a spacer to the Dock
+
+- Applications (left) side:
+
+```shell
+defaults write com.apple.dock persistent-apps -array-add '{tile-type="spacer-tile";}'; killall Dock
+```
+
+- Documents (right) side:
+
+```shell
+defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'; killall Dock
 ```
 
 ### tccutil

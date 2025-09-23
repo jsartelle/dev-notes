@@ -53,9 +53,14 @@ npm why vue
 yarn why vue
 ```
 
-# npm-check
+# List deprecated packages
 
-- Scans for out of date and unused packages
+```shell
+npx npm-deprecated-check current
+```
+
+# List outdated and unused packages
+
 - Pass `-u` to interactively update packages by patch/minor/major version
 
 ```shell
