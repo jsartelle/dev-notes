@@ -29,6 +29,19 @@
 - supports SSR, SPAs, static apps, and native or Flutter/RN mobile apps
 - integrates with other AWS services
 
+# CloudWatch
+
+- log management and viewing tool
+- example Logs Insights query:
+
+```
+fields @message, function
+| filter function = "example.controller.test"
+| filter @message like /(?i)ERROR/
+| sort @timestamp desc
+| limit 25
+```
+
 # Elastic Compute Cloud (EC2)
 
 - non-serverless cloud computing infrastructure platform
@@ -103,13 +116,16 @@
 - while a message is being processed, it's hidden from other requests for the duration of the user-set visibility timeout (default 30 seconds)
     - it's the responsibility of a message consumer to delete the message once it's done processing, otherwise it will go back in the queue for other consumers to try
 
-## Other message services
+# Simple Notification Service (SNS)
 
-- Amazon SNS (Simple Notification Service): lets messages be sent to multiple subscribers through *topics*
+- lets messages be sent to multiple subscribers through *topics*
     - uses a push model - good when immediate response is needed, such as real-time user engagement or alarm systems
     - doesn't hold messages if subscribers are offline
         - SNS messages can be sent to a SQS queue to offer both immediate delivery and persistence
-- Amazon MQ: for migrating from existing message brokers like [[Development/Message queues#RabbitMQ\|RabbitMQ]]
+
+# MQ
+
+- for migrating from existing message brokers like [[Development/Message queues#RabbitMQ\|RabbitMQ]]
 
 # Identity and access management (IAM)
 

@@ -654,17 +654,6 @@ const handleSubmit = useCallback((orderDetails) => {
 }, [productId, referrer])
 ```
 
-### Higher-order functions
-
-- instead of using `useCallback` with higher-order functions like lodash debounce, use `useMemo` with an inline function (so the linter can analyze the dependencies)
-
-```js
-// incorrect
-useCallback(_.debounce(myFunction, 100), [myFunction])
-// correct
-useMemo(() => _.debounce(myFunction, 100), [myFunction])
-```
-
 ## useRef
 
 - `useRef` will hold onto information between renders, but aren't tracked by React and **don't trigger re-render** when updated
@@ -741,6 +730,17 @@ function MyComponent() {
 
     return <button onClick={eventHandler}>{counter}</button>
 }
+```
+
+### Higher-order functions (Lodash debounce/throttle in React)
+
+- instead of using `useCallback` with higher-order functions like lodash debounce, use a ref so the inner function isn't recreated
+
+```js
+// incorrect
+useCallback(_.debounce(myFunction, 100), [myFunction])
+// correct
+useRef(_.debounce(myFunction, 100))
 ```
 
 ### DOM element refs

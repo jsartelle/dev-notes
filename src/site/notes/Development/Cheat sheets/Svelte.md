@@ -217,6 +217,10 @@
     - All of these must appear at the top level
     - Listeners on all of these will be cleaned up automatically when the component is destroyed, and are safe to use with SSR
 
+## Element IDs
+
+- use `$props.id()` to generate a unique ID (ex. for the `for` attribute) that is consistent between SSR and hydration
+
 ## `＜script module＞`
 
 - `<script>` blocks with the `module` attribute will run once per module, not once per component
@@ -663,11 +667,8 @@ import { setContext } from 'svelte'
 
 setContext('canvas', { addItem })
 
-function addItem(fn) {
-	$effect(() => {
-		items.add(fn);
-		return () => items.delete(fn);
-	});
+function addItem(item) {
+	...
 }
 ```
 
@@ -676,6 +677,17 @@ function addItem(fn) {
 import { getContext } from 'svelte'
 
 const { addItem } = getContext('canvas')
+```
+
+## createContext
+
+- use the `createContext` API to create type-safe getters and setters that automatically manage the context key
+    - export them from a shared file and import in components as needed
+
+```ts
+const [getCanvasContext, setCanvasContext] = createContext<{
+    addItem: (item: Item) => void
+}>()
 ```
 
 # Events
@@ -883,6 +895,8 @@ const { addItem } = getContext('canvas')
 - media elements support bindings like `currentTime`, `duration`, `paused`
 
 # Actions
+
+#todo learn about Attachments: https://svelte.dev/docs/svelte/@attach
 
 - actions are functions that are called when an element is created, and can do things like add event listeners or interface with third-party libraries
 - typically use [[#Effects|$effect]] so they are cleaned up when the element unmounts

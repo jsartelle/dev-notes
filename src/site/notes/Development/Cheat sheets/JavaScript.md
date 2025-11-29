@@ -455,6 +455,10 @@ Hello
 
 Use `document.activeElement` to find the currently focused element. You can add this as a live expression in the Chrome devtools to get a live updating view of the focused element.
 
+## Viewport height/widths
+
+see [[Development/Cheat sheets/CSS#Layout\|CSS#Layout]]
+
 ## Element heights/widths
 
 - `clientHeight`/`clientWidth`: includes padding
@@ -720,7 +724,7 @@ function uppercase(input) {
 }
 ```
 
-- to make a function parameter optional, put the *name* in square brackets
+- to make a parameter optional, put the *name* in square brackets: `[param]`
 - use `[param=value]` to declare default values
     - parameters with default values must be optional
 - when using TypeScript, you can leave out the type if it's declared in the function signature, and just use JSDoc for descriptions

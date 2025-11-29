@@ -3,9 +3,28 @@
 ---
 
 
-# Responsive layouts
+# Layout
 
 - when building responsive layouts, default to the smallest (usually mobile) layout, and use [[#@media (media queries)|media queries]] to adjust the layout for larger screens
+
+## Viewports
+
+- *layout viewport*: the size of the rendered area when fully zoomed out, doesn't change as long as the screen size doesn't change
+    - based on layout viewport:
+        - `window.innerWidth` and `innerHeight` (in Chrome and Firefox)
+        - `document.documentElement.clientWidth` and `clientHeight`
+        - [[#Viewport units]]
+        - [[#@media (media queries)|Media queries]]
+        - `position: fixed`
+        - `<meta name="viewport">` tags
+            - by default, mobile browsers use a fake layout viewport ~980px wide to avoid squishing pages that aren't mobile-optimized
+            - `<meta name="viewport" width=device-width>` sets the layout viewport to the actual device width
+- *visual viewport*: the size of the actual visible area, smaller than the layout viewport if pinch zoomed
+    - based on visual viewport:
+        - `window.innerWidth` and `innerHeight` (in Safari)
+        - `event.clientX` and `clientY`
+        - `window.visualViewport`
+        - `window.pageXOffset` and `pageYOffset` give the offset of the visual viewport relative to the layout viewport
 
 ## rem vs em vs px
 
@@ -877,7 +896,7 @@ grid-template-columns: 25% 75%;
 #### minmax
 
 - Item size will be >= min and <= max
-- use `minmax(0, 1fr)` to keep all rows/columns the same size
+- use `minmax(0, 1fr)` to keep all rows/columns the same size, and keep them from overflowing (see [[#Prevent flex and grid items from overflowing container]])
 
 #### auto-fill
 
@@ -2058,6 +2077,7 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 
 ## Viewport units
 
+- based on the [[#Viewports|layout viewport]] (so they don't change when zooming)
 - `svh` and `svw`: size when the toolbar is expanded
 - `lvh` and `lvw`: size when the toolbar is shrunken
 - `dvh` and `dvw`: change when the toolbar expands or shrinks

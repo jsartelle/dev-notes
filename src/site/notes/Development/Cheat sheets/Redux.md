@@ -23,7 +23,8 @@
 
 - the component will re-render whenever anything returned by `useAppSelector` changes, so only return what you need
     - the check is done referentially, so avoid returning wrapper objects or arrays (since they will be re-created each time the selector function runs), unless you use a [[#Memoized selectors|memoized selector]]
-- it's okay for selectors to derive computed values from the state
+        - you can also use the Redux Toolkit `useSelector` function and pass `shallowEqual` as the second argument
+- it's okay for selectors to derive computed values from the state, as long as they're primitive types
 - returned values are referentially equal if the value in the state hasn't changed
 
 ```js
@@ -92,7 +93,8 @@ store.dispatch(todoAdded('Buy milk'))
 - reducers should:
     - be pure and synchronous (use [[#Thunks (async dispatch)|thunks]] for async logic and side effects)
     - only calculate the new state based on the current state and action (nothing external)
-    - either return the current state unchanged, or return a new copy of the state with the necessary changes (don't mutate the current state)
+    - either return the current state unchanged, or return a new copy of the state with the necessary changes (**don't mutate the current state**)
+        - reducers created with Redux Toolkit `createReducer` or [[#createSlice]] use [[Development/Clipped/Introducing Immer - Immutability the easy way\|Immer]], so it's safe to directly mutate the state (it will automatically wrap it in a producer)
 - reducers can call other reducers
 
 # Dispatch

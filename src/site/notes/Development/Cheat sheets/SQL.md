@@ -48,7 +48,7 @@ WHERE DATE(created_at) <= '2022-12-25'
 WHERE TIME(created_at) > '12:00:00'
 ```
 
-- If the column has an index, you can avoid casting to improve performance:
+- If the column has an index, you can increase the end date by 1 to avoid casting and improve performance. For example, to select all records created on 2022-12-25:
 
 ```mysql
 WHERE
@@ -63,7 +63,7 @@ AND
     - interval names are singular, ex. `DAY`, `WEEK`, `MONTH`
 
 ```mysql
-WHERE created_date >= NOW() - INTERVAL 1 DAY
+WHERE created_date >= NOW() - INTERVAL '1 DAY'
 ```
 
 # Arrays (Postgres)
@@ -435,7 +435,7 @@ HAVING COUNT(*) > 1
 ## GROUP BY
 
 - Often used in queries with [[#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)|aggregate functions]] to analyze each group of rows
-- Count the number of rows matching each distinct value of a column
+- Count the number of rows matching each distinct value of a column (in the example, the number of pets belonging to each `owner_id`):
 
 ```mysql
 SELECT owner_id, COUNT(*)
@@ -463,10 +463,10 @@ GROUP BY owner_id
 ORDER BY age DESC
 ```
 
-- In some versions of SQL, you can only select columns that are used in the GROUP BY clause
+- You can only select columns that are used in the GROUP BY clause, or in an aggregate function as shown above
 
 ```mysql
-# this won't work since species isn't in the GROUP BY
+# this won't work since species isn't in the GROUP BY or an aggregate
 SELECT
     species, owner_id
 FROM
@@ -583,7 +583,7 @@ GROUP BY
 SELECT COUNT(DISTINCT first_name) ...
 ```
 
-### Count rows by distinct value
+### Count rows with each distinct value
 
 See [[#GROUP BY]]
 

@@ -126,6 +126,7 @@ git rebase --abort
 ## Change author for entire repository
 
 - will rewrite all commits to use your current author info (so don't use on repos with multiple contributors)
+- will also reset the date of each commit
 - set your new author info first with `git config user.name` and `git config user.email` (add `--global` to do it globally)
 
 ```shell

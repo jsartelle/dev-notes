@@ -305,6 +305,10 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 
 - behaves identically to `<ul>`, but can be used as a semantic alternative
 
+## `＜meta＞`
+
+- `<meta name="viewport">` is used to adjust the layout viewport size on mobile - see [[Development/Cheat sheets/CSS#Layout\|CSS#Layout]]
+
 ## `＜script＞`
 
 ### async vs. defer
@@ -559,6 +563,42 @@ The `DOMContentLoaded` event fires when the HTML document has been completely p
 `DOMContentLoaded` does not wait for stylesheets to load, however deferred scripts *do* wait for stylesheets, and `DOMContentLoaded` queues behind deferred scripts. Also, scripts which aren't deferred or async (e.g. `<script>`) will wait for already-parsed stylesheets to load.
 
 # Other
+
+## Tooltip and toast accessibility
+
+Be careful using tooltip or toast components, as they're often not accessible:
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://tkdodo.eu/blog/tooltip-components-should-not-exist" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://tkdodo.eu/blog/og-images/tooltip-components-should-not-exist.png')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">Tooltip Components Should Not Exist</h1>
+		<p class="rich-link-card-description">
+		A look at why tooltip components are often the wrong abstraction in design systems, leading to accessibility issues, misuse, and inconsistent user experiences.
+		</p>
+		<p class="rich-link-href">
+		https://tkdodo.eu/blog/tooltip-components-should-not-exist
+		</p>
+	</div>
+</a></div>
+
+<div class="rich-link-card-container"><a class="rich-link-card" href="https://primer.style/accessibility/toasts/" target="_blank">
+	<div class="rich-link-image-container">
+		<div class="rich-link-image" style="background-image: url('https://github.com/primer/brand/assets/19292210/8562a9a5-a1e4-4722-9ec7-47ebccd5901e')">
+	</div>
+	</div>
+	<div class="rich-link-card-text">
+		<h1 class="rich-link-card-title">Toasts</h1>
+		<p class="rich-link-card-description">
+		GitHub no longer uses toasts because of their accessibility and usability issues.
+		</p>
+		<p class="rich-link-href">
+		https://primer.style/accessibility/toasts/
+		</p>
+	</div>
+</a></div>
 
 ## Quick test image URLs
 
