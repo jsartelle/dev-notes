@@ -94,7 +94,7 @@ store.dispatch(todoAdded('Buy milk'))
     - be pure and synchronous (use [[#Thunks (async dispatch)|thunks]] for async logic and side effects)
     - only calculate the new state based on the current state and action (nothing external)
     - either return the current state unchanged, or return a new copy of the state with the necessary changes (**don't mutate the current state**)
-        - reducers created with Redux Toolkit `createReducer` or [[#createSlice]] use [[Development/Clipped/Introducing Immer - Immutability the easy way\|Immer]], so it's safe to directly mutate the state (it will automatically wrap it in a producer)
+        - reducers created with Redux Toolkit `createReducer` or [[#createSlice]] use [[Development/Clipped/Introducing Immer - Immutability the easy way\|Immer]], so it's safe to directly mutate the state (it's automatically wrapped in a producer)
 - reducers can call other reducers
 
 # Dispatch
@@ -133,7 +133,7 @@ store.dispatch(fetchTodoById(123))
 
 - accepts a slice name, an initial state, and an object of [[#Reducers|reducers]], and automatically generates [[#Actions|action]] creators and types
 - each reducer function gets a proxy state object (for the slice's state, not the whole store) and an action object
-    - reducers can either update the proxy state **or** return a new state object, but not both
+    - reducers can either update the proxy state (which uses [[Development/Clipped/Introducing Immer - Immutability the easy way\|Immer]]) **or** return a new state object, but not both
 
 ```js
 import { createSlice } from '@reduxjs/toolkit'

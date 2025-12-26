@@ -24,7 +24,7 @@
         - `window.innerWidth` and `innerHeight` (in Safari)
         - `event.clientX` and `clientY`
         - `window.visualViewport`
-        - `window.pageXOffset` and `pageYOffset` give the offset of the visual viewport relative to the layout viewport
+- `window.pageXOffset` and `pageYOffset` give the offset of the visual viewport relative to the layout viewport
 
 ## rem vs em vs px
 
@@ -969,7 +969,6 @@ main {
     - Also lets you change the layout without having to change styles for all the child elements
 - Each string is a row, and each space-separated token within the string is a column
     - strings don't need to be on separate lines (ie. you could write `"a a a" "b c c" "b c c"`), but putting them on separate lines makes them more readable
-- Row heights go after each string, and column widths are at the end after a `/`
 - Areas must be rectangular (ex. you can't do `"a a b" "a b b"`)
 - [[#Named lines]] named with `-start` and `-end` will generate an implicit named area
     - Conversely, named areas will generate implicit named lines with `-start` and `-end` appended

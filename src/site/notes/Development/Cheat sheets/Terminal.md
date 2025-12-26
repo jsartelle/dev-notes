@@ -555,6 +555,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"name": "Oscar", "species"
     - `--write-auto-sub`: download YouTube automatic subtitles
 - `--add-metadata`: add metadata like chapters
 - `--embed-thumbnail`: embed thumbnail into audio file
+- `--write-thumbnail --skip-download`: save thumbnail only
 - `--merge-output-format mp4`: set the output format to mp4
 - `--batch-file='videos.txt'`: download all files in `videos.txt` (list of URLs, one per line)
 - `-f bestaudio[ext=m4a] --add-metadata --embed-thumbnail url`: save audio with thumbnail and chapter markers

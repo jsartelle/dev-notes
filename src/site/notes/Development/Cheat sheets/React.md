@@ -636,8 +636,11 @@ const deps = {
 
 if (lastDeps) console.debug('changed:', Object.keys(deps).filter(key => JSON.stringify(deps[key]) !== lastDeps[key]))
 
+// @ts-ignore
 setLastDeps(Object.keys(deps).reduce((obj, key) => { obj[key] = JSON.stringify(deps[key]); return obj }, {}))
 ```
+
+- This won't show changes to functions, or new instances of objects that look the same as the old instance
 
 ## useCallback
 

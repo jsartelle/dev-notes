@@ -217,6 +217,30 @@
     - All of these must appear at the top level
     - Listeners on all of these will be cleaned up automatically when the component is destroyed, and are safe to use with SSR
 
+### Error and async boundaries
+
+- `pending` snippet will show until every `await` inside the boundary has resolved (like React [[Development/Cheat sheets/React#Suspense\|Suspense]])
+- `failed` snippet will show when an error is thrown
+    - `reset` function tries to recreate the boundary contents
+- `onerror` handler runs when an error is thrown, and gets the same `error` and `reset` arguments
+    - if an error is thrown inside `onerror`, it will bubble up to the next parent boundary
+- both `failed` and `onerror` will remove the existing content
+- errors outside of rendering (ex. in event handlers or `async`/`setTimeout`) won't trigger error boundaries
+
+```html
+<svelte:boundary {onerror}>
+	<p>{await delayed('hello!')}</p>
+
+	{#snippet pending()}
+		<p>loading...</p>
+	{/snippet}
+	
+	{#snippet failed(error, reset)}
+		<button onclick={reset}>oops! try again</button>
+	{/snippet}
+</svelte:boundary>
+```
+
 ## Element IDs
 
 - use `$props.id()` to generate a unique ID (ex. for the `for` attribute) that is consistent between SSR and hydration
@@ -566,6 +590,19 @@ let data = $state.raw(poll());
 $inspect(numbers).with(console.trace)
 ```
 
+### Tracking why an effect or derived ran ($inspect.trace)
+
+- tells you which piece(s) of reactive state caused a $effect or $derived.by function run
+    - argument is an optional label
+- must be called at the top of the function
+
+```js
+$effect(() => {
+    $inspect.trace('label goes here');
+    // effect code
+});
+```
+
 # Effects
 
 - use `$effect` to re-run a function when any of the state it uses changes
@@ -894,14 +931,101 @@ const [getCanvasContext, setCanvasContext] = createContext<{
 - elements with `contenteditable="true"` support `bind:textContent` and `bind:innerHTML`
 - media elements support bindings like `currentTime`, `duration`, `paused`
 
-# Actions
+# Attachments
 
-#todo learn about Attachments: https://svelte.dev/docs/svelte/@attach
+- functions that run when an element is mounted to the DOM - essentially effects that are attached to an element
+    - unlike actions, attachments re-run when their state changes
+- can return a function that is called before the attachment re-runs, or after the element is removed from the DOM
+
+```ts
+import type { Attachment } from 'svelte/attachments';
+
+let count = $state(0)
+
+// will run when `count` changes,
+// when `element` changes,
+// or when the `updateCount` function changes
+const updateCount: Attachment = (element) => {
+    element.dataset.count = count;
+
+    return () => {
+        element.removeAttribute('data-count');
+    };
+};
+```
+
+```html
+<div {@attach updateCount}>...</div>
+```
+
+- can create a factory function to return customized attachments
+
+```js
+function tooltip(content: string): Attachment {
+    return (element) => {
+        const tooltip = tippy(element, { content });
+        return tooltip.destroy;
+    };
+}
+```
+
+```html
+<button {@attach tooltip(content)}>
+	Hover me
+</button>
+```
+
+- if you don't want the attachment to re-run every time a piece of state changes, pass the data in a function and read it in a child effect
+
+ ```js
+// this will re-run when the node changes,
+// but not when `bar` changes
+let bar = $state();
+
+function getBar() {
+    return bar;
+}
+
+function foo(getBar) {
+	return (node) => {
+		veryExpensiveSetupWork(node);
+
+		$effect(() => {
+			update(node, getBar());
+		});
+	}
+}
+ ```
+
+## Component attachments
+
+- Attachments used on a component will be included in the props with a Symbol key, and can be spread onto a child element
+
+```html
+<CustomButton {@attach tooltip(content)}>Button</CustomButton>
+```
+
+- inside CustomButton:
+
+```js
+let { children, ...props } = $props();
+```
+
+```html
+<button {...props}>
+    {@render children?.()}
+</button>
+```
+
+# Actions (use:)
+
+> [!warning]
+> As of Svelte 5.29, prefer [[#Attachments|attachments]] instead
 
 - actions are functions that are called when an element is created, and can do things like add event listeners or interface with third-party libraries
 - typically use [[#Effects|$effect]] so they are cleaned up when the element unmounts
 - actions receive the element as the first argument, and the attribute's contents as a second argument
-    - actions don't re-run when their argument changes, but [[#State and Reactivity|state]] can be passed via a function, and [[#Effects|effects]] will re-run when that state changes
+    - actions **don't** re-run when their argument changes, but [[#State and Reactivity|state]] can be passed via a function, and [[#Effects|effects]] will re-run when that state changes
 - attached with `use:name`
 - not called during SSR
 
@@ -989,13 +1113,29 @@ $effect.pre(() => {
 - shared components and code go in `src/lib`, and are imported from `$lib`
     - server-only code can be placed in `src/lib/server` and imported from `$lib/server`
 
+## Asset management
+
+- static assets go in `/static`
+    - prefer importing with `$lib` when possible, as imported assets allow better caching
+- `asset(path)` from `$app/paths` prefixes a static asset path with the base path and provides autocompletion
+
 ## Pages and routing
 
 - pages are stored in `src/routes/{page name}/+page.svelte`
     - `src/routes/+page.svelte` is the index page
 - create dynamic route parameters by adding square brackets to the folder (ex. `/src/routes/blog/[slug]/+page.svelte`)
-    - advanced routing: [Advanced routing / Optional parameters • Svelte Tutorial](https://svelte.dev/tutorial/kit/optional-params)
-- programmatic routing functions and callbacks are in `$app/navigation`
+    - double brackets mark optional params - ex. `/src/routes/[[lang]]/+page.svelte` would match both `/` and `/fr`
+        - make sure there isn't a page at `src/routes/+page.svelte`, or the build will fail because two routes match the same page
+- routing functions and callbacks are in `$app/navigation`
+    - use `goto(url, options)` for programmatic navigation to internal URLs
+        - partial list of options:
+            - `replaceState`: replace the current history entry instead of adding a new one
+            - `keepFocus`: whether to keep the current element focused
+        - for external URLs use `window.location = url` like normal
+
+### Type-safe routing
+
+- `resolve(route)` from `$app/paths` prefixes the route with the base path and provides autocompletion
 
 ## Layouts
 
@@ -1263,7 +1403,7 @@ export async function POST({ request, cookies }) {
 
 ## Error handling
 
-- *expected* errors are ones thrown from the `error` helper in `@sveltejs/kit`, and are shown to users
+- *expected* errors are thrown using the `error` helper in `@sveltejs/kit`, and are shown to users
 - any other errors are considered *unexpected*, and the error info is redacted
 - create a `+error.svelte` component to show an error page
     - will be rendered inside the layout
