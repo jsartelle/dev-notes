@@ -6,7 +6,7 @@
 # Arrays
 
 > [!warning]
-> Remember that `sort`, `reverse`, and `splice` mutate the original array! (see [[#Non-mutating methods]])
+> Remember that `sort`, `reverse`, and `splice` mutate the original array! (see [[Development/Cheat sheets/JavaScript#Non-mutating methods\|#Non-mutating methods]])
 
 > [!tip]
 > If you're storing unique values, use a Set instead! Sets allow for lookups faster than linear ($O(n)$) time.
@@ -589,7 +589,7 @@ switch(true) {
 }
 ```
 
-# Debugging
+# Debugging/Devtools
 
 ## Quickly log variables with labels
 
@@ -604,7 +604,7 @@ console.log({ name, age }) // logs {name: 'Sam', age: 32}
 
 ## Snapshot objects at the time of logging
 
-When objects logged to the console are expanded, they reflect their current values. To preserve the value at the time of logging, duplicate the object by stringifying and parsing it.
+When objects logged to the console are expanded, they reflect their current values. To preserve the value at the time of logging, duplicate the object by stringifying and parsing it (or use [[#Deep clone objects with `structuredClone`|structuredClone]])
 
 ```js
 const person = { name: 'Sam', age: 32 }
@@ -619,7 +619,7 @@ person.name = 'Bill'
 
 ## Log objects with indentation
 
-You can pass `'\t'` as the third argument to indent with tabs, or other values like dashes
+You can pass `'\t'` as the third argument to `JSON.stringify` to indent with tabs, or other values like dashes
 
 ```js
 console.log(JSON.stringify(object, null, '  '))
@@ -664,6 +664,12 @@ function longRunningFunction() {
 ## Copy from the console
 
 Use the `copy()` function in the console to copy long strings from the console.
+
+## Chrome DevTools shortcuts
+
+- `$()` - alias for `document.querySelector()`
+- `$$()` - alias for `document.querySelectorAll()`
+- `$_` - the result of the last expression in the console
 
 # Other
 

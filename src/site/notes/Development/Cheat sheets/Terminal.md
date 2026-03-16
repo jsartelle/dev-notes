@@ -63,7 +63,7 @@ for i in *; do echo "$i"; done
 
 - if statement
     - the spaces around the condition are important!
-    - 0 is true and 1 is false (this matches [[#^a8f207|exit codes]])
+    - 0 is true and 1 is false (this matches [[Development/Cheat sheets/Terminal#^a8f207\|exit codes]])
 
 ```bash
 if [[ condition ]]; then
@@ -193,6 +193,9 @@ Searches files for pattern matches and performs an action based on them
 ### wc (word count)
 
 - `wc`: output number of lines, words, and characters (in that order)
+    - `-l`: line count only
+    - `-w`: word count only
+    - `-m`: character count only
 
 ### cat/less
 
@@ -263,7 +266,7 @@ Searches files for pattern matches and performs an action based on them
 	</div>
 </a></div>
 
-- faster and friendlier alternative to [[#find]]
+- faster and friendlier alternative to [[Development/Cheat sheets/Terminal#find\|#find]]
 - recursively searches the current directory by default
     - can pass a directory as the second argument
     - can give a regular expression as the pattern
@@ -611,7 +614,7 @@ magick convert image.png -resize 100x100 resized.png
 
 - pipe JSON (ex. from `curl`) into `jq` to pretty-print it
 - `jq -s '.[0] * .[1]' --indent 4 old.json patch.json > new.json`: recursively merge *patch.json* into *old.json*
-- live preview filters using [[#fzf]]
+- live preview filters using [[Development/Cheat sheets/Terminal#fzf\|#fzf]]
 
 ```shell
 echo '' | fzf --preview 'jq {q} < filename.json'
@@ -665,7 +668,7 @@ pandoc file.docx -o file.html
 
 #### Hide/unhide files & folders
 
-See [[#stat]] to check if a file/folder is hidden
+See [[Development/Cheat sheets/Terminal#stat\|#stat]] to check if a file/folder is hidden
 
 ```shell
 chflags hidden file.txt

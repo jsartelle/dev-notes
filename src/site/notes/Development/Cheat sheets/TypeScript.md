@@ -9,7 +9,7 @@
 > When creating types for objects, prefer interfaces when possible.
 
 - Interfaces always describe objects, type aliases can also describe primitives and unions
-- Interfaces can be added to after creation through [[#Interface declaration merging|declaration merging]], type aliases can't
+- Interfaces can be added to after creation through [[Development/Cheat sheets/TypeScript#Interface declaration merging\|declaration merging]], type aliases can't
 - Interfaces can be more efficient to compile
 
 # Tuples
@@ -456,7 +456,7 @@ type CircleEvent = { kind: "circle", radius: number };
 type Config = EventConfig<SquareEvent | CircleEvent>
 ```
 
-- works with [[#Template Literal Types]] as well
+- works with [[Development/Cheat sheets/TypeScript#Template Literal Types\|#Template Literal Types]] as well
 
 ```ts
 type Getters<Type> = {

@@ -113,7 +113,7 @@
 ## Snippets and children
 
 - allow you to store blocks of markup in variables, somewhat similar to [[Development/Cheat sheets/React#JSX\|JSX]]
-- snippets can take arguments, and can be passed as [[#Props|props]]
+- snippets can take arguments, and can be passed as [[Development/Cheat sheets/Svelte#Props\|props]]
 
 ```html
 {#snippet monkey(emoji, description)}
@@ -213,7 +213,7 @@
             - all except `scroll(X|Y)` are readonly
     - `<svelte:document>` and `<svelte:body>`
         - for `mouseenter` and `mouseleave` use `<svelte:body>`
-        - allows you to use [[#Actions]] on these elements
+        - allows you to use [[Development/Cheat sheets/Svelte#Actions (use )\|Actions]] on these elements
     - All of these must appear at the top level
     - Listeners on all of these will be cleaned up automatically when the component is destroyed, and are safe to use with SSR
 
@@ -606,7 +606,7 @@ $effect(() => {
 # Effects
 
 - use `$effect` to re-run a function when any of the state it uses changes
-    - prefer using `$derived` or [[#Events|event listeners]] when possible
+    - prefer using `$derived` or [[Development/Cheat sheets/Svelte#Events\|event listeners]] when possible
 - return a cleanup function to run before the effect re-runs or the component is destroyed
 - effects don't run during server-side rendering
 - `$effect.pre` runs before the DOM updates - if checking DOM elements, make sure they exist first!
@@ -662,7 +662,7 @@ let { answer = 42, renamed: newName, ...rest } = $props()
 ```
 
 - the child component can temporarily *reassign* a prop, and it will keep the new value until the prop is updated by the parent - useful for ephemeral state
-    - however, props should not be *mutated* (use [[#Bindings|$bindable]] instead)
+    - however, props should not be *mutated* (use [[Development/Cheat sheets/Svelte#Bindings\|$bindable]] instead)
 
 - props can be TypeScript typed like any object
     - to use generics, add a `generics` attribute to the `script` tag
@@ -1020,12 +1020,12 @@ let { children, ...props } = $props();
 # Actions (use:)
 
 > [!warning]
-> As of Svelte 5.29, prefer [[#Attachments|attachments]] instead
+> As of Svelte 5.29, prefer [[Development/Cheat sheets/Svelte#Attachments\|attachments]] instead
 
 - actions are functions that are called when an element is created, and can do things like add event listeners or interface with third-party libraries
-- typically use [[#Effects|$effect]] so they are cleaned up when the element unmounts
+- typically use [[Development/Cheat sheets/Svelte#Effects\|$effect]] so they are cleaned up when the element unmounts
 - actions receive the element as the first argument, and the attribute's contents as a second argument
-    - actions **don't** re-run when their argument changes, but [[#State and Reactivity|state]] can be passed via a function, and [[#Effects|effects]] will re-run when that state changes
+    - actions **don't** re-run when their argument changes, but [[Development/Cheat sheets/Svelte#State and Reactivity\|state]] can be passed via a function, and [[Development/Cheat sheets/Svelte#Effects\|effects]] will re-run when that state changes
 - attached with `use:name`
 - not called during SSR
 
@@ -1087,7 +1087,7 @@ $effect.pre(() => {
 # Error boundaries
 
 - use `<svelte:boundary>` to capture errors
-- can take an `onerror` handler and/or a `failed` [[#Snippets and children|snippet]], both of which receive the error and a reset function as arguments
+- can take an `onerror` handler and/or a `failed` [[Development/Cheat sheets/Svelte#Snippets and children\|snippet]], both of which receive the error and a reset function as arguments
 
 ```html
 <svelte:boundary onerror={(e, reset) => console.error(e)}>>
@@ -1139,7 +1139,7 @@ $effect.pre(() => {
 
 ## Layouts
 
-- `+layout.svelte` applies to every sibling and child page, and receives the page content as the [[#Snippets and children|children prop]]
+- `+layout.svelte` applies to every sibling and child page, and receives the page content as the [[Development/Cheat sheets/Svelte#Snippets and children\|children prop]]
 - use layouts to add nav, import shared stylesheets, etc
 - you can "break out" of a nested layout by adding a parent segment to "reset" to - ex. `+page@b.svelte` will render layouts as if the page was in the `b` folder
     - `+page@.svelte` would only use the root layout
@@ -1237,7 +1237,7 @@ const posts = data.posts
     - forms can use actions defined on other pages - ex. `action="/todos?/create"`
 - actions can return data which is accessible in the `form` prop
     - the `fail` function can be used to return an error (also accessible in the `form` prop)
-- form actions work without JavaScript, but the `use:enhance` directive on the form avoids reloading the page if JavaScript is enabled (which allows adding [[#Transitions|transitions]])
+- form actions work without JavaScript, but the `use:enhance` directive on the form avoids reloading the page if JavaScript is enabled (which allows adding [[Development/Cheat sheets/Svelte#Transitions\|transitions]])
     - `use:enhance` can take a function to update state in order to show a message while the action is happening
 
 ```js
@@ -1343,7 +1343,7 @@ export const actions = {
     - must return a `Response` object
         - use the `json` function to respond with JSON
         - if you don't need to return anything, return `new Response(null, { status: 204 })`
-- prefer [[#Form actions]] when possible for mutating data, since they can work without JavaScript
+- prefer [[Development/Cheat sheets/Svelte#Form actions\|#Form actions]] when possible for mutating data, since they can work without JavaScript
 - you can update the `data` prop after mutating data, but it's not deeply reactive, so replace it
     - only update it in such a way that you would get the same result by reloading the page
 
@@ -1734,7 +1734,7 @@ createEventDispatcher<{
 
 - *writable* stores also have `set` and `update` methods
     - `set` directly takes a value, `update` takes a function that gets the current value and returns a new value
-    - you can use [[#Components|component binding]] on writable stores
+    - you can use [[Development/Cheat sheets/Svelte#Components\|component binding]] on writable stores
 
 ```js
 // stores.js

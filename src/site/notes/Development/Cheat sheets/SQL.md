@@ -13,9 +13,8 @@
 
 - Comments start with `--`
 - `TRUE` and `FALSE` are the same as `1` and `0` respectively
-- In MySQL, single and double quotes are the same except for escaping (same as JavaScript, Python, etc)
-    - in Postgres, use single quotes for strings
-- Table/column names that are also keywords (ex. `trigger`) must be quoted using \`
+- Use single quotes for strings and double quotes for identifiers (table names, etc.)
+- Table/column names that are also keywords (ex. `trigger`) must be quoted using \` (backtick)
 
 # Variables
 
@@ -153,7 +152,7 @@ FROM pets
 WHERE species = 'cat'
 ```
 
-- Also see [[#Count number of distinct values]] and [[#GROUP BY]]
+- Also see [[Development/Cheat sheets/SQL#Count number of distinct values\|#Count number of distinct values]] and [[Development/Cheat sheets/SQL#GROUP BY\|#GROUP BY]]
 
 ## CASE
 
@@ -295,7 +294,7 @@ JOIN pets USING (address)
 ### Select rows that don't have a match in the other table
 
 - this will select all users who don't have pets
-- [[#Select rows that don't meet a condition in another table]] is equivalent, test both for performance
+- [[Development/Cheat sheets/SQL#Select rows that don't meet a condition in another table\|#Select rows that don't meet a condition in another table]] is equivalent, test both for performance
 
 ```mysql
 SELECT
@@ -406,7 +405,7 @@ WHERE EXISTS (
 #### Select rows that don't meet a condition in another table
 
 - Select all users who do not own a cat
-- [[#Select rows that don't have a match in the other table]] is equivalent, test both for performance
+- [[Development/Cheat sheets/SQL#Select rows that don't have a match in the other table\|#Select rows that don't have a match in the other table]] is equivalent, test both for performance
 
 ```mysql
 SELECT *
@@ -421,7 +420,7 @@ WHERE NOT EXISTS (
 
 ## HAVING
 
-- WHERE cannot be used with [[#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)|aggregate functions]], use HAVING instead
+- WHERE cannot be used with [[Development/Cheat sheets/SQL#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)\|aggregate functions]], use HAVING instead
 
 ### List all values that match more than one row
 
@@ -434,7 +433,7 @@ HAVING COUNT(*) > 1
 
 ## GROUP BY
 
-- Often used in queries with [[#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)|aggregate functions]] to analyze each group of rows
+- Often used in queries with [[Development/Cheat sheets/SQL#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)\|aggregate functions]] to analyze each group of rows
 - Count the number of rows matching each distinct value of a column (in the example, the number of pets belonging to each `owner_id`):
 
 ```mysql
@@ -454,7 +453,7 @@ GROUP BY owner_id
 ORDER BY age DESC
 ```
 
-- To fix this, use an [[#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)|aggregate function]]
+- To fix this, use an [[Development/Cheat sheets/SQL#Aggregate functions (COUNT, MAX, MIN, SUM, AVG)\|aggregate function]]
 
 ```mysql
 SELECT owner_id, name, MAX(age)
@@ -495,7 +494,7 @@ OFFSET 10
 # WITH / AS (subqueries/CTEs)
 
 - Let you store temporary results (*Common Table Expressions* or *CTE*s) that you can refer to later
-- MySQL does not let you combine [[#UPDATE / SET|UPDATE]] and [[#LIMIT / OFFSET]], this can be used to get around that
+- MySQL does not let you combine [[Development/Cheat sheets/SQL#UPDATE / SET\|UPDATE]] and [[Development/Cheat sheets/SQL#LIMIT / OFFSET\|#LIMIT / OFFSET]], this can be used to get around that
 
 ```mysql
 WITH ids AS (
@@ -585,7 +584,7 @@ SELECT COUNT(DISTINCT first_name) ...
 
 ### Count rows with each distinct value
 
-See [[#GROUP BY]]
+See [[Development/Cheat sheets/SQL#GROUP BY\|#GROUP BY]]
 
 ## CAST
 
@@ -624,7 +623,7 @@ SET u.metadata = JSON_OBJECT('is_enrolled', TRUE, 'is_mobile', FALSE)
 #### JSON_KEYS
 
 - Get a JSON array from the keys of a JSON object
-    - see [[#MEMBER_OF (in JSON array)|MEMBER_OF]] to use it in a WHERE or JOIN
+    - see [[Development/Cheat sheets/SQL#MEMBER_OF (in JSON array)\|MEMBER_OF]] to use it in a WHERE or JOIN
 
 ```mysql
 SELECT JSON_KEYS(user.metadata)
@@ -647,7 +646,7 @@ WHERE JSON_CONTAINS_PATH(p.metadata, 'all', '$.created_date', '$.processed_date'
 WHERE id MEMBER OF ('[1, 2, 3]')
 ```
 
-- since JSON object keys are always strings, if you used [[#JSON_KEYS]] to get the array, you may need to [[#CAST|cast]] the value being checked to a string
+- since JSON object keys are always strings, if you used [[Development/Cheat sheets/SQL#JSON_KEYS\|#JSON_KEYS]] to get the array, you may need to [[Development/Cheat sheets/SQL#CAST\|cast]] the value being checked to a string
 
 ```mysql
 -- if `user.relationships` was a JSON field with something like '{ 123: 'sibling' }'
@@ -670,7 +669,7 @@ SELECT JSON_EXTRACT(column_name, '$.version') ...
 SELECT column_name->"$.version"
 ```
 
-- To handle [[#Dates & Times|dates]] or datetimes:
+- To handle [[Development/Cheat sheets/SQL#Dates & Times\|dates]] or datetimes:
 
 ```mysql
 DATE(JSON_UNQUOTE(JSON_EXTRACT(p.metadata, '$.created_date')))

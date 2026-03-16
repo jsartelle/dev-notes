@@ -49,7 +49,7 @@
 
 - makes it easy to create popups that can either be modal (block interaction with the rest of the page), or non-modal
 - call `.show()` to show non-modally, or `.showModal()` to show modally
-    - `showModal()` will render everything outside the dialog [[#inert]]
+    - `showModal()` will render everything outside the dialog [[Development/Cheat sheets/HTML#inert\|#inert]] and trap focus in the dialog
 - to close, either call `.close()`, or submit a form inside the modal with `method="dialog"`
     - <kbd>Esc</kbd> will close modal dialogs by default
 - set the `autofocus` attribute on a child to focus it when the dialog opens
@@ -61,7 +61,7 @@
 
 
 
-## With [[#transition-behavior]]
+## With [[Development/Cheat sheets/HTML#transition-behavior\|#transition-behavior]]
 
 ```css
 dialog, [popover] {
@@ -307,7 +307,10 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 
 ## `＜meta＞`
 
-- `<meta name="viewport">` is used to adjust the layout viewport size on mobile - see [[Development/Cheat sheets/CSS#Layout\|CSS#Layout]]
+- `<meta name="viewport">` is used to adjust the layout viewport size on mobile
+    - by default, mobile browsers use a fake layout viewport ~980px wide to avoid squishing pages that aren't mobile-optimized
+    - `<meta name="viewport" content="width=device-width, initial-scale=1" />` sets the layout viewport to the actual device width
+        - you can also set `width` to a number, but this is a minimum width - on wider devices the browser will scale the viewport up instead of zooming in
 
 ## `＜script＞`
 
@@ -494,7 +497,7 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 
 
 
-## With [[#transition-behavior]]
+## With [[Development/Cheat sheets/HTML#transition-behavior\|#transition-behavior]]
 
 ```css
 dialog, [popover] {

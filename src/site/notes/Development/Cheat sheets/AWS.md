@@ -8,13 +8,13 @@
 - [[Development/Serverless architecture\|serverless]] functions that run on demand in response to events, such as:
     - updates to application state, like a user putting an item in their shopping cart
     - on demand via HTTP requests
-    - changes to [[#Simple Storage Service (S3)]] buckets
-    - table updates in [[#DynamoDB]]
-    - state transitions in [[#Step Functions]]
+    - changes to [[Development/Cheat sheets/AWS#Simple Storage Service (S3)\|#Simple Storage Service (S3)]] buckets
+    - table updates in [[Development/Cheat sheets/AWS#DynamoDB\|#DynamoDB]]
+    - state transitions in [[Development/Cheat sheets/AWS#Step Functions\|#Step Functions]]
 - you only pay for used compute time
 - smaller functions are better because they're faster to *cold start* (start up in a brand new container)
     - containers stick around for a bit after finishing, if the function runs again in this container this is a *warm start*
-    - some people schedule lambdas to run every few minutes to ensure warm starts, [[#SST]] has built-in cronjobs to do this
+    - some people schedule lambdas to run every few minutes to ensure warm starts, [[Development/Cheat sheets/AWS#SST\|#SST]] has built-in cronjobs to do this
     - code around the actual lambda function will only run once per container start, this can be used to setup things like database connections
 - integrates with other AWS services - ex. pull files from S3 buckets
 - can use any third-party library, natively supports many languages (including Node)
@@ -25,7 +25,7 @@
 
 - full stack application hosting (similar to Vercel)
     - zero config for Next.js and Nuxt
-- fully typed configuration, similar to [[#SST]]
+- fully typed configuration, similar to [[Development/Cheat sheets/AWS#SST\|#SST]]
 - supports SSR, SPAs, static apps, and native or Flutter/RN mobile apps
 - integrates with other AWS services
 
@@ -55,7 +55,7 @@ fields @message, function
     - *objects*: files + metadata
     - *buckets*: containers for objects
 - can be used to host files (including static web pages) for public access, not just access from other S3 services
-- offers versioning, replication across regions, per-object permissions with [[#Identity and access management (IAM)|IAM]]
+- offers versioning, replication across regions, per-object permissions with [[Development/Cheat sheets/AWS#Identity and access management (IAM)\|IAM]]
 - *data lake*: stores data in its original form, relational or non-relational
     - schema-on-read: the data schema doesn't need to be defined until it's read
 - S3 Glacier: meant for archiving data that's rarely accessed, cheaper storage prices but higher data access costs
@@ -102,10 +102,10 @@ fields @message, function
 
 # API Gateway
 
-- lets you create and manage APIs (HTTP, REST or WebSocket) that call [[#Lambda]] functions or HTTP endpoints
+- lets you create and manage APIs (HTTP, REST or WebSocket) that call [[Development/Cheat sheets/AWS#Lambda\|#Lambda]] functions or HTTP endpoints
     - HTTP APIs are cheaper, but don't support some features of REST APIs, like edge optimization and API key management
 - manages traffic, CORS, authorization and access control, throttling, monitoring, version management
-    - can use [[#Identity and access management (IAM)|IAM]] or [[#Cognito]] for authorization
+    - can use [[Development/Cheat sheets/AWS#Identity and access management (IAM)\|IAM]] or [[Development/Cheat sheets/AWS#Cognito\|#Cognito]] for authorization
     - can run multiple versions of the same API simultaneously
 
 # Simple Queue Service (SQS)
@@ -149,7 +149,7 @@ arn:partition:service:region:account-id:resource-type:resource-id
     - user pools: for authorizing users of your app or API
     - identity pools: for authorizing users to access your AWS resources
         - you can have a user sign in to a user pool to authenticate them, then exchange a user pool token with the identity pool to get credentials for AWS services
-            - can assign [[#Identity and access management (IAM)|IAM]] roles based on rules or group membership in the user pool
+            - can assign [[Development/Cheat sheets/AWS#Identity and access management (IAM)\|IAM]] roles based on rules or group membership in the user pool
         - you can also offer custom authentication, or no authentication (for anonymous access)
 
 # CloudFormation
@@ -163,7 +163,7 @@ arn:partition:service:region:account-id:resource-type:resource-id
 - visual programming (like Power Automate or UE Blueprints) for distributed applications
 - example use cases:
     - automate ETL (data ingestion/transformation) pipelines
-    - orchestrate multiple [[#Lambda]] functions into microservices
+    - orchestrate multiple [[Development/Cheat sheets/AWS#Lambda\|#Lambda]] functions into microservices
     - process large datasets in parallel
     - create workflows for security incident response
 

@@ -22,7 +22,7 @@
 # Selectors
 
 - the component will re-render whenever anything returned by `useAppSelector` changes, so only return what you need
-    - the check is done referentially, so avoid returning wrapper objects or arrays (since they will be re-created each time the selector function runs), unless you use a [[#Memoized selectors|memoized selector]]
+    - the check is done referentially, so avoid returning wrapper objects or arrays (since they will be re-created each time the selector function runs), unless you use a [[Development/Cheat sheets/Redux#Memoized selectors\|memoized selector]]
         - you can also use the Redux Toolkit `useSelector` function and pass `shallowEqual` as the second argument
 - it's okay for selectors to derive computed values from the state, as long as they're primitive types
 - returned values are referentially equal if the value in the state hasn't changed
@@ -89,12 +89,12 @@ store.dispatch(todoAdded('Buy milk'))
 
 # Reducers
 
-- functions that take the current state and an [[#Actions|action object]], and return the new state
+- functions that take the current state and an [[Development/Cheat sheets/Redux#Actions\|action object]], and return the new state
 - reducers should:
-    - be pure and synchronous (use [[#Thunks (async dispatch)|thunks]] for async logic and side effects)
+    - be pure and synchronous (use [[Development/Cheat sheets/Redux#Thunks (async dispatch)\|thunks]] for async logic and side effects)
     - only calculate the new state based on the current state and action (nothing external)
     - either return the current state unchanged, or return a new copy of the state with the necessary changes (**don't mutate the current state**)
-        - reducers created with Redux Toolkit `createReducer` or [[#createSlice]] use [[Development/Clipped/Introducing Immer - Immutability the easy way\|Immer]], so it's safe to directly mutate the state (it's automatically wrapped in a producer)
+        - reducers created with Redux Toolkit `createReducer` or [[Development/Cheat sheets/Redux#createSlice\|#createSlice]] use [[Development/Clipped/Introducing Immer - Immutability the easy way\|Immer]], so it's safe to directly mutate the state (it's automatically wrapped in a producer)
 - reducers can call other reducers
 
 # Dispatch
@@ -111,8 +111,8 @@ store.dispatch({ type: 'counter/incremented' })
 
 # Thunks (async dispatch)
 
-- `redux-thunk` middleware lets you intercept calls to [[#Dispatch|dispatch]] in order to run async logic
-- instead of an [[#Actions|action object]], call `dispatch` with a function called a *thunk action creator*, which is a function that returns another function called the *thunk function*
+- `redux-thunk` middleware lets you intercept calls to [[Development/Cheat sheets/Redux#Dispatch\|dispatch]] in order to run async logic
+- instead of an [[Development/Cheat sheets/Redux#Actions\|action object]], call `dispatch` with a function called a *thunk action creator*, which is a function that returns another function called the *thunk function*
     - the thunk function gets the `dispatch` function and current state as arguments
     - the thunk function can be async and have side effects
 
@@ -131,7 +131,7 @@ store.dispatch(fetchTodoById(123))
 
 # createSlice
 
-- accepts a slice name, an initial state, and an object of [[#Reducers|reducers]], and automatically generates [[#Actions|action]] creators and types
+- accepts a slice name, an initial state, and an object of [[Development/Cheat sheets/Redux#Reducers\|reducers]], and automatically generates [[Development/Cheat sheets/Redux#Actions\|action]] creators and types
 - each reducer function gets a proxy state object (for the slice's state, not the whole store) and an action object
     - reducers can either update the proxy state (which uses [[Development/Clipped/Introducing Immer - Immutability the easy way\|Immer]]) **or** return a new state object, but not both
 
@@ -165,7 +165,7 @@ export const { increment, decrement, incrementByAmount } = counterSlice.actions
 export default counterSlice.reducer
 ```
 
-- to create [[#Thunks (async dispatch)|thunks]], set `reducers` to a function that takes a `create` object
+- to create [[Development/Cheat sheets/Redux#Thunks (async dispatch)\|thunks]], set `reducers` to a function that takes a `create` object
     - `create.asyncThunk` takes a function that receives the dispatch payload and performs async operations, and an object with handlers for different promise lifecycle states
 
 ```js

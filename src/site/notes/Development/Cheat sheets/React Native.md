@@ -53,7 +53,7 @@
 - *pagingEnabled* lets you use paging
     - `<ViewPager>` component can be used to swipe horizontally between views
 - on iOS a `<ScrollView>` with a single item can allow the user to zoom in and out if the *minimumZoomScale* and *maximumZoomScale* props are set
-- all elements are rendered even if off screen - if there are a large number of items use `<FlatList>` instead (see [[#Using List Views]])
+- all elements are rendered even if off screen - if there are a large number of items use `<FlatList>` instead (see [[Development/Cheat sheets/React Native#Using List Views\|#Using List Views]])
 
 ## Using List Views
 
@@ -223,7 +223,7 @@ var icon = this.props.active
     - [see here](https://reactnative.dev/docs/next/platformcolor) for valid color names
     - first value is the default, rest are fallbacks
     - doesn't work on web
-    - always set a default value with [[#Platform-specific code|Platform.select]] to handle other platforms
+    - always set a default value with [[Development/Cheat sheets/React Native#Platform-specific code\|Platform.select]] to handle other platforms
 
 ```jsx
 const styles = StyleSheet.create({
@@ -437,7 +437,7 @@ module.exports = {
 
 ## Routing & navigation
 
-- uses [[#react-navigation]], setup is done for you
+- uses [[Development/Cheat sheets/React Native#react-navigation\|#react-navigation]], setup is done for you
 - file-based routing: all files in the `app` directory become routes
     - `app/index.tsx` is the default route
     - `app/settings/index.tsx` matches `/settings`

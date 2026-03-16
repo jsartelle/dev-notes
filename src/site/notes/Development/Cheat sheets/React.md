@@ -165,17 +165,17 @@ function Cafe() {
 };
 ```
 
-- can also render multiple elements by returning an array with keys on each element (see [[#Lists Keys|Lists & Keys]])
+- can also render multiple elements by returning an array with keys on each element (see [[Development/Cheat sheets/React#Lists Keys\|Lists & Keys]])
 
 ## Component purity
 
-Component rendering should be **pure**, meaning the same inputs will produce the same output. Any data the component depends on should be stored as [[#Props|props]] or [[#useState|state]].
+Component rendering should be **pure**, meaning the same inputs will produce the same output. Any data the component depends on should be stored as [[Development/Cheat sheets/React#Props\|props]] or [[Development/Cheat sheets/React#useState\|state]].
 
 You can wrap your app in `<React.StrictMode>` to call each component twice during development to find impure components.
 
 ## Controlled vs. uncontrolled components
 
-Components that are primarily driven through [[#Props|props]] are sometimes referred to as *controlled components*, because their parent controls their behavior. Components that keep their primary information in local state are called *uncontrolled components*.
+Components that are primarily driven through [[Development/Cheat sheets/React#Props\|props]] are sometimes referred to as *controlled components*, because their parent controls their behavior. Components that keep their primary information in local state are called *uncontrolled components*.
 
 Example of a controlled `<input>`:
 
@@ -190,8 +190,8 @@ return <input value={firstName} onChange={e => setFirstName(e.target.value)} />
 - Server Components:
     - are available in React 19, and Next.js when using the [[Development/Cheat sheets/Next.js#App Router\|App Router]]
     - are rendered on the server, and only the HTML is sent to the client (no hydration)
-    - cannot use [[#Hooks]], event listeners, or other interactive features
-    - can be async and use `await` (which causes them to trigger [[#Suspense]])
+    - cannot use [[Development/Cheat sheets/React#Hooks\|#Hooks]], event listeners, or other interactive features
+    - can be async and use `await` (which causes them to trigger [[Development/Cheat sheets/React#Suspense\|#Suspense]])
     - can use Node APIs and access sensitive data like secrets, since only the final HTML is sent to the client
 - Client Components:
     - are marked with `'use client'` at the top of the file
@@ -283,9 +283,9 @@ const Greeting = memo(function Greeting({ name }) {
 
 - optional second argument is a function that takes the old and new props and returns `true` if the cached component can be used (the props have **not** changed)
     - usually not needed, the default is to compare the props objects with [`Object.is`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is) (shallow equality)
-- to best take advantage of `memo`, instead of passing objects as props, pass individual primitives or memoized [[#useMemo|objects]] & [[#useCallback|functions]]
+- to best take advantage of `memo`, instead of passing objects as props, pass individual primitives or memoized [[Development/Cheat sheets/React#useMemo\|objects]] & [[Development/Cheat sheets/React#useCallback\|functions]]
     - if your component only cares if a value exists or not, instead of passing the value as a prop (which will trigger re-render each time the value changes), pass a boolean that indicates if the value exists
-- like [[#useMemo]], should only be used when necessary
+- like [[Development/Cheat sheets/React#useMemo\|#useMemo]], should only be used when necessary
 
 ```jsx
 function GroupsLanding({ person }) {
@@ -296,7 +296,7 @@ function GroupsLanding({ person }) {
 
 # Props
 
-- props are passed the same way as [[#Attributes & Props|attributes]]
+- props are passed the same way as [[Development/Cheat sheets/React#Attributes & Props\|attributes]]
 - props are **read-only**
 - passed to function components as the first argument
     - can use destructuring to access them easier
@@ -415,7 +415,7 @@ render() {
 
 # Actions
 
-- you can pass a function (known as an [[#Actions|Action]]) to a `<form>` element's `action` prop to run that function when the form is submitted
+- you can pass a function (known as an [[Development/Cheat sheets/React#Actions\|Action]]) to a `<form>` element's `action` prop to run that function when the form is submitted
 - the function will receive a `FormData` object as its argument
 - you can set the `formAction` prop on a `<button>` or `<input type="submit">` to override the form's `action` for just that button
 
@@ -447,7 +447,7 @@ async function createUser(userId, formData) { /* ... */ }
 const createUserWithId = createUser.bind(null, userId)
 ```
 
-- to use the return value from a form submission, see [[#useActionState/useFormState]]
+- to use the return value from a form submission, see [[Development/Cheat sheets/React#useActionState/useFormState\|#useActionState/useFormState]]
 
 ## Server Actions
 
@@ -489,7 +489,7 @@ export default function UserForm() {
     - group related logic in different lifecycle methods together
 - hooks re-run on every render, but many of them allow for persisting values between renders
 - hooks must be imported from `react`
-- hooks only run client-side - if using a framework that supports [[#Server Components vs. Client Components|Server Components]], components that use hooks must be marked with `'use client'`
+- hooks only run client-side - if using a framework that supports [[Development/Cheat sheets/React#Server Components vs. Client Components\|Server Components]], components that use hooks must be marked with `'use client'`
 
 ## Rules of Hooks
 
@@ -558,7 +558,7 @@ setNumber(number => number + 1) // 2 + 1
 
 - to update the state from a child component, pass down the `set` function as a prop
 - if the same type of component is rendered in the same tree position, it will keep its state
-    - to reset the state without changing the position, change the [[#Lists & Keys|key]]
+    - to reset the state without changing the position, change the [[Development/Cheat sheets/React#Lists & Keys\|key]]
 
 ```js
 // contrived example - Counter will keep its state when isFancy changes
@@ -577,15 +577,15 @@ return (
 
 - lets you perform side effects from a function component
     - primarily used for **synchronizing with external systems** - data fetching, setting up a subscription, etc.
-- **You don’t need Effects to transform data for rendering** - transform the data at the top level instead (wrap the transformation in [[#useMemo]] if it's expensive)
-- **You don’t need Effects to handle user events** - use [[#Events|event handlers]]
+- **You don’t need Effects to transform data for rendering** - transform the data at the top level instead (wrap the transformation in [[Development/Cheat sheets/React#useMemo\|#useMemo]] if it's expensive)
+- **You don’t need Effects to handle user events** - use [[Development/Cheat sheets/React#Events\|event handlers]]
 - since hooks only run client-side, you can wrap code that uses browser APIs like `localStorage` in an effect to use it in server-side rendered components
 - can return a "cleanup" function that will run before each time the effect function runs, as well as on component unmount
 - to limit how often the effect runs, pass an array of reactive values as the second argument - the effect (including cleanup) will only run if any of the array items have changed
     - if you pass an **empty array**, the effect will **only run once** on mount (and cleanup on unmount)
         - code should still be resilient to effects running multiple times, both for Fast Refresh and future-proofing
     - if there is **no dependency array**, the provided function runs on **every render** (including the first one), after React has updated the DOM
-    - non-primitive dependencies should either be declared outside the render loop, or with [[#useMemo]] or [[#useCallback]] to avoid infinite loops
+    - non-primitive dependencies should either be declared outside the render loop, or with [[Development/Cheat sheets/React#useMemo\|#useMemo]] or [[Development/Cheat sheets/React#useCallback\|#useCallback]] to avoid infinite loops
 
 ```jsx
 const [port, setPort] = useState(3000);
@@ -604,12 +604,29 @@ useEffect(() => {
 - can cause performance issues because it blocks repainting
 - doesn't run on the server (since there's no layout information)
 
+### Log why an effect or memo ran
+
+```ts
+const lastDeps = useRef([/* copy dependencies here */]);
+useEffect(() => {
+  const deps = [/* copy dependencies here */]
+  const changedDeps = deps.reduce((acc, dep, index) => {
+    if (dep !== lastDeps.current[index]) acc[index] = dep
+    return acc
+  }, {} as any)
+  if (Object.keys(changedDeps).length) console.debug('effect ran because these dependencies changed', changedDeps)
+  lastDeps.current = deps;
+  
+  /* ...rest of effect code */
+}, [/* dependencies */])
+```
+
 ## useMemo
 
 - cache a calculation between renders (like [[Development/Cheat sheets/Vue 3#Computed Properties\|computed properties]] in Vue)
     - referred to as *memoization*
     - if the dependencies haven't changed, the cached value is returned
-    - dependencies are provided the same way as [[#useEffect]]
+    - dependencies are provided the same way as [[Development/Cheat sheets/React#useEffect\|#useEffect]]
 - **only memoize when necessary** - memoization is only valuable if the calculation is expensive and the dependencies rarely change
 
 ```jsx
@@ -619,36 +636,13 @@ const sortTodos = useMemo(
 )
 ```
 
-### Log what changed to trigger useMemo
-
-- Add this code before the line with useMemo:
-
-```js
-const [lastDeps, setLastDeps] = useState()
-```
-
-- And at the top of the useMemo callback:
-
-```js
-const deps = {
-  /* copy the list of dependencies here (without []) */
-}
-
-if (lastDeps) console.debug('changed:', Object.keys(deps).filter(key => JSON.stringify(deps[key]) !== lastDeps[key]))
-
-// @ts-ignore
-setLastDeps(Object.keys(deps).reduce((obj, key) => { obj[key] = JSON.stringify(deps[key]); return obj }, {}))
-```
-
-- This won't show changes to functions, or new instances of objects that look the same as the old instance
-
 ## useCallback
 
 - cache a function definition so it only changes when one of its dependencies changes
-    - the same as returning a function from [[#useMemo]]
+    - the same as returning a function from [[Development/Cheat sheets/React#useMemo\|#useMemo]]
 - callbacks can also be declared outside the render function if they don't need access to component data or Hooks
-- like [[#useMemo]], should only be used when necessary - may be useful when:
-    - the function is passed to a [[#memo (memoize components)|memoized]] component
+- like [[Development/Cheat sheets/React#useMemo\|#useMemo]], should only be used when necessary - may be useful when:
+    - the function is passed to a [[Development/Cheat sheets/React#memo (memoize components)\|memoized]] component
     - the function is used as a dependency of another hook
 
 ```jsx
@@ -662,7 +656,7 @@ const handleSubmit = useCallback((orderDetails) => {
 - `useRef` will hold onto information between renders, but aren't tracked by React and **don't trigger re-render** when updated
 - `useRef` should be used for information that is **not needed for rendering**, for example:
     - timeout and interval IDs
-    - [[#DOM element refs|DOM elements]]
+    - [[Development/Cheat sheets/React#DOM element refs\|DOM elements]]
 
 ```js
 const ref = useRef(0) // can be any value, like useState
@@ -679,10 +673,10 @@ useEffect(() => {
 })
 ```
 
-- like [[#useState]], the initial value passed into `useRef` is only stored once but evaluated on every render, so avoid calling expensive functions
+- like [[Development/Cheat sheets/React#useState\|#useState]], the initial value passed into `useRef` is only stored once but evaluated on every render, so avoid calling expensive functions
 - **don't read or write `ref.current` during render (including in the JSX)**
-    - reading or writing from [[#Events|event handlers]] or [[#useEffect]] is okay
-    - if you need a value during render, use [[#useState]] instead
+    - reading or writing from [[Development/Cheat sheets/React#Events\|event handlers]] or [[Development/Cheat sheets/React#useEffect\|#useEffect]] is okay
+    - if you need a value during render, use [[Development/Cheat sheets/React#useState\|#useState]] instead
     - an exception is initializing `ref.current` only on the first render, for example when calling an expensive function
 
 ```jsx
@@ -787,7 +781,7 @@ return (
 )
 ```
 
-- in React 19, you can return a cleanup function from the ref function instead, like with [[#useEffect]]
+- in React 19, you can return a cleanup function from the ref function instead, like with [[Development/Cheat sheets/React#useEffect\|#useEffect]]
 
 ```jsx
 return (
@@ -821,8 +815,8 @@ const MyInput = ({ ref, ...props }) => {
 - in earlier versions, `ForwardRef` lets function components forward their ref to a child component or element
     - this makes it harder to refactor your component in the future (since users of your component may rely on behavior of the element the ref is forwarded to), so typically used for low-level components like custom buttons or inputs
 
-```jsx
-const MyInput = forwardRef((props, ref) => {
+```tsx
+const MyInput = forwardRef<HTMLInputElement, MyInputProps>((props, ref) => {
     return <input {...props} ref={ref} />
 })
 
@@ -831,39 +825,53 @@ const MyInput = forwardRef((props, ref) => {
 <button onClick={() => inputRef.current?.focus()}>Focus Input</button>
 ```
 
+- to get the type of a component including its ref, use `ComponentPropsWithRef<typeof Component>`
+
 #### useImperativeHandle
 
-- lets you expose only certain values or functions through [[#forwardRef]]
+- lets you expose only certain values or functions through [[Development/Cheat sheets/React#forwardRef (component refs)\|forwardRef]]
 - prefer props when possible - ex. instead of exposing `open` and `close` methods for a modal, add an `isOpen` prop
 
-```jsx
-const MyInput = forwardRef(function MyInput(props, ref) {
-  const inputRef = useRef(null);
+```tsx
+export interface MyInputHandle {
+    clear: () => void;
+}
 
-  function getValue() {
-    return inputRef.current?.value;
-  }
+const MyInput = forwardRef<MyInputHandle, MyInputProps>(
+    function MyInput(props, ref) {
+      const inputRef = useRef(null);
+    
+      function getValue() {
+        return inputRef.current?.value;
+      }
+    
+      useImperativeHandle(ref, () => {
+        return {
+          clear() {
+            if (!inputRef.current) return;
+            inputRef.current.value = '';
+          },
+        };
+      }, []);
+    
+      return <input {...props} ref={inputRef} />;
+    }
+);
 
-  useImperativeHandle(ref, () => {
-    return {
-      focus() {
-        inputRef.current.focus();
-      },
-      getValue
-    };
-  }, []);
+// inside another component
+const inputRef = useRef<MyInputHandle>(null);
 
-  return <input {...props} ref={inputRef} />;
-});
+<MyInput ref={inputRef} />
+<button onClick={() => inputRef.current?.clear()}>Clear Input</button>
 ```
 
 #### use forwarded ref inside component
 
-- to forward a ref and also use it inside the component, create an inner ref inside the component and use [[#useImperativeHandle]] to sync it with the forwarded ref
+- to forward a ref and also use it inside the component, create an inner ref inside the component and use [[Development/Cheat sheets/React#useImperativeHandle\|#useImperativeHandle]] to sync it with the forwarded ref
 
 ```tsx
 export default forwardRef(function MyComponent(
-    {}: MyComponentProps, 
+    props: MyComponentProps, 
     refForwarded: ForwardedRef<HTMLDivElement>
 ) {
     const innerRef = useRef<HTMLDivElement>(null);
@@ -877,7 +885,7 @@ export default forwardRef(function MyComponent(
 
 ### Cleanup
 
-- starting in React 19, ref functions can return a cleanup function (similar to [[#useEffect]]) that is called when the component unmounts
+- starting in React 19, ref functions can return a cleanup function (similar to [[Development/Cheat sheets/React#useEffect\|#useEffect]]) that is called when the component unmounts
     - example: create a ResizeObserver to observe the DOM node, and clean it up on unmount
 
 ```jsx
@@ -932,7 +940,7 @@ export default function SubmitButton() {
 
 ## useActionState/useFormState
 
-- lets you access the status and return value of an [[#Actions|Action]] used with a form (including Server Actions)
+- lets you access the status and return value of an [[Development/Cheat sheets/React#Actions\|Action]] used with a form (including Server Actions)
     - in some earlier canary releases (used by Next.js), it was known as `useFormState` and imported from `react-dom`
 - the first argument is the Action function, the second argument is your initial state
     - the Action receives the state (see below) as its first argument, and the FormState as its second argument
@@ -984,8 +992,8 @@ export default function UserForm() {
     - because reducers take the state as an argument, you can declare them outside of the component
 - similar to a Vuex store for a single piece of state
 - use reducers to simplify complex components that update the same piece of state in a number of different way
-    - for simpler components [[#useState]] tends to be easier to understand
-- reducers must be [[#Component purity|pure]]
+    - for simpler components [[Development/Cheat sheets/React#useState\|#useState]] tends to be easier to understand
+- reducers must be [[Development/Cheat sheets/React#Component purity\|pure]]
 - each action describes a single **user interaction** - ex. if a user presses Reset on a form with five fields, dispatch one `reset_form` action instead of 5 separate `set_field` actions
 
 ```js
@@ -1034,7 +1042,7 @@ function handleDeleteTask(taskId) {
 
 ## useOptimistic
 
-- show the "after" state of an async [[#Actions|Action]] optimistically while the request is happening
+- show the "after" state of an async [[Development/Cheat sheets/React#Actions\|Action]] optimistically while the request is happening
     - for example, if a user updates the name on their account, show the new name instantly while updating it on the server
 - the value passed to `useOptimistic` (the current state) will be returned **unless** an async Action is pending, in which case the optimistic state (the value passed to the `setWhatever` function) is returned
     - either success or failure will cause the current state to be displayed again, so make sure to update that before the Action finishes
@@ -1069,7 +1077,7 @@ export default function changeName({ currentName, onUpdateName }) {
 
 ## Custom Hooks
 
-- are normal functions with any signature, but must start with `use` and follow the [[#Rules of Hooks]]
+- are normal functions with any signature, but must start with `use` and follow the [[Development/Cheat sheets/React#Rules of Hooks\|#Rules of Hooks]]
 - only functions that **call** Hooks need to **be** Hooks - otherwise you can use regular functions
 
 ```jsx
@@ -1101,7 +1109,7 @@ useDebugValue(isOnline ? 'Online' : 'Offline');
 # Suspense
 
 - lets you show fallback content while async child components load
-    - this applies to child components using [[#use]], async [[#Server Components vs. Client Components|Server Components]], or [[#lazy]] loaded components
+    - this applies to child components using [[Development/Cheat sheets/React#use\|#use]], async [[Development/Cheat sheets/React#Server Components vs. Client Components\|Server Components]], or [[Development/Cheat sheets/React#lazy\|#lazy]] loaded components
 - `fallback` can be any JSX, including components or text
 - the fallback is shown until all async children (at any depth) finish loading
 
@@ -1184,7 +1192,7 @@ function PageView() {
 
 ## useDeferredValue
 
-- update a value asynchronously, but keep using the old value during the update instead of [[#Suspense|suspending]]
+- update a value asynchronously, but keep using the old value during the update instead of [[Development/Cheat sheets/React#Suspense\|suspending]]
 - in the example below, assume that SearchResults suspends while fetching the results for the given query
     - when the query is updated, the input will update automatically since it's using the non-deferred `query`
     - but since SearchResults is using `deferredQuery`, instead of suspending it will continue to display the results from the previous query until it finishes fetching
@@ -1214,9 +1222,9 @@ export default function App() {
 
 - available in React 19 and recent versions of Next.js
 - **not a hook**, so it can be used within loops or conditionals
-- lets you render a Client Component asynchronously, and [[#Suspense|suspend]] until the given promise resolves
+- lets you render a Client Component asynchronously, and [[Development/Cheat sheets/React#Suspense\|suspend]] until the given promise resolves
     - Server Components don't need `use` since they can use `await` natively
-- promises can be passed from [[#Server Components vs. Client Components|Server Components]] to Client Components as props and "awaited" with `use`
+- promises can be passed from [[Development/Cheat sheets/React#Server Components vs. Client Components\|Server Components]] to Client Components as props and "awaited" with `use`
 
 ```jsx
 'use client'
@@ -1248,7 +1256,7 @@ export default function ProfilePage() {
 }
 ```
 
-- can also be used to read a [[#Context]]
+- can also be used to read a [[Development/Cheat sheets/React#Context\|#Context]]
 
 # flushSync
 
@@ -1326,7 +1334,7 @@ export default function Heading({ children }) {
 </LevelContext>
 ```
 
-- in React 19 you can read a context with [[#use]] - since it isn't a Hook, you can do this in conditionals or loops
+- in React 19 you can read a context with [[Development/Cheat sheets/React#use\|#use]] - since it isn't a Hook, you can do this in conditionals or loops
 
 ```jsx
 const level = use(LevelContext)
@@ -1424,45 +1432,12 @@ function DataGrid<T extends { id: any }>(props: DataGridProps<T>) {
 }
 ```
 
-## forwardRef
-
-- takes 2 type arguments, the ref type and the component props type
-
-```tsx
-const ButtonWrapper = forwardRef<HTMLButtonElement, ButtonProps>(
-    { label, children }, // type ButtonProps
-    ref // type ForwardedRef<HTMLButtonElement>
-) {
-    return <button ref={ref}>...</button>
-}
-```
-
-### Type HOC using forwardRef
-
-https://codesandbox.io/p/sandbox/sleepy-kilby-1zyof?file=%2Fsrc%2FwithStatusMessages.tsx
-
-```tsx
-function withStatusMessages<P extends object>(
-  WrappedComponent: React.ComponentType<P>
-): React.FunctionComponent<P & withStatusMessagesProps> {
-  return ({ errorText, successText, ...props }) => {
-    return (
-      <>
-        <WrappedComponent {...props as P} />
-        {errorText ? <div className="errorText">{errorText}</div> : null}
-        {successText ? <div className="successText">{successText}</div> : null}
-      </>
-    );
-  };
-}
-```
-
 # Creating a project
 
 ## create-react-app
 
 > [!warning]
-> create-react-app is deprecated and not as performant as other solutions. Try [[#Vite]] instead for a simple app, or [[Development/Cheat sheets/Next.js\|Next.js]] for a full-featured app with routing.
+> create-react-app is deprecated and not as performant as other solutions. Try [[Development/Cheat sheets/React#Vite\|#Vite]] instead for a simple app, or [[Development/Cheat sheets/Next.js\|Next.js]] for a full-featured app with routing.
 
 ## Vite
 
@@ -1512,7 +1487,7 @@ npm create vite@latest my-app -- --template react-swc-ts
 </a></div>
 
 - Lets you easily animate changes to list items
-- Make sure that children have a `key`, and function components are wrapped in [[#forwardRef (component refs)|forwardRef]]
+- Make sure that children have a `key`, and function components are wrapped in [[Development/Cheat sheets/React#forwardRef (component refs)\|forwardRef]]
 
 ```jsx
 const Item = forwardRef((props, ref) => (

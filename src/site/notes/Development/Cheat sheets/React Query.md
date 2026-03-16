@@ -28,7 +28,7 @@
     - you can also fetch related data from multiple endpoints in a single query function, useful if the second fetch relies on the first
 - queries only run if the `enabled` option is true, which can be used to wait for a user condition - ex `enabled = searchQuery.length >= 3`
 - queries run in parallel
-- query results are cached based on the query key (see [[#Query options]])
+- query results are cached based on the query key (see [[Development/Cheat sheets/React Query#Query options\|#Query options]])
     - if two components both use a query with the same key:
         - the second component to mount will immediately render with the cached data
         - if the data is stale, a fetch will happen to update the data
@@ -61,7 +61,7 @@ async function fetchTodoById({ queryKey }) {
 }
 ```
 
-- if you need to execute a dynamic number of queries (ex. one for each user, when the number of users can change), you can use the `useQueries` helper, which accepts an array of [[#Query options|queryOptions]] objects, and returns an array of [[#Query results|query results]]
+- if you need to execute a dynamic number of queries (ex. one for each user, when the number of users can change), you can use the `useQueries` helper, which accepts an array of [[Development/Cheat sheets/React Query#Query options\|queryOptions]] objects, and returns an array of [[Development/Cheat sheets/React Query#Query results\|query results]]
 
 ```tsx
 function App({ users }) {
@@ -226,7 +226,7 @@ useIsFetching({ queryKey: ['todo', { id: 5 }]})
 # Prefetching
 
 - lets you fetch data to be placed into the cache, but not used yet
-- if you already have the data, use [[#Set query data manually|setQueryData]] instead
+- if you already have the data, use [[Development/Cheat sheets/React Query#Set query data manually\|setQueryData]] instead
 
 ```js
 await queryClient.prefetchQuery({
@@ -393,7 +393,7 @@ function App() {
 ```
 
 - used to make calls with side effects, like creating/updating/deleting data
-- the mutation runs each time you call `mutate` or `mutateAsync` (not cached like [[#Queries]])
+- the mutation runs each time you call `mutate` or `mutateAsync` (not cached like [[Development/Cheat sheets/React Query#Queries\|#Queries]])
 - mutations do not retry by default, but you can pass `retry` and `retryDelay` options
 - if `throwOnError` is set to true (or a function that returns true), mutation errors will be thrown and propagate to the nearest [[Development/Cheat sheets/React#Error Boundaries\|Error Boundary]]
 - by default all mutations run in parallel, even multiple calls to the same mutation
@@ -415,5 +415,5 @@ function App() {
 - pass the following event handlers to `useMutation` or `mutate/mutateAsync:
     - `onMutate`: mutation is about to happen
     - `onError`
-    - `onSuccess`: useful to [[#Query invalidation|invalidate related queries]], or [[#Set query data manually|update the cache]] on updates
+    - `onSuccess`: useful to [[Development/Cheat sheets/React Query#Query invalidation\|invalidate related queries]], or [[Development/Cheat sheets/React Query#Set query data manually\|update the cache]] on updates
     - `onSettled`: runs on error or success

@@ -44,7 +44,7 @@ Format->Indentation->Increase
 
 #### Hide/unhide files & folders
 
-See [[#stat]] to check if a file/folder is hidden
+See [[Development/Cheat sheets/macOS#stat\|#stat]] to check if a file/folder is hidden
 
 ```shell
 chflags hidden file.txt

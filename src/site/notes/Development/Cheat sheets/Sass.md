@@ -54,7 +54,7 @@ animation: {
 
 ## @extend
 
-- Lets you inherit rules from other classes and [[#Placeholder selectors|placeholder selectors]]
+- Lets you inherit rules from other classes and [[Development/Cheat sheets/Sass#Placeholder selectors\|placeholder selectors]]
 
 ```scss
 .error {
@@ -74,7 +74,7 @@ animation: {
 ```
 
 > [!warning]
-> `@extend` cannot be used across at-rule boundaries! Use [[#@mixin and @include]] instead.
+> `@extend` cannot be used across at-rule boundaries! Use [[Development/Cheat sheets/Sass#@mixin and @include\|#@mixin and @include]] instead.
 
 ### Placeholder selectors
 

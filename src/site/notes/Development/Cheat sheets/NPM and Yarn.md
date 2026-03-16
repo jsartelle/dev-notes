@@ -15,7 +15,7 @@
         - if you pass the `--production` flag
 - `peerDependencies`
     - used if your package doesn't require the dependency, but instead ==is used by the dependency== (your package is a *plugin* for the dependency)
-    - should only be [[#package.json version pinning syntax|pinned]] to major versions, because the package manager will error if the peerDependency can't be resolved correctly
+    - should only be [[Development/Cheat sheets/NPM and Yarn#package.json version pinning syntax\|pinned]] to major versions, because the package manager will error if the peerDependency can't be resolved correctly
 
 # package.json version pinning syntax
 

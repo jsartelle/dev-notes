@@ -6,4 +6,4 @@
 - 30% primary/brand color
 - 10% call to action color
 
-![](https://www.youtube.com/watch?v=UWwNIMHFdW4)
+<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/UWwNIMHFdW4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>

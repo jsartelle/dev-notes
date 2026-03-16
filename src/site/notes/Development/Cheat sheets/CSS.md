@@ -5,7 +5,7 @@
 
 # Layout
 
-- when building responsive layouts, default to the smallest (usually mobile) layout, and use [[#@media (media queries)|media queries]] to adjust the layout for larger screens
+- when building responsive layouts, default to the smallest (usually mobile) layout, and use [[Development/Cheat sheets/CSS#@media (media queries)\|media queries]] to adjust the layout for larger screens
 
 ## Viewports
 
@@ -13,12 +13,10 @@
     - based on layout viewport:
         - `window.innerWidth` and `innerHeight` (in Chrome and Firefox)
         - `document.documentElement.clientWidth` and `clientHeight`
-        - [[#Viewport units]]
-        - [[#@media (media queries)|Media queries]]
+        - [[Development/Cheat sheets/CSS#Viewport units\|#Viewport units]]
+        - [[Development/Cheat sheets/CSS#@media (media queries)\|Media queries]]
         - `position: fixed`
-        - `<meta name="viewport">` tags
-            - by default, mobile browsers use a fake layout viewport ~980px wide to avoid squishing pages that aren't mobile-optimized
-            - `<meta name="viewport" width=device-width>` sets the layout viewport to the actual device width
+        - `<meta name="viewport">` tags - see [[HTML#`<meta>`|<meta>]]
 - *visual viewport*: the size of the actual visible area, smaller than the layout viewport if pinch zoomed
     - based on visual viewport:
         - `window.innerWidth` and `innerHeight` (in Safari)
@@ -79,7 +77,6 @@ font-size: clamp(2rem, 8vw, 4rem)
 
 - Like `:focus`, but only applies if the browser decides that focus should be shown visually (typically when using keyboard navigation)
     - Text fields apply `:focus-visible` even when clicked into (in Chrome at least)
-- Use `:focus` as a fallback for browsers that don't support `:focus-visible`
 
 ```css
 button:focus-visible {
@@ -139,7 +136,7 @@ div:has(+ span, > span) {
 
 ## :where
 
-- same as [[#:is]] but with specificity 0
+- same as [[Development/Cheat sheets/CSS#:is\|#:is]] but with specificity 0
 
 ## :nth-child
 
@@ -221,10 +218,11 @@ li.anchor ~ :nth-child(2 of .important) {
 ## align- and justify-
 
 - grid:
+    - `justify` moves along the inline axis (like text justification)
     - `align` moves along the block axis
-    - `justify` moves along the inline axis
-    - `-content` moves the grid **areas** within their container (if they don't take up the whole container)
-    - `-items` moves grid **items** inside their grid area
+    - `-content` moves the grid **areas** within the grid
+    - `-items` moves grid **items** within their grid area
+        - `-self` does this per-item
 - flexbox:
     - `justify-content` moves children along the main axis (corresponding to the `flex-direction`)
         - by default this matches grid, as the default `flex-direction` is `row`
@@ -406,7 +404,7 @@ clip-path: inset(0 0 -16px 0);
 > [!info]
 > There are many values, but these are the most common ones that are widely supported as of June 2024
 
-- decide whether [[#Styling for print|page]] or column breaks are allowed before, after, or inside an element
+- decide whether [[Development/Cheat sheets/CSS#Styling for print\|page]] or column breaks are allowed before, after, or inside an element
 - `avoid`: don't allow page or column breaks
 - before and after only:
     - `page`: force a page break before/after
@@ -475,8 +473,8 @@ clip-path: ellipse(25% 40% at 50% 50%);
     - `light dark` means the element should support light and dark modes, and prefer light mode
         - `dark light` is the same, but will prefer dark mode
     - `only light` or `only dark` prevents the browser from overriding the color scheme
-- use [[#prefers-color-scheme|prefers-color-scheme]] as usual to style elements based on the color scheme, or use [[#light-dark]] as a shortcut for setting colors
-    - consider using [[#System color keywords]] to make the page match the system
+- use [[Development/Cheat sheets/CSS#prefers-color-scheme\|prefers-color-scheme]] as usual to style elements based on the color scheme, or use [[Development/Cheat sheets/CSS#light-dark\|#light-dark]] as a shortcut for setting colors
+    - consider using [[Development/Cheat sheets/CSS#System color keywords\|#System color keywords]] to make the page match the system
 - you can set `color-scheme` on the page root if your page has its own theme picker
 - add a `color-scheme` meta tag to render the correct page background before the CSS loads
 
@@ -498,11 +496,11 @@ clip-path: ellipse(25% 40% at 50% 50%);
         - this means if the element is off screen, its children don't need to be rendered because they can't escape the element's box
     - `strict`: same as `size layout paint style`
     - `content`: same as `layout paint style`
-- use `contain: content` (or better, [[#content-visibility]]: auto) for elements such as articles that are independent from the rest of the page
+- use `contain: content` (or better, [[Development/Cheat sheets/CSS#content-visibility\|#content-visibility]]: auto) for elements such as articles that are independent from the rest of the page
 
 ### contain-intrinsic-size
 
-- lets you set a placeholder size for elements affected by size containment (such as from [[#contain]] or [[#content-visibility]])
+- lets you set a placeholder size for elements affected by size containment (such as from [[Development/Cheat sheets/CSS#contain\|#contain]] or [[Development/Cheat sheets/CSS#content-visibility\|#content-visibility]])
 - values are *width* and *height*
     - can also use `contain-intrinsic-height`, `contain-intrinsic-width`, `contain-intrinsic-block-size`, `contain-intrinsic-inline-size`
 - the `auto` keyword tells the browser to remember the last rendered size, and use that as the intrinsic size if available
@@ -517,7 +515,7 @@ contain-intrinsic-size: auto 300px 100px;
 
 ## container, container-name, container-type
 
-See [[#Marking containers]]
+See [[Development/Cheat sheets/CSS#Marking containers\|#Marking containers]]
 
 ## content-visibility
 
@@ -526,12 +524,12 @@ See [[#Marking containers]]
 - `visible`: the default (normal rendering)
 - `hidden`: the element's contents aren't rendered (similar to `display: none`), and are hidden from the accessibility tree and Find feature
 - `auto`: the contents are only rendered if the element is "relevant to the user" - in or near the viewport, focused, selected, or in the top layer
-    - `auto` elements get layout, style, and paint [[#contain|containment]], and size containment if off-screen
+    - `auto` elements get layout, style, and paint [[Development/Cheat sheets/CSS#contain\|containment]], and size containment if off-screen
     - the contents of `auto` elements that aren't being rendered still appear in the accessibility tree and Find feature
         - styles aren't rendered for the contents, so they'll still appear in the accessibility tree even if they have `display: none` or `visibility: hidden` - use `aria-hidden="true"` to hide them from accessibility
     - use the `contentvisibilityautostatechange` event to start and stop expensive JavaScript based on the visibility state
 - example usage: on a blog page, wrap each article in `content-visibility: auto` so only visible articles are rendered
-    - use [[#contain-intrinsic-size]] to ensure the elements still take up the correct space
+    - use [[Development/Cheat sheets/CSS#contain-intrinsic-size\|#contain-intrinsic-size]] to ensure the elements still take up the correct space
 
 [[Development/Clipped/Improving rendering performance with CSS content-visibility\|Improving rendering performance with CSS content-visibility]]
 
@@ -552,7 +550,7 @@ See [[#Marking containers]]
 
 ## forced-color-adjust
 
-- Use `none` to override an element's colors when in [[#forced-colors]] mode
+- Use `none` to override an element's colors when in [[Development/Cheat sheets/CSS#forced-colors\|#forced-colors]] mode
     - **respect the user's choices - only use this if the colors the browser applies aren't readable**
 
 ```css
@@ -613,7 +611,6 @@ width: calc-size(min-content, size + 100px)
 
 ## mask
 
-- Requires `-webkit-` prefix on Chromium browsers
 - Useful for [changing the color of SVG icons](https://codepen.io/noahblon/post/coloring-svgs-in-css-background-images) - set the `background-color` as the color you want and use the SVG as the `mask-image`
 
 ```css
@@ -630,7 +627,7 @@ mask-repeat: repeat;
 
 ### Fade using a gradient
 
-- use a linear-gradient from white to transparent for `mask-image`
+- use a linear-gradient from white to transparent as the `mask-image`
 
 ```css
 .fade p {
@@ -712,7 +709,7 @@ text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
 > As of November 2024 `pretty` is only supported in Chromium, `stable` only in Firefox and Safari
 
 - controls *how* text is wrapped
-- `wrap` and `nowrap`: same as [[#white-space]]
+- `wrap` and `nowrap`: same as [[Development/Cheat sheets/CSS#white-space\|#white-space]]
 - `balance`: wraps and tries to keep the line length equal
     - only works for blocks of text with 6 or less lines
 - `pretty`: wraps and favors better layout over speed
@@ -749,7 +746,7 @@ transition: grid-template-rows;
 
 - To transition to auto height, change `grid-template-rows` to `1fr`
 
-![](https://www.youtube.com/watch?v=B_n4YONte5A)
+<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/B_n4YONte5A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 
 ## transition-behavior
 
@@ -827,293 +824,7 @@ If the items are overflowing their container, set `min-width: 0` or `min-height:
 
 # Grid
 
-- Use `order` to rearrange grid items
-- Use [[#gap]] to create gutters between grid tracks
-
-## Grid container properties
-
-### grid-template-columns, grid-template-rows
-
-- Defines the count and size of explicit grid tracks (rows or columns)
-
-```css
-grid-template-columns: 50% 50%;
-/* these are the same */
-grid-template-rows: 20% 20% 20% 20% 20%;
-grid-template-rows: repeat(5, 20%);
-```
-
-<div class="grid-example" style="grid-template-columns: 50% 50%; grid-template-rows: repeat(5, 20%);">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
-
-- Use `auto` for automatic sizing, or `none` to remove the explicit grid
-
-#### fr
-
-- The `fr` unit represents one "part" of the available space
-- Unlike percentages, `fr` divides up **extra** space - columns won't overflow, even if that means breaking the proportions given
-
-```css
-grid-template-columns: 1fr 3fr;
-```
-
-<div class="grid-example" style="grid-template-columns: 1fr 3fr;">
-    <div style="white-space: nowrap;">This is a long sentence that will overflow this column if allowed</div>
-    <div></div>
-</div>
-
-```css
-grid-template-columns: 25% 75%;
-```
-
-<div class="grid-example" style="grid-template-columns: 25% 75%;">
-    <div style="white-space: nowrap;">This is a long sentence that will overflow this column if allowed</div>
-    <div></div>
-</div>
-
-- `fr` also ignores [[#gap]], while percentages don't (since they're based on the total area of the grid container)
-
-<div class="grid-example" style="grid-template-columns: 1fr 3fr; gap: 20px;">
-    <div>1fr</div>
-    <div>3fr</div>
-</div>
-
-<div class="grid-example" style="grid-template-columns: 25% 75%; gap: 20px;">
-    <div>25%</div>
-    <div>75% - overflowing!</div>
-</div>
-
-#### minmax
-
-- Item size will be >= min and <= max
-- use `minmax(0, 1fr)` to keep all rows/columns the same size, and keep them from overflowing (see [[#Prevent flex and grid items from overflowing container]])
-
-#### auto-fill
-
-- Use the `auto-fill` keyword to create as many tracks as will fit in the container
-
-```css
-grid-template-columns: repeat(auto-fill, 200px);
-```
-
-<div class="grid-example" style="grid-template-columns: repeat(auto-fill, 200px); background-color: var(--background-secondary); ">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
-
-#### auto-fit
-
-- Use `auto-fit` with [[#minmax]] to make the tracks expand to fit any leftover space
-
-```css
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-```
-
-<div class="grid-example" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); background-color: var(--background-secondary);">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</div>
-
-#### Named lines
-
-- You can name grid lines to make them easier to reference with [[#grid-row-start, grid-column-start, grid-row-end, grid-column-end]]
-    - You can give the same line multiple names separated by spaces
-- If you name lines with `-start` and `-end`, the browser will generate an implicit [[#grid-template-areas|named area]] between them (in the below example, `sidebar` and `article`)
-    - The opposite is true: if you create a grid area named `article`, it will generate named lines in each direction called `article-start` and `article-end`
-
-```css
-main {
-    grid-template-columns:
-        [sidebar-start] 200px
-        [sidebar-end article-start] 1fr [article-end];
-}
-
-.sidebar {
-    grid-column: sidebar-start / sidebar-end;
-}
-
-.article {
-    grid-column: article-start / article-end;
-}
-```
-
-<div class="grid-example named-lines">
-    <div style="grid-column: sidebar-start / sidebar-end">
-        <span>sidebar-start</span>
-    </div>
-    <div style="grid-column: article-start / article-end">
-       <span>sidebar-end<br>article-start</span>
-        <span>article-end</span>
-    </div>
-</div>
-
-### grid-template-areas
-
-- Lets you name certain grid areas, to make it easier to assign elements to them using [[#grid-area]]
-    - Also lets you change the layout without having to change styles for all the child elements
-- Each string is a row, and each space-separated token within the string is a column
-    - strings don't need to be on separate lines (ie. you could write `"a a a" "b c c" "b c c"`), but putting them on separate lines makes them more readable
-- Areas must be rectangular (ex. you can't do `"a a b" "a b b"`)
-- [[#Named lines]] named with `-start` and `-end` will generate an implicit named area
-    - Conversely, named areas will generate implicit named lines with `-start` and `-end` appended
-- Named areas created this way can't overlap, but you can create [[#Named lines]] with `-start` and `-end` suffixes to create overlapping named areas
-
-```css
-.grid {
-    display: grid;
-    grid-template-areas:
-        "a a a"
-        "b c c"
-        "b c c";
-}
-```
-
-<div class="grid-example grid-areas">
-    <div style="grid-area: a">a</div>
-    <div style="grid-area: b">b</div>
-    <div style="grid-area: c">c</div>
-</div>
-
-- Use one or more dots to leave an empty space
-
-```css
-grid-template-areas: 
-    ". a a"
-    "b c c"
-    "b c c";
-```
-
-<div class="grid-example grid-areas empty-space">
-    <div style="grid-area: a">a</div>
-    <div style="grid-area: b">b</div>
-    <div style="grid-area: c">c</div>
-</div>
-
-- use [[#@media (media queries)|media queries]] to make area layouts responsive
-
-### grid-template
-
-- Shorthand for [[#grid-template-columns, grid-template-rows]]
-
-```css
-grid-template: repeat(auto-fill, 200px) / repeat(2, 1fr);
-```
-
-- Can also be a shorthand for [[#grid-template-areas]] and row/column sizes
-    - Row heights go after each row, column widths go at the end separated by a `/`
-
-```css
-grid-template:
-    "a a a" 100px 
-    "b c c" 50px
-    "b c c" 50px / repeat(3, 1fr);
-```
-
-### grid-auto-flow
-
-- Controls the direction (`row` or `column`) that implicit grid tracks are created in (default: `row`)
-- Add `dense` to "fill in" holes earlier in the grid - this may cause items to display out of order
-
-### grid-auto-rows, grid-auto-columns
-
-- By default, implicit rows/columns are sized to fit their content, this property lets you give them an explicit size
-
-```css
-grid-auto-rows: 100px;
-grid-auto-columns: minmax(100px, auto);
-```
-
-## Grid item properties
-
-### grid-row-start, grid-column-start, grid-row-end, grid-column-end
-
-- Set which grid **lines** (not tracks!) an element's starting or ending edges touch (1-indexed)
-- An element with `start: 1` and `end: 4` will span three cells
-
-<div class="grid-example number-lines" style="grid-template-columns: repeat(5, 1fr);">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <span class="active abs-fill" style="grid-column-start: 1; grid-column-end: 4;"></span>
-</div>
-
-- Order doesn't matter when using integers: `start: 4, end: 1` is the same as `start: 1, end: 4`
-- Negative values start counting from the end: `start: -2` will align the starting edge of the element to the next-to-last grid line
-    - You can mix positive and negative: `start: 1, end: -1` will span the whole track
-- Use the `span` keyword to declare how many cells an element takes up
-
-```css
-/* this element will be 2 cells wide */
-grid-column-start: 2;
-grid-column-end: span 2;
-```
-
-- Can also use [[#Named lines]] (don't put the name in quotes)
-- If the specified lines are outside the bounds of the [[#grid-template]], the browser will generate implicit grid tracks for the item
-    - You can use this and [[#grid-auto-flow]] to accomplish some layouts without defining a `grid-template` at all
-
-### grid-row, grid-column
-
-- Shorthand for the above: `start / end`
-
-### grid-area
-
-- Shorthand for `grid-row / grid-column`, or `grid-row-start / grid-column-start / grid-row-end / grid-column-end`
-- Can also specify a named area from [[#grid-template-areas]] (not in quotes)
-
-### position: absolute
-
-- Grid items with `position: absolute` will take their grid area as their containing block if they have one, or the entire grid if they don't
-    - Make sure the grid container has `position: relative`
-- In the example below, the highlighted block has `grid-column: 2 / 3` set
-
-<div class="grid-example" style="position: relative; grid-template-columns: repeat(3, 1fr);">
-    <div></div>
-    <div class="active"></div>
-    <div></div>
-    <div class="abs-fill" style="background-color: deepskyblue; grid-column: 2 / 3; left: 50px; top: 20px;"></div>
-</div>
-
-### display: contents
-
-- Use `display: contents` to group grid children together, while still laying them out as part of the grid
-
-<div class="grid-example" style="grid-template: repeat(2, 1fr) / repeat(5, 1fr)">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div style="display: contents">
-        <div class="active"></div>
-        <div class="active"></div>
-        <div class="active"></div>
-        <div class="active"></div>
-        <div class="active"></div>
-    </div>
-    <div></div>
-</div>
-
-## See also
-
-- [[Development/Clipped/Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers\|Exploring CSS Grid’s Implicit Grid and Auto-Placement Powers]]
+[[Development/Cheat sheets/CSS Grid\|CSS Grid]]
 
 # Functions
 
@@ -1152,7 +863,7 @@ color-mix(in oklab, red 25%, blue)
 
 ## Relative color syntax
 
-- lets you create a color from another color without needing [[#color-mix]], and edit individual color components
+- lets you create a color from another color without needing [[Development/Cheat sheets/CSS#color-mix\|#color-mix]], and edit individual color components
 - supported in all browsers as of July 2024
 
 ```css
@@ -1183,7 +894,7 @@ color: hsl(from deepskyblue h s l / 0.25);
 
 ### Lighten or darken a color
 
-- OKLAB provides the most reliable results (see [[#color-mix]])
+- OKLAB provides the most reliable results (see [[Development/Cheat sheets/CSS#color-mix\|#color-mix]])
 
 ```css
 /* lightens the color by 25% */
@@ -1249,7 +960,7 @@ Combine the two:
 
 ## light-dark
 
-- requires [[#color-scheme]] to be set
+- requires [[Development/Cheat sheets/CSS#color-scheme\|#color-scheme]] to be set
 - lets you define light and dark colors (in that order) on one line
     - only works for colors
 
@@ -1299,7 +1010,7 @@ p {
 - you can name containers using `container-name`, and reference them by name after `@container`
     - containers can have multiple (space-separated) names, and names can be shared between multiple elements/selectors
 - shorthand: `container: name / type`
-- containers have layout, style, and size or inline-size (depending on container type) [[#contain|containment]] applied
+- containers have layout, style, and size or inline-size (depending on container type) [[Development/Cheat sheets/CSS#contain\|containment]] applied
     - this means a container's size won't be affected by its children, so containers need to have a set size of their own
 
 ### Size queries
@@ -1453,7 +1164,7 @@ not the section width */
 
 - Layers that are declared later take higher priority
 - You can declare layers at the same time as adding rules, but it's clearer to declare the layer names first and then add rules
-- You can also specify a layer name when using `@import` (though you should [[#@import (don't use it!)|avoid using @import]])
+- You can also specify a layer name when using `@import` (though you should [[Development/Cheat sheets/CSS#@import (don't use it!)\|avoid using @import]])
 
 ```css
 @layer reset, base, theme, utilities;
@@ -1576,8 +1287,8 @@ not the section width */
 - detect high contrast mode and other situations where the browser is overriding the page colors
     - should be used for small tweaks only - ==respect the user's choices and don't try to override them==
 - in forced colors mode, the browser forcibly applies appropriate system colors to elements, and removes shadows and non-URL background-images (like gradients)
-    - use [[#System color keywords]] to adjust colors if necessary
-- also see [[#forced-color-adjust]]
+    - use [[Development/Cheat sheets/CSS#System color keywords\|#System color keywords]] to adjust colors if necessary
+- also see [[Development/Cheat sheets/CSS#forced-color-adjust\|#forced-color-adjust]]
 
 ```css
 @media (forced-colors: active) { }
@@ -1649,7 +1360,7 @@ not the section width */
 
 - lets you adjust the margins of printed pages
     - use absolute units only!
-- pseudo-classes: `:first`, `:left`, `:right`, `:blank` (matches empty pages as a result of [[#break-before, break-inside, break-after|forced page breaks]])
+- pseudo-classes: `:first`, `:left`, `:right`, `:blank` (matches empty pages as a result of [[Development/Cheat sheets/CSS#break-before, break-inside, break-after\|forced page breaks]])
 
 ```css
 @page {
@@ -1905,7 +1616,7 @@ syntax: "*"; /* any value */
 
 # Animating dialogs and popovers
 
-## With [[#transition-behavior]]
+## With [[Development/Cheat sheets/CSS#transition-behavior\|#transition-behavior]]
 
 ```css
 dialog, [popover] {
@@ -2058,7 +1769,7 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
     - clickable (will fire click events)
     - focusable
     - visible to screen readers
-- Elements with `visibility: hidden` (or [[#content-visibility|content-visibility: hidden]]) don't do any of the above.
+- Elements with `visibility: hidden` (or [[Development/Cheat sheets/CSS#content-visibility\|content-visibility: hidden]]) don't do any of the above.
 
 ## Intrinsic sizing keywords (min-content, fit-content, max-content)
 
@@ -2076,7 +1787,7 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 
 ## Viewport units
 
-- based on the [[#Viewports|layout viewport]] (so they don't change when zooming)
+- based on the [[Development/Cheat sheets/CSS#Viewports\|layout viewport]] (so they don't change when zooming)
 - `svh` and `svw`: size when the toolbar is expanded
 - `lvh` and `lvw`: size when the toolbar is shrunken
 - `dvh` and `dvw`: change when the toolbar expands or shrinks
@@ -2100,7 +1811,7 @@ Setting `display: unset` on a `<div>` will apply `display: inline`, which probab
 ## System color keywords
 
 - use colors provided by the operating system
-- browser support is inconsistent, so use [[#@supports]] to test and set fallback values appropriately
+- browser support is inconsistent, so use [[Development/Cheat sheets/CSS#@supports\|#@supports]] to test and set fallback values appropriately
     - `AccentColor` and `AccentColorText` aren't supported in Chromium as of January 2025
 
 | Keyword           | Example                                                                | Description                                                                          |
@@ -2186,11 +1897,11 @@ Style the wrapper the same as the textarea, overlay them using `grid`, and make 
 
 ## Styling for print
 
-- use [[#@media (media queries)|@media print]] to restyle or hide elements when printing
+- use [[Development/Cheat sheets/CSS#@media (media queries)\|@media print]] to restyle or hide elements when printing
     - preview print rules in Chrome devtools -> *Rendering* -> *Emulate CSS media type*
-- use [[#@page]] rules to adjust the page margins
-- use [[#print-color-adjust]] to prevent the browser from changing the appearance of elements when printing
-- use [[#break-before, break-inside, break-after]] to control where pages break
+- use [[Development/Cheat sheets/CSS#@page\|#@page]] rules to adjust the page margins
+- use [[Development/Cheat sheets/CSS#print-color-adjust\|#print-color-adjust]] to prevent the browser from changing the appearance of elements when printing
+- use [[Development/Cheat sheets/CSS#break-before, break-inside, break-after\|#break-before, break-inside, break-after]] to control where pages break
 - use `orphans` and `widows` to change the minimum number of lines that can be alone at the bottom/top of a page (both default to 2)
 
 # See also

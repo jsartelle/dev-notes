@@ -288,7 +288,7 @@ const child = ref(null)
 ## Props
 
 - define props using the `defineProps` macro, which returns an object with all the passed prop values
-    - or use [[#^04077c|type-based declaration]]
+    - or use [[Development/Cheat sheets/Vue 3#^04077c\|type-based declaration]]
     - code inside `defineProps` can't access other variables declared in `<script setup>`
 
 ```js
@@ -321,7 +321,7 @@ console.log(props.title)
 
 - to emit events in inline handlers, use `$emit`
 - events should be documented using the `defineEmits` macro, which returns an `emit` function that can be used in the script
-    - or use [[#^aa6726|type-based declaration]]
+    - or use [[Development/Cheat sheets/Vue 3#^aa6726\|type-based declaration]]
 
 ```js
 const emit = defineEmits({
@@ -379,7 +379,7 @@ export default {
 
 - `provide` key can be a string or Symbol
     - if you are working in a large application, use Symbol keys to avoid collisions, and export/import the keys from a dedicated file
-    - Symbol keys also [[#^2e8115|work better in TypeScript]]
+    - Symbol keys also [[Development/Cheat sheets/Vue 3#^2e8115\|work better in TypeScript]]
 - `provide` value can be anything, including reactive state
 - injected `ref`s are **not** automatically unwrapped
 
@@ -555,7 +555,7 @@ const vColor = (el, binding) => {
 }
 ```
 
-- it is recommended **not** to use custom directives on components - directives always apply to a component's root node and can't be forwarded (unlike [[#Fallthrough Attributes]])
+- it is recommended **not** to use custom directives on components - directives always apply to a component's root node and can't be forwarded (unlike [[Development/Cheat sheets/Vue 3#Fallthrough Attributes\|#Fallthrough Attributes]])
 
 ## Plugins
 
@@ -937,12 +937,12 @@ export const useSettingsStore = defineStore('settings', () = {
 ## Script
 
 - components can have multiple root nodes
-    - non-prop attributes must be [[#Fallthrough Attributes|forwarded to a specific node]]
+    - non-prop attributes must be [[Development/Cheat sheets/Vue 3#Fallthrough Attributes\|forwarded to a specific node]]
 - `nextTick` is now imported from `vue`
 - `beforeDestroy` and `destroyed` are renamed to `beforeUnmount` and `unmounted`
     - when using composition, prefix with `on`
-- `v-bind.sync` is replaced with [[#Events (emits) and v-model|v-model]]
-- [[#Provide and Inject]] bindings are reactive
+- `v-bind.sync` is replaced with [[Development/Cheat sheets/Vue 3#Events (emits) and v-model\|v-model]]
+- [[Development/Cheat sheets/Vue 3#Provide and Inject\|#Provide and Inject]] bindings are reactive
 
 ## Style
 

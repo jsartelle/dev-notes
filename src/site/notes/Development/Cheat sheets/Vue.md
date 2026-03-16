@@ -15,7 +15,7 @@
 > - computed property getters should not have side effects!
 > - don't mix `v-if` and `v-for` on the same element!
 > - don't change a value that's used in a `v-if` inside the `beforeMount()` hook - this can cause the DOM element to unload during render and cause an error!
->     - use `mounted()` instead, or a [[#Nuxt|Nuxt hook]] if you're using Nuxt and the value can be loaded server-side
+>     - use `mounted()` instead, or a [[Development/Cheat sheets/Vue#Nuxt\|Nuxt hook]] if you're using Nuxt and the value can be loaded server-side
 
 # Reactivity
 

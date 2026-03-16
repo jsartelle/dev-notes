@@ -99,7 +99,7 @@ type Droid implements Character {
 ## Union types
 
 - similar to interfaces, but don't declare shared fields
-    - this means you need to use a [[#Inline fragments|inline fragment]] to access any fields on the union type
+    - this means you need to use a [[Development/Cheat sheets/GraphQL#Inline fragments\|inline fragment]] to access any fields on the union type
 
 ```graphql
 union SearchResult = Human | Droid | Starship
@@ -126,11 +126,11 @@ query {
 }
 ```
 
-- there is an optional `Mutation` type that works the same way for [[#Mutations]]
+- there is an optional `Mutation` type that works the same way for [[Development/Cheat sheets/GraphQL#Mutations\|#Mutations]]
 
 ## Input types
 
-- used to define the data passed into [[#Mutations]]
+- used to define the data passed into [[Development/Cheat sheets/GraphQL#Mutations\|#Mutations]]
 - can't have arguments on their fields
 - can't mix input and output types in the same schema, but input type fields can refer to other input types
 
@@ -254,7 +254,7 @@ query YourName {
 # Fragments
 
 - you can create reusable fragments to avoid having to duplicate parts of queries
-    - fragments can access [[#Variables]] declared in the query or mutation
+    - fragments can access [[Development/Cheat sheets/GraphQL#Variables\|#Variables]] declared in the query or mutation
 
 ```graphql
 # `hero` is of type Character
@@ -375,7 +375,7 @@ query Hero($episode: Episode, $withFriends: Boolean!, $noHeight: Boolean) {
 
 # Mutations
 
-- used with [[#Variables]] to mutate data, and let you define what data is returned
+- used with [[Development/Cheat sheets/GraphQL#Variables\|#Variables]] to mutate data, and let you define what data is returned
 - ==query fields run in parallel, but mutation fields run in series== (to avoid race conditions)
 
 ```graphql

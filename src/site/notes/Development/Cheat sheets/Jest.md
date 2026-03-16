@@ -39,3 +39,12 @@ expect(mockFn).toHaveBeenCalledWith(
     })
 )
 ```
+
+### Inside arrays
+
+```js
+const users = [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }]
+expect(users).not.toContainEqual({
+    name: 'Eve'
+})
+```

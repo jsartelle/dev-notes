@@ -495,7 +495,7 @@ a, b, c = x
 print(b) # 2
 ```
 
-- tuples can be converted to [[#Lists (Arrays)|lists]] using `list(tuple)`
+- tuples can be converted to [[Development/Cheat sheets/Python#Lists (Arrays)\|lists]] using `list(tuple)`
 
 ## Dictionaries (Maps/Objects)
 
@@ -607,7 +607,7 @@ increment_number()
 print(sum_two_numbers(b=3, a=4)) # 7
 ```
 
-- declare a varargs (rest) argument using `*name` to wrap extra positional args in a [[#Tuples|tuple]]
+- declare a varargs (rest) argument using `*name` to wrap extra positional args in a [[Development/Cheat sheets/Python#Tuples\|tuple]]
 
 ```python
 def rest_function(first, second, third, *therest):
@@ -626,7 +626,7 @@ keyword_only_argument(1, b=2)
 keyword_only_argument(1, 2) # errors
 ```
 
-- declare a [[#Dictionaries (Maps/Objects)|dictionary]] argument with `**name` to wrap extra keyword args
+- declare a [[Development/Cheat sheets/Python#Dictionaries (Maps/Objects)\|dictionary]] argument with `**name` to wrap extra keyword args
 
 ```python
 def arguments_dict(first, second, third, **options):
