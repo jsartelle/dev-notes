@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Terminal.md","permalink":"/cheat-sheets/terminal/","tags":["language/terminal"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Terminal.md","permalink":"/cheat-sheets/terminal/","tags":["language/terminal"],"dg-note-properties":{"created":"2025-02-05T12:06:32-06:00","modified":"2026-01-22T21:41:12-06:00","aliases":"Shell","tags":["language/terminal"]}}
 ---
 
 
@@ -245,7 +245,7 @@ Searches files for pattern matches and performs an action based on them
 
 - `find dir -type f -name foo*`: find all *files* starting with "foo" in dir (recursive)
     - use `-type d` for folders (directories)
-- `find dir -name .DS_Store -delete`: delete all *.DS_Store* files in dir
+- `find . -name ".DS_Store" -delete`: delete all *.DS_Store* files in dir
 - `find . -name foo* -exec command`: execute `command` on all matching files
 
 ### fd

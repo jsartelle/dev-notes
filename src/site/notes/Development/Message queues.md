@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Message queues.md","permalink":"/message-queues/","tags":["tech/networking"]}
+{"dg-publish":true,"dg-path":"Message queues.md","permalink":"/message-queues/","tags":["tech/networking"],"dg-note-properties":{"created":"2024-09-04T11:38:06-05:00","modified":"2025-06-16T22:25:55-05:00","tags":["tech/networking"]}}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/React.md","permalink":"/cheat-sheets/react/","tags":["language/react"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/React.md","permalink":"/cheat-sheets/react/","tags":["language/react"],"dg-note-properties":{"created":"2025-06-16T19:03:12-05:00","modified":"2026-04-03T11:59:46-05:00","tags":["language/react"]}}
 ---
 
 
@@ -640,6 +640,7 @@ const sortTodos = useMemo(
 
 - cache a function definition so it only changes when one of its dependencies changes
     - the same as returning a function from [[Development/Cheat sheets/React#useMemo\|#useMemo]]
+    - `useCallback` doesn't prevent creating the function, it just ignores it and returns the cached function if the dependencies don't change
 - callbacks can also be declared outside the render function if they don't need access to component data or Hooks
 - like [[Development/Cheat sheets/React#useMemo\|#useMemo]], should only be used when necessary - may be useful when:
     - the function is passed to a [[Development/Cheat sheets/React#memo (memoize components)\|memoized]] component

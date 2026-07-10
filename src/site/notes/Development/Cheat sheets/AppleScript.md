@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/AppleScript.md","permalink":"/cheat-sheets/apple-script/","tags":["language/applescript"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/AppleScript.md","permalink":"/cheat-sheets/apple-script/","tags":["language/applescript"],"dg-note-properties":{"created":"2023-08-04T11:25:58-05:00","modified":"2025-06-16T22:25:57-05:00","tags":["language/applescript"]}}
 ---
 
 

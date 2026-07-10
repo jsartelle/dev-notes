@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Svelte.md","permalink":"/cheat-sheets/svelte/","tags":["language/svelte"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Svelte.md","permalink":"/cheat-sheets/svelte/","tags":["language/svelte"],"dg-note-properties":{"created":"2025-02-21T18:02:30-06:00","modified":"2025-12-26T13:54:49-06:00","tags":["language/svelte"]}}
 ---
 
 

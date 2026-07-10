@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Next.js.md","permalink":"/cheat-sheets/next-js/","tags":["language/react"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Next.js.md","permalink":"/cheat-sheets/next-js/","tags":["language/react"],"dg-note-properties":{"created":"2025-02-12T14:58:57-06:00","modified":"2025-06-16T22:25:58-05:00","aliases":"Nextjs","tags":["language/react"]}}
 ---
 
 

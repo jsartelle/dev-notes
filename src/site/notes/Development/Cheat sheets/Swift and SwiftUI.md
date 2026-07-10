@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Swift and SwiftUI.md","permalink":"/cheat-sheets/swift-and-swift-ui/","tags":["language/swift"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Swift and SwiftUI.md","permalink":"/cheat-sheets/swift-and-swift-ui/","tags":["language/swift"],"dg-note-properties":{"created":"2023-08-04T11:25:58-05:00","modified":"2025-06-16T22:25:59-05:00","tags":["language/swift"]}}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Vue.md","permalink":"/cheat-sheets/vue/","tags":["language/vue"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Vue.md","permalink":"/cheat-sheets/vue/","tags":["language/vue"],"dg-note-properties":{"created":"2025-02-07T22:59:39-06:00","modified":"2025-06-16T22:25:59-05:00","tags":["language/vue"]}}
 ---
 
 

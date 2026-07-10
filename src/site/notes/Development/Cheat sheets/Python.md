@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Python.md","permalink":"/cheat-sheets/python/","tags":["language/python"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Python.md","permalink":"/cheat-sheets/python/","tags":["language/python"],"dg-note-properties":{"created":"2024-08-13T21:55:06-05:00","modified":"2025-06-16T22:25:58-05:00","tags":["language/python"]}}
 ---
 
 

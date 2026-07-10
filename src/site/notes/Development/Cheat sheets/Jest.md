@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Jest.md","permalink":"/cheat-sheets/jest/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Jest.md","permalink":"/cheat-sheets/jest/","dg-note-properties":{"created":"2025-01-09T11:41:54-06:00","modified":"2026-01-14T14:17:46-06:00"}}
 ---
 
 

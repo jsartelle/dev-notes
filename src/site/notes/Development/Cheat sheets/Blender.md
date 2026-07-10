@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Blender.md","permalink":"/cheat-sheets/blender/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Blender.md","permalink":"/cheat-sheets/blender/","dg-note-properties":{"created":"2023-08-04T11:25:58-05:00","modified":"2025-07-02T09:04:48-05:00"}}
 ---
 
 

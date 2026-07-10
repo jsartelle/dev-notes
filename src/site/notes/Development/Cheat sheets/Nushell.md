@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Nushell.md","permalink":"/cheat-sheets/nushell/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Nushell.md","permalink":"/cheat-sheets/nushell/","dg-note-properties":{"created":"2023-08-04T11:25:58-05:00","modified":"2025-06-16T22:25:58-05:00"}}
 ---
 
 

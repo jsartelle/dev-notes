@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Visual Studio Code.md","permalink":"/cheat-sheets/visual-studio-code/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Visual Studio Code.md","permalink":"/cheat-sheets/visual-studio-code/","dg-note-properties":{"created":"2024-10-02T17:17:31-05:00","modified":"2025-06-16T22:25:59-05:00","aliases":"VSCode"}}
 ---
 
 

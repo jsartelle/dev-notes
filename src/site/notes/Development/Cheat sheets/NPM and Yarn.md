@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/NPM and Yarn.md","permalink":"/cheat-sheets/npm-and-yarn/","tags":["tech/web"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/NPM and Yarn.md","permalink":"/cheat-sheets/npm-and-yarn/","tags":["tech/web"],"dg-note-properties":{"created":"2025-02-28T16:25:13-06:00","modified":"2025-07-22T16:01:19-05:00","tags":["tech/web"]}}
 ---
 
 

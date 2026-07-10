@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/JavaScript.md","permalink":"/cheat-sheets/java-script/","tags":["language/javascript"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/JavaScript.md","permalink":"/cheat-sheets/java-script/","tags":["language/javascript"],"dg-note-properties":{"created":"2025-04-18T19:19:05-05:00","modified":"2026-02-15T12:56:25-06:00","tags":["language/javascript"]}}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/CSS.md","permalink":"/cheat-sheets/css/","contentClasses":"css-cheat-sheet","tags":["language/css"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/CSS.md","permalink":"/cheat-sheets/css/","contentClasses":"css-cheat-sheet","tags":["language/css"],"dg-note-properties":{"created":"2025-05-05T17:38:05-05:00","modified":"2026-07-09T19:14:33-05:00","tags":["language/css"],"cssclasses":["css-cheat-sheet"]}}
 ---
 
 
@@ -357,6 +357,11 @@ To fix this, move the `backdrop-filter` that's on the outer element to a pseudo-
 ```css
 background: repeat scroll 0% 0%/auto padding-box border-box none transparent;
 ```
+
+## border-collapse & border-spacing
+
+- `border-collapse: collapse` makes table cells share borders
+- if borders disappear when scrolling a table with sticky headers, use `border-collapse: separate` (the default) and `border-spacing: 0`
 
 ## box-decoration-break
 
@@ -821,6 +826,57 @@ Use `flex: 1 1 100%` to make every flex child the same size, regardless of conte
 By default, flex and grid items have `min-width: auto` and `min-height: auto`, meaning they can't be smaller than their content.
 
 If the items are overflowing their container, set `min-width: 0` or `min-height: 0`, or any `overflow` value other than visible on them.
+
+# Anchor Positioning
+
+## Creating anchors
+
+- `anchor-name: --my-name` (name must start with `--`) on the anchor element
+- `position-anchor: --my-name` on the positioned element
+- using `popovertarget` to open a [[Development/Cheat sheets/HTML#popover\|popover]] creates an implicit anchor relationship between them (or the `source` param of `showPopover`/`togglePopover`)
+    - but `position-anchor` overrides this
+    - customizable `<select>`s also create an implicit anchor
+- `anchor-scope: --my-name` on a parent element will cause its children to only anchor to `anchor-name: --my-name` elements in the same subtree
+    - otherwise the last `anchor-name: --my-name` element in DOM order is used, even if it's not an ancestor of the positioned element
+    - `anchor-scope: all` does this for all anchor-names
+
+## Positioning with anchors
+
+- the positioned element must have `position: absolute` or `position: fixed`
+- `anchor()` function with inset properties - ex. `top: anchor(bottom)` places the top of the positioned element against the anchor's bottom
+    - can also use percentages
+    - can pass a different anchor name to use that anchor just for that property - ex. `left: anchor(--other-anchor right)`
+    - can pass a fallback in case the anchor can't be used - ex `left: anchor(right, 250px)` is the same as `left: 250px` if the anchor doesn't exist
+- `position-area: bottom left` (or `end start`) positions the element on a 3x3 grid, with the anchor in the center square
+    - use `span-{area}` to span a certain area - ex. `top span-left` places the element above the anchor, and spans the left and center of the top row
+    - `span-all` spans the entire row/column
+- use `justify-self` and `align-self` to adjust how the element is aligned relative to the anchor, similar to grid
+    - these can take the value `anchor-center`, which is the center of the anchor
+- use `anchor-size` to get the size of the anchor - ex. `anchor-size(width)` or `anchor-size(inline)`
+    - these can be used for more than just sizing the positioned element - ex. `left: anchor-size(width)` or `margin-left: anchor-size(width)`
+        - if used on an inset property, the element will be positioned according to normal `position: absolute` or `fixed` rules
+    - `block` and `inline` measure the anchor's containing block, `self-block` and `self-inline` measure the anchor itself
+    - if you omit the argument it defaults to the same axis as the property - ex. `width: anchor-size()` is the same as `width: anchor-size(width)`
+
+## Fallbacks
+
+- `position-try` is a shorthand for these:
+- `position-try-fallbacks` lets you automatically move the positioned element if it would move offscreen
+    - `position-try: flip-block, flip-inline` will "flip" the anchor along that axis if it overflows, `flip-start` flips both at once
+        - the order determines which value is tried first
+        - only one comma-separated value or set of values is tried at a time - to flip both axes if the popover overflows both ways, use `position-try: flip-block, flip-inline, flip-block flip-inline`
+    - you can also use a `position-area` as a fallback, or define more specific fallbacks with `@position-try`
+- `position-try-order` lets you try the fallback positions even if the element isn't overflowing: `most-height`, `most-width`, `most-block-size`, `most-inline-size`
+    - ex. `most-height` will apply the fallback that gives the element the most height when it is first shown
+- `position-visibility` defines conditions that will hide the positioned element if it doesn't meet them
+    - `position-visibility: no-overflow` hides if the positioned element starts to overflow
+    - `position-visibility: anchors-visible` hides if the anchor is completely hidden or covered
+    - `position-visibility: anchors-valid` hides if the anchor doesn't exist
+- to style the element based on its fallbacks, add `container-type: anchored`, then use a rule like this:
+
+```css
+@container anchored(fallback: flip-block) { ... }
+```
 
 # Grid
 

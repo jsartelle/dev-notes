@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/SQL.md","permalink":"/cheat-sheets/sql/","tags":["tech/databases"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/SQL.md","permalink":"/cheat-sheets/sql/","tags":["tech/databases"],"dg-note-properties":{"created":"2025-06-12T20:05:16-05:00","modified":"2026-06-25T10:28:01-05:00","tags":["tech/databases"]}}
 ---
 
 
@@ -255,6 +255,18 @@ FROM
     users as u
 WHERE
     p.owner_id = u.id
+```
+
+## DELETE
+
+> [!warning]
+> Run a SELECT first to make sure you're deleting the right rows!
+
+```sql
+DELETE FROM
+    users u
+WHERE
+    u.active = false
 ```
 
 ## JOIN
@@ -718,7 +730,6 @@ WHERE
 [JSON functions (Postgres 13)]([PostgreSQL: Documentation: 13: 9.16. JSON Functions and Operators](https://www.postgresql.org/docs/13/functions-json.html))
 
 - search inside JSON values with the `@>` operator
-    - or `@<` to go the other way
     - JSON strings must be placed in double quotes (inside the single quotes)
 - use `NOT` to negate - ex. `NOT ids @> '"abc"'`
 
@@ -730,6 +741,25 @@ WHERE ids @> '"abc"'
 ```postgresql
 -- user = { "name": "Bob", "age": 30 }
 WHERE user @> '{"name": "Bob"}'
+```
+
+- can use `@<` to go the other way
+
+```postgresql
+-- user = { "name": "Bob", "age": 30 }
+WHERE '{"name": "Bob"}' @< user
+```
+
+- use `-->` to select JSON array elements
+
+```postgresql
+SELECT user_roles -> 0 from 'users'
+```
+
+- use `-->` to select JSON object properties
+
+```postgresql
+SELECT DISTINCT employee_data ->> 'employee_type' from 'users'
 ```
 
 # Tables

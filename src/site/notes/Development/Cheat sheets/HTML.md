@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/HTML.md","permalink":"/cheat-sheets/html/","tags":["language/html"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/HTML.md","permalink":"/cheat-sheets/html/","tags":["language/html"],"dg-note-properties":{"created":"2024-10-08T10:56:04-05:00","modified":"2026-04-18T15:11:25-05:00","tags":["language/html"]}}
 ---
 
 
@@ -469,15 +469,21 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
 - lets you show any element as a non-modal overlay on the top layer
     - for modal overlays (which block interaction with the rest of the page), use [[#`<dialog>` (modals/popups)|<dialog>]]
 - popovers come in two types:
-    - `auto`: can be dismissed by clicking outside, only one can be shown at a time unless they're nested
+    - `auto`: default, can be dismissed by clicking outside, only one can be shown at a time unless they're nested
     - `manual`: must be explicitly closed
 
 ### Toggling
 
 - two ways to show a popover:
-    - without JavaScript: create a button with `popovertarget="id"`
+    - create a button with `popovertarget="id"` (the id of the popover)
         - `popovertargetaction` can be set to `show`, `hide`, or `toggle` - default `toggle`
-    - with JavaScript: call `showPopover()`, `hidePopover()`, or `togglePopover()` on the popover element
+        - this creates an ARIA role relationship between the button and popover
+        - this also creates an [[Development/Cheat sheets/CSS#Anchor Positioning\|implicit anchor]] between them, so you can position the popover relative to the button easily
+    - call `showPopover()`, `hidePopover()`, or `togglePopover()` on the popover element
+        - `togglePopover` can take a `force: true | false` param
+        - `showPopover` and `togglePopover` can take `{ source: element }`, which links the two as if the `source` element had `popovertarget`
+            - this doesn't change the ARIA roles!
+            - can also include a `force` property for `togglePopover`
 - when toggled, fires a `toggle` event with `oldState === 'closed'` and `newState === 'open'` or vice versa
     - `beforeToggle` is also fired with the same properties just before the popover is shown/hidden
 
@@ -534,8 +540,8 @@ dialog:not([open]) {
 
 ## `event.target` vs `event.currentTarget`
 
-- `event.target` is the element that ==received the event==
-- `event.currentTarget` is always the element that the ==event listener is attached to==
+- `event.target` is the element that ==received the event== - not always the element the listener is on
+- `event.currentTarget` is always the element that the ==listener is attached to==
     - in the example below, if you click on the child, `target` is the child and `currentTarget` is the parent
 
 ```html

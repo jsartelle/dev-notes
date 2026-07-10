@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/TRMNL.md","permalink":"/cheat-sheets/trmnl/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/TRMNL.md","permalink":"/cheat-sheets/trmnl/","dg-note-properties":{"created":"2025-05-23T10:21:10-05:00","modified":"2025-07-10T22:33:30-05:00"}}
 ---
 
 - [local dev server](https://github.com/usetrmnl/trmnlp) (similar to online dev tools)

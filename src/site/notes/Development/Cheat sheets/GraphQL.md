@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/GraphQL.md","permalink":"/cheat-sheets/graph-ql/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/GraphQL.md","permalink":"/cheat-sheets/graph-ql/","dg-note-properties":{"created":"2024-08-26T19:07:12-05:00","modified":"2025-06-16T22:25:58-05:00"}}
 ---
 
 

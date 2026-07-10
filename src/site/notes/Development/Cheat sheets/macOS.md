@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/macOS.md","permalink":"/cheat-sheets/mac-os/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/macOS.md","permalink":"/cheat-sheets/mac-os/","dg-note-properties":{"created":"2025-07-02T08:35:55-05:00","modified":"2025-09-04T21:20:51-05:00"}}
 ---
 
 

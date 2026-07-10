@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/PicoCSS.md","permalink":"/cheat-sheets/pico-css/","tags":["language/css"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/PicoCSS.md","permalink":"/cheat-sheets/pico-css/","tags":["language/css"],"dg-note-properties":{"created":"2023-08-26T00:14:50-05:00","modified":"2025-06-16T22:25:58-05:00","tags":["language/css"]}}
 ---
 
 

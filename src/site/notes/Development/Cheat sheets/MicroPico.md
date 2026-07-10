@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/MicroPico.md","permalink":"/cheat-sheets/micro-pico/","tags":["language/python","tech/tufty"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/MicroPico.md","permalink":"/cheat-sheets/micro-pico/","tags":["language/python","tech/tufty"],"dg-note-properties":{"created":"2023-08-04T11:25:58-05:00","modified":"2025-06-16T22:25:58-05:00","aliases":"Tufty 2040","tags":["language/python","tech/tufty"]}}
 ---
 
 

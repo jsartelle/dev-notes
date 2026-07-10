@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/CSS Grid.md","permalink":"/cheat-sheets/css-grid/","contentClasses":"css-cheat-sheet","tags":["language/css"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/CSS Grid.md","permalink":"/cheat-sheets/css-grid/","contentClasses":"css-cheat-sheet","tags":["language/css"],"dg-note-properties":{"created":"2026-01-30T08:52:56-06:00","modified":"2026-01-30T09:00:35-06:00","tags":["language/css"],"cssclasses":["css-cheat-sheet"]}}
 ---
 
 

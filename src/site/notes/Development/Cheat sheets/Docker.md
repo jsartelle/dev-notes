@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Docker.md","permalink":"/cheat-sheets/docker/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Docker.md","permalink":"/cheat-sheets/docker/","dg-note-properties":{"created":"2025-01-06T17:02:00-06:00","modified":"2025-06-16T22:25:58-05:00"}}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/ESLint.md","permalink":"/cheat-sheets/es-lint/","tags":["language/javascript"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/ESLint.md","permalink":"/cheat-sheets/es-lint/","tags":["language/javascript"],"dg-note-properties":{"created":"2024-12-06T12:10:24-06:00","modified":"2025-06-16T22:25:57-05:00","tags":["language/javascript"]}}
 ---
 
 

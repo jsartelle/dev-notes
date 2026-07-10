@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Obsidian.md","permalink":"/cheat-sheets/obsidian/","tags":["tech/obsidian"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Obsidian.md","permalink":"/cheat-sheets/obsidian/","tags":["tech/obsidian"],"dg-note-properties":{"created":"2023-08-04T11:25:58-05:00","modified":"2026-05-19T09:19:34-05:00","tags":["tech/obsidian"]}}
 ---
 
 
@@ -65,18 +65,29 @@ task-todo:/.+/
 task-done:/.+/
 ```
 
-# Embed numbr calculations
+# Math blocks (Numerals plugin)
 
-> [!tip]
-> Make the iframe at least 300px high to leave room for the menu.
->
-> If you make edits, choose **Share document** from the menu and then update the iframe URL.
+```math
+# Math
+apples = 5
+cherries = 10
+bananas = 3
+@total
 
-```html
-<iframe src="https://numbr.dev/#IYBxBsFMGcAIF5YFYBQB7ATsAdgcxgrAIwAMKoEBA1LJjvtCikA=" width="100%" height="300px"></iframe>
+$redFruits = apples + cherries
+@prev + 10 => # highlight answer with =>
+
+fraction(1/3) + fraction(1/4)
+
+# Conversions
+1 ft + 12 in
+1 cup to floz
 ```
 
-<iframe src="https://numbr.dev/#IYBxBsFMGcAIF5YFYBQB7ATsAdgcxgrAIwAMKoEBA1LJjvtCikA=" width="100%" height="300px"></iframe>
+```math
+# variables starting with $ are shared between all math blocks on the page
+count = $redFruits * 2
+```
 
 # Emulate mobile (for development)
 

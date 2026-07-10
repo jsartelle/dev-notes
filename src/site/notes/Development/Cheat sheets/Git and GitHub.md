@@ -1,9 +1,17 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Git and GitHub.md","permalink":"/cheat-sheets/git-and-git-hub/","tags":["language/terminal"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Git and GitHub.md","permalink":"/cheat-sheets/git-and-git-hub/","tags":["language/terminal"],"dg-note-properties":{"created":"2025-05-29T11:33:32-05:00","modified":"2026-05-05T10:50:00-05:00","tags":["language/terminal"]}}
 ---
 
 
 # Git
+
+## Pull only a certain number of commits
+
+Pull the latest 10 commits from each branch:
+
+```shell
+git pull --depth 10
+```
 
 ## Show all files in index
 
@@ -17,7 +25,7 @@ git ls-tree -r BRANCH_NAME --name-only
 git rm --cached <path>
 ```
 
-## Rebuild Git index
+## Rebuild index
 
 Removes all tracked files that should be ignored
 
@@ -61,6 +69,14 @@ git branch --set-upstream-to=origin/branch-name
 
 ```shell
 git branch --unset-upstream
+```
+
+## Reset local tags from remote
+
+Use this if you get the error `Unable to pull because a local tag would be overwritten.`
+
+```shell
+git fetch --tags --force
 ```
 
 ## Drop a commit

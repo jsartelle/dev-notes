@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Inkscape.md","permalink":"/cheat-sheets/inkscape/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/Inkscape.md","permalink":"/cheat-sheets/inkscape/","dg-note-properties":{"created":"2023-12-14T21:54:59-06:00","modified":"2025-06-16T22:25:58-05:00"}}
 ---
 
 

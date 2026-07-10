@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/MobX.md","permalink":"/cheat-sheets/mob-x/","tags":["language/react"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/MobX.md","permalink":"/cheat-sheets/mob-x/","tags":["language/react"],"dg-note-properties":{"created":"2024-09-10T11:59:40-05:00","modified":"2025-06-16T22:25:58-05:00","tags":["language/react"]}}
 ---
 
 

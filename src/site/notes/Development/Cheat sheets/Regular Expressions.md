@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Regular Expressions.md","permalink":"/cheat-sheets/regular-expressions/","tags":["language/javascript"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/Regular Expressions.md","permalink":"/cheat-sheets/regular-expressions/","tags":["language/javascript"],"dg-note-properties":{"created":"2023-08-04T11:25:58-05:00","modified":"2025-06-16T22:25:58-05:00","aliases":"Regexp","tags":["language/javascript"]}}
 ---
 
 

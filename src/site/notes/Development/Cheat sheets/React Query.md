@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/React Query.md","permalink":"/cheat-sheets/react-query/"}
+{"dg-publish":true,"dg-path":"Cheat sheets/React Query.md","permalink":"/cheat-sheets/react-query/","dg-note-properties":{"created":"2025-03-12T12:36:54-05:00","modified":"2025-06-16T22:25:59-05:00","aliases":"TanStack Query"}}
 ---
 
 

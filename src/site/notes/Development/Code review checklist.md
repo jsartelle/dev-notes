@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Code review checklist.md","permalink":"/code-review-checklist/"}
+{"dg-publish":true,"dg-path":"Code review checklist.md","permalink":"/code-review-checklist/","dg-note-properties":{"created":"2025-02-19T12:14:15-06:00","modified":"2026-03-18T10:09:06-05:00","aliases":["Merge request checklist","MR checklist","PR checklist","Pull request checklist"]}}
 ---
 
 
@@ -9,6 +9,9 @@
 
 - look for unwanted merges (ex. merging `sandbox` into a branch that will later be merged into `main`)
 - start by looking at database migrations or test changes
+- even if the code itself looks good, think about it in context - for example, is it repeating logic found elsewhere?
+- especially when using AI tools, make sure code that processes external input (like APIs) matches the documented format of that input
+    - especially around date formats
 
 ## Structure
 

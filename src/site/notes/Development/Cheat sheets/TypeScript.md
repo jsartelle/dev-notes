@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/TypeScript.md","permalink":"/cheat-sheets/type-script/","tags":["language/typescript"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/TypeScript.md","permalink":"/cheat-sheets/type-script/","tags":["language/typescript"],"dg-note-properties":{"created":"2024-12-20T18:06:06-06:00","modified":"2025-06-16T22:25:59-05:00","tags":["language/typescript"]}}
 ---
 
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/AWS.md","permalink":"/cheat-sheets/aws/","tags":["tech/databases","tech/networking","tech/web"]}
+{"dg-publish":true,"dg-path":"Cheat sheets/AWS.md","permalink":"/cheat-sheets/aws/","tags":["tech/databases","tech/networking","tech/web"],"dg-note-properties":{"created":"2024-08-28T12:17:45-05:00","modified":"2025-11-17T17:52:43-06:00","tags":["tech/databases","tech/networking","tech/web"]}}
 ---
 
 
