@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/CSS.md","permalink":"/cheat-sheets/css/","contentClasses":"css-cheat-sheet","tags":["language/css"],"dg-note-properties":{"created":"2025-05-05T17:38:05-05:00","modified":"2026-07-09T19:14:33-05:00","tags":["language/css"],"cssclasses":["css-cheat-sheet"]}}
+{"dg-publish":true,"dg-path":"Cheat sheets/CSS.md","permalink":"/cheat-sheets/css/","contentClasses":"css-cheat-sheet","tags":["language/css"],"dg-note-properties":{"created":"2025-05-05T17:38:05-05:00","modified":"2026-09-06T17:25:46-05:00","tags":["language/css"],"cssclasses":["css-cheat-sheet"]}}
 ---
 
 
@@ -16,7 +16,7 @@
         - [[Development/Cheat sheets/CSS#Viewport units\|#Viewport units]]
         - [[Development/Cheat sheets/CSS#@media (media queries)\|Media queries]]
         - `position: fixed`
-        - `<meta name="viewport">` tags - see [[HTML#`<meta>`|<meta>]]
+        - `<meta name="viewport">` tags - see [[Development/Cheat sheets/HTML#`<meta>`\|<meta>]]
 - *visual viewport*: the size of the actual visible area, smaller than the layout viewport if pinch zoomed
     - based on visual viewport:
         - `window.innerWidth` and `innerHeight` (in Safari)
@@ -604,7 +604,7 @@ inset-inline: 20px; /* 20px start and end */
 > [!danger]
 > As of November 2024, supported in Chromium only
 
-- `interpolate-size: allow-keywords` lets you transition or animate between a length or percentage, and `auto` or another [[#Intrinsic sizing keywords (`min-content`, `fit-content`, `max-content`)|intrinsic size]]
+- `interpolate-size: allow-keywords` lets you transition or animate between a length or percentage, and `auto` or another [[Development/Cheat sheets/CSS#Intrinsic sizing keywords (`min-content`, `fit-content`, `max-content`)\|intrinsic size]]
     - one of the values must be a length or percentage
     - set this on the root to enable it for the entire page
 - `calc-size(size, expression)` behaves like `calc()`, but allows you to include an intrinsic size in the calculation (given as the first argument, and referred to in the expression with the `size` keyword)
@@ -707,6 +707,15 @@ offset-x | offset-y | blur-radius | color
 ```css
 text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em blue;
 ```
+
+## -webkit-text-stroke
+
+Use `paint-order` to place the stroke below the fill to keep the text readable
+
+<div style="font-size:4em; -webkit-text-stroke:0.0625em var(--text-normal); color:var(--background-primary);">
+    <div>paint-order: initial;</div>
+    <div style="paint-order:stroke fill;">paint-order: stroke fill;</div>
+</div>
 
 ## text-wrap
 

@@ -457,8 +457,8 @@ mutation CreateReviewForEpisode($ep: Episode!, $review: ReviewInput!) {
 ## `__schema`
 
 - when used at the root, returns a representation of the query schema
-    - `types` lists all the available types (see [[#`__type`]])
-    - the `queryType` field represents the root [[#`Query` and `Mutation` types|Query type]]
+    - `types` lists all the available types (see [[Development/Cheat sheets/GraphQL#`__type`\|#`__type`]])
+    - the `queryType` field represents the root [[Development/Cheat sheets/GraphQL#`Query` and `Mutation` types\|Query type]]
 
 ```graphql
 {
@@ -523,7 +523,7 @@ Query: {
 ```
 
 - resolvers take four arguments:
-    - `obj`: the previous object, often not used for fields on the root [[#`Query` and `Mutation` types|Query type]]
+    - `obj`: the previous object, often not used for fields on the root [[Development/Cheat sheets/GraphQL#`Query` and `Mutation` types\|Query type]]
     - `args`: the arguments for the current field
     - `context`: holds context info like the currently logged in user, or a database connection
     - `info`: holds field-specific information and schema details

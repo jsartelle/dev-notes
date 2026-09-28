@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/SQL.md","permalink":"/cheat-sheets/sql/","tags":["tech/databases"],"dg-note-properties":{"created":"2025-06-12T20:05:16-05:00","modified":"2026-06-25T10:28:01-05:00","tags":["tech/databases"]}}
+{"dg-publish":true,"dg-path":"Cheat sheets/SQL.md","permalink":"/cheat-sheets/sql/","tags":["tech/databases"],"dg-note-properties":{"created":"2025-06-12T20:05:16-05:00","modified":"2026-09-15T17:21:55-05:00","tags":["tech/databases"]}}
 ---
 
 
@@ -63,6 +63,12 @@ AND
 
 ```mysql
 WHERE created_date >= NOW() - INTERVAL '1 DAY'
+```
+
+- Prefix date strings with the type (date, time, timestamp)
+
+```sql
+WHERE created_date >= date '2026-09-01' + INTERVAL '1 MONTH'
 ```
 
 # Arrays (Postgres)
@@ -238,8 +244,8 @@ WHERE NOT EXISTS (SELECT * FROM pets WHERE species = 'dog' AND owner_id = 1)
 UPDATE
     pets p
 SET
-    p.sound = 'meow',
-    p.fluffy = 1
+    sound = 'meow',
+    fluffy = 1
 WHERE
     p.species = 'cat'
 ```
@@ -669,16 +675,17 @@ WHERE CONVERT(user.id, CHAR) MEMBER OF (JSON_KEYS(user.relationships))
 
 - Select based on values within JSON fields
     - make sure to use backticks or nothing around the column name, not single or double quotes
+    - double quote JSON strings inside the single quotes
 - Returns NULL if the path is NULL
 
 ```mysql
-SELECT JSON_EXTRACT(column_name, '$.version') ...
+SELECT JSON_EXTRACT(column_name, '$.status') ...
 ```
 
 - You can also use the `->` operator
 
 ```mysql
-SELECT column_name->"$.version"
+WHERE column_name->'$.status' = '"active"'
 ```
 
 - To handle [[Development/Cheat sheets/SQL#Dates & Times\|dates]] or datetimes:

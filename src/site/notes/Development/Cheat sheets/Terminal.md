@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-path":"Cheat sheets/Terminal.md","permalink":"/cheat-sheets/terminal/","tags":["language/terminal"],"dg-note-properties":{"created":"2025-02-05T12:06:32-06:00","modified":"2026-01-22T21:41:12-06:00","aliases":"Shell","tags":["language/terminal"]}}
+{"dg-publish":true,"dg-path":"Cheat sheets/Terminal.md","permalink":"/cheat-sheets/terminal/","tags":["language/terminal"],"dg-note-properties":{"created":"2025-02-05T12:06:32-06:00","modified":"2026-08-16T15:02:44-05:00","aliases":"Shell","tags":["language/terminal"]}}
 ---
 
 
@@ -8,7 +8,7 @@
 ## Chaining commands
 
 - `a && b`: do `b` if `a` succeeded
-    - not to be confused with [[#^8f431a|`a & b`]]
+    - not to be confused with [[Development/Cheat sheets/Terminal#^8f431a\|`a & b`]]
 - `a || b`: do `b` if `a` failed
     - these can be chained: `command && echo "success" || echo "fail"`
 - `a; b`: do `b` regardless of whether `a` succeeded
@@ -236,6 +236,17 @@ Searches files for pattern matches and performs an action based on them
 ### file
 
 - `file`: show information about file
+
+### chflags
+
+#### Hide/unhide files & folders
+
+See [[Development/Cheat sheets/Terminal#stat\|#stat]] to check if a file/folder is hidden
+
+```shell
+chflags hidden file.txt
+chflags nohidden file.txt
+```
 
 ### stat
 
@@ -537,16 +548,61 @@ curl -X POST -H "Content-Type: application/json" -d '{"name": "Oscar", "species"
 
 ### Trim video
 
-- `ffmpeg -i input.mp4 -ss 00:01:40 -to 00:02:16 -c copy output.mp4`: trim to between 1m:40s and 2m:16s
+Trim to between 1m:40s and 2m:16s:
+
+```bash
+ffmpeg -i input.mp4 -ss 00:01:40 -to 00:02:16 -c copy output.mp4
+```
 
 ### Convert video to audio
 
-- `ffmpeg -i input.m4a -c:v copy -c:a libmp3lame -q:a 4 output.mp3`: convert m4a to mp3 without significant quality loss
+Convert M4A to MP3 without significant quality loss:
+
+```bash
+ffmpeg -i input.m4a -c:v copy -c:a libmp3lame -q:a 4 output.mp3
+```
 
 ### Extract frames
 
-- `ffmpeg -i input.mp4 -ss 00:00:14.435 -vframes 1 out.png`: extract one frame from 0h:0m:14sec:435msec to *out.png*
-- `ffmpeg -i input.mp4 frame_%04d.jpg`: extract all frames to *frame_0001.jpg*, *frame_0002.jpg*, etc
+Extract one frame from 0h:0m:14sec:435msec to *out.png*:
+
+```bash
+ffmpeg -i input.mp4 -ss 00:00:14.435 -vframes 1 out.png
+```
+
+Extract all frames to *frame_0001.jpg*, *frame_0002.jpg*, etc:
+
+```bash
+ffmpeg -i input.mp4 frame_%04d.jpg
+```
+
+### Slow down a GIF or silent video
+
+`2.0` slows down by 50% (doubles the length), replace as desired
+
+```bash
+ffmpeg -i input.gif -vf "setpts=2.0*PTS" output.gif
+```
+
+### Slow down a video with audio
+
+Stretches and pitch-corrects the audio
+
+```bash
+ffmpeg -i input.mp4 -filter_complex "[0:v]setpts=2.0*PTS,minterpolate=fps=60:mi_mode=mci[v];[0:a]atempo=0.5[a]" -map "[v]" -map "[a]" output.mp4
+```
+
+### Smooth out GIF or video with interpolated frames
+
+- First slow it down 50% as above, then use the below command with the original's frame rate
+    - Use `ffprobe -i input.gif` to see the original's frame rate
+
+```bash
+ffmpeg -i output.gif -vf "minterpolate=fps=20:mi_mode=mci:mc_mode=aobmc" output-smoothed.gif
+```
+
+- Options:
+    - `mi_mode=blend`: use frame blending instead of motion tracking
 
 ## youtube-dl/yt-dlp
 
@@ -657,39 +713,21 @@ echo '' | fzf --preview 'jq {q} < filename.json'
 pandoc file.docx -o file.html
 ```
 
-## macOS-specific
+## defaults
 
-### caffeinate
-
-- `caffeinate`: prevent your Mac from sleeping until the process exits
-- `caffeinate -t N`: prevent sleep for N seconds
-
-### chflags
-
-#### Hide/unhide files & folders
-
-See [[Development/Cheat sheets/Terminal#stat\|#stat]] to check if a file/folder is hidden
-
-```shell
-chflags hidden file.txt
-chflags nohidden file.txt
-```
-
-### defaults
-
-#### Remove dock autohide delay
+### Remove dock autohide delay
 
 ```shell
 defaults write com.apple.dock autohide-delay -float 0;killall Dock
 ```
 
-#### Dim Dock icons of hidden apps
+### Dim Dock icons of hidden apps
 
 ```shell
 defaults write com.apple.Dock showhidden -boolean yes; killall Dock
 ```
 
-#### Add a spacer to the Dock
+### Add a spacer to the Dock
 
 - Applications (left) side:
 
@@ -703,9 +741,9 @@ defaults write com.apple.dock persistent-apps -array-add '{tile-type="spacer-til
 defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'; killall Dock
 ```
 
-### tccutil
+## tccutil
 
-#### Reset app permissions
+### Reset app permissions
 
 - Get the app's Bundle ID:
 
@@ -720,21 +758,38 @@ osascript -e 'id of app "Name of App"'
 sudo tccutil reset All bundle_id
 ```
 
-### Homebrew
+## Homebrew (brew)
+
+### Install specific package version
+
+- List available versions:
+
+```shell
+brew search <package>@
+```
+
+- Install a specific version:
+
+```shell
+brew install package@1.2
+```
+
+### Pin package version
+
+```shell
+brew pin <package>
+```
+
+### Show leaves/unused packages
 
 - `brew leaves`: show packages that aren't dependencies of any other installed package
     - `-r`: only show leaves that were manually installed
     - `-p`: only show leaves that were installed as dependencies of another package
         - these can be safely uninstalled, since the package that depended on them is no longer installed
+
+### Clean up cache
+
 - `brew cleanup -s`: remove unused and outdated cache files
-
-### Moom
-
-- adjust spacing for Stage Manager
-
-```shell
-defaults read com.manytricks.Moom "Grid Spacing: Apply To Edges: Gaps" {0,0,0,75}
-```
 
 # PowerShell
 

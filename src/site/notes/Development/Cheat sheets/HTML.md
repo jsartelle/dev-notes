@@ -461,13 +461,13 @@ If an image is also a hyperlink, the `alt` text should describe the function of 
     - aren't matched when using the Find feature
     - are removed from tab order and the accessibility tree
 - use it on sections of content - if you want to disable an individual control use `disabled` instead
-    - example: disabling content behind a modal (though the [[#`<dialog>` (modals/popups)|<dialog>]] element does this by default when opened with `showModal()`)
+    - example: disabling content behind a modal (though the [[Development/Cheat sheets/HTML#`<dialog>` (modals/popups)\|<dialog>]] element does this by default when opened with `showModal()`)
 - don't use it on elements with children that are important to understanding the page, since it will remove them from the accessibility tree
 
 ## popover
 
 - lets you show any element as a non-modal overlay on the top layer
-    - for modal overlays (which block interaction with the rest of the page), use [[#`<dialog>` (modals/popups)|<dialog>]]
+    - for modal overlays (which block interaction with the rest of the page), use [[Development/Cheat sheets/HTML#`<dialog>` (modals/popups)\|<dialog>]]
 - popovers come in two types:
     - `auto`: default, can be dismissed by clicking outside, only one can be shown at a time unless they're nested
     - `manual`: must be explicitly closed

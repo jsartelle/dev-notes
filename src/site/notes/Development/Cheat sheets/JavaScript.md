@@ -32,7 +32,7 @@ array.filter(Boolean)
 ## Visualize sort function return values
 
 - The return value represents `a`'s position on a number line where `b` = 0: a negative return value means `a` is to the left of `b`, and a positive value means `a` is to the right of `b
-    - If the values being compared are numeric, `a.value - b.value` will sort from smallest to largest, and vice versa
+    - If the values being compared are numeric, `a - b` or `a > b` will sort in ascending order, and vice versa
 
 ```
    a?   b   a?
@@ -61,7 +61,8 @@ array.filter(Boolean)
 - Will correctly handle things like accented letters
 
 ```js
-people.sort((a, b) => a.name.localeCompare(b.name))
+const collator = new Intl.Collator() // can pass a language tag, ex. "es-ES" or "de"
+people.sort(collator.compare)
 ```
 
 ## Sort elements based on a computed value (Schwartzian transform)
@@ -604,7 +605,7 @@ console.log({ name, age }) // logs {name: 'Sam', age: 32}
 
 ## Snapshot objects at the time of logging
 
-When objects logged to the console are expanded, they reflect their current values. To preserve the value at the time of logging, duplicate the object by stringifying and parsing it (or use [[#Deep clone objects with `structuredClone`|structuredClone]])
+When objects logged to the console are expanded, they reflect their current values. To preserve the value at the time of logging, duplicate the object by stringifying and parsing it (or use [[Development/Cheat sheets/JavaScript#Deep clone objects with `structuredClone`\|structuredClone]])
 
 ```js
 const person = { name: 'Sam', age: 32 }

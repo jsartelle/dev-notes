@@ -212,7 +212,7 @@ print $x
         - `prepend`: same but at the beginning
     - `merge`: merge two tables (can be chained)
         - ex. `$table1 | merge $table2 | merge $table3`
-        - you can merge lots of tables by putting them in a list and using [[#^5ad478|reduce]]: `[$first $second $third] | reduce { |it, acc| $acc | merge $it }`
+        - you can merge lots of tables by putting them in a list and using [[Development/Cheat sheets/Nushell#^5ad478\|reduce]]: `[$first $second $third] | reduce { |it, acc| $acc | merge $it }`
 
 ## Examples
 
